@@ -1,3 +1,11 @@
-Gym Tracker Pro v10
+GYM TRACKER v11 – DESIGN REFRESH
 
-U pásu/kardia jsou pouze minuty a intenzita. Kg, opakování, série a pauza byly odstraněny.
+Nový vzhled:
+- moderní světle modrý mobilní design,
+- výraznější tréninkové karty,
+- přehlednější série a ovládací tlačítka,
+- lepší kontrast a čitelnost,
+- kvalitnější tmavý režim,
+- modernější spodní navigace,
+- přepracovaný panel pauzy a čas tréninku,
+- zachované všechny funkce z verze v10.
