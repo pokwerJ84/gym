@@ -351,6 +351,79 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
   .iconbtn{width:44px;height:44px}
 }
 
+
+/* Compact expandable exercise cards */
+.exercise{
+  display:block;
+  padding:0;
+  overflow:hidden;
+}
+.exercise-summary{
+  list-style:none;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:13px 12px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.exercise-summary::-webkit-details-marker{display:none}
+.exercise-summary::marker{display:none}
+.exercise-summary-main{min-width:0;flex:1}
+.exercise-summary-side{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-left:auto;
+  padding-top:2px;
+}
+.exercise-chevron{
+  width:10px;height:10px;
+  border-right:2px solid var(--muted);
+  border-bottom:2px solid var(--muted);
+  transform:rotate(45deg);
+  transition:transform .18s ease;
+}
+.exercise[open] .exercise-chevron{transform:rotate(225deg);margin-top:5px}
+.exercise[open]{
+  border-color:color-mix(in srgb,var(--primary) 38%,var(--line));
+  box-shadow:0 9px 25px rgba(27,74,107,.11);
+}
+.exercise-body{
+  border-top:1px solid var(--line);
+  padding:11px 12px 13px;
+  background:color-mix(in srgb,var(--surface) 72%,var(--surface-2));
+}
+.exercise-body .tools{
+  margin:0 0 10px;
+  flex-direction:row;
+  justify-content:flex-end;
+}
+.exercise-summary .done{margin-top:0}
+.exercise-summary .target{margin-top:3px}
+.exercise-summary .last{margin-top:3px}
+.exercise-type-badge{
+  flex:none;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.045em;
+  text-transform:uppercase;
+  padding:5px 7px;
+  border-radius:999px;
+  background:var(--surface-3);
+  color:var(--primary-dark);
+}
+.single-value-row{grid-template-columns:1fr}
+.single-value-row input{text-align:center}
+@media(max-width:650px){
+  .exercise{margin:7px 0}
+  .exercise-summary{padding:12px 10px}
+  .exercise-body{padding:10px}
+  .exercise-summary-side{gap:7px}
+  .exercise-type-badge{font-size:8px;padding:4px 6px}
+}
+
 </style>
 
 </head>
@@ -635,7 +708,7 @@ const TEXT_TRANSLATIONS=[
 ["Cable Crunch – nejlepší série","Cable Crunch – best set"],["Uložit měření","Save measurement"],["Export zálohy","Export backup"],["Import","Import"],
 ["Začít trénink","Start workout"],["Zpět na čas","Back to timer"],["Trénink už běží","Workout already running"],
 ["Vymazat","Clear"],["Historie","History"],["Video","Video"],["Minule: bez záznamu","Previous: no record"],["Minule:","Previous:"],
-["Série","Set"],["opak.","reps"],["Hotovo + pauza","Done + rest"],["Poznámka / RPE","Note / RPE"],
+["Série","Set"],["opak.","reps"],["opakování","reps"],["sekundy","seconds"],["Čas","Time"],["čas","time"],["váha + opakování","weight + reps"],["Hotovo + pauza","Done + rest"],["Poznámka / RPE","Note / RPE"],
 ["Nedělej:","Avoid:"],["Stroj obsazený → přesunout dolů","Machine busy → move down"],["Náhrada:","Alternative:"],
 ["Dokončit trénink","Finish workout"],["Kardio","Cardio"],["minuty","minutes"],["Intenzita","Intensity"],
 ["Lehká","Light"],["Střední","Moderate"],["Vyšší","High"],
@@ -816,8 +889,23 @@ function today(){return new Date().toISOString().slice(0,10)}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
 function exKey(day,i){return day+"_"+i}
 
+
+function exerciseMode(ex){
+ const name=ex[1];
+ if(name.includes("Treadmill"))return "cardio";
+ if(name==="Plank"||name==="Side Plank")return "time";
+ if(name==="Hanging Leg Raise"||name==="Ab Wheel Rollout")return "reps";
+ return "weight";
+}
+function exerciseModeLabel(mode){
+ if(mode==="cardio")return trText("čas","time");
+ if(mode==="time")return trText("čas","time");
+ if(mode==="reps")return trText("opakování","reps");
+ return trText("váha + opakování","weight + reps");
+}
+
 function renderDay(day){
- const p=plans[day], d=state.days[day]||{}, order=d.order||p.ex.map((_,i)=>i);
+ const p=plans[day],d=state.days[day]||{},order=d.order||p.ex.map((_,i)=>i);
  let html=`<div class="card"><div class="day-head"><div><h2>${p.title}</h2><p>${p.sub}</p></div>
  <button class="danger" onclick="clearDay('${day}')">Vymazat</button></div>
  <div class="meta ${day==='monday'?'monday-meta':'single'}">
@@ -825,47 +913,119 @@ function renderDay(day){
  ${day==='monday'?`
  <label><span>Váha (kg)</span><input type="number" step=".1" value="${esc(d.weight)}" oninput="setDay('${day}','weight',this.value)"></label>
  <label><span>Pas (cm)</span><input type="number" step=".1" value="${esc(d.waist)}" oninput="setDay('${day}','waist',this.value)"></label>`:''}
- </div><div class="actions"><button class="primary workout-main-btn" id="workoutBtn-${day}" onclick="handleWorkoutButton('${day}')">▶ Začít trénink</button></div></div><div class="card">`;
- order.forEach((i,pos)=>{
-   const ex=p.ex[i], e=(d.exercises||{})[i]||{}, prev=lastPerformance(day,i), suggestion=ex[1].includes("Treadmill")?"":getSuggestion(day,i,ex[2]);
-   html+=`<div class="exercise" id="ex-${day}-${i}"><div class="exhead">
-   <input class="done" type="checkbox" ${e.done?'checked':''} onchange="setEx('${day}',${i},'done',this.checked)">
-   <div><div class="exname">${ex[0]} <span style="font-weight:500;color:var(--muted)">(${ex[1]})</span></div>
-   <div class="target">${ex[2]}</div><div class="last">${prev?`Minule: <strong>${prev}</strong>`:"Minule: bez záznamu"}</div></div>
-   <div class="tools"><button class="smallbtn" onclick="showHistory('${day}',${i})">Historie</button><button class="smallbtn" onclick="showVideo('${encodeURIComponent(ex[1])}','${encodeURIComponent(ex[0])}')">Video</button></div></div>
-   ${ex[1].includes("Treadmill") ? `
-   <div class="sets"><div class="setbox"><span class="mini">Kardio</span><div class="setrow">
-     <input placeholder="minuty" inputmode="numeric" value="${esc(e.minutes)}" oninput="setEx('${day}',${i},'minutes',this.value)">
-     <select oninput="setEx('${day}',${i},'intensity',this.value)">
-       <option value="">Intenzita</option>
-       <option value="Lehká" ${e.intensity==="Lehká"?"selected":""}>Lehká</option>
-       <option value="Střední" ${e.intensity==="Střední"?"selected":""}>Střední</option>
-       <option value="Vyšší" ${e.intensity==="Vyšší"?"selected":""}>Vyšší</option>
-     </select>
-   </div></div></div>` : `<div class="sets">`}
-   `;
-   if(!ex[1].includes("Treadmill")){
+ </div><div class="actions"><button class="primary workout-main-btn" id="workoutBtn-${day}" onclick="handleWorkoutButton('${day}')">▶ Začít trénink</button></div></div>
+ <div class="card">`;
+
+ order.forEach((i)=>{
+   const ex=p.ex[i],e=(d.exercises||{})[i]||{},mode=exerciseMode(ex);
+   const prev=lastPerformance(day,i);
+   const suggestion=mode==="weight"?getSuggestion(day,i,ex[2]):"";
+
+   html+=`<details class="exercise" id="ex-${day}-${i}">
+     <summary class="exercise-summary">
+       <input class="done" type="checkbox" ${e.done?'checked':''}
+         onclick="event.stopPropagation()"
+         onchange="setEx('${day}',${i},'done',this.checked)">
+       <div class="exercise-summary-main">
+         <div class="exname">${ex[0]} <span style="font-weight:500;color:var(--muted)">(${ex[1]})</span></div>
+         <div class="target">${ex[2]}</div>
+         <div class="last">${prev?`Minule: <strong>${prev}</strong>`:"Minule: bez záznamu"}</div>
+       </div>
+       <div class="exercise-summary-side">
+         <span class="exercise-type-badge">${exerciseModeLabel(mode)}</span>
+         <span class="exercise-chevron"></span>
+       </div>
+     </summary>
+     <div class="exercise-body">
+       <div class="tools">
+         <button class="smallbtn" onclick="showHistory('${day}',${i})">Historie</button>
+         <button class="smallbtn" onclick="showVideo('${encodeURIComponent(ex[1])}','${encodeURIComponent(ex[0])}')">Video</button>
+       </div>`;
+
+   if(mode==="cardio"){
+     html+=`<div class="sets"><div class="setbox">
+       <span class="mini">Kardio</span>
+       <div class="setrow">
+         <input placeholder="minuty" inputmode="numeric" value="${esc(e.minutes)}"
+           oninput="setEx('${day}',${i},'minutes',this.value)">
+         <select oninput="setEx('${day}',${i},'intensity',this.value)">
+           <option value="">Intenzita</option>
+           <option value="Lehká" ${e.intensity==="Lehká"?"selected":""}>Lehká</option>
+           <option value="Střední" ${e.intensity==="Střední"?"selected":""}>Střední</option>
+           <option value="Vyšší" ${e.intensity==="Vyšší"?"selected":""}>Vyšší</option>
+         </select>
+       </div>
+     </div></div>`;
+   }else{
+     html+=`<div class="sets">`;
      for(let s=1;s<=3;s++){
-       html+=`<div class="setbox" data-set="${day}-${i}-${s}"><span class="mini">Série ${s}</span><div class="setrow">
-       <input placeholder="kg" inputmode="decimal" value="${esc(e['kg'+s])}" oninput="setEx('${day}',${i},'kg${s}',this.value)">
-       <input placeholder="opak." inputmode="numeric" value="${esc(e['reps'+s])}" oninput="setEx('${day}',${i},'reps${s}',this.value)">
-       </div><div class="setactions"><button class="smallbtn" onclick="completeSet('${day}',${i},${s},${ex[3]},this)">Hotovo + pauza</button></div></div>`;
+       if(mode==="weight"){
+         html+=`<div class="setbox" data-set="${day}-${i}-${s}">
+           <span class="mini">Série ${s}</span>
+           <div class="setrow">
+             <input placeholder="kg" inputmode="decimal" value="${esc(e['kg'+s])}"
+               oninput="setEx('${day}',${i},'kg${s}',this.value)">
+             <input placeholder="opak." inputmode="numeric" value="${esc(e['reps'+s])}"
+               oninput="setEx('${day}',${i},'reps${s}',this.value)">
+           </div>
+           <div class="setactions"><button class="smallbtn"
+             onclick="completeSet('${day}',${i},${s},${ex[3]},this)">Hotovo + pauza</button></div>
+         </div>`;
+       }else if(mode==="reps"){
+         html+=`<div class="setbox" data-set="${day}-${i}-${s}">
+           <span class="mini">Série ${s}</span>
+           <div class="setrow single-value-row">
+             <input placeholder="opakování" inputmode="numeric" value="${esc(e['reps'+s])}"
+               oninput="setEx('${day}',${i},'reps${s}',this.value)">
+           </div>
+           <div class="setactions"><button class="smallbtn"
+             onclick="completeSimpleSet('${day}',${i},${s},${ex[3]},this,'reps')">Hotovo + pauza</button></div>
+         </div>`;
+       }else{
+         const timeValue=e['seconds'+s]||"";
+         html+=`<div class="setbox" data-set="${day}-${i}-${s}">
+           <span class="mini">Série ${s}</span>
+           <div class="setrow single-value-row">
+             <input placeholder="sekundy" inputmode="numeric" value="${esc(timeValue)}"
+               oninput="setEx('${day}',${i},'seconds${s}',this.value)">
+           </div>
+           <div class="setactions"><button class="smallbtn"
+             onclick="completeSimpleSet('${day}',${i},${s},${ex[3]},this,'time')">Hotovo + pauza</button></div>
+         </div>`;
+       }
      }
      html+=`</div>`;
    }
-   html+=`<input class="note" placeholder="Poznámka / RPE" value="${esc(e.notes)}" oninput="setEx('${day}',${i},'notes',this.value)">
-   ${suggestion?`<div class="progression">💡 ${suggestion}</div>`:""}
-   <div class="tip"><b>Nedělej:</b> ${ex[5].join(" • ")}</div>
-   <div class="actions"><button class="warn" onclick="occupied('${day}',${i})">Stroj obsazený → přesunout dolů</button><button class="secondary" onclick="useAlternative('${day}',${i})">Náhrada: ${ex[6]}</button></div></div>`;
+
+   html+=`<input class="note" placeholder="Poznámka / RPE" value="${esc(e.notes)}"
+       oninput="setEx('${day}',${i},'notes',this.value)">
+     ${suggestion?`<div class="progression">💡 ${suggestion}</div>`:""}
+     <div class="tip"><b>Nedělej:</b> ${ex[5].join(" • ")}</div>
+     <div class="actions">
+       <button class="warn" onclick="occupied('${day}',${i})">Stroj obsazený → přesunout dolů</button>
+       <button class="secondary" onclick="useAlternative('${day}',${i})">Náhrada: ${ex[6]}</button>
+     </div>
+   </div></details>`;
  });
+
  html+=`<div class="actions"><button class="primary" onclick="finishWorkout('${day}')">Dokončit trénink</button></div></div>`;
- document.getElementById(day).innerHTML=html;translateVisibleUI();
+ document.getElementById(day).innerHTML=html;
+ translateVisibleUI();
 }
 function setDay(day,k,v){state.days[day]=state.days[day]||{};state.days[day][k]=v;save()}
 function setEx(day,i,k,v){let d=state.days[day]=state.days[day]||{};d.exercises=d.exercises||{};d.exercises[i]=d.exercises[i]||{};d.exercises[i][k]=v;save()}
 function lastPerformance(day,i){
- const arr=state.history[exKey(day,i)]||[]; if(!arr.length)return "";
- const x=arr[arr.length-1]; if(x.cardio)return `${x.minutes||"–"} min${x.intensity?` • ${x.intensity}`:""}`; return (x.sets||[]).filter(s=>s.kg||s.reps).map(s=>`${s.kg||"–"}×${s.reps||"–"}`).join(" / ");
+ const arr=state.history[exKey(day,i)]||[];
+ if(!arr.length)return "";
+ const ex=plans[day].ex[i],mode=exerciseMode(ex),x=arr[arr.length-1];
+ if(mode==="cardio"||x.cardio)return `${x.minutes||"–"} min${x.intensity?` • ${x.intensity}`:""}`;
+ if(mode==="time"||x.timed){
+   return (x.sets||[]).filter(s=>s.seconds||s.reps).map(s=>`${s.seconds||s.reps}s`).join(" / ");
+ }
+ if(mode==="reps"||x.repsOnly){
+   return (x.sets||[]).filter(s=>s.reps).map(s=>`${s.reps}×`).join(" / ");
+ }
+ return (x.sets||[]).filter(s=>s.kg||s.reps).map(s=>`${s.kg||"–"}×${s.reps||"–"}`).join(" / ");
 }
 function parseRange(t){let m=t.match(/(\d+)[–-](\d+)/);return m?[+m[1],+m[2]]:null}
 function getSuggestion(day,i,target){
@@ -875,6 +1035,26 @@ function getSuggestion(day,i,target){
  if(valid.length>=3 && valid.some(s=>+s.reps<range[0])) return "Nejdřív drž stejnou váhu a dostaň všechny série alespoň na spodní hranici.";
  return "Zkus přidat 1 opakování v jedné nebo více sériích.";
 }
+
+function completeSimpleSet(day,i,s,rest,btn,mode){
+ currentSetEl=btn.closest(".setbox");
+ const input=currentSetEl.querySelector("input");
+ const value=(input?.value||"").trim();
+ if(!value){
+   currentSetEl.style.outline="2px solid var(--bad)";
+   input?.focus();
+   alert(mode==="time"
+     ?trText("Nejdřív vyplň čas v sekundách.","Enter the time in seconds first.")
+     :trText("Nejdřív vyplň počet opakování.","Enter the number of reps first."));
+   return;
+ }
+ currentSetEl.style.outline="2px solid var(--good)";
+ input.blur();
+ startRest(rest||75,plans[day].ex[i][0],s);
+ navigator.vibrate?.(40);
+ setTimeout(scrollNext,180);
+}
+
 function completeSet(day,i,s,rest,btn){
  currentSetEl=btn.closest(".setbox");
  const inputs=[...currentSetEl.querySelectorAll("input")];
@@ -968,12 +1148,28 @@ function finishWorkout(day){
 function saveFinish(){
  const day=finishDialog.dataset.day, d=state.days[day]||{}, p=plans[day];
  Object.entries(d.exercises||{}).forEach(([i,e])=>{
-   const ex=plans[day].ex[+i];let k=exKey(day,i);state.history[k]=state.history[k]||[];
-   if(ex[1].includes("Treadmill")){
-     if(e.minutes||e.intensity)state.history[k].push({date:d.date||today(),cardio:true,minutes:e.minutes||"",intensity:e.intensity||"",notes:e.notes||""});
+   const ex=plans[day].ex[+i],mode=exerciseMode(ex);
+   const k=exKey(day,i);state.history[k]=state.history[k]||[];
+   if(mode==="cardio"){
+     if(e.minutes||e.intensity)state.history[k].push({
+       date:d.date||today(),cardio:true,minutes:e.minutes||"",
+       intensity:e.intensity||"",notes:e.notes||""
+     });
+   }else if(mode==="time"){
+     const sets=[1,2,3].map(s=>({seconds:e["seconds"+s]||""}));
+     if(sets.some(s=>s.seconds))state.history[k].push({
+       date:d.date||today(),timed:true,sets,notes:e.notes||""
+     });
+   }else if(mode==="reps"){
+     const sets=[1,2,3].map(s=>({reps:e["reps"+s]||""}));
+     if(sets.some(s=>s.reps))state.history[k].push({
+       date:d.date||today(),repsOnly:true,sets,notes:e.notes||""
+     });
    }else{
      const sets=[1,2,3].map(s=>({kg:e["kg"+s]||"",reps:e["reps"+s]||""}));
-     if(sets.some(s=>s.kg||s.reps))state.history[k].push({date:d.date||today(),sets,notes:e.notes||""});
+     if(sets.some(s=>s.kg||s.reps))state.history[k].push({
+       date:d.date||today(),sets,notes:e.notes||""
+     });
    }
  });
  state.workouts.push({day,date:d.date||today(),minutes:+finishDialog.dataset.minutes,note:finishNote.value,completed:true});
@@ -992,14 +1188,40 @@ function occupied(day,i){
 }
 function useAlternative(day,i){const alt=plans[day].ex[i][6];setEx(day,i,"notes",(state.days[day]?.exercises?.[i]?.notes||"")+` Náhrada: ${alt}.`);alert(`Použij: ${alt}`);renderDay(day)}
 function showHistory(day,i){
- const ex=plans[day].ex[i], arr=[...(state.history[exKey(day,i)]||[])].reverse();
+ const ex=plans[day].ex[i],mode=exerciseMode(ex);
+ const arr=[...(state.history[exKey(day,i)]||[])].reverse();
  historyTitle.textContent=ex[0];
- if(ex[1].includes("Treadmill")){
-   exerciseHistory.innerHTML=arr.length?`<table><tr><th>Datum</th><th>Minuty</th><th>Intenzita</th><th>Poznámka</th></tr>${arr.map(x=>`<tr><td>${x.date}</td><td>${esc(x.minutes)||"–"}</td><td>${esc(x.intensity)||"–"}</td><td>${esc(x.notes)}</td></tr>`).join("")}</table>`:`<div class="empty">Zatím bez historie.</div>`;
+
+ if(mode==="cardio"){
+   exerciseHistory.innerHTML=arr.length?`<table>
+     <tr><th>Datum</th><th>Minuty</th><th>Intenzita</th><th>Poznámka</th></tr>
+     ${arr.map(x=>`<tr><td>${x.date}</td><td>${esc(x.minutes)||"–"}</td>
+     <td>${esc(x.intensity)||"–"}</td><td>${esc(x.notes)}</td></tr>`).join("")}
+     </table>`:`<div class="empty">Zatím bez historie.</div>`;
+ }else if(mode==="time"){
+   exerciseHistory.innerHTML=arr.length?`<table>
+     <tr><th>Datum</th><th>Čas</th><th>Poznámka</th></tr>
+     ${arr.map(x=>`<tr><td>${x.date}</td>
+     <td>${(x.sets||[]).map(s=>`${esc(s.seconds||s.reps)||"–"} s`).join("<br>")}</td>
+     <td>${esc(x.notes)}</td></tr>`).join("")}</table>`:
+     `<div class="empty">Zatím bez historie.</div>`;
+ }else if(mode==="reps"){
+   exerciseHistory.innerHTML=arr.length?`<table>
+     <tr><th>Datum</th><th>Opakování</th><th>Poznámka</th></tr>
+     ${arr.map(x=>`<tr><td>${x.date}</td>
+     <td>${(x.sets||[]).map(s=>esc(s.reps)||"–").join("<br>")}</td>
+     <td>${esc(x.notes)}</td></tr>`).join("")}</table>`:
+     `<div class="empty">Zatím bez historie.</div>`;
  }else{
-   exerciseHistory.innerHTML=arr.length?`<table><tr><th>Datum</th><th>Série</th><th>Poznámka</th></tr>${arr.map(x=>`<tr><td>${x.date}</td><td>${(x.sets||[]).map(s=>`${esc(s.kg)||"–"}×${esc(s.reps)||"–"}`).join("<br>")}</td><td>${esc(x.notes)}</td></tr>`).join("")}</table>`:`<div class="empty">Zatím bez historie.</div>`;
+   exerciseHistory.innerHTML=arr.length?`<table>
+     <tr><th>Datum</th><th>Série</th><th>Poznámka</th></tr>
+     ${arr.map(x=>`<tr><td>${x.date}</td>
+     <td>${(x.sets||[]).map(s=>`${esc(s.kg)||"–"}×${esc(s.reps)||"–"}`).join("<br>")}</td>
+     <td>${esc(x.notes)}</td></tr>`).join("")}</table>`:
+     `<div class="empty">Zatím bez historie.</div>`;
  }
  historyDialog.showModal();
+ translateVisibleUI();
 }
 function showVideo(query,title){
  const q=decodeURIComponent(query),t=decodeURIComponent(title),url="https://www.youtube.com/results?search_query="+encodeURIComponent(q+" proper form tutorial");
