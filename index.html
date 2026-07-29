@@ -337,6 +337,9 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
   .meta.monday-meta label:first-child{grid-column:1/-1}
   .summary{gap:6px}.pill{padding:9px 4px}.pill b{font-size:17px}
 }
+
+.cloud-ok{color:var(--good)!important}.cloud-sync{color:var(--primary)!important}.cloud-error{color:var(--bad)!important}
+#cloudStatus{padding-left:4px}
 </style>
 
 </head>
@@ -345,7 +348,8 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
 <header>
   <div class="toprow">
     <div><h1>Gym Tracker</h1><div class="subtitle">Silnější každý týden. Jedna série po druhé.</div></div>
-    <div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <button class="iconbtn" id="cloudBtn" onclick="openCloudDialog()" title="Cloud">☁️</button>
       <button class="iconbtn" id="wakeBtn" onclick="toggleWake()">☀️</button>
       <button class="iconbtn" onclick="toggleTheme()">🌙</button>
     </div>
@@ -355,6 +359,7 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
     <div class="pill"><b id="lastWeight">–</b><span>váha</span></div>
     <div class="pill"><b id="lastWaist">–</b><span>pas</span></div>
   </div>
+  <div id="cloudStatus" style="margin:8px 2px 0;font-size:11px;color:var(--muted);font-weight:750">Cloud: nepřihlášeno</div>
 </header>
 
 <main>
@@ -466,6 +471,32 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
   <button class="navbtn" data-screen="guide"><span>🎥</span>Technika</button>
 </div></nav>
 
+
+<dialog id="cloudDialog"><div class="modal">
+  <button class="iconbtn close" onclick="cloudDialog.close()">✕</button>
+  <h3 style="margin-top:0">Cloud synchronizace</h3>
+  <p class="subtitle">Přihlas se stejným e-mailem na telefonu i počítači. Data se budou ukládat automaticky.</p>
+
+  <div id="cloudLoggedOut">
+    <label><span>E-mail</span><input id="cloudEmail" type="email" autocomplete="email" placeholder="tvuj@email.com"></label>
+    <label style="display:block;margin-top:9px"><span>Heslo</span><input id="cloudPassword" type="password" autocomplete="current-password" placeholder="minimálně 6 znaků"></label>
+    <div class="actions">
+      <button class="primary" onclick="cloudSignIn()">Přihlásit</button>
+      <button class="secondary" onclick="cloudSignUp()">Vytvořit účet</button>
+    </div>
+    <p class="subtitle">Při první registraci může Supabase poslat potvrzovací e-mail.</p>
+  </div>
+
+  <div id="cloudLoggedIn" style="display:none">
+    <p>Přihlášen jako:<br><b id="cloudUserEmail"></b></p>
+    <div class="actions">
+      <button class="primary" onclick="syncNow()">Synchronizovat teď</button>
+      <button class="secondary" onclick="loadCloudState(true)">Načíst cloudová data</button>
+      <button class="danger" onclick="cloudSignOut()">Odhlásit</button>
+    </div>
+  </div>
+</div></dialog>
+
 <dialog id="videoDialog"><div class="modal">
   <button class="iconbtn close" onclick="videoDialog.close()">✕</button>
   <h3 id="modalTitle"></h3><img id="qrImg" class="qr">
@@ -484,6 +515,7 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
   <div class="actions"><button class="primary" onclick="saveFinish()">Uložit a ukončit</button></div>
 </div></dialog>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const plans={
 monday:{title:"PONDĚLÍ – PUSH",sub:"Hrudník, ramena, triceps + břicho",ex:[
@@ -522,9 +554,119 @@ friday:{title:"PÁTEK – NOHY + CORE",sub:"Nohy, lýtka a břicho",ex:[
 
 const KEY="gymTrackerProV2";
 let state=JSON.parse(localStorage.getItem(KEY)||'{"days":{},"history":{},"progress":[],"settings":{"theme":"light"},"workouts":[]}');
+const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
+const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let cloudUser=null,cloudSaveTimer=null,cloudLoading=false;
 let activeDay="monday", timerInt=null, timerSec=0, currentSetEl=null, wakeLock=null; let workoutStart=null,workoutElapsedBeforePause=0,workoutPaused=false,workoutClockInt=null,activeWorkoutDay=null; let restRunning=false;
 
-function save(){localStorage.setItem(KEY,JSON.stringify(state));refreshSummary()}
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(state));
+ refreshSummary();
+ scheduleCloudSave();
+}
+function scheduleCloudSave(){
+ if(!cloudUser||cloudLoading)return;
+ clearTimeout(cloudSaveTimer);
+ cloudStatus.textContent="Cloud: čeká na uložení…";
+ cloudStatus.className="cloud-sync";
+ cloudSaveTimer=setTimeout(saveCloudState,1200);
+}
+async function saveCloudState(){
+ if(!cloudUser||cloudLoading)return;
+ try{
+   cloudStatus.textContent="Cloud: ukládám…";cloudStatus.className="cloud-sync";
+   const {error}=await supabaseClient.from("gym_app_state").upsert({
+     user_id:cloudUser.id,
+     data:state,
+     updated_at:new Date().toISOString()
+   },{onConflict:"user_id"});
+   if(error)throw error;
+   cloudStatus.textContent="Cloud: uloženo ✓";cloudStatus.className="cloud-ok";
+ }catch(err){
+   console.error(err);
+   cloudStatus.textContent="Cloud: chyba ukládání";cloudStatus.className="cloud-error";
+ }
+}
+async function loadCloudState(force=false){
+ if(!cloudUser)return;
+ try{
+   cloudLoading=true;
+   cloudStatus.textContent="Cloud: načítám…";cloudStatus.className="cloud-sync";
+   const {data,error}=await supabaseClient.from("gym_app_state").select("data,updated_at").eq("user_id",cloudUser.id).maybeSingle();
+   if(error)throw error;
+   if(data?.data){
+     if(force||confirm("Načíst data z cloudu a nahradit data v tomto zařízení?")){
+       state=data.data;
+       localStorage.setItem(KEY,JSON.stringify(state));
+       location.reload();
+       return;
+     }
+   }else{
+     await saveCloudState();
+   }
+   cloudStatus.textContent="Cloud: připojeno";cloudStatus.className="cloud-ok";
+ }catch(err){
+   console.error(err);
+   cloudStatus.textContent="Cloud: chyba načítání";cloudStatus.className="cloud-error";
+ }finally{cloudLoading=false}
+}
+async function initCloud(){
+ const {data:{session}}=await supabaseClient.auth.getSession();
+ cloudUser=session?.user||null;
+ updateCloudUI();
+ if(cloudUser){
+   const hasLocal=state.workouts?.length||state.progress?.length||Object.keys(state.days||{}).length;
+   if(!hasLocal)await loadCloudState(true);
+   else cloudStatus.textContent="Cloud: připojeno";
+ }
+ supabaseClient.auth.onAuthStateChange((_event,session)=>{
+   cloudUser=session?.user||null;updateCloudUI();
+ });
+ window.addEventListener("online",()=>{if(cloudUser)saveCloudState()});
+}
+function updateCloudUI(){
+ if(cloudUser){
+   cloudStatus.textContent="Cloud: připojeno";
+   cloudStatus.className="cloud-ok";
+   cloudBtn.textContent="☁️";
+   cloudLoggedOut.style.display="none";
+   cloudLoggedIn.style.display="block";
+   cloudUserEmail.textContent=cloudUser.email||"";
+ }else{
+   cloudStatus.textContent=navigator.onLine?"Cloud: nepřihlášeno":"Cloud: offline";
+   cloudStatus.className="";
+   cloudLoggedOut.style.display="block";
+   cloudLoggedIn.style.display="none";
+ }
+}
+function openCloudDialog(){updateCloudUI();cloudDialog.showModal()}
+async function cloudSignUp(){
+ const email=cloudEmail.value.trim(),password=cloudPassword.value;
+ if(!email||password.length<6)return alert("Vyplň e-mail a heslo alespoň 6 znaků.");
+ const {data,error}=await supabaseClient.auth.signUp({email,password});
+ if(error)return alert("Registrace se nepovedla: "+error.message);
+ if(data.session){
+   cloudUser=data.user;updateCloudUI();await saveCloudState();alert("Účet vytvořen a data se ukládají.");
+ }else alert("Účet vytvořen. Zkontroluj e-mail a potvrď registraci.");
+}
+async function cloudSignIn(){
+ const email=cloudEmail.value.trim(),password=cloudPassword.value;
+ if(!email||!password)return alert("Vyplň e-mail a heslo.");
+ const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+ if(error)return alert("Přihlášení se nepovedlo: "+error.message);
+ cloudUser=data.user;updateCloudUI();cloudDialog.close();
+ const hasLocal=state.workouts?.length||state.progress?.length||Object.keys(state.days||{}).length;
+ if(hasLocal){
+   if(confirm("Chceš nejdřív uložit současná data z telefonu do cloudu?"))await saveCloudState();
+   else await loadCloudState(true);
+ }else await loadCloudState(true);
+}
+async function cloudSignOut(){
+ await supabaseClient.auth.signOut();cloudUser=null;updateCloudUI();cloudDialog.close();
+}
+async function syncNow(){await saveCloudState();alert("Synchronizace dokončena.")}
+
 function today(){return new Date().toISOString().slice(0,10)}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
 function exKey(day,i){return day+"_"+i}
@@ -766,7 +908,7 @@ function exportData(){const b=new Blob([JSON.stringify(state,null,2)],{type:"app
 function importData(e){const f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{state=JSON.parse(r.result);save();location.reload()}catch{alert("Neplatná záloha.")}};r.readAsText(f)}
 function backupReminder(){const last=+(localStorage.getItem("lastBackup")||0);if(Date.now()-last>7*864e5&&state.workouts.length) setTimeout(()=>confirm("Už je to déle než týden od zálohy. Chceš ji teď stáhnout?")&&exportData(),1200)}
 document.querySelectorAll(".navbtn").forEach(b=>b.onclick=()=>{document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(b.dataset.screen).classList.add("active");if(["monday","wednesday","friday"].includes(b.dataset.screen))activeDay=b.dataset.screen;if(b.dataset.screen==="progress")renderProgress()});
-applyTheme();["monday","wednesday","friday"].forEach(renderDay);renderGuide();renderProgress();refreshSummary();updateWorkoutButtons();pDate.value=today();backupReminder();
+applyTheme();["monday","wednesday","friday"].forEach(renderDay);renderGuide();renderProgress();refreshSummary();updateWorkoutButtons();initCloud();pDate.value=today();backupReminder();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script>
 </body></html>
