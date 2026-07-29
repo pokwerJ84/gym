@@ -1,19 +1,8 @@
-GYM TRACKER v12 – CLOUD SYNC
+GYM TRACKER v13 – CZECH / ENGLISH
 
-Používá:
-- GitHub Pages pro aplikaci
-- Supabase pro přihlášení a cloudové ukládání
-- localStorage jako offline zálohu
-
-Jak použít:
-1. Nahraj všechny soubory na GitHub Pages.
-2. Otevři aplikaci.
-3. Klikni na ikonu mraku.
-4. Vytvoř účet nebo se přihlas.
-5. Po každé změně se data automaticky uloží do Supabase.
-6. Na jiném zařízení se přihlas stejným e-mailem.
-
-Bezpečnost:
-- V aplikaci je pouze publishable key.
-- Secret key není v aplikaci použit.
-- Přístup k datům chrání Row Level Security.
+New:
+- Complete Czech and English interface.
+- Language button in the top-right corner.
+- Exercise names, technique tips, mistakes, workout controls, cloud sync and messages are translated.
+- Language choice is saved on the device.
+- All cloud and offline features from v12 remain available.

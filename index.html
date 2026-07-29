@@ -349,6 +349,7 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
   <div class="toprow">
     <div><h1>Gym Tracker</h1><div class="subtitle">Silnější každý týden. Jedna série po druhé.</div></div>
     <div style="display:flex;gap:7px;align-items:center">
+      <button class="iconbtn" id="languageBtn" onclick="toggleLanguage()" title="Language">EN</button>
       <button class="iconbtn" id="cloudBtn" onclick="openCloudDialog()" title="Cloud">☁️</button>
       <button class="iconbtn" id="wakeBtn" onclick="toggleWake()">☀️</button>
       <button class="iconbtn" onclick="toggleTheme()">🌙</button>
@@ -517,7 +518,7 @@ dialog::backdrop{background:rgba(5,15,23,.70);backdrop-filter:blur(4px)}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const plans={
+const plansCS={
 monday:{title:"PONDĚLÍ – PUSH",sub:"Hrudník, ramena, triceps + břicho",ex:[
 ["Bench press","Bench Press","3 × 6–8",120,["Lopatky stáhni dozadu a dolů","Chodidla pevně na zemi","Činku spouštěj kontrolovaně"],["Odlepování zadku","Lokty úplně do stran","Odraz činky od hrudníku"],"Chest Press"],
 ["Tlaky s jednoručkami na šikmé lavici","Incline Dumbbell Press","3 × 8–10",120,["Lavice přibližně 20–30°","Zápěstí drž rovně","Spouštěj činky k horní části hrudníku"],["Příliš strmá lavice","Krátký rozsah","Rychlé spouštění"],"Incline Chest Press"],
@@ -552,13 +553,146 @@ friday:{title:"PÁTEK – NOHY + CORE",sub:"Nohy, lýtka a břicho",ex:[
 ["Pás / lehké kardio","Treadmill Light Cardio","10–15 min",0,["Lehké tempo","Přirozený krok","Zpomal na konci"],["Vysoká intenzita","Držení madel","Náhlé zastavení"],"Stationary Bike"]]}
 };
 
+
+const plansEN={
+monday:{title:"MONDAY – PUSH",sub:"Chest, shoulders, triceps + abs",ex:[
+["Bench Press","Bench Press","3 × 6–8",120,["Pull your shoulder blades back and down","Keep both feet firmly on the floor","Lower the bar under control"],["Lifting your hips off the bench","Flaring your elbows too far out","Bouncing the bar off your chest"],"Chest Press"],
+["Incline Dumbbell Press","Incline Dumbbell Press","3 × 8–10",120,["Set the bench to roughly 20–30°","Keep your wrists straight","Lower the dumbbells towards the upper chest"],["Setting the bench too steep","Using a short range of motion","Dropping the dumbbells too quickly"],"Incline Chest Press"],
+["Pec Deck / Cable Fly","Pec Deck Cable Fly","3 × 12–15",75,["Keep your shoulders down","Keep a slight bend in your elbows","Move as if you are hugging a barrel"],["Using too much weight","Letting the shoulders roll forward","Letting the stack slam"],"Cable Fly"],
+["Shoulder Press","Shoulder Press","3 × 8–10",120,["Brace your abs","Keep elbows slightly in front of the body","Do not lower beyond a comfortable shoulder range"],["Overarching the lower back","Letting elbows drift too far behind","Slamming the weight stack"],"Machine Shoulder Press"],
+["Lateral Raise","Lateral Raise","3 × 12–15",75,["Keep a slight bend in the elbows","Lead with your elbows","Raise to roughly shoulder height"],["Swinging the torso","Shrugging the shoulders","Using too much weight"],"Cable Lateral Raise"],
+["Triceps Pushdown","Triceps Pushdown","3 × 10–12",75,["Keep elbows close to your sides","Move only the forearms","Squeeze the triceps briefly at the bottom"],["Moving the elbows forwards and backwards","Leaning with the whole body","Not fully extending"],"Dip Machine"],
+["Overhead Triceps Extension","Overhead Triceps Extension","3 × 10–12",75,["Brace your core","Keep the elbows narrow","Lower the weight under control"],["Letting elbows flare","Overarching the lower back","Using momentum"],"Single Arm Cable Extension"],
+["Plank","Plank","3 × 45–60 sec",60,["Keep your body in one straight line","Tighten your abs and glutes","Breathe normally"],["Letting the lower back sag","Holding the hips too high","Holding your breath"],"Dead Bug"],
+["Cable Crunch","Cable Crunch","3 × 10–12 • start 17.5 kg",75,["Keep the pelvis almost still","Bring the ribs towards the pelvis","Exhale at the bottom"],["Pulling with the arms","Moving only at the hips","Using too much weight"],"Machine Crunch"],
+["Treadmill / Cardio","Treadmill Cardio","10–15 min",0,["Use a natural stride","Choose light to moderate intensity","Slow down at the end"],["Holding the handrails","Going too hard after strength training","Stopping suddenly"],"Stationary Bike"]]},
+wednesday:{title:"WEDNESDAY – PULL",sub:"Back, rear delts, biceps + abs",ex:[
+["Pull-ups or Lat Pulldown","Pull Ups Lat Pulldown","3 × 8–10",120,["Keep the chest slightly lifted","Start by pulling the shoulder blades down","Pull in front of the body"],["Pulling behind the neck","Swinging the torso","Shrugging the shoulders"],"Assisted Pull Up"],
+["Seated Row","Seated Row","3 × 8–10",120,["Keep a neutral spine","Drive the elbows backwards","Squeeze the shoulder blades at the end"],["Leaning too far back","Rounding the back","Pulling only with the arms"],"Machine Row"],
+["Chest Supported Row","Chest Supported Row","3 × 10",120,["Keep the chest against the pad","Drive elbows backwards","Control the return"],["Lifting the chest off the pad","Shrugging the shoulders","Using a short range"],"Seated Row"],
+["Face Pull","Face Pull","3 × 15",75,["Pull towards eye level","Keep elbows high","Externally rotate at the end"],["Pulling towards the chest","Keeping elbows too low","Overarching the back"],"Rear Delt Fly"],
+["Rear Delt Fly","Rear Delt Fly","3 × 15",75,["Keep shoulders down","Lead with the elbows","Use a light weight"],["Swinging","Using too much weight","Shrugging"],"Face Pull"],
+["Barbell Curl","Barbell Curl","3 × 10",75,["Keep elbows by your sides","Keep wrists straight","Lower slowly"],["Swinging the body","Moving elbows forwards","Bending the wrists back"],"Cable Curl"],
+["Hammer Curl","Hammer Curl","3 × 12",75,["Keep palms facing each other","Keep elbows close to the body","Control the lowering phase"],["Swinging","Letting elbows drift away","Lowering too quickly"],"Rope Hammer Curl"],
+["Hanging Leg Raise","Hanging Leg Raise","3 × 10–15",75,["Stop the body from swinging first","Tuck the pelvis at the top","Lower slowly"],["Swinging","Only lifting the thighs","Dropping the legs too quickly"],"Captain Chair Knee Raise"],
+["Side Plank","Side Plank","3 × 40 sec / side",60,["Keep the body in a straight line","Keep the hips high","Breathe normally"],["Letting the hips sag","Rotating the torso","Holding your breath"],"Pallof Press"],
+["Treadmill / Cardio","Treadmill Cardio","10–15 min",0,["Use a natural stride","Choose light intensity","Slow down at the end"],["Holding the handrails","Going too hard","Stopping suddenly"],"Stationary Bike"]]},
+friday:{title:"FRIDAY – LEGS + CORE",sub:"Legs, calves and abs",ex:[
+["Hack Squat Machine","Hack Squat Machine","3 × 8–10",150,["Keep your back against the pad","Keep knees tracking in line with the toes","Push through the whole foot"],["Letting knees cave in","Letting heels lift","Rounding the lower back"],"Leg Press"],
+["Romanian Deadlift","Romanian Deadlift","3 × 8–10",150,["Push the hips backwards","Keep the bar close to the thighs","Keep a neutral spine"],["Letting the bar drift away","Rounding the back","Going too deep without control"],"Seated Leg Curl"],
+["Leg Press","Leg Press","3 × 12",120,["Keep the lower back against the pad","Keep knees in line with the toes","Control the depth"],["Lifting the lower back","Letting knees cave in","Locking the knees"],"Hack Squat"],
+["Leg Curl","Leg Curl","3 × 12",75,["Align the machine pivot with the knee","Keep the hips on the pad","Lower slowly"],["Lifting the hips","Dropping the weight","Using a short range"],"Romanian Deadlift"],
+["Leg Extension","Leg Extension","3 × 12",75,["Align the machine pivot with the knee","Keep your back against the pad","Pause briefly at the top"],["Swinging","Using the wrong machine setup","Using too much weight"],"Split Squat"],
+["Standing Calf Raise","Standing Calf Raise","3 × 15",75,["Use a full range of motion","Pause briefly at the bottom","Squeeze the calves at the top"],["Bouncing","Using a short range","Letting ankles roll out"],"Seated Calf Raise"],
+["Ab Wheel Rollout","Ab Wheel Rollout","3 × 8–12",75,["Tuck the pelvis","Brace the abs","Only roll as far as you can keep the lower back stable"],["Overarching the lower back","Rolling too far","Returning only with the arms"],"Reverse Crunch"],
+["Cable Crunch","Cable Crunch","3 × 12–15",75,["Round the torso","Exhale at the bottom","Control the return"],["Pulling with the arms","Moving from the hips","Using too much weight"],"Machine Crunch"],
+["Treadmill / Light Cardio","Treadmill Light Cardio","10–15 min",0,["Use light intensity","Keep a natural stride","Slow down at the end"],["Going too hard","Holding the handrails","Stopping suddenly"],"Stationary Bike"]]}
+};
+
 const KEY="gymTrackerProV2";
 let state=JSON.parse(localStorage.getItem(KEY)||'{"days":{},"history":{},"progress":[],"settings":{"theme":"light"},"workouts":[]}');
+let plans=(state.settings?.language==="en")?plansEN:plansCS;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let cloudUser=null,cloudSaveTimer=null,cloudLoading=false;
 let activeDay="monday", timerInt=null, timerSec=0, currentSetEl=null, wakeLock=null; let workoutStart=null,workoutElapsedBeforePause=0,workoutPaused=false,workoutClockInt=null,activeWorkoutDay=null; let restRunning=false;
+
+
+const I18N={
+  cs:{
+    appTitle:"Gym Tracker",
+    appSubtitle:"Silnější každý týden. Jedna série po druhé.",
+    languageButton:"EN"
+  },
+  en:{
+    appTitle:"Gym Tracker",
+    appSubtitle:"Stronger every week. One set at a time.",
+    languageButton:"CZ"
+  }
+};
+
+const TEXT_TRANSLATIONS=[
+["tento týden","this week"],["váha","weight"],["pas","waist"],
+["Cloud: nepřihlášeno","Cloud: signed out"],["Cloud: offline","Cloud: offline"],["Cloud: připojeno","Cloud: connected"],
+["Cloud: uloženo ✓","Cloud: saved ✓"],["Cloud: ukládám…","Cloud: saving…"],["Cloud: načítám…","Cloud: loading…"],
+["Cloud: čeká na uložení…","Cloud: waiting to save…"],["Cloud: chyba ukládání","Cloud: save error"],["Cloud: chyba načítání","Cloud: load error"],
+["PONDĚLÍ","MONDAY"],["STŘEDA","WEDNESDAY"],["PÁTEK","FRIDAY"],
+["Týdenní progres","Weekly progress"],["Vývoj váhy","Weight progress"],["Vývoj pasu","Waist progress"],["Historie měření","Measurement history"],
+["Technika cviků","Exercise technique"],["Nastavení, provedení, chyby a QR/video.","Setup, execution, mistakes and QR/video."],
+["Datum","Date"],["Váha (kg)","Weight (kg)"],["Pas (cm)","Waist (cm)"],["Tělesná váha (kg)","Body weight (kg)"],
+["Cable Crunch – nejlepší série","Cable Crunch – best set"],["Uložit měření","Save measurement"],["Export zálohy","Export backup"],["Import","Import"],
+["Začít trénink","Start workout"],["Zpět na čas","Back to timer"],["Trénink už běží","Workout already running"],
+["Vymazat","Clear"],["Historie","History"],["Video","Video"],["Minule: bez záznamu","Previous: no record"],["Minule:","Previous:"],
+["Série","Set"],["opak.","reps"],["Hotovo + pauza","Done + rest"],["Poznámka / RPE","Note / RPE"],
+["Nedělej:","Avoid:"],["Stroj obsazený → přesunout dolů","Machine busy → move down"],["Náhrada:","Alternative:"],
+["Dokončit trénink","Finish workout"],["Kardio","Cardio"],["minuty","minutes"],["Intenzita","Intensity"],
+["Lehká","Light"],["Střední","Moderate"],["Vyšší","High"],
+["Jak na to","How to do it"],["Nejčastější chyby","Common mistakes"],
+["Cloud synchronizace","Cloud sync"],["Přihlas se stejným e-mailem na telefonu i počítači. Data se budou ukládat automaticky.","Sign in with the same email on your phone and computer. Your data will sync automatically."],
+["E-mail","Email"],["Heslo","Password"],["minimálně 6 znaků","at least 6 characters"],["Přihlásit","Sign in"],["Vytvořit účet","Create account"],
+["Při první registraci může Supabase poslat potvrzovací e-mail.","Supabase may send a confirmation email after your first registration."],
+["Přihlášen jako:","Signed in as:"],["Synchronizovat teď","Sync now"],["Načíst cloudová data","Load cloud data"],["Odhlásit","Sign out"],
+["Otevřít video","Open video"],["Trénink hotový 🎉","Workout complete 🎉"],["Poznámka k tréninku","Workout note"],["Uložit a ukončit","Save and finish"],
+["TRÉNINK","WORKOUT"],["Probíhá","Running"],["Pozastavit","Pause"],["Přejít k zapisování","Go to logging"],["Ukončit trénink","Finish workout"],
+["Pokračovat","Continue"],["Pozastaveno","Paused"],["Opravdu ukončit trénink?","Are you sure you want to finish the workout?"],
+["Odpočinek","Rest"],["Ukončit pauzu","End rest"],["Další série","Next set"],["Zvětšit","Expand"],["Odpočet běží","Countdown running"],
+["Pauza skončila – další série!","Rest finished – next set!"],["Znovu","Restart"],["Zpět k zapisování","Back to logging"],["Ukončit celý trénink","Finish entire workout"],
+["Připraveno","Ready"],["Pauza skončila","Rest finished"],["Trénink spuštěn. Čas se počítá.","Workout started. Timer is running."],
+["Trénink uložen ✅","Workout saved ✅"],["Uloženo ✅","Saved ✅"],["Zatím žádná měření.","No measurements yet."],["Zatím bez historie.","No history yet."],
+["Přidej alespoň 2 měření.","Add at least 2 measurements."],["Vyplň alespoň jednu hodnotu.","Enter at least one value."],
+["Nejdřív vyplň váhu i počet opakování.","Enter both weight and reps first."],["Vymazat aktuální zápis dne? Historie zůstane zachována.","Clear today's entry? History will remain saved."],
+["Smazat měření?","Delete measurement?"],["Smazat tento záznam?","Delete this entry?"],
+["Neplatná záloha.","Invalid backup file."],["Tento prohlížeč neumí držet obrazovku zapnutou.","This browser cannot keep the screen awake."],
+["Účet vytvořen a data se ukládají.","Account created. Data is now syncing."],["Účet vytvořen. Zkontroluj e-mail a potvrď registraci.","Account created. Check your email and confirm registration."],
+["Registrace se nepovedla:","Sign-up failed:"],["Přihlášení se nepovedlo:","Sign-in failed:"],["Vyplň e-mail a heslo alespoň 6 znaků.","Enter an email and a password of at least 6 characters."],
+["Vyplň e-mail a heslo.","Enter your email and password."],["Synchronizace dokončena.","Sync complete."],
+["Chceš nejdřív uložit současná data z telefonu do cloudu?","Save the current phone data to the cloud first?"],
+["Načíst data z cloudu a nahradit data v tomto zařízení?","Load cloud data and replace the data on this device?"],
+["Nejdřív dokonči trénink","Finish the current workout first"],
+["Příště zkus malý krok nahoru ve váze.","Try a small weight increase next time."],
+["Nejdřív drž stejnou váhu a dostaň všechny série alespoň na spodní hranici.","Keep the same weight until every set reaches the lower end of the target range."],
+["Zkus přidat 1 opakování v jedné nebo více sériích.","Try adding 1 rep to one or more sets."],
+["Všechny pracovní série jsou na horní hranici.","All working sets reached the top of the range."],
+["Čas:","Time:"],["Dokončené cviky:","Completed exercises:"],["Týden","Week"],["Crunch","Crunch"],["Foto","Photo"],["Poznámka","Note"]
+];
+
+function currentLang(){return state.settings?.language==="en"?"en":"cs"}
+function trText(cs,en){return currentLang()==="en"?en:cs}
+function translateTextValue(value){
+ if(currentLang()!=="en"||!value)return value;
+ let result=value;
+ for(const [cs,en] of TEXT_TRANSLATIONS)result=result.split(cs).join(en);
+ return result;
+}
+function translateVisibleUI(){
+ const lang=currentLang();
+ document.documentElement.lang=lang;
+ languageBtn.textContent=I18N[lang].languageButton;
+ document.querySelector("h1").textContent=I18N[lang].appTitle;
+ document.querySelector("header .subtitle").textContent=I18N[lang].appSubtitle;
+
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ nodes.forEach(node=>{
+   if(node.parentElement?.tagName==="SCRIPT"||node.parentElement?.tagName==="STYLE")return;
+   const raw=node.nodeValue;
+   const translated=translateTextValue(raw);
+   if(translated!==raw)node.nodeValue=translated;
+ });
+ document.querySelectorAll("input,textarea").forEach(el=>{
+   if(el.placeholder)el.placeholder=translateTextValue(el.placeholder);
+ });
+ document.querySelectorAll("[title]").forEach(el=>{
+   if(el.title)el.title=translateTextValue(el.title);
+ });
+}
+function toggleLanguage(){
+ state.settings=state.settings||{};
+ state.settings.language=currentLang()==="en"?"cs":"en";
+ localStorage.setItem(KEY,JSON.stringify(state));
+ location.reload();
+}
 
 function save(){
  localStorage.setItem(KEY,JSON.stringify(state));
@@ -665,7 +799,7 @@ async function cloudSignIn(){
 async function cloudSignOut(){
  await supabaseClient.auth.signOut();cloudUser=null;updateCloudUI();cloudDialog.close();
 }
-async function syncNow(){await saveCloudState();alert("Synchronizace dokončena.")}
+async function syncNow(){await saveCloudState();alert(trText("Synchronizace dokončena.","Sync complete."))}
 
 function today(){return new Date().toISOString().slice(0,10)}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
@@ -714,7 +848,7 @@ function renderDay(day){
    <div class="actions"><button class="warn" onclick="occupied('${day}',${i})">Stroj obsazený → přesunout dolů</button><button class="secondary" onclick="useAlternative('${day}',${i})">Náhrada: ${ex[6]}</button></div></div>`;
  });
  html+=`<div class="actions"><button class="primary" onclick="finishWorkout('${day}')">Dokončit trénink</button></div></div>`;
- document.getElementById(day).innerHTML=html;
+ document.getElementById(day).innerHTML=html;translateVisibleUI();
 }
 function setDay(day,k,v){state.days[day]=state.days[day]||{};state.days[day][k]=v;save()}
 function setEx(day,i,k,v){let d=state.days[day]=state.days[day]||{};d.exercises=d.exercises||{};d.exercises[i]=d.exercises[i]||{};d.exercises[i][k]=v;save()}
@@ -740,7 +874,7 @@ function completeSet(day,i,s,rest,btn){
    currentSetEl.style.outline="2px solid var(--bad)";
    if(!weight) inputs[0]?.focus();
    else inputs[1]?.focus();
-   alert("Nejdřív vyplň váhu i počet opakování.");
+   alert(trText("Nejdřív vyplň váhu i počet opakování.","Enter both weight and reps first."));
    return;
  }
 
@@ -813,7 +947,7 @@ function updateWorkoutClock(){const x=formatClock(getWorkoutElapsed());workoutCl
 function toggleWorkoutPause(){if(!activeWorkoutDay)return;if(workoutPaused){workoutPaused=false;workoutStart=Date.now();workoutState.textContent="Probíhá";pauseWorkoutBtn.textContent="Pozastavit"}else{workoutElapsedBeforePause+=Date.now()-workoutStart;workoutPaused=true;workoutState.textContent="Pozastaveno";pauseWorkoutBtn.textContent="Pokračovat"}updateWorkoutClock()}
 function minimizeWorkout(){workoutOverlay.classList.remove("show");miniWorkoutBar.classList.remove("show");workoutRunningBar.classList.add("show");workoutRunningDay.textContent=plans[activeWorkoutDay].title.replace(/ –.*/,"");document.exitFullscreen?.().catch(()=>{});updateWorkoutButtons()}
 function openWorkoutOverlay(){if(activeWorkoutDay){workoutOverlay.classList.add("show");miniWorkoutBar.classList.remove("show");workoutRunningBar.classList.remove("show")}}
-function requestFinishWorkout(){if(activeWorkoutDay&&confirm("Opravdu ukončit trénink?"))finishWorkout(activeWorkoutDay)}
+function requestFinishWorkout(){if(activeWorkoutDay&&confirm(trText("Opravdu ukončit trénink?","Are you sure you want to finish the workout?")))finishWorkout(activeWorkoutDay)}
 function finishWorkout(day){
  const d=state.days[day]||{},p=plans[day],done=Object.values(d.exercises||{}).filter(x=>x.done).length,minutes=Math.max(1,Math.round(getWorkoutElapsed()/60000));
  workoutOverlay.classList.remove("show");miniWorkoutBar.classList.remove("show");workoutRunningBar.classList.remove("show");restBar.classList.remove("show");restExpanded.classList.remove("show");clearInterval(workoutClockInt);clearInterval(timerInt);document.exitFullscreen?.().catch(()=>{});
@@ -838,7 +972,7 @@ function saveFinish(){
    else state.progress.push({date:d.date||today(),weight:d.weight||"",waist:d.waist||"",crunch:""});
    state.progress.sort((a,b)=>a.date.localeCompare(b.date));
  }
- state.days[day].completed=true;save();finishDialog.close();finishNote.value="";renderDay(day);activeWorkoutDay=null;workoutStart=null;workoutElapsedBeforePause=0;workoutPaused=false;updateWorkoutButtons();alert("Uloženo ✅");
+ state.days[day].completed=true;save();finishDialog.close();finishNote.value="";renderDay(day);activeWorkoutDay=null;workoutStart=null;workoutElapsedBeforePause=0;workoutPaused=false;updateWorkoutButtons();alert(trText("Uloženo ✅","Saved ✅"));
 }
 function clearDay(day){if(confirm("Vymazat aktuální zápis dne? Historie zůstane zachována.")){delete state.days[day];save();renderDay(day)}}
 function occupied(day,i){
@@ -873,7 +1007,7 @@ async function toggleWake(){
  try{
    if(wakeLock){await wakeLock.release();wakeLock=null;wakeBtn.textContent="☀️"}
    else{wakeLock=await navigator.wakeLock.request("screen");wakeBtn.textContent="🔒"}
- }catch{alert("Tento prohlížeč neumí držet obrazovku zapnutou.")}
+ }catch{alert(trText("Tento prohlížeč neumí držet obrazovku zapnutou.","This browser cannot keep the screen awake."))}
 }
 function toggleTheme(){state.settings=state.settings||{};state.settings.theme=state.settings.theme==="dark"?"light":"dark";applyTheme();save()}
 function applyTheme(){document.documentElement.dataset.theme=state.settings?.theme||"light"}
@@ -885,13 +1019,13 @@ function renderGuide(){
  <div class="guide-grid"><div class="guide-box"><b>Jak na to</b><ul>${ex[4].map(x=>`<li>${x}</li>`).join("")}</ul></div>
  <div class="guide-box"><b>Nejčastější chyby</b><ul>${ex[5].map(x=>`<li>${x}</li>`).join("")}</ul></div></div>
  <div class="actions"><button class="smallbtn" onclick="showVideo('${encodeURIComponent(ex[1])}','${encodeURIComponent(ex[0])}')">Video / QR</button></div></div>`;
- });guideList.innerHTML=html;
+ });guideList.innerHTML=html;translateVisibleUI();
 }
-function addProgress(){let x={date:pDate.value||today(),weight:pWeight.value,waist:pWaist.value,crunch:pCrunch.value};if(!x.weight&&!x.waist&&!x.crunch)return alert("Vyplň alespoň jednu hodnotu.");state.progress.push(x);state.progress.sort((a,b)=>a.date.localeCompare(b.date));save();pWeight.value=pWaist.value=pCrunch.value="";renderProgress()}
-function deleteProgress(i){if(confirm("Smazat měření?")){state.progress.splice(i,1);save();renderProgress()}}
+function addProgress(){let x={date:pDate.value||today(),weight:pWeight.value,waist:pWaist.value,crunch:pCrunch.value};if(!x.weight&&!x.waist&&!x.crunch)return alert(trText("Vyplň alespoň jednu hodnotu.","Enter at least one value."));state.progress.push(x);state.progress.sort((a,b)=>a.date.localeCompare(b.date));save();pWeight.value=pWaist.value=pCrunch.value="";renderProgress()}
+function deleteProgress(i){if(confirm(trText("Smazat měření?","Delete measurement?"))){state.progress.splice(i,1);save();renderProgress()}}
 function renderProgress(){
  let rows=[...state.progress].reverse();measureHistory.innerHTML=rows.length?`<table><tr><th>Datum</th><th>Váha</th><th>Pas</th><th>Crunch</th><th></th></tr>${rows.map((r,rev)=>{let i=state.progress.length-1-rev;return `<tr><td>${r.date}</td><td>${r.weight||"–"}</td><td>${r.waist||"–"}</td><td>${r.crunch||"–"}</td><td><button class="danger" onclick="deleteProgress(${i})">×</button></td></tr>`}).join("")}</table>`:`<div class="empty">Zatím žádná měření.</div>`;
- drawChart("weightChart","weight","kg");drawChart("waistChart","waist","cm");
+ drawChart("weightChart","weight","kg");drawChart("waistChart","waist","cm");translateVisibleUI();
 }
 function drawChart(id,key,unit){
  const c=document.getElementById(id),ctx=c.getContext("2d"),data=state.progress.filter(x=>x[key]).map(x=>({x:x.date,y:+x[key]}));ctx.clearRect(0,0,c.width,c.height);ctx.font="14px system-ui";ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue("--muted");
@@ -905,10 +1039,10 @@ function refreshSummary(){
  const p=state.progress.at(-1);lastWeight.textContent=p?.weight?p.weight+" kg":"–";lastWaist.textContent=p?.waist?p.waist+" cm":(state.days.monday?.waist?state.days.monday.waist+" cm":"–");
 }
 function exportData(){const b=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="gym-tracker-zaloha.json";a.click();URL.revokeObjectURL(a.href);localStorage.setItem("lastBackup",Date.now())}
-function importData(e){const f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{state=JSON.parse(r.result);save();location.reload()}catch{alert("Neplatná záloha.")}};r.readAsText(f)}
+function importData(e){const f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{state=JSON.parse(r.result);save();location.reload()}catch{alert(trText("Neplatná záloha.","Invalid backup file."))}};r.readAsText(f)}
 function backupReminder(){const last=+(localStorage.getItem("lastBackup")||0);if(Date.now()-last>7*864e5&&state.workouts.length) setTimeout(()=>confirm("Už je to déle než týden od zálohy. Chceš ji teď stáhnout?")&&exportData(),1200)}
 document.querySelectorAll(".navbtn").forEach(b=>b.onclick=()=>{document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(b.dataset.screen).classList.add("active");if(["monday","wednesday","friday"].includes(b.dataset.screen))activeDay=b.dataset.screen;if(b.dataset.screen==="progress")renderProgress()});
-applyTheme();["monday","wednesday","friday"].forEach(renderDay);renderGuide();renderProgress();refreshSummary();updateWorkoutButtons();initCloud();pDate.value=today();backupReminder();
+applyTheme();["monday","wednesday","friday"].forEach(renderDay);renderGuide();renderProgress();refreshSummary();updateWorkoutButtons();translateVisibleUI();initCloud();pDate.value=today();backupReminder();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script>
 </body></html>
