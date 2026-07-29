@@ -1,8 +1,7 @@
-GYM TRACKER v13 – CZECH / ENGLISH
+GYM TRACKER v14 – iPHONE SAFE AREA
 
-New:
-- Complete Czech and English interface.
-- Language button in the top-right corner.
-- Exercise names, technique tips, mistakes, workout controls, cloud sync and messages are translated.
-- Language choice is saved on the device.
-- All cloud and offline features from v12 remain available.
+Oprava pro iPhone:
+- horní tlačítka jsou posunutá pod Dynamic Island / výřez,
+- respektuje se stavový řádek s baterií a sítí,
+- plovoucí čas tréninku je také posunutý níž,
+- spodní část respektuje bezpečnou oblast iPhonu.
