@@ -1,1 +1,3 @@
-Gym Tracker Pro v3: opravený mobilní layout, váha pouze v pondělí, odstraněn spánek a energie, celoobrazovková časomíra s pauzou, pokračováním, minimalizací a ukončením.
+Gym Tracker Pro v10
+
+U pásu/kardia jsou pouze minuty a intenzita. Kg, opakování, série a pauza byly odstraněny.

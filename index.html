@@ -302,20 +302,33 @@ function renderDay(day){
  <label><span>Pas (cm)</span><input type="number" step=".1" value="${esc(d.waist)}" oninput="setDay('${day}','waist',this.value)"></label>`:''}
  </div><div class="actions"><button class="primary workout-main-btn" id="workoutBtn-${day}" onclick="handleWorkoutButton('${day}')">▶ Začít trénink</button></div></div><div class="card">`;
  order.forEach((i,pos)=>{
-   const ex=p.ex[i], e=(d.exercises||{})[i]||{}, prev=lastPerformance(day,i), suggestion=getSuggestion(day,i,ex[2]);
+   const ex=p.ex[i], e=(d.exercises||{})[i]||{}, prev=lastPerformance(day,i), suggestion=ex[1].includes("Treadmill")?"":getSuggestion(day,i,ex[2]);
    html+=`<div class="exercise" id="ex-${day}-${i}"><div class="exhead">
    <input class="done" type="checkbox" ${e.done?'checked':''} onchange="setEx('${day}',${i},'done',this.checked)">
    <div><div class="exname">${ex[0]} <span style="font-weight:500;color:var(--muted)">(${ex[1]})</span></div>
    <div class="target">${ex[2]}</div><div class="last">${prev?`Minule: <strong>${prev}</strong>`:"Minule: bez záznamu"}</div></div>
    <div class="tools"><button class="smallbtn" onclick="showHistory('${day}',${i})">Historie</button><button class="smallbtn" onclick="showVideo('${encodeURIComponent(ex[1])}','${encodeURIComponent(ex[0])}')">Video</button></div></div>
-   <div class="sets">`;
-   for(let s=1;s<=3;s++){
-     html+=`<div class="setbox" data-set="${day}-${i}-${s}"><span class="mini">Série ${s}</span><div class="setrow">
-     <input placeholder="kg" inputmode="decimal" value="${esc(e['kg'+s])}" oninput="setEx('${day}',${i},'kg${s}',this.value)">
-     <input placeholder="opak." inputmode="numeric" value="${esc(e['reps'+s])}" oninput="setEx('${day}',${i},'reps${s}',this.value)">
-     </div><div class="setactions"><button class="smallbtn" onclick="completeSet('${day}',${i},${s},${ex[3]},this)">Hotovo + pauza</button></div></div>`;
+   ${ex[1].includes("Treadmill") ? `
+   <div class="sets"><div class="setbox"><span class="mini">Kardio</span><div class="setrow">
+     <input placeholder="minuty" inputmode="numeric" value="${esc(e.minutes)}" oninput="setEx('${day}',${i},'minutes',this.value)">
+     <select oninput="setEx('${day}',${i},'intensity',this.value)">
+       <option value="">Intenzita</option>
+       <option value="Lehká" ${e.intensity==="Lehká"?"selected":""}>Lehká</option>
+       <option value="Střední" ${e.intensity==="Střední"?"selected":""}>Střední</option>
+       <option value="Vyšší" ${e.intensity==="Vyšší"?"selected":""}>Vyšší</option>
+     </select>
+   </div></div></div>` : `<div class="sets">`}
+   `;
+   if(!ex[1].includes("Treadmill")){
+     for(let s=1;s<=3;s++){
+       html+=`<div class="setbox" data-set="${day}-${i}-${s}"><span class="mini">Série ${s}</span><div class="setrow">
+       <input placeholder="kg" inputmode="decimal" value="${esc(e['kg'+s])}" oninput="setEx('${day}',${i},'kg${s}',this.value)">
+       <input placeholder="opak." inputmode="numeric" value="${esc(e['reps'+s])}" oninput="setEx('${day}',${i},'reps${s}',this.value)">
+       </div><div class="setactions"><button class="smallbtn" onclick="completeSet('${day}',${i},${s},${ex[3]},this)">Hotovo + pauza</button></div></div>`;
+     }
+     html+=`</div>`;
    }
-   html+=`</div><input class="note" placeholder="Poznámka / RPE" value="${esc(e.notes)}" oninput="setEx('${day}',${i},'notes',this.value)">
+   html+=`<input class="note" placeholder="Poznámka / RPE" value="${esc(e.notes)}" oninput="setEx('${day}',${i},'notes',this.value)">
    ${suggestion?`<div class="progression">💡 ${suggestion}</div>`:""}
    <div class="tip"><b>Nedělej:</b> ${ex[5].join(" • ")}</div>
    <div class="actions"><button class="warn" onclick="occupied('${day}',${i})">Stroj obsazený → přesunout dolů</button><button class="secondary" onclick="useAlternative('${day}',${i})">Náhrada: ${ex[6]}</button></div></div>`;
@@ -327,7 +340,7 @@ function setDay(day,k,v){state.days[day]=state.days[day]||{};state.days[day][k]=
 function setEx(day,i,k,v){let d=state.days[day]=state.days[day]||{};d.exercises=d.exercises||{};d.exercises[i]=d.exercises[i]||{};d.exercises[i][k]=v;save()}
 function lastPerformance(day,i){
  const arr=state.history[exKey(day,i)]||[]; if(!arr.length)return "";
- const x=arr[arr.length-1]; return x.sets.filter(s=>s.kg||s.reps).map(s=>`${s.kg||"–"}×${s.reps||"–"}`).join(" / ");
+ const x=arr[arr.length-1]; if(x.cardio)return `${x.minutes||"–"} min${x.intensity?` • ${x.intensity}`:""}`; return (x.sets||[]).filter(s=>s.kg||s.reps).map(s=>`${s.kg||"–"}×${s.reps||"–"}`).join(" / ");
 }
 function parseRange(t){let m=t.match(/(\d+)[–-](\d+)/);return m?[+m[1],+m[2]]:null}
 function getSuggestion(day,i,target){
@@ -430,8 +443,13 @@ function finishWorkout(day){
 function saveFinish(){
  const day=finishDialog.dataset.day, d=state.days[day]||{}, p=plans[day];
  Object.entries(d.exercises||{}).forEach(([i,e])=>{
-   const sets=[1,2,3].map(s=>({kg:e["kg"+s]||"",reps:e["reps"+s]||""}));
-   if(sets.some(s=>s.kg||s.reps)){let k=exKey(day,i);state.history[k]=state.history[k]||[];state.history[k].push({date:d.date||today(),sets,notes:e.notes||""})}
+   const ex=plans[day].ex[+i];let k=exKey(day,i);state.history[k]=state.history[k]||[];
+   if(ex[1].includes("Treadmill")){
+     if(e.minutes||e.intensity)state.history[k].push({date:d.date||today(),cardio:true,minutes:e.minutes||"",intensity:e.intensity||"",notes:e.notes||""});
+   }else{
+     const sets=[1,2,3].map(s=>({kg:e["kg"+s]||"",reps:e["reps"+s]||""}));
+     if(sets.some(s=>s.kg||s.reps))state.history[k].push({date:d.date||today(),sets,notes:e.notes||""});
+   }
  });
  state.workouts.push({day,date:d.date||today(),minutes:+finishDialog.dataset.minutes,note:finishNote.value,completed:true});
  if(day==="monday"&&(d.weight||d.waist)){
@@ -450,7 +468,12 @@ function occupied(day,i){
 function useAlternative(day,i){const alt=plans[day].ex[i][6];setEx(day,i,"notes",(state.days[day]?.exercises?.[i]?.notes||"")+` Náhrada: ${alt}.`);alert(`Použij: ${alt}`);renderDay(day)}
 function showHistory(day,i){
  const ex=plans[day].ex[i], arr=[...(state.history[exKey(day,i)]||[])].reverse();
- historyTitle.textContent=ex[0]; exerciseHistory.innerHTML=arr.length?`<table><tr><th>Datum</th><th>Série</th><th>Poznámka</th></tr>${arr.map(x=>`<tr><td>${x.date}</td><td>${x.sets.map(s=>`${esc(s.kg)||"–"}×${esc(s.reps)||"–"}`).join("<br>")}</td><td>${esc(x.notes)}</td></tr>`).join("")}</table>`:`<div class="empty">Zatím bez historie.</div>`;
+ historyTitle.textContent=ex[0];
+ if(ex[1].includes("Treadmill")){
+   exerciseHistory.innerHTML=arr.length?`<table><tr><th>Datum</th><th>Minuty</th><th>Intenzita</th><th>Poznámka</th></tr>${arr.map(x=>`<tr><td>${x.date}</td><td>${esc(x.minutes)||"–"}</td><td>${esc(x.intensity)||"–"}</td><td>${esc(x.notes)}</td></tr>`).join("")}</table>`:`<div class="empty">Zatím bez historie.</div>`;
+ }else{
+   exerciseHistory.innerHTML=arr.length?`<table><tr><th>Datum</th><th>Série</th><th>Poznámka</th></tr>${arr.map(x=>`<tr><td>${x.date}</td><td>${(x.sets||[]).map(s=>`${esc(s.kg)||"–"}×${esc(s.reps)||"–"}`).join("<br>")}</td><td>${esc(x.notes)}</td></tr>`).join("")}</table>`:`<div class="empty">Zatím bez historie.</div>`;
+ }
  historyDialog.showModal();
 }
 function showVideo(query,title){
