@@ -11,7 +11,6 @@
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
   <circle cx="256" cy="255" r="185" fill="#0A4D88" opacity=".22"/>
-  <!-- Barbell -->
   <g fill="url(#metal)">
     <rect x="122" y="133" width="268" height="27" rx="13.5"/>
     <rect x="89" y="109" width="27" height="76" rx="10"/>
@@ -21,7 +20,6 @@
     <rect x="361" y="91" width="35" height="112" rx="12"/>
     <rect x="337" y="119" width="24" height="56" rx="9"/>
   </g>
-  <!-- Six pack -->
   <g fill="url(#metal)">
     <path d="M183 231c0-13 10-23 23-23h38v67h-38c-13 0-23-10-23-23z"/>
     <path d="M268 208h38c13 0 23 10 23 23v21c0 13-10 23-23 23h-38z"/>

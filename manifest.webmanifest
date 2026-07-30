@@ -3,7 +3,7 @@
   "short_name": "Gym Tracker",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#eef7ff",
+  "background_color": "#eef7fc",
   "theme_color": "#0b5f9b",
   "icons": [
     {
