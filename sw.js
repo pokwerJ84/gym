@@ -1,4 +1,4 @@
-const CACHE="gym-tracker-pro-v41-card-usability";
+const CACHE="gym-tracker-pro-v42-navy-turquoise-theme";
 const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-180.png","./icon-192.png","./icon-512.png"];
 self.addEventListener("install",e=>e.waitUntil(
   caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())

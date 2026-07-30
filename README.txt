@@ -1,9 +1,8 @@
-GYM TRACKER v41
+GYM TRACKER v42 – NAVY + TURQUOISE THEME
 
-Změny:
-- větší šipka u rozbalovacích karet,
-- větší video tlačítko,
-- větší dotyková plocha karet,
-- při otevření jedné karty se ostatní automaticky zavřou,
-- tlačítko Sbalit vše zůstává zachované,
-- pořadí sérií 1 → 2 → 3 zůstává opravené.
+Nový vzhled:
+- hlavní tmavě modrá (navy)
+- akcent tyrkysová
+- čisté světle šedé pozadí
+- tmavý režim v navy odstínech
+- lepší zvýraznění aktivních prvků, focusu a tlačítek

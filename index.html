@@ -9,14 +9,34 @@
 <title>Gym Tracker</title>
 <style>
 :root{
-  --primary:#0b6aa8;--primary2:#55b9ec;--primary-dark:#064b78;
-  --bg:#eef7fc;--surface:#fff;--surface2:#f5fbff;--surface3:#e5f4fc;
-  --text:#102a43;--muted:#687f91;--line:#d7e7f1;--good:#138a64;
-  --bad:#cf4c4c;--warn:#b66a16;--shadow:0 12px 36px rgba(20,70,105,.11)
+  --bg:#F3F7F9;
+  --surface:#FFFFFF;
+  --surface2:#EEF4F6;
+  --surface3:#DDECEF;
+  --text:#123047;
+  --muted:#5F7A8A;
+  --line:#CFE0E6;
+  --primary:#20B8B0;
+  --primary-dark:#123047;
+  --good:#2BAE72;
+  --warn:#E89B3C;
+  --danger:#D55454;
+  --shadow:0 10px 30px rgba(18,48,71,.10);
 }
 body.dark{
-  --bg:#081722;--surface:#102431;--surface2:#132c3a;--surface3:#183849;
-  --text:#eaf6fc;--muted:#9eb6c5;--line:#244352;--shadow:0 12px 36px rgba(0,0,0,.26)
+  --bg:#081820;
+  --surface:#102530;
+  --surface2:#123047;
+  --surface3:#123047;
+  --text:#EAF7FA;
+  --muted:#9DB8C5;
+  --line:#234757;
+  --primary:#20B8B0;
+  --primary-dark:#EAF7FA;
+  --good:#31C07C;
+  --warn:#F2AA49;
+  --danger:#F06A6A;
+  --shadow:0 12px 34px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
@@ -397,8 +417,8 @@ body.dark textarea{
   background:#0b1d28;
   color:#f7fcff;
   -webkit-text-fill-color:#f7fcff;
-  caret-color:#69c9f4;
-  border-color:#36596b;
+  caret-color:#20B8B0;
+  border-color:#234757;
 }
 body.dark input::placeholder,
 body.dark textarea::placeholder{
@@ -412,11 +432,11 @@ body.dark .inputs input{
   background:#07151e;
   color:#ffffff;
   -webkit-text-fill-color:#ffffff;
-  border-color:#42697c;
+  border-color:#2A5668;
   font-weight:900;
 }
 body.dark .quick-stepper button{
-  background:#1d465b;
+  background:#123047;
   color:#f5fbff;
   border-color:#4b7386;
 }
@@ -879,7 +899,7 @@ body.dark .today-options-panel{
 .edit-set-grid input{min-height:58px;font-size:23px;font-weight:950}
 body.dark .saved-sets-panel{background:#102733}
 body.dark .saved-set-row button{
-  background:#173848;color:#eefaff;border-color:#416678
+  background:#123047;color:#eefaff;border-color:#416678
 }
 @media(max-width:390px){
   .edit-set-grid{grid-template-columns:1fr}
@@ -973,6 +993,65 @@ body.dark .preview-card-body{background:#102733}
     font-size:15px;
   }
   .preview-video-button span{display:none}
+}
+
+
+/* v42 – navy + turquoise theme polish */
+body{
+  background:linear-gradient(180deg,#F3F7F9 0%, #EEF4F6 100%);
+}
+body.dark{
+  background:linear-gradient(180deg,#081820 0%, #0D1E28 100%);
+}
+.primary{
+  background:#123047;
+  color:#fff;
+  border-color:#123047;
+}
+.secondary{
+  background:#EFF7F7;
+  color:#123047;
+  border-color:#CFE0E6;
+}
+body.dark .secondary{
+  background:#123047;
+  color:#EAF7FA;
+  border-color:#234757;
+}
+button.active,
+.day-switch button.active,
+.navbtn.active,
+.preview-card-number,
+.stat strong,
+.rotation-banner strong{
+  color:var(--primary);
+}
+.rotation-banner{
+  border-left:4px solid var(--primary);
+  background:linear-gradient(90deg, rgba(32,184,176,.10), rgba(255,255,255,0));
+}
+body.dark .rotation-banner{
+  background:linear-gradient(90deg, rgba(32,184,176,.16), rgba(16,37,48,0));
+}
+input:focus, select:focus, textarea:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(32,184,176,.16);
+}
+.preview-video-button,
+.smallbtn,
+.saved-set-row button{
+  background:#EAF7F7;
+  color:#123047;
+}
+body.dark .preview-video-button,
+body.dark .smallbtn,
+body.dark .saved-set-row button{
+  background:#123047;
+  color:#EAF7FA;
+}
+.primary:hover,.secondary:hover,.smallbtn:hover,.preview-video-button:hover{
+  filter:brightness(.98);
 }
 
 </style>
