@@ -1,11 +1,7 @@
-GYM TRACKER v27 – CZ/EN + TAP ZOOM FIX
+GYM TRACKER v28 – RECOMMENDATION AT THE END
 
-Změny:
-- japonština byla úplně odstraněna,
-- v Nastavení zůstala pouze čeština a angličtina,
-- pokud měl někdo dříve zvolenou japonštinu, aplikace se automaticky přepne do češtiny,
-- přidáno touch-action: manipulation,
-- přidán viewport bez uživatelského zoomu,
-- přidána ochrana proti rychlému dvojitému a trojitému klepnutí mimo vstupní pole,
-- tlačítka kg − / + a ostatní ovládání zůstávají zachované,
-- extra cviky zůstávají až za základním plánem.
+Změna:
+- sekce „Doporučení podle historie“ byla přesunuta úplně na konec stránky Dnes,
+- nejdřív se zobrazí celý základní trénink,
+- potom případné extra cviky,
+- doporučení je až úplně poslední jako volitelná část.

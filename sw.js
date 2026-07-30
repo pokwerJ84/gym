@@ -1,4 +1,4 @@
-const CACHE="gym-tracker-pro-v27-no-japanese-no-tap-zoom";
+const CACHE="gym-tracker-pro-v28-recommendation-last";
 const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-180.png","./icon-192.png","./icon-512.png"];
 self.addEventListener("install",e=>e.waitUntil(
   caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())
