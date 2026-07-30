@@ -1,4 +1,4 @@
-const CACHE="gym-tracker-pro-v32-debugged";
+const CACHE="gym-tracker-pro-v33-named-plans-monday-check-dark-fix";
 const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-180.png","./icon-192.png","./icon-512.png"];
 self.addEventListener("install",e=>e.waitUntil(
   caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())

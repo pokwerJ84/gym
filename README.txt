@@ -1,11 +1,14 @@
-GYM TRACKER v32 – FULL DEBUG PASS
+GYM TRACKER v33
 
-Opravy:
-- opravená nefunkční tlačítka − / + u kg,
-- přidaný volitelný krok 1 / 2 / 2,5 / 5 / 10 kg pro každý cvik,
-- opravená chybějící funkce časomíry,
-- čas po spuštění tréninku skutečně běží,
-- opravené ukončení tréninku a potvrzovací dialog,
-- po uložení se aktivní trénink správně ukončí a čas se vynuluje,
-- opravené týdenní měření, aby se při přechodu mezi poli neztrácela hodnota,
-- zkontrolovaný start, pauza, návrat, dokončení série, historie, kardio a navigace.
+Novinky:
+- A / B / C byly nahrazeny názvy:
+  🏋️ Síla
+  🛡️ Stabilita
+  ⚡ Kontrola
+- před spuštěním je vždy vidět kompletní seznam dnešních cviků,
+- u každého cviku v náhledu lze otevřít video,
+- týdenní váha a pas se ukládají vždy k pondělnímu datu,
+- při zapomenutém pondělním měření lze hodnoty doplnit později,
+- silový trénink zůstává zamčený do uložení měření,
+- samostatné kardio zůstává dostupné,
+- opravená viditelnost čísel a textu ve vstupních polích v tmavém režimu.
