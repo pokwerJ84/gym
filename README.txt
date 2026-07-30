@@ -1,7 +1,9 @@
-GYM TRACKER v28 – RECOMMENDATION AT THE END
+GYM TRACKER v29 – FIXED EXERCISE LIST
 
-Změna:
-- sekce „Doporučení podle historie“ byla přesunuta úplně na konec stránky Dnes,
-- nejdřív se zobrazí celý základní trénink,
-- potom případné extra cviky,
-- doporučení je až úplně poslední jako volitelná část.
+Opravy:
+- opravená chyba, kvůli které nebyly vidět žádné cviky,
+- základní cviky se opět správně zobrazují,
+- extra cviky jsou vždy až za základním plánem,
+- doporučení podle historie je úplně na konci,
+- opravené pořadí cviků také v režimu Právě cvičím,
+- odstraněn chybný odkaz na neexistující funkci instanceById.

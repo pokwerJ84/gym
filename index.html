@@ -521,7 +521,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=28;
+const VERSION=29;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
 
@@ -847,7 +847,15 @@ function setRows(day,inst,m,e){
 }
 function renderDay(day){
  prepareDay(day);
- const plan=BASE_PLANS[day],d=state.days[day],instances=dayInstances(day),rec=recommendExercise(day);
+ const plan=BASE_PLANS[day];
+ const d=state.days[day];
+ const instances=dayInstances(day);
+ const orderedInstances=[
+   ...instances.filter(x=>!x.added),
+   ...instances.filter(x=>x.added)
+ ];
+ const rec=recommendExercise(day);
+
  let html=`<div class="card today-intro"><div class="day-switch">
  <button class="day-monday ${day==="monday"?"active":""}" onclick="showToday('monday')"><span class="day-dot"></span>${t("mon")}</button>
  <button class="day-wednesday ${day==="wednesday"?"active":""}" onclick="showToday('wednesday')"><span class="day-dot"></span>${t("wed")}</button>
@@ -857,35 +865,56 @@ function renderDay(day){
  <div class="meta ${day==="monday"?"monday":"single"}"><label><span>${t("date")}</span><input type="date" value="${esc(d.date)}" onchange="changeDayDate('${day}',this.value)"></label>
  ${day==="monday"?`<label><span>${t("weight")}</span><input inputmode="decimal" value="${esc(d.weight)}" oninput="updateEntryRoot('${day}','weight',this.value)" onblur="renderDay('${day}')"></label><label><span>${t("waist")}</span><input inputmode="decimal" value="${esc(d.waist)}" oninput="updateEntryRoot('${day}','waist',this.value)" onblur="renderDay('${day}')"></label>`:""}</div>
  <div class="actions"><button class="primary full" ${day==="monday"&&(!d.weight||!d.waist)?"disabled":""} onclick="startWorkout('${day}')">${state.activeWorkout?.day===day?t("resume"):t("start")}</button></div></div>`;
+
  if(day==="monday"&&(!d.weight||!d.waist)){
-html+=`<div class="day-tools"><button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button><button class="secondary" onclick="collapseAll('${day}')">${t("collapse")}</button></div><div id="${day}List">`;
- instances.forEach(inst=>{
-  const e=entry(day,inst.instanceId),m=metaFor(day,inst),last=lastRecord(m.id),replaced=!!m.replacementId;
-  html+=`<details class="exercise" id="ex-${inst.instanceId.replace(/[^a-z0-9]/gi,"")}"><summary class="exercise-summary">
+   html+=`<div class="card monday-lock"><div class="lock-icon">🔒</div><h3>${t("mondayRequired")}</h3></div>`;
+   document.getElementById(day).innerHTML=html;
+   return;
+ }
+
+ html+=`<div class="day-tools"><button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button><button class="secondary" onclick="collapseAll('${day}')">${t("collapse")}</button></div><div id="${day}List">`;
+
+ let extraDividerShown=false;
+ orderedInstances.forEach(inst=>{
+   if(inst.added&&!extraDividerShown){
+     html+=`<div class="extra-section-divider"><span>${lang()==="cs"?"Volitelné cviky – až po základu":"Optional exercises – after the main workout"}</span></div>`;
+     extraDividerShown=true;
+   }
+
+   const e=entry(day,inst.instanceId);
+   const m=metaFor(day,inst);
+   const last=lastRecord(m.id);
+   const replaced=!!m.replacementId;
+   const tips=m.tips?.[lang()]||m.tips?.en||[];
+   const mistakes=m.mistakes?.[lang()]||m.mistakes?.en||[];
+
+   html+=`<details class="exercise" id="ex-${inst.instanceId.replace(/[^a-z0-9]/gi,"")}"><summary class="exercise-summary">
    <input class="donebox" type="checkbox" ${e.done?"checked":""} onclick="event.stopPropagation()" onchange="updateEntry('${day}','${inst.instanceId}','done',this.checked)">
    <div class="exercise-main"><div class="exercise-name">${esc(itemName(m))} ${inst.added?`<span class="extra-badge">${t("extra")}</span>`:""}</div><div class="exercise-target">${targetText(m)}</div>
    ${replaced?`<div class="replacement-note">${t("baseReplacement")}: ${esc(itemName(EX[inst.exerciseId]))}</div>`:""}
    ${last?`<div class="exercise-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}</div><span class="chevron"></span></summary>
    <div class="exercise-body"><div class="sets">${setRows(day,inst,m,e)}</div>
    <input class="note" placeholder="${t("note")}" value="${esc(e.notes)}" oninput="updateEntry('${day}','${inst.instanceId}','notes',this.value)">
-   <details><summary class="smallbtn" style="display:inline-block;margin-top:9px">${t("technique")} ▾</summary><div class="tip"><b>${t("tips")}:</b> ${m.tips[lang()].join(" • ")}<br><b>${t("avoid")}:</b> ${m.mistakes[lang()].join(" • ")}</div></details>
+   <details><summary class="smallbtn" style="display:inline-block;margin-top:9px">${t("technique")} ▾</summary><div class="tip"><b>${t("tips")}:</b> ${tips.join(" • ")}<br><b>${t("avoid")}:</b> ${mistakes.join(" • ")}</div></details>
    <div class="exercise-buttons"><button class="smallbtn" onclick="openVideo('${m.id}')">▶ ${t("video")}</button><button class="smallbtn" onclick="openHistory('${m.id}')">${t("history")}</button>
    <button class="smallbtn" onclick="openLibrary('${day}','replace','${inst.instanceId}')">${t("replace")}</button>
    ${replaced?`<button class="smallbtn" onclick="resetReplacement('${day}','${inst.instanceId}')">${t("resetReplacement")}</button>`:""}
    <button class="warn" onclick="moveToEnd('${day}','${inst.instanceId}')">${t("occupied")}</button>
    ${inst.added?`<button class="danger" onclick="removeExtra('${day}','${inst.instanceId}')">${t("remove")}</button>`:""}</div></div></details>`;
  });
+
  html+="</div>";
- 
- html+=`<div class="recommendation-bottom-divider"><span>${t("recommended")}</span></div>`;
-html+=`<div class="card monday-lock"><div class="lock-icon">🔒</div><h3>${t("mondayRequired")}</h3></div>`;
-   document.getElementById(day).innerHTML=html;
-   return;
+
+ if(rec){
+   html+=`<div class="recommendation-bottom-divider"><span>${t("recommended")}</span></div>
+   <div class="card recommend"><div class="recommend-label">${t("recommended")}</div><h3>${esc(itemName(rec.item))}</h3><p><b>${t("recommendationWhy")}:</b> ${esc(rec.reason)}</p><div class="actions"><button class="secondary" onclick="addExercise('${day}','${rec.item.id}')">＋ ${t("addToday")}</button></div></div>`;
  }
- if(rec)html+=`<div class="card recommend"><div class="recommend-label">${t("recommended")}</div><h3>${esc(itemName(rec.item))}</h3><p><b>${t("recommendationWhy")}:</b> ${esc(rec.reason)}</p><div class="actions"><button class="secondary" onclick="addExercise('${day}','${rec.item.id}')">＋ ${t("addToday")}</button></div></div>`;
-document.getElementById(day).innerHTML=html;
+
+ document.getElementById(day).innerHTML=html;
  const accordions=[...document.querySelectorAll(`#${day} .exercise`)];
- accordions.forEach(x=>x.addEventListener("toggle",()=>{if(x.open)accordions.forEach(y=>{if(y!==x)y.open=false})}));
+ accordions.forEach(x=>x.addEventListener("toggle",()=>{
+   if(x.open)accordions.forEach(y=>{if(y!==x)y.open=false});
+ }));
 }
 function updateEntryRoot(day,k,v){state.days[day][k]=v;saveState()}
 function changeDayDate(day,v){state.days[day].date=v;state.days[day].completed=false;saveState();renderDay(day)}
@@ -1111,16 +1140,11 @@ function saveRetroSet(){
 }
 
 function activeInstances(day=state.activeWorkout?.day||selectedTodayDay){
- const d=state.days[day]||{};
- const baseOrder=(d.order||[]).filter(instanceId=>{
-   const inst=instanceById(day,instanceId);
-   return inst&&!inst.extra;
- });
- const extraOrder=(d.order||[]).filter(instanceId=>{
-   const inst=instanceById(day,instanceId);
-   return inst&&inst.extra;
- });
- return [...baseOrder,...extraOrder].map(instanceId=>instanceById(day,instanceId)).filter(Boolean);
+ const instances=dayInstances(day);
+ return [
+   ...instances.filter(x=>!x.added),
+   ...instances.filter(x=>x.added)
+ ];
 }
 function fmt(ms){const sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
 function startWorkout(day){
