@@ -885,6 +885,96 @@ body.dark .saved-set-row button{
   .edit-set-grid{grid-template-columns:1fr}
 }
 
+
+/* v40 – restored expandable exercise cards */
+.plan-preview-list{display:grid;gap:9px}
+.preview-accordion{
+  border:1px solid var(--line);border-radius:16px;background:var(--surface);
+  overflow:hidden;box-shadow:0 5px 16px rgba(17,48,70,.06);
+}
+.preview-accordion summary{
+  list-style:none;display:grid;grid-template-columns:32px minmax(0,1fr) auto 12px;
+  gap:9px;align-items:center;min-height:66px;padding:10px 11px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.preview-accordion summary::-webkit-details-marker{display:none}
+.preview-card-number{
+  width:29px;height:29px;display:grid;place-items:center;border-radius:50%;
+  background:var(--surface3);color:var(--primary);font-size:12px;font-weight:950;
+}
+.preview-card-main{min-width:0}
+.preview-card-main strong{display:block;font-size:15px;line-height:1.25}
+.preview-card-main small{
+  display:block;margin-top:4px;color:var(--primary);font-size:11px;font-weight:850;
+}
+.preview-video-button{
+  min-width:78px;min-height:40px;padding:7px 10px;border:0;border-radius:11px;
+  background:var(--surface3);color:var(--primary-dark);font-size:12px;font-weight:950;
+}
+.preview-card-chevron{
+  width:9px;height:9px;border-right:2px solid var(--muted);
+  border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .18s ease;
+}
+.preview-accordion[open] .preview-card-chevron{transform:rotate(225deg);margin-top:6px}
+.preview-card-body{
+  padding:11px 13px 13px;border-top:1px solid var(--line);background:var(--surface2);
+}
+.preview-last{
+  margin-bottom:8px;padding:9px 10px;border-radius:11px;background:var(--surface);
+  color:var(--text);font-size:12px;
+}
+.preview-info{margin-top:7px;color:var(--muted);font-size:12px;line-height:1.5}
+.preview-info.warning{color:var(--warn)}
+.preview-history-button{margin-top:10px}
+body.dark .preview-accordion{background:var(--surface)}
+body.dark .preview-card-body{background:#102733}
+@media(max-width:430px){
+  .preview-accordion summary{
+    grid-template-columns:29px minmax(0,1fr) 45px 10px;gap:7px;padding:9px;
+  }
+  .preview-video-button{min-width:43px;width:43px;padding:6px}
+  .preview-video-button span{display:none}
+  .preview-card-main strong{font-size:14px}
+}
+
+
+/* v41 – easier expandable-card controls */
+.preview-video-button{
+  min-width:92px;
+  min-height:46px;
+  padding:9px 12px;
+  border-radius:13px;
+  font-size:13px;
+}
+.preview-card-chevron{
+  width:12px;
+  height:12px;
+  border-right-width:3px;
+  border-bottom-width:3px;
+}
+.preview-accordion summary{
+  min-height:72px;
+  grid-template-columns:34px minmax(0,1fr) auto 16px;
+}
+.preview-card-number{
+  width:31px;
+  height:31px;
+  font-size:13px;
+}
+@media(max-width:430px){
+  .preview-accordion summary{
+    grid-template-columns:31px minmax(0,1fr) 50px 14px;
+  }
+  .preview-video-button{
+    min-width:48px;
+    width:48px;
+    min-height:44px;
+    padding:7px;
+    font-size:15px;
+  }
+  .preview-video-button span{display:none}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -1466,12 +1556,24 @@ function toggleTodayOptions(){
  const menu=document.getElementById("todayOptions");
  if(menu)menu.classList.toggle("open");
 }
-function toggleTodayPreview(){
- const list=document.getElementById("todayPreviewList");
- const button=document.getElementById("todayPreviewToggle");
- if(!list||!button)return;
- list.hidden=!list.hidden;
- button.textContent=list.hidden?t("showExercises"):t("collapse");
+
+function setupExclusivePreviewCards(){
+ const cards=[...document.querySelectorAll("#todayPreviewList details.preview-accordion")];
+ cards.forEach(card=>{
+   card.addEventListener("toggle",()=>{
+     if(card.open){
+       cards.forEach(other=>{
+         if(other!==card)other.open=false;
+       });
+     }
+   });
+ });
+}
+
+function collapseTodayCards(){
+ document.querySelectorAll("#todayPreviewList details.preview-accordion").forEach(card=>{
+   card.open=false;
+ });
 }
 document.addEventListener("click",event=>{
  const menu=document.getElementById("todayOptions");
@@ -1530,12 +1632,26 @@ function renderDay(day){
      html+=`<div class="simple-extra-divider">${lang()==="cs"?"Volitelné cviky":"Optional exercises"}</div>`;
      extraDividerShown=true;
    }
-   const m=metaFor(day,inst);
-   html+=`<div class="plan-preview-row">
-     <span class="plan-preview-number">${index+1}</span>
-     <div><strong>${esc(itemName(m))}${inst.added?` <span class="extra-badge">${t("extra")}</span>`:""}</strong><small>${targetText(m)}</small></div>
-     <button type="button" onclick="openVideo('${m.id}')" aria-label="${t("video")}">▶</button>
-   </div>`;
+   const m=metaFor(day,inst),last=lastRecord(m.id);
+   const tips=m.tips?.[lang()]||m.tips?.en||[];
+   const mistakes=m.mistakes?.[lang()]||m.mistakes?.en||[];
+   html+=`<details class="preview-accordion">
+     <summary>
+       <span class="preview-card-number">${index+1}</span>
+       <div class="preview-card-main">
+         <strong>${esc(itemName(m))}${inst.added?` <span class="extra-badge">${t("extra")}</span>`:""}</strong>
+         <small>${targetText(m)}</small>
+       </div>
+       <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();openVideo('${m.id}')" aria-label="${t("video")}">▶ <span>${t("video")}</span></button>
+       <span class="preview-card-chevron"></span>
+     </summary>
+     <div class="preview-card-body">
+       ${last?`<div class="preview-last"><b>${t("previous")}:</b> ${esc(formatRecord(last))}</div>`:""}
+       ${tips.length?`<div class="preview-info"><b>${t("tips")}:</b> ${tips.join(" • ")}</div>`:""}
+       ${mistakes.length?`<div class="preview-info warning"><b>${t("avoid")}:</b> ${mistakes.join(" • ")}</div>`:""}
+       <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
+     </div>
+   </details>`;
  });
 
  html+=`</div></div>
@@ -1545,7 +1661,6 @@ function renderDay(day){
      <button class="secondary cardio-only-btn" onclick="openCardioDialog()">🏃 ${t("cardioOnly")}</button>
    </div>
  </div>`;
-
  if(rec){
    html+=`<div class="recommendation-bottom-divider"><span>${t("recommended")}</span></div>
    <div class="card recommend compact-recommendation">
@@ -1557,10 +1672,11 @@ function renderDay(day){
 
  html+=`<div class="day-tools bottom-day-tools clean-bottom-tools">
    <button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button>
-   <button class="secondary" id="todayPreviewToggle" onclick="toggleTodayPreview()">${t("collapse")}</button>
+   <button class="secondary" id="todayPreviewToggle" onclick="collapseTodayCards()">${t("collapse")}</button>
  </div>`;
 
  document.getElementById(day).innerHTML=html;
+ setupExclusivePreviewCards();
 }
 function updateEntryRoot(day,k,v){state.days[day][k]=v;saveState()}
 function changeDayDate(day,v){state.days[day].date=v;state.days[day].completed=false;saveState();renderDay(day)}

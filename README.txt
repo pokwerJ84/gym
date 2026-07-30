@@ -1,8 +1,9 @@
-GYM TRACKER v39
+GYM TRACKER v41
 
-Oprava:
-- aplikace už po první sérii nepřeskočí rovnou na třetí,
-- předvyplněná váha a opakování jsou jen návrh,
-- série se dokončí až stisknutím Hotovo + pauza,
-- správné pořadí je 1 → 2 → 3,
-- do historie se ukládají pouze skutečně potvrzené série.
+Změny:
+- větší šipka u rozbalovacích karet,
+- větší video tlačítko,
+- větší dotyková plocha karet,
+- při otevření jedné karty se ostatní automaticky zavřou,
+- tlačítko Sbalit vše zůstává zachované,
+- pořadí sérií 1 → 2 → 3 zůstává opravené.
