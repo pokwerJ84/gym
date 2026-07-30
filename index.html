@@ -1054,6 +1054,213 @@ body.dark .saved-set-row button{
   filter:brightness(.98);
 }
 
+
+/* v43 – actions above exercises */
+.top-workout-actions{
+  margin:14px 0 10px;
+  position:sticky;
+  top:calc(8px + env(safe-area-inset-top));
+  z-index:8;
+  padding:7px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 8px 22px rgba(18,48,71,.10);
+}
+.top-workout-actions .primary,
+.top-workout-actions .secondary{
+  min-height:54px;
+  font-size:15px;
+}
+
+/* v43 – cleaner active workout header */
+.live-exercise-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:12px;
+  align-items:start;
+}
+.compact-video-btn{
+  width:auto;
+  min-width:94px;
+  min-height:46px;
+  margin:0;
+  padding:10px 12px;
+  border-radius:13px;
+}
+.live-card{
+  padding:14px;
+}
+.live-card h2{
+  font-size:24px;
+  line-height:1.12;
+}
+.live-last{
+  margin-top:10px;
+  padding:9px 10px;
+  border-radius:11px;
+  background:#EEF6F7;
+  font-size:12px;
+}
+body.dark .live-last{
+  background:#173848;
+  color:#C6DCE5;
+}
+
+/* v43 – large full-width KG and reps fields */
+.weight-reps-live{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:14px !important;
+}
+.weight-reps-live .live-input-block{
+  width:100%;
+  min-width:0;
+  padding:13px;
+  border:1px solid #CFE0E6;
+  border-radius:17px;
+  background:#FFFFFF;
+}
+.weight-reps-live .live-input-label{
+  margin-bottom:7px;
+  color:#123047;
+  font-size:16px;
+  font-weight:950;
+  text-align:left;
+}
+.weight-reps-live .quick-stepper{
+  display:grid;
+  grid-template-columns:64px minmax(0,1fr) 64px;
+  gap:10px;
+  width:100%;
+}
+.weight-reps-live .quick-stepper button{
+  width:64px;
+  min-width:64px;
+  min-height:68px;
+  padding:0;
+  border-radius:16px;
+  font-size:31px;
+}
+.weight-reps-live .quick-stepper input{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  min-height:74px;
+  padding:8px 10px;
+  overflow:visible;
+  color:#123047;
+  -webkit-text-fill-color:#123047;
+  font-size:36px;
+  line-height:1;
+  font-weight:950;
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;
+}
+.weight-reps-live .weight-step-row{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  margin-top:9px;
+  font-size:12px;
+}
+.weight-reps-live .weight-step-row select{
+  width:auto;
+  min-width:92px;
+  min-height:40px;
+  padding:6px 28px 6px 9px;
+  font-size:13px;
+}
+.live-set{
+  padding:13px;
+}
+.live-set h3{
+  font-size:18px;
+  margin-bottom:11px;
+}
+.live-done{
+  min-height:58px;
+  margin-top:14px;
+  background:#123047;
+  font-size:16px;
+}
+.saved-sets-panel{
+  margin-top:11px;
+}
+
+/* Other exercise modes also get larger entry fields */
+.live-inputs.one input,
+.side-weight-live input,
+.live-inputs:not(.weight-reps-live) input{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  min-height:66px;
+  padding:9px 10px;
+  font-size:27px;
+  text-align:center;
+  font-weight:950;
+}
+
+/* Dark-mode contrast */
+body.dark .weight-reps-live .live-input-block{
+  background:#102530;
+  border-color:#234757;
+}
+body.dark .weight-reps-live .live-input-label{
+  color:#EAF7FA;
+}
+body.dark .weight-reps-live .quick-stepper input{
+  background:#081820;
+  color:#FFFFFF;
+  -webkit-text-fill-color:#FFFFFF;
+  border-color:#2A5668;
+}
+body.dark .weight-reps-live .quick-stepper button{
+  background:#123047;
+  color:#FFFFFF;
+  border-color:#2A5668;
+}
+
+@media(max-width:390px){
+  .top-workout-actions{
+    grid-template-columns:1fr 1fr;
+    padding:6px;
+  }
+  .top-workout-actions .primary,
+  .top-workout-actions .secondary{
+    padding-left:7px;
+    padding-right:7px;
+    font-size:13px;
+  }
+  .weight-reps-live .quick-stepper{
+    grid-template-columns:58px minmax(0,1fr) 58px;
+    gap:8px;
+  }
+  .weight-reps-live .quick-stepper button{
+    width:58px;
+    min-width:58px;
+  }
+  .weight-reps-live .quick-stepper input{
+    font-size:34px;
+    padding-left:6px;
+    padding-right:6px;
+  }
+  .compact-video-btn{
+    min-width:48px;
+    width:48px;
+    padding:8px;
+    font-size:0;
+  }
+  .compact-video-btn::first-letter{
+    font-size:16px;
+  }
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -1701,7 +1908,11 @@ function renderDay(day){
    </div>`;
  }
 
- html+=`<div class="plan-preview-card clean-preview">
+ html+=`<div class="today-primary-actions top-workout-actions">
+     <button class="primary" ${blocked?"disabled":""} onclick="startWorkout('${day}')">${state.activeWorkout?.day===day?t("resume"):t("start")}</button>
+     <button class="secondary cardio-only-btn" onclick="openCardioDialog()">🏃 ${t("cardioOnly")}</button>
+   </div>
+   <div class="plan-preview-card clean-preview">
    ${blocked?`<div class="preview-lock-note">🔒 ${t("previewLocked")}</div>`:""}
    <div class="plan-preview-list" id="todayPreviewList">`;
 
@@ -1735,10 +1946,6 @@ function renderDay(day){
 
  html+=`</div></div>
 
-   <div class="today-primary-actions">
-     <button class="primary" ${blocked?"disabled":""} onclick="startWorkout('${day}')">${state.activeWorkout?.day===day?t("resume"):t("start")}</button>
-     <button class="secondary cardio-only-btn" onclick="openCardioDialog()">🏃 ${t("cardioOnly")}</button>
-   </div>
  </div>`;
  if(rec){
    html+=`<div class="recommendation-bottom-divider"><span>${t("recommended")}</span></div>
@@ -2203,8 +2410,15 @@ function renderLive(){
  if(m.mode==="sideweight")inputs=`<div class="live-inputs side-weight-live"><div class="live-input-block"><div class="live-input-label">kg</div><div class="quick-stepper"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',-1)">−</button><input id="liveKg" inputmode="decimal" placeholder="kg" value="${esc(s.kg)}"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',1)">＋</button></div><div class="weight-step-row"><span>${lang()==="cs"?"Krok":"Step"}</span><select onchange="setExerciseStep('${m.id}',this.value)">${[1,2,2.5,5,10].map(v=>`<option value="${v}" ${step===v?"selected":""}>${v} kg</option>`).join("")}</select></div></div><input id="liveLeft" inputmode="numeric" placeholder="${t("left")}" value="${esc(s.left)}"><input id="liveRight" inputmode="numeric" placeholder="${t("right")}" value="${esc(s.right)}"></div>`;
  if(m.mode==="sidetime")inputs=`<div class="live-inputs"><input id="liveLeftSeconds" inputmode="numeric" placeholder="${t("left")} s" value="${esc(s.leftSeconds)}"><input id="liveRightSeconds" inputmode="numeric" placeholder="${t("right")} s" value="${esc(s.rightSeconds)}"></div>`;
  if(m.mode==="cardio")inputs=`<div class="live-inputs"><input id="liveMinutes" inputmode="numeric" placeholder="${t("minutes")}" value="${esc(e.minutes)}"><input id="liveSpeed" inputmode="decimal" placeholder="${t("speed")}" value="${esc(e.speed)}"></div>`;
- liveContent.innerHTML=`<div class="kicker">${BASE_PLANS[day]["title_"+lang()]}</div><h2>${esc(itemName(m))}</h2><div class="live-target">${targetText(m)}</div>${last?`<div class="live-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}
- <button class="video-btn" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
+ liveContent.innerHTML=`<div class="live-exercise-head">
+   <div>
+     <div class="kicker">${BASE_PLANS[day]["title_"+lang()]}</div>
+     <h2>${esc(itemName(m))}</h2>
+     <div class="live-target">${targetText(m)}</div>
+   </div>
+   <button class="video-btn compact-video-btn" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
+ </div>
+ ${last?`<div class="live-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}
  <div class="live-set"><h3>${m.mode==="cardio"?"Kardio":`${t("set")} ${idx+1} / ${m.sets}`}</h3>${inputs}<button class="live-done" onclick="completeLiveSet('${inst.instanceId}',${idx})">${m.mode==="cardio"?t("saveCardio"):t("doneRest")}</button></div>
  <div class="saved-sets-panel">
    <div class="saved-sets-title">${t("savedSets")}</div>
@@ -2214,9 +2428,7 @@ function renderLive(){
         <button type="button" onclick="editSavedSet(${i})">✎ ${t("edit")}</button>
       </div>`:"").join("")
      :`<div class="saved-sets-empty">${t("noSavedSets")}</div>`}
- </div>
- <input class="note" placeholder="${t("note")}" value="${esc(e.notes)}" oninput="updateEntry('${day}','${inst.instanceId}','notes',this.value)">
- <details><summary>${t("technique")} ▾</summary><div class="live-tech"><b>${t("tips")}:</b><ul>${m.tips[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul><b>${t("avoid")}:</b><ul>${m.mistakes[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul></div></details>`;
+ </div>`;
  updateWorkoutTimes();
 }
 function completeLiveSet(instanceId,index){
