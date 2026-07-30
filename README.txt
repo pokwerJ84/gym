@@ -1,14 +1,11 @@
-GYM TRACKER v33
+GYM TRACKER v34 – LARGER TEXT
 
-Novinky:
-- A / B / C byly nahrazeny názvy:
-  🏋️ Síla
-  🛡️ Stabilita
-  ⚡ Kontrola
-- před spuštěním je vždy vidět kompletní seznam dnešních cviků,
-- u každého cviku v náhledu lze otevřít video,
-- týdenní váha a pas se ukládají vždy k pondělnímu datu,
-- při zapomenutém pondělním měření lze hodnoty doplnit později,
-- silový trénink zůstává zamčený do uložení měření,
-- samostatné kardio zůstává dostupné,
-- opravená viditelnost čísel a textu ve vstupních polích v tmavém režimu.
+Změny:
+- zvětšené texty v celé aplikaci,
+- větší názvy tréninků a cviků,
+- větší popisy sérií a opakování,
+- větší texty tlačítek a navigace,
+- větší čísla při zadávání kg a opakování,
+- větší časomíra,
+- zvětšená historie, měření a nastavení,
+- zachované opravy dark mode, kg tlačítek, časomíry a pondělního měření.

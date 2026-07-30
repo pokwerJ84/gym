@@ -479,6 +479,202 @@ body.dark .weight-step-row{color:#b9d0dc}
   .plan-preview-head small{display:block;max-width:none;text-align:left;margin-top:7px}
 }
 
+
+/* v34 – larger and more readable text */
+html{
+  font-size:17px;
+}
+body{
+  font-size:15px;
+  line-height:1.45;
+}
+.brand strong{
+  font-size:17px;
+}
+.brand small,
+.subtitle{
+  font-size:12px;
+}
+.navbtn b{
+  font-size:11px;
+}
+.navbtn span{
+  font-size:21px;
+}
+.day-switch button{
+  font-size:12px;
+  min-height:48px;
+}
+.calendar-day-note{
+  font-size:11px;
+}
+.rotation-banner span,
+.rotation-banner small{
+  font-size:11px;
+}
+.rotation-banner strong{
+  font-size:16px;
+}
+.day-head h2{
+  font-size:21px;
+  line-height:1.2;
+}
+.day-head p{
+  font-size:12px;
+  line-height:1.45;
+}
+label span{
+  font-size:12px;
+}
+input,
+select,
+textarea{
+  font-size:16px;
+  min-height:48px;
+}
+button{
+  font-size:14px;
+}
+.primary,
+.secondary,
+.danger,
+.warn,
+.smallbtn{
+  font-size:13px;
+  min-height:44px;
+}
+.plan-preview-head b{
+  font-size:17px;
+}
+.plan-preview-head span,
+.plan-preview-head small{
+  font-size:11px;
+}
+.plan-preview-row{
+  min-height:62px;
+}
+.plan-preview-row strong{
+  font-size:15px;
+}
+.plan-preview-row small{
+  font-size:11px;
+}
+.plan-preview-number{
+  width:29px;
+  height:29px;
+  font-size:12px;
+}
+.plan-preview-row button{
+  width:40px;
+  height:40px;
+  font-size:15px;
+}
+.exercise-name{
+  font-size:16px;
+}
+.exercise-target,
+.exercise-last,
+.replacement-note{
+  font-size:11px;
+}
+.exercise-summary{
+  min-height:64px;
+}
+.exercise-body{
+  font-size:14px;
+}
+.exercise-body .tip,
+.exercise-body p{
+  font-size:12px;
+  line-height:1.5;
+}
+.set-row,
+.inputs{
+  font-size:14px;
+}
+.set-row label,
+.inputs label{
+  font-size:12px;
+}
+.live-title,
+.live-exercise-name{
+  font-size:22px;
+}
+.live-subtitle,
+.live-progress,
+.live-next-preview{
+  font-size:12px;
+}
+.live-input-label{
+  font-size:13px;
+}
+.live-inputs input,
+.quick-stepper input{
+  font-size:27px;
+  min-height:58px;
+}
+.quick-stepper button{
+  width:50px;
+  height:50px;
+  font-size:24px;
+}
+.weight-step-row,
+.increment-control{
+  font-size:12px;
+}
+.timer,
+#workoutTimer,
+#restTimer{
+  font-size:34px;
+}
+.history-row h4{
+  font-size:15px;
+}
+.history-row p,
+.volume-chip{
+  font-size:11px;
+}
+.stat span{
+  font-size:11px;
+}
+.stat strong{
+  font-size:20px;
+}
+.monday-lock h3{
+  font-size:16px;
+}
+.monday-lock p,
+.weekly-measure-card p{
+  font-size:12px;
+}
+.weekly-measure-card b{
+  font-size:15px;
+}
+.more-action span{
+  font-size:13px;
+}
+dialog h2,
+dialog h3{
+  font-size:20px;
+}
+dialog p,
+dialog label span{
+  font-size:12px;
+}
+.toast{
+  font-size:13px;
+}
+
+@media(max-width:430px){
+  html{font-size:16px}
+  .day-switch button{font-size:11px}
+  .day-head h2{font-size:19px}
+  .plan-preview-row strong{font-size:14px}
+  .exercise-name{font-size:15px}
+  .live-title,
+  .live-exercise-name{font-size:20px}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -645,7 +841,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=33;
+const VERSION=34;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
 
