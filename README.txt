@@ -1,15 +1,9 @@
-GYM TRACKER v21 – POKORNY ICON
+GYM TRACKER v22 – PNG ICON SET
 
-Změny:
-- nová ikonka aplikace s písmenem P (Pokorný),
-- ikonka je nastavená jako favicon i Apple touch icon,
-- manifest používá novou PNG ikonu,
-- cache verze byla zvýšená, aby se nová ikona správně načetla.
+Ikony jsou nyní pouze v PNG:
+- icon-180.png pro iPhone / Apple touch icon
+- icon-192.png pro PWA
+- icon-512.png pro PWA / Android
 
-Důležité:
-Po nahrání na GitHub Pages:
-1. Nahraď všechny soubory.
-2. Na iPhonu starou aplikaci odeber z plochy.
-3. Otevři stránku v Safari.
-4. Znovu ji přidej na plochu.
-Jen tak se nová ikona spolehlivě projeví.
+Starý icon.svg byl odstraněn, aby se nepoužila původní ikona.
+Po nahrání na GitHub odstraň starou aplikaci z plochy iPhonu a přidej ji znovu.
