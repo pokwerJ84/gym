@@ -1,11 +1,13 @@
-GYM TRACKER v34 – LARGER TEXT
+GYM TRACKER v36 – CLEAN TODAY SCREEN
 
 Změny:
-- zvětšené texty v celé aplikaci,
-- větší názvy tréninků a cviků,
-- větší popisy sérií a opakování,
-- větší texty tlačítek a navigace,
-- větší čísla při zadávání kg a opakování,
-- větší časomíra,
-- zvětšená historie, měření a nastavení,
-- zachované opravy dark mode, kg tlačítek, časomíry a pondělního měření.
+- na stránce Dnes je pouze jeden jednoduchý seznam cviků,
+- podrobné zadávání sérií se ukáže až po spuštění tréninku,
+- odstraněné duplicitní velké karty cviků,
+- Vymazat dnešní zápis je schované v menu ⋯,
+- Další silový trénink je jen jeden krátký řádek,
+- uložené pondělní měření se už zbytečně nezobrazuje,
+- měření se ukáže jen tehdy, když tento týden chybí,
+- datum zůstává malé a kompaktní,
+- Přidat cvik a Sbalit vše jsou dole,
+- doporučení podle historie zůstává až na konci.
