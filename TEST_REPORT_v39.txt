@@ -1,0 +1,12 @@
+GYM TRACKER v39 – TEST REPORT
+
+PASS: set 1 -> set 2 -> set 3
+
+Opraveno a ověřeno:
+- předvyplnění se nepočítá jako dokončená série,
+- po 1. sérii se zobrazí 2. série,
+- po 2. sérii se zobrazí 3. série,
+- pouze potvrzené série jsou v seznamu Dokončené série,
+- pouze potvrzené série se ukládají do historie,
+- úprava dokončené série zůstává funkční,
+- JavaScript syntaxe: OK.

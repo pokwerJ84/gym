@@ -852,6 +852,39 @@ body.dark .today-options-panel{
   }
 }
 
+
+.saved-sets-panel{
+  margin-top:13px;padding:11px;border:1px solid var(--line);
+  border-radius:16px;background:var(--surface2)
+}
+.saved-sets-title{margin-bottom:8px;font-size:14px;font-weight:950}
+.saved-set-row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;
+  align-items:center;padding:10px 0;border-bottom:1px solid var(--line)
+}
+.saved-set-row:last-child{border-bottom:0}
+.saved-set-row span{display:block;color:var(--muted);font-size:11px;font-weight:850}
+.saved-set-row strong{display:block;margin-top:2px;font-size:16px}
+.saved-set-row button{
+  min-height:42px;padding:8px 12px;border:1px solid var(--line);
+  border-radius:11px;background:var(--surface);color:var(--primary-dark);
+  font-size:12px;font-weight:950
+}
+.saved-sets-empty{padding:8px 0;color:var(--muted);font-size:12px}
+.edit-set-dialog{min-width:min(92vw,430px)}
+.edit-set-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;margin-top:12px
+}
+.edit-set-grid input{min-height:58px;font-size:23px;font-weight:950}
+body.dark .saved-sets-panel{background:#102733}
+body.dark .saved-set-row button{
+  background:#173848;color:#eefaff;border-color:#416678
+}
+@media(max-width:390px){
+  .edit-set-grid{grid-template-columns:1fr}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -1056,7 +1089,7 @@ const UI={
   lowVolumeReason:"Za posledních 21 dní má tato svalová skupina méně přímých pracovních sérií",
   freshReason:"Tento cvik jsi v posledních trénincích nedělal.",
   plateauReason:"Poslední výkon v této svalové skupině se moc nezvyšoval, proto nabízím jinou variantu.",
-  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis"
+  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis"
  },
  en:{
   subtitle:"Simple training, clear progress.",todayNav:"Today",historyNav:"History",database:"Exercises",moreNav:"Settings",mon:"🏋️ Strength",wed:"🛡️ Stability",fri:"⚡ Control",progress:"Progress",
@@ -1089,7 +1122,7 @@ const UI={
   noRecommendation:"Today's base plan is already well balanced.",noDataReason:"There is not enough history yet, so the recommendation rotates by day and date.",
   lowVolumeReason:"Over the past 21 days, this muscle group has fewer direct working sets",
   freshReason:"You have not trained this exercise in your recent workouts.",plateauReason:"Recent performance in this muscle group has not increased much, so a different variation is suggested.",
-  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry"
+  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry"
  }
 };
 
@@ -1137,6 +1170,22 @@ function migrateState(raw){
  return s;
 }
 let state=migrateState(JSON.parse(localStorage.getItem(KEY)||"null"));
+if(state.activeWorkout){
+ const activeDay=state.activeWorkout.day;
+ const activeEntries=state.days?.[activeDay]?.entries||{};
+ Object.values(activeEntries).forEach(e=>{
+   if(!Array.isArray(e.sets))return;
+   if(e.done){
+     e.sets.forEach(set=>{if(set)set._complete=true});
+   }else{
+     e.sets=e.sets.map(set=>{
+       if(!set)return set;
+       const {_complete,...draft}=set;
+       return draft;
+     });
+   }
+ });
+}
 localStorage.setItem(KEY,JSON.stringify(state));
 refreshExerciseIndex();
 
@@ -1369,7 +1418,7 @@ function prefillFieldsForMode(mode){
  if(mode==="sidetime")return ["leftSeconds","rightSeconds"];
  return [];
 }
-function ensurePrefill(day,inst,m,e){
+function ensurePrefill(day,inst,m,e,index=0){
  let changed=false;
  e.sets=e.sets||[];
  if(m.mode==="cardio"){
@@ -1377,16 +1426,15 @@ function ensurePrefill(day,inst,m,e){
    if(!e.minutes&&last?.minutes){e.minutes=last.minutes;changed=true}
    if(!e.speed&&last?.speed){e.speed=last.speed;changed=true}
  }else{
+   e.sets[index]=e.sets[index]||{};
    const last=lastRecord(m.id),fields=prefillFieldsForMode(m.mode);
-   for(let i=0;i<m.sets;i++){
-     e.sets[i]=e.sets[i]||{};
-     const source=i===0?(last?.sets?.[0]||{}):(e.sets[i-1]||{});
-     fields.forEach(field=>{
-       if((e.sets[i][field]===undefined||e.sets[i][field]==="")&&source[field]!==undefined&&source[field]!==""){
-         e.sets[i][field]=source[field];changed=true;
-       }
-     });
-   }
+   const source=index===0?(last?.sets?.[0]||{}):(e.sets[index-1]||{});
+   fields.forEach(field=>{
+     if((e.sets[index][field]===undefined||e.sets[index][field]==="")&&source[field]!==undefined&&source[field]!==""){
+       e.sets[index][field]=source[field];
+       changed=true;
+     }
+   });
  }
  if(changed)saveState();
  return changed;
@@ -1828,7 +1876,9 @@ function currentLive(){
 }
 function firstIncompleteSet(m,e){
  if(m.mode==="cardio")return 0;
- for(let i=0;i<m.sets;i++)if(!hasSetData(m.mode,e.sets?.[i]))return i;
+ for(let i=0;i<m.sets;i++){
+   if(!e.sets?.[i]?._complete)return i;
+ }
  return Math.max(0,m.sets-1);
 }
 
@@ -1856,13 +1906,100 @@ function undoLastSet(){
  lastSetUndo=null;undoToast.classList.remove("show");saveState();renderLive();
 }
 
+
+function savedSetSummary(meta,set){
+ if(meta.mode==="weight")return `${set.kg||"–"} kg × ${set.reps||"–"}`;
+ if(meta.mode==="reps")return `${set.reps||"–"} ${t("reps")}`;
+ if(meta.mode==="time")return `${set.seconds||"–"} s`;
+ if(meta.mode==="sideweight")return `${set.kg||"–"} kg · L ${set.left||"–"} / P ${set.right||"–"}`;
+ if(meta.mode==="sidetime")return `L ${set.leftSeconds||set.left||"–"} s / P ${set.rightSeconds||set.right||"–"} s`;
+ if(meta.mode==="cardio")return `${set.minutes||"–"} min · ${set.speed||"–"} km/h`;
+ return "";
+}
+
+function editSavedSet(index){
+ const inst=currentLive();
+ if(!inst||!state.activeWorkout)return;
+ const day=state.activeWorkout.day;
+ const meta=metaFor(day,inst);
+ const e=entry(day,inst.instanceId);
+ const set=e.sets?.[index];
+ if(!set)return;
+
+ let fields="";
+ if(meta.mode==="weight"){
+   fields=`<label><span>${t("weight")}</span><input id="editSetKg" type="number" inputmode="decimal" step="0.5" value="${esc(set.kg||"")}"></label>
+   <label><span>${t("reps")}</span><input id="editSetReps" type="number" inputmode="numeric" step="1" value="${esc(set.reps||"")}"></label>`;
+ }else if(meta.mode==="reps"){
+   fields=`<label><span>${t("reps")}</span><input id="editSetReps" type="number" inputmode="numeric" step="1" value="${esc(set.reps||"")}"></label>`;
+ }else if(meta.mode==="time"){
+   fields=`<label><span>${t("seconds")}</span><input id="editSetSeconds" type="number" inputmode="numeric" step="1" value="${esc(set.seconds||"")}"></label>`;
+ }else if(meta.mode==="sideweight"){
+   fields=`<label><span>${t("weight")}</span><input id="editSetKg" type="number" inputmode="decimal" step="0.5" value="${esc(set.kg||"")}"></label>
+   <label><span>${t("left")}</span><input id="editSetLeft" type="number" inputmode="numeric" step="1" value="${esc(set.left||"")}"></label>
+   <label><span>${t("right")}</span><input id="editSetRight" type="number" inputmode="numeric" step="1" value="${esc(set.right||"")}"></label>`;
+ }else if(meta.mode==="sidetime"){
+   fields=`<label><span>${t("left")} (${t("seconds")})</span><input id="editSetLeftSeconds" type="number" inputmode="numeric" step="1" value="${esc(set.leftSeconds||set.left||"")}"></label>
+   <label><span>${t("right")} (${t("seconds")})</span><input id="editSetRightSeconds" type="number" inputmode="numeric" step="1" value="${esc(set.rightSeconds||set.right||"")}"></label>`;
+ }else if(meta.mode==="cardio"){
+   fields=`<label><span>${t("minutes")}</span><input id="editSetMinutes" type="number" inputmode="numeric" step="1" value="${esc(set.minutes||"")}"></label>
+   <label><span>${t("speed")}</span><input id="editSetSpeed" type="number" inputmode="decimal" step="0.1" value="${esc(set.speed||"")}"></label>`;
+ }
+
+ genericDialog.innerHTML=`<div class="edit-set-dialog">
+   <div class="dialog-head"><div><h3>${t("editSet")} ${index+1}</h3><p>${esc(itemName(meta))}</p></div><button class="iconbtn" onclick="genericDialog.close()">✕</button></div>
+   <div class="edit-set-grid">${fields}</div>
+   <div class="dialog-actions"><button class="secondary" onclick="genericDialog.close()">${t("cancelEdit")}</button><button class="primary" onclick="saveEditedSet(${index})">${t("saveChanges")}</button></div>
+ </div>`;
+ genericDialog.showModal();
+}
+
+function saveEditedSet(index){
+ const inst=currentLive();
+ if(!inst||!state.activeWorkout)return;
+ const day=state.activeWorkout.day;
+ const meta=metaFor(day,inst);
+ const e=entry(day,inst.instanceId);
+ const original=e.sets?.[index];
+ if(!original)return;
+
+ const val=id=>document.getElementById(id)?.value?.trim()||"";
+ const updated={...original,_complete:true};
+
+ if(meta.mode==="weight"){
+   updated.kg=val("editSetKg"); updated.reps=val("editSetReps");
+   if(!updated.kg||!updated.reps){alert(t("enterBoth"));return}
+ }else if(meta.mode==="reps"){
+   updated.reps=val("editSetReps");
+   if(!updated.reps){alert(t("enterReps"));return}
+ }else if(meta.mode==="time"){
+   updated.seconds=val("editSetSeconds");
+   if(!updated.seconds){alert(t("enterSeconds"));return}
+ }else if(meta.mode==="sideweight"){
+   updated.kg=val("editSetKg"); updated.left=val("editSetLeft"); updated.right=val("editSetRight");
+   if(!updated.kg||!updated.left||!updated.right){alert(t("enterSides"));return}
+ }else if(meta.mode==="sidetime"){
+   updated.leftSeconds=val("editSetLeftSeconds"); updated.rightSeconds=val("editSetRightSeconds");
+   if(!updated.leftSeconds||!updated.rightSeconds){alert(t("enterSides"));return}
+ }else if(meta.mode==="cardio"){
+   updated.minutes=val("editSetMinutes"); updated.speed=val("editSetSpeed");
+   if(!updated.minutes&&!updated.speed){alert(t("enterCardio"));return}
+ }
+
+ e.sets[index]=updated;
+ saveState();
+ genericDialog.close();
+ showToast(t("setUpdated"));
+ renderLive();
+}
+
 function renderLive(){
  if(!state.activeWorkout)return;const arr=activeInstances(),inst=currentLive();if(!inst)return;
- const day=state.activeWorkout.day,e=entry(day,inst.instanceId),m=metaFor(day,inst),step=exerciseStep(m.id);ensurePrefill(day,inst,m,e);const idx=firstIncompleteSet(m,e),last=lastRecord(m.id);
+ const day=state.activeWorkout.day,e=entry(day,inst.instanceId),m=metaFor(day,inst),step=exerciseStep(m.id);const idx=firstIncompleteSet(m,e);ensurePrefill(day,inst,m,e,idx);const last=lastRecord(m.id);
  liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;liveProgressText.textContent=`${t("exercise")} ${state.activeWorkout.position+1} / ${arr.length}`;
  let inputs="";
  const s=e.sets?.[idx]||{};
- if(m.mode==="weight")inputs=`<div class="live-inputs">
+ if(m.mode==="weight")inputs=`<div class="live-inputs weight-reps-live">
  <div class="live-input-block"><div class="live-input-label">kg</div><div class="quick-stepper"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',-1)">−</button><input id="liveKg" inputmode="decimal" placeholder="kg" value="${esc(s.kg)}"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',1)">＋</button></div><div class="weight-step-row"><span>${lang()==="cs"?"Krok":"Step"}</span><select onchange="setExerciseStep('${m.id}',this.value)">${[1,2,2.5,5,10].map(v=>`<option value="${v}" ${step===v?"selected":""}>${v} kg</option>`).join("")}</select></div></div>
  <div class="live-input-block"><div class="live-input-label">${t("reps")}</div><div class="quick-stepper"><button onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="${t("reps")}" value="${esc(s.reps)}"><button onclick="adjustLiveInput('liveReps',1)">＋</button></div></div>
  </div>`;
@@ -1874,6 +2011,15 @@ function renderLive(){
  liveContent.innerHTML=`<div class="kicker">${BASE_PLANS[day]["title_"+lang()]}</div><h2>${esc(itemName(m))}</h2><div class="live-target">${targetText(m)}</div>${last?`<div class="live-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}
  <button class="video-btn" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
  <div class="live-set"><h3>${m.mode==="cardio"?"Kardio":`${t("set")} ${idx+1} / ${m.sets}`}</h3>${inputs}<button class="live-done" onclick="completeLiveSet('${inst.instanceId}',${idx})">${m.mode==="cardio"?t("saveCardio"):t("doneRest")}</button></div>
+ <div class="saved-sets-panel">
+   <div class="saved-sets-title">${t("savedSets")}</div>
+   ${(e.sets||[]).filter(set=>set?._complete===true).length
+     ?(e.sets||[]).map((set,i)=>set?._complete===true?`<div class="saved-set-row">
+        <div><span>${t("set")} ${i+1}</span><strong>${savedSetSummary(m,set)}</strong></div>
+        <button type="button" onclick="editSavedSet(${i})">✎ ${t("edit")}</button>
+      </div>`:"").join("")
+     :`<div class="saved-sets-empty">${t("noSavedSets")}</div>`}
+ </div>
  <input class="note" placeholder="${t("note")}" value="${esc(e.notes)}" oninput="updateEntry('${day}','${inst.instanceId}','notes',this.value)">
  <details><summary>${t("technique")} ▾</summary><div class="live-tech"><b>${t("tips")}:</b><ul>${m.tips[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul><b>${t("avoid")}:</b><ul>${m.mistakes[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul></div></details>`;
  updateWorkoutTimes();
@@ -1888,8 +2034,8 @@ function completeLiveSet(instanceId,index){
  if(m.mode==="cardio"){
   e.minutes=liveMinutes.value.trim();e.speed=liveSpeed.value.trim();if(!e.minutes&&!e.speed)return alert(t("enterCardio"));e.done=true;advanceAfterExercise();saveState();renderLive();return;
  }
- e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};e.sets[index]=s;
- const complete=e.sets.slice(0,m.sets).filter(x=>hasSetData(m.mode,x)).length>=m.sets;
+ e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;
+ const complete=e.sets.slice(0,m.sets).filter(x=>x?._complete===true).length>=m.sets;
  if(complete){e.done=true;advanceAfterExercise()}
  saveState();renderLive();showUndoToast();startRest(m.rest,itemName(m),index+1);
 }
@@ -1941,7 +2087,7 @@ function saveFinishedWorkout(){
  instances.forEach(inst=>{
   const e=entry(day,inst.instanceId),m=metaFor(day,inst);let rec={date:d.date||today(),day,exerciseId:m.id,mode:m.mode,notes:e.notes||""};
   if(m.mode==="cardio"){if(!e.minutes&&!e.speed)return;rec.minutes=e.minutes||"";rec.speed=e.speed||""}
-  else{rec.sets=(e.sets||[]).slice(0,m.sets).filter(x=>hasSetData(m.mode,x));if(!rec.sets.length)return}
+  else{rec.sets=(e.sets||[]).slice(0,m.sets).filter(x=>x?._complete===true).map(({_complete,...set})=>set);if(!rec.sets.length)return}
   state.history[m.id]=state.history[m.id]||[];state.history[m.id].push(rec);
  });
  const dialog=byId("finishDialog"),note=byId("finishNote");
