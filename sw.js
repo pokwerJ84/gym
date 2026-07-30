@@ -1,5 +1,5 @@
-const CACHE="gym-tracker-pro-v18-adaptive";
-const ASSETS=["./","./index.html","./manifest.webmanifest","./icon.svg"];
+const CACHE="gym-tracker-pro-v21-pokorny-icon";
+const ASSETS=["./","./index.html","./manifest.webmanifest","./icon.svg","./icon-pokorny.png"];
 self.addEventListener("install",e=>e.waitUntil(
   caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())
 ));
