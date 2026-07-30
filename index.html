@@ -272,6 +272,64 @@ canvas{width:100%;height:180px;border:1px solid var(--line);border-radius:15px;b
   .resume-line{align-items:flex-start;flex-direction:column}
 }
 
+
+/* v23: clear colour identity for workout days */
+.day-switch{
+  background:color-mix(in srgb,var(--surface3) 82%,transparent);
+  border:1px solid var(--line);
+}
+.day-switch button{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  min-height:44px;transition:transform .15s ease,box-shadow .15s ease,background .15s ease
+}
+.day-switch button:active{transform:scale(.98)}
+.day-dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.9}
+.day-switch .day-monday{color:#1476b8}
+.day-switch .day-wednesday{color:#7257c7}
+.day-switch .day-friday{color:#d26b2f}
+.day-switch .day-monday.active{
+  color:#0b5f9b;background:linear-gradient(135deg,#e3f4ff,#f7fcff);
+  box-shadow:inset 0 0 0 1px rgba(20,118,184,.20),0 5px 14px rgba(20,118,184,.11)
+}
+.day-switch .day-wednesday.active{
+  color:#6546ba;background:linear-gradient(135deg,#f0ebff,#fbf9ff);
+  box-shadow:inset 0 0 0 1px rgba(114,87,199,.20),0 5px 14px rgba(114,87,199,.11)
+}
+.day-switch .day-friday.active{
+  color:#b95420;background:linear-gradient(135deg,#fff0e7,#fffaf6);
+  box-shadow:inset 0 0 0 1px rgba(210,107,47,.20),0 5px 14px rgba(210,107,47,.11)
+}
+.calendar-day-note{
+  margin:-3px 2px 11px;text-align:center;color:var(--muted);
+  font-size:9px;font-weight:850;letter-spacing:.015em
+}
+.brand img{
+  object-fit:cover;
+  background:#07385c;
+}
+
+
+/* v24 settings and Monday measurement gate */
+.day-head h2{
+  font-size:clamp(16px,4.7vw,20px);
+  white-space:nowrap;
+  letter-spacing:-.035em
+}
+.day-head>.danger{padding:8px 9px;font-size:10px;flex:none}
+.monday-lock{text-align:center;padding:24px 16px;border-style:dashed}
+.monday-lock .lock-icon{font-size:28px;margin-bottom:8px}
+.monday-lock h3{margin:0 auto;max-width:520px;font-size:14px;line-height:1.45;color:var(--muted)}
+button:disabled{opacity:.46;cursor:not-allowed;box-shadow:none}
+#more select{min-height:48px;font-weight:800}
+#more h3{font-size:15px}
+@media(max-width:390px){
+  .day-head h2{font-size:15px}
+  .day-head{gap:6px}
+}
+
+
+.today-summary{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.today-summary h2{margin:0}.today-summary p{margin:4px 0 0}.today-menu{position:relative}.today-menu>button{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:var(--surface2);font-size:22px;color:var(--muted)}.today-menu-panel{display:none;position:absolute;right:0;top:48px;z-index:18;width:220px;padding:7px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 16px 35px rgba(17,48,70,.18)}.today-menu.open .today-menu-panel{display:grid;gap:5px}.today-menu-panel button{text-align:left;padding:11px;border:0;border-radius:10px;background:transparent;color:var(--text);font-weight:850}.date-collapsible{display:none;margin-top:10px}.date-collapsible.show{display:block}.compact-check{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.exercise-summary{padding:10px 11px}.exercise-name{font-size:14px}.exercise-target{font-size:10px}.exercise-last{font-size:9px}.live-next-preview{margin-top:9px;padding:10px 12px;border-radius:13px;background:#f0f8fd;color:#426279;font-size:11px;font-weight:850}.increment-control{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;font-size:10px;color:var(--muted);font-weight:850}.increment-control select{width:auto;min-height:34px;padding:6px 28px 6px 9px;font-size:11px}.history-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;background:var(--surface3);border-radius:13px;margin-bottom:10px}.history-tabs button{border:0;border-radius:10px;padding:9px;background:transparent;color:var(--muted);font-weight:900}.history-tabs button.active{background:var(--surface);color:var(--primary-dark);box-shadow:0 3px 10px rgba(20,70,105,.10)}.volume-chip{display:inline-block;margin-top:5px;padding:4px 7px;border-radius:999px;background:var(--surface3);font-size:9px;font-weight:900;color:var(--primary-dark)}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -284,14 +342,9 @@ canvas{width:100%;height:180px;border:1px solid var(--line);border-radius:15px;b
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon.svg" alt=""><div><h1>Gym Tracker</h1><p class="subtitle" id="appSubtitle"></p></div></div>
-    <div class="top-actions">
-      <button class="iconbtn" id="langBtn" onclick="toggleLanguage()">EN</button>
-      <button class="iconbtn" onclick="openCloud()">☁️</button>
-      <button class="iconbtn" onclick="toggleTheme()">◐</button>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><h1>Gym Tracker</h1><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
-  </div>
-  <div id="cloudStatus"></div>
+  <div id="cloudStatus" hidden></div>
 </header>
 
 <div class="workout-running" id="workoutRunning">
@@ -312,10 +365,10 @@ canvas{width:100%;height:180px;border:1px solid var(--line);border-radius:15px;b
 </div>
 
 <nav><div class="navinner">
-  <button class="navbtn active" data-screen="today" id="navTodayBtn" onclick="showToday()"><span>🏠</span><b id="navToday"></b></button>
+  <button class="navbtn active" data-screen="today" id="navTodayBtn" onclick="showToday(recommendedDay())"><span>🏠</span><b id="navToday"></b></button>
   <button class="navbtn" data-screen="history" onclick="showScreen('history',this)"><span>🕘</span><b id="navHistory"></b></button>
   <button class="navbtn" data-screen="database" onclick="showScreen('database',this)"><span>📚</span><b id="navDatabase"></b></button>
-  <button class="navbtn" data-screen="more" onclick="showScreen('more',this)"><span>•••</span><b id="navMore"></b></button>
+  <button class="navbtn" data-screen="more" onclick="showScreen('more',this)"><span>⚙️</span><b id="navMore"></b></button>
 </div></nav>
 
 <div class="toast" id="undoToast"><span id="undoToastText"></span><button id="undoToastBtn" onclick="undoLastSet()"></button></div>
@@ -437,13 +490,13 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=22;
+const VERSION=25;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
 
 const UI={
  cs:{
-  subtitle:"Jednoduchý trénink, jasný progres.",todayNav:"Dnes",historyNav:"Historie",database:"Cviky",moreNav:"Více",mon:"Po",wed:"St",fri:"Pá",progress:"Progres",
+  subtitle:"Jednoduchý trénink, jasný progres.",todayNav:"Dnes",historyNav:"Historie",database:"Cviky",moreNav:"Nastavení",mon:"Po",wed:"St",fri:"Pá",progress:"Progres",
   date:"Datum",weight:"Váha (kg)",waist:"Pas (cm)",start:"Začít trénink",resume:"Pokračovat",
   clear:"Vymazat zápis",add:"Přidat cvik",collapse:"Sbalit vše",recommended:"Doporučení podle historie",
   optional:"Volitelný cvik navíc",addToday:"Přidat do dnešního tréninku",previous:"Minule",
@@ -460,7 +513,7 @@ const UI={
   enterSeconds:"Vyplň sekundy.",enterSides:"Vyplň obě strany.",enterCardio:"Vyplň minuty nebo rychlost.",
   noHistory:"Zatím bez historie.",addSet:"Doplnit sérii k poslednímu tréninku",retroTitle:"Doplnit sérii",
   retroSub:"Série bude přidána k poslednímu uloženému tréninku.",saveSet:"Uložit sérii",
-  progressTitle:"Progres",todayTitle:"Dnešní trénink",todaySub:"Vyber den a pokračuj bez zbytečného hledání.",historyTitle:"Historie tréninků",historyEmpty:"Zatím nejsou uložené žádné tréninky.",moreTitle:"Více",moreSub:"Měření, cloud, vzhled a záloha.",resumeWorkout:"Pokračovat v tréninku",currentExercise:"Aktuální cvik",warmup:"Rozcvičovací",working:"Pracovní",undo:"Vrátit zpět",setSaved:"Série uložena",weightStep:"Krok váhy",measurement:"Týdenní měření",saveMeasurement:"Uložit měření",
+  progressTitle:"Progres",todayTitle:"Dnešní trénink",todaySub:"Vyber den a pokračuj bez zbytečného hledání.",historyTitle:"Historie tréninků",historyEmpty:"Zatím nejsou uložené žádné tréninky.",moreTitle:"Nastavení",moreSub:"Účet, jazyk, vzhled, měření a záloha.",resumeWorkout:"Pokračovat v tréninku",currentExercise:"Aktuální cvik",warmup:"Rozcvičovací",working:"Pracovní",undo:"Vrátit zpět",setSaved:"Série uložena",weightStep:"Krok váhy",measurement:"Týdenní měření",saveMeasurement:"Uložit měření",
   latestWeight:"Poslední váha",latestWaist:"Poslední pas",workouts:"Tréninky",weightChart:"Vývoj váhy",waistChart:"Vývoj pasu",
   measurements:"Historie měření",export:"Export zálohy",import:"Import zálohy",deleteMeasurement:"Smazat",
   databaseTitle:"Databáze cviků",databaseSub:"Všechny cviky dostupné v aplikaci. Můžeš přidat i vlastní cvik a vlastní video.",addCustom:"Přidat vlastní cvik",customNameCs:"Název česky",customNameEn:"Název anglicky",customCategory:"Svalová skupina",customMode:"Typ zapisování",customSets:"Počet sérií",customRange:"Rozsah / cíl",customRest:"Pauza v sekundách",customVideo:"Odkaz na video",saveCustom:"Uložit cvik",deleteCustom:"Smazat",customBadge:"Vlastní",customSaved:"Cvik byl uložen.",customRequired:"Vyplň alespoň český nebo anglický název.",prefilled:"Předvyplněno z minulého výkonu",cloud:"Cloud synchronizace",cloudIntro:"Přihlas se stejným účtem na telefonu i počítači. Data se ukládají automaticky.",
@@ -475,10 +528,10 @@ const UI={
   lowVolumeReason:"Za posledních 21 dní má tato svalová skupina méně přímých pracovních sérií",
   freshReason:"Tento cvik jsi v posledních trénincích nedělal.",
   plateauReason:"Poslední výkon v této svalové skupině se moc nezvyšoval, proto nabízím jinou variantu.",
-  language:"Jazyk"
+  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",changeDate:"Změnit datum",hideDate:"Skrýt datum",editPlan:"Upravit plán",deleteToday:"Vymazat dnešní zápis",nextExercise:"Další",weightIncrement:"Krok váhy",trainingTab:"Tréninky",measurementTab:"Měření",totalVolume:"Celkový objem",noWorkout:"Žádný uložený trénink"
  },
  en:{
-  subtitle:"Simple training, clear progress.",todayNav:"Today",historyNav:"History",database:"Exercises",moreNav:"More",mon:"Mon",wed:"Wed",fri:"Fri",progress:"Progress",
+  subtitle:"Simple training, clear progress.",todayNav:"Today",historyNav:"History",database:"Exercises",moreNav:"Settings",mon:"Mon",wed:"Wed",fri:"Fri",progress:"Progress",
   date:"Date",weight:"Weight (kg)",waist:"Waist (cm)",start:"Start workout",resume:"Resume",
   clear:"Clear entry",add:"Add exercise",collapse:"Collapse all",recommended:"History-based recommendation",
   optional:"Optional extra exercise",addToday:"Add to today's workout",previous:"Previous",
@@ -495,7 +548,7 @@ const UI={
   enterSeconds:"Enter the seconds.",enterSides:"Enter both sides.",enterCardio:"Enter minutes or speed.",
   noHistory:"No history yet.",addSet:"Add a set to the last workout",retroTitle:"Add a set",
   retroSub:"The set will be added to the most recent saved workout.",saveSet:"Save set",
-  progressTitle:"Progress",todayTitle:"Today’s workout",todaySub:"Choose the day and continue without searching.",historyTitle:"Workout history",historyEmpty:"No workouts have been saved yet.",moreTitle:"More",moreSub:"Measurements, cloud, appearance and backup.",resumeWorkout:"Resume workout",currentExercise:"Current exercise",warmup:"Warm-up",working:"Working",undo:"Undo",setSaved:"Set saved",weightStep:"Weight step",measurement:"Weekly measurement",saveMeasurement:"Save measurement",
+  progressTitle:"Progress",todayTitle:"Today’s workout",todaySub:"Choose the day and continue without searching.",historyTitle:"Workout history",historyEmpty:"No workouts have been saved yet.",moreTitle:"Settings",moreSub:"Account, language, appearance, measurements and backup.",resumeWorkout:"Resume workout",currentExercise:"Current exercise",warmup:"Warm-up",working:"Working",undo:"Undo",setSaved:"Set saved",weightStep:"Weight step",measurement:"Weekly measurement",saveMeasurement:"Save measurement",
   latestWeight:"Latest weight",latestWaist:"Latest waist",workouts:"Workouts",weightChart:"Weight progress",waistChart:"Waist progress",
   measurements:"Measurement history",export:"Export backup",import:"Import backup",deleteMeasurement:"Delete",
   databaseTitle:"Exercise database",databaseSub:"All exercises available in the app. You can also add your own exercise and video.",addCustom:"Add custom exercise",customNameCs:"Czech name",customNameEn:"English name",customCategory:"Muscle group",customMode:"Logging type",customSets:"Number of sets",customRange:"Range / target",customRest:"Rest in seconds",customVideo:"Video link",saveCustom:"Save exercise",deleteCustom:"Delete",customBadge:"Custom",customSaved:"Exercise saved.",customRequired:"Enter at least a Czech or English name.",prefilled:"Prefilled from previous performance",cloud:"Cloud sync",cloudIntro:"Sign in with the same account on your phone and computer. Your data syncs automatically.",
@@ -508,10 +561,77 @@ const UI={
   noRecommendation:"Today's base plan is already well balanced.",noDataReason:"There is not enough history yet, so the recommendation rotates by day and date.",
   lowVolumeReason:"Over the past 21 days, this muscle group has fewer direct working sets",
   freshReason:"You have not trained this exercise in your recent workouts.",plateauReason:"Recent performance in this muscle group has not increased much, so a different variation is suggested.",
-  language:"Language"
+  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",changeDate:"Change date",hideDate:"Hide date",editPlan:"Edit plan",deleteToday:"Clear today’s entry",nextExercise:"Next",weightIncrement:"Weight increment",trainingTab:"Workouts",measurementTab:"Measurements",totalVolume:"Total volume",noWorkout:"No saved workout"
  }
 };
-function t(k){return UI[state.settings.language||"cs"][k]||k}
+
+UI.ja={
+ subtitle:"シンプルなトレーニング、明確な進歩。",
+ todayNav:"今日",historyNav:"履歴",database:"種目",moreNav:"設定",
+ mon:"月",wed:"水",fri:"金",progress:"進捗",
+ date:"日付",weight:"体重 (kg)",waist:"ウエスト (cm)",
+ start:"トレーニング開始",resume:"続ける",clear:"今日の記録を消去",
+ add:"種目を追加",collapse:"すべて閉じる",recommended:"履歴に基づくおすすめ",
+ optional:"追加の任意種目",addToday:"今日のトレーニングに追加",previous:"前回",
+ set:"セット",reps:"回数",seconds:"秒",left:"左",right:"右",minutes:"分",speed:"速度 km/h",
+ note:"メモ / RPE",video:"正しいフォームの動画",history:"履歴",replace:"種目を変更",
+ resetReplacement:"元に戻す",occupied:"使用中 → 最後へ移動",remove:"削除",
+ technique:"フォームと注意点",avoid:"避けること",library:"種目を追加",
+ librarySub:"このトレーニングだけに追加されます。次回は新しいおすすめが表示されます。",
+ replaceTitle:"代替種目を選ぶ",search:"種目を検索…",all:"すべて",noResults:"種目が見つかりません。",
+ recommendationWhy:"おすすめの理由",workout:"トレーニング中",finish:"終了",exercise:"種目",
+ doneRest:"完了 + 休憩",saveCardio:"有酸素を保存",prevExercise:"← 前の種目",nextExercise:"次の種目 →",
+ rest:"休憩",backWorkout:"トレーニングへ戻る",skipRest:"休憩を終了",finishConfirm:"トレーニングを終了しますか？",
+ workoutDone:"トレーニング完了",workoutNote:"トレーニングメモ",saveFinish:"保存して終了",
+ completed:"完了した種目",time:"時間",enterBoth:"重量と回数を入力してください。",
+ enterReps:"回数を入力してください。",enterSeconds:"秒数を入力してください。",
+ enterSides:"左右両方を入力してください。",enterCardio:"時間または速度を入力してください。",
+ noHistory:"履歴はまだありません。",addSet:"前回のトレーニングにセットを追加",
+ retroTitle:"セットを追加",retroSub:"最新の保存済みトレーニングに追加されます。",saveSet:"セットを保存",
+ progressTitle:"進捗",historyTitle:"トレーニング履歴",historyEmpty:"保存されたトレーニングはまだありません。",
+ moreTitle:"設定",moreSub:"アカウント、言語、表示、測定、バックアップ。",
+ warmup:"ウォームアップ",working:"ワーキング",undo:"元に戻す",setSaved:"セットを保存しました",
+ measurement:"測定",saveMeasurement:"測定を保存",latestWeight:"最新の体重",latestWaist:"最新のウエスト",
+ workouts:"トレーニング",weightChart:"体重の推移",waistChart:"ウエストの推移",
+ measurements:"測定履歴",export:"バックアップを書き出す",import:"バックアップを読み込む",
+ deleteMeasurement:"削除",databaseTitle:"種目データベース",
+ databaseSub:"アプリで使えるすべての種目。自分の種目や動画も追加できます。",
+ addCustom:"自分の種目を追加",customNameCs:"チェコ語名",customNameEn:"英語名",
+ customCategory:"筋群",customMode:"記録方法",customSets:"セット数",customRange:"回数 / 目標",
+ customRest:"休憩時間（秒）",customVideo:"動画リンク",saveCustom:"種目を保存",deleteCustom:"削除",
+ customBadge:"カスタム",customSaved:"種目を保存しました。",customRequired:"種目名を入力してください。",
+ cloud:"クラウド同期",cloudIntro:"スマートフォンとPCで同じアカウントを使うと自動同期されます。",
+ password:"パスワード",signIn:"ログイン",signUp:"アカウント作成",signedAs:"ログイン中",
+ sync:"今すぐ同期",signOut:"ログアウト",cloudSignedOut:"未ログイン",cloudConnected:"接続済み",
+ cloudSaving:"保存中…",cloudSaved:"保存済み ✓",cloudError:"クラウドエラー",
+ accountCreated:"アカウントを作成しました。確認メールが届いた場合は確認してください。",
+ syncDone:"同期が完了しました。",videoOpen:"動画を開く",tips:"正しいフォーム",
+ mistakes:"よくある間違い",extra:"追加種目",baseReplacement:"代替元",
+ resetDayConfirm:"今日の入力を消去しますか？保存済み履歴は残ります。",
+ removeConfirm:"この追加種目を削除しますか？",replaceDataConfirm:"種目を変更すると今日のセット入力が消えます。続けますか？",
+ added:"種目を追加しました。",alreadyThere:"この種目はすでに今日のトレーニングにあります。",
+ language:"言語",appearance:"表示",light:"ライト",dark:"ダーク",account:"アカウント",
+ mondayRequired:"最初に体重とウエストを入力してください。入力後に種目が表示されます。",
+ edit:"編集",editMeasurement:"測定を修正",saveCorrection:"修正を保存",
+ selectedCalendar:"今日のカレンダーから選択",manualWorkout:"手動で選択したトレーニング",changeDate:"日付を変更",hideDate:"日付を隠す",editPlan:"プランを編集",deleteToday:"今日の記録を消去",nextExercise:"次",weightIncrement:"重量ステップ",trainingTab:"トレーニング",measurementTab:"測定",totalVolume:"総ボリューム",noWorkout:"保存されたトレーニングなし"
+};
+BASE_PLANS.monday.title_ja="月曜日・フルボディ A";
+BASE_PLANS.monday.sub_ja="全身 + 腹筋前面";
+BASE_PLANS.wednesday.title_ja="水曜日・フルボディ B";
+BASE_PLANS.wednesday.sub_ja="全身 + 体幹の安定";
+BASE_PLANS.friday.title_ja="金曜日・フルボディ C";
+BASE_PLANS.friday.sub_ja="全身 + 下腹部・側面";
+Object.assign(CATEGORIES.chest,{ja:"胸"});
+Object.assign(CATEGORIES.back,{ja:"背中"});
+Object.assign(CATEGORIES.shoulders,{ja:"肩"});
+Object.assign(CATEGORIES.biceps,{ja:"上腕二頭筋"});
+Object.assign(CATEGORIES.triceps,{ja:"上腕三頭筋"});
+Object.assign(CATEGORIES.quads,{ja:"大腿四頭筋"});
+Object.assign(CATEGORIES.hamstrings,{ja:"ハムストリング・臀部"});
+Object.assign(CATEGORIES.calves,{ja:"ふくらはぎ"});
+Object.assign(CATEGORIES.core,{ja:"腹筋・体幹"});
+Object.assign(CATEGORIES.cardio,{ja:"有酸素"});
+function t(k){const l=state.settings.language||"cs";return UI[l]?.[k]||UI.en[k]||k}
 function lang(){return state.settings.language||"cs"}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 function today(){return new Date().toISOString().slice(0,10)}
@@ -527,7 +647,7 @@ function migrateState(raw){
  if(raw?.version>=18){
    const s={...defaultState(),...raw};s.settings={...defaultState().settings,...raw.settings};
    DAYS.forEach(d=>s.days[d]={...defaultDay(),...(raw.days?.[d]||{}),entries:raw.days?.[d]?.entries||{},extras:raw.days?.[d]?.extras||[],order:raw.days?.[d]?.order||[]});
-   s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];return s;
+   s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];s.settings=s.settings||{};s.settings.historyTab=s.settings.historyTab||"workouts";s.settings.exerciseSteps=s.settings.exerciseSteps||{};return s;
  }
  const s=defaultState();
  if(raw?.settings)s.settings={...s.settings,...raw.settings};
@@ -562,13 +682,11 @@ if(window.supabase){
 function recommendedDay(){
  const day=new Date().getDay();
  if(day===1)return "monday";
- if(day===3)return "wednesday";
- if(day===5)return "friday";
- const order=["monday","wednesday","friday"];
- const incomplete=order.find(d=>!state?.days?.[d]?.completed);
- return incomplete||"monday";
+ if(day===2||day===3)return "wednesday";
+ if(day===4||day===5)return "friday";
+ return "monday";
 }
-let currentScreen="today",selectedTodayDay=localStorage.getItem("gymTodayDay")||recommendedDay(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all";
+let currentScreen="today",selectedTodayDay=recommendedDay(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all";
 let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
 
 
@@ -672,13 +790,13 @@ function metaFor(day,inst){
  const e=entry(day,inst.instanceId),item=EX[e.replacementId]||EX[inst.exerciseId];
  return {...item,sets:e.replacementId?item.sets:(inst.sets||item.sets),range:e.replacementId?item.range:(inst.range||item.range),originalId:inst.exerciseId,replacementId:e.replacementId||""};
 }
-function itemName(item){return item[lang()]}
-function categoryName(cat){return CATEGORIES[cat]?.[lang()]||cat}
+function itemName(item){return item[lang()]||item.en||item.cs}
+function categoryName(cat){return CATEGORIES[cat]?.[lang()]||CATEGORIES[cat]?.en||cat}
 function targetText(m){
  if(m.mode==="cardio")return m.range;
  if(m.mode==="time")return `${m.sets} × ${m.range} s`;
- if(m.mode==="sidetime")return `${m.sets} × ${m.range} s / ${lang()==="cs"?"strana":"side"}`;
- if(m.mode==="sideweight")return `${m.sets} × ${m.range} / ${lang()==="cs"?"strana":"side"}`;
+ if(m.mode==="sidetime")return `${m.sets} × ${m.range} s / ${lang()==="cs"?"strana":lang()==="ja"?"側":"side"}`;
+ if(m.mode==="sideweight")return `${m.sets} × ${m.range} / ${lang()==="cs"?"strana":lang()==="ja"?"側":"side"}`;
  return `${m.sets} × ${m.range}`;
 }
 function hasSetData(mode,s){
@@ -765,20 +883,29 @@ function setRows(day,inst,m,e){
 function renderDay(day){
  prepareDay(day);
  const plan=BASE_PLANS[day],d=state.days[day],instances=dayInstances(day),rec=recommendExercise(day);
+ const title=plan["title_"+lang()]||plan.title_en,subtitle=plan["sub_"+lang()]||plan.sub_en;
+ const estimated=Math.max(35,Math.round(instances.length*7.5));
  let html=`<div class="card today-intro"><div class="day-switch">
- <button class="${day==="monday"?"active":""}" onclick="showToday('monday')">${t("mon")}</button>
- <button class="${day==="wednesday"?"active":""}" onclick="showToday('wednesday')">${t("wed")}</button>
- <button class="${day==="friday"?"active":""}" onclick="showToday('friday')">${t("fri")}</button>
- </div><div class="day-head"><div><h2>${plan["title_"+lang()]}</h2><p>${plan["sub_"+lang()]}</p></div><button class="danger" onclick="clearDay('${day}')">${t("clear")}</button></div>
- <div class="meta ${day==="monday"?"monday":"single"}"><label><span>${t("date")}</span><input type="date" value="${esc(d.date)}" onchange="changeDayDate('${day}',this.value)"></label>
- ${day==="monday"?`<label><span>${t("weight")}</span><input inputmode="decimal" value="${esc(d.weight)}" oninput="updateEntryRoot('${day}','weight',this.value)"></label><label><span>${t("waist")}</span><input inputmode="decimal" value="${esc(d.waist)}" oninput="updateEntryRoot('${day}','waist',this.value)"></label>`:""}</div>
- <div class="actions"><button class="primary full" onclick="startWorkout('${day}')">${state.activeWorkout?.day===day?t("resume"):t("start")}</button></div></div>`;
+ <button class="day-monday ${day==="monday"?"active":""}" onclick="showToday('monday')"><span class="day-dot"></span>${t("mon")}</button>
+ <button class="day-wednesday ${day==="wednesday"?"active":""}" onclick="showToday('wednesday')"><span class="day-dot"></span>${t("wed")}</button>
+ <button class="day-friday ${day==="friday"?"active":""}" onclick="showToday('friday')"><span class="day-dot"></span>${t("fri")}</button>
+ </div><div class="calendar-day-note">${day===recommendedDay()?t("selectedCalendar"):t("manualWorkout")}</div>
+ <div class="today-summary"><div><h2>${title}</h2><p>${subtitle}</p><p>${instances.length} ${t("exercise").toLowerCase()} · ~${estimated} min</p></div>
+ <div class="today-menu" id="todayMenu"><button onclick="toggleTodayMenu()">⋯</button><div class="today-menu-panel">
+ <button id="todayDateBtn" onclick="toggleTodayDate();toggleTodayMenu()">${t("changeDate")}</button>
+ <button onclick="openLibrary('${day}','add');toggleTodayMenu()">${t("editPlan")}</button>
+ <button class="danger" onclick="clearDay('${day}');toggleTodayMenu()">${t("deleteToday")}</button>
+ </div></div></div>
+ <div class="date-collapsible" id="todayDateWrap"><label><span>${t("date")}</span><input type="date" value="${esc(d.date)}" onchange="changeDayDate('${day}',this.value)"></label></div>
+ ${day==="monday"?`<div class="compact-check"><label><span>${t("weight")}</span><input inputmode="decimal" value="${esc(d.weight)}" oninput="updateEntryRoot('${day}','weight',this.value)" onblur="renderDay('${day}')"></label><label><span>${t("waist")}</span><input inputmode="decimal" value="${esc(d.waist)}" oninput="updateEntryRoot('${day}','waist',this.value)" onblur="renderDay('${day}')"></label></div>`:""}
+ <div class="actions"><button class="primary full" ${day==="monday"&&(!d.weight||!d.waist)?"disabled":""} onclick="startWorkout('${day}')">${state.activeWorkout?.day===day?t("resume"):t("start")}</button></div></div>`;
+ if(day==="monday"&&(!d.weight||!d.waist)){html+=`<div class="card monday-lock"><div class="lock-icon">🔒</div><h3>${t("mondayRequired")}</h3></div>`;document.getElementById(day).innerHTML=html;return}
  if(rec)html+=`<div class="card recommend"><div class="recommend-label">${t("recommended")}</div><h3>${esc(itemName(rec.item))}</h3><p><b>${t("recommendationWhy")}:</b> ${esc(rec.reason)}</p><div class="actions"><button class="secondary" onclick="addExercise('${day}','${rec.item.id}')">＋ ${t("addToday")}</button></div></div>`;
- html+=`<div class="day-tools"><button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button><button class="secondary" onclick="collapseAll('${day}')">${t("collapse")}</button></div><div id="${day}List">`;
+ html+=`<div id="${day}List">`;
  instances.forEach(inst=>{
   const e=entry(day,inst.instanceId),m=metaFor(day,inst),last=lastRecord(m.id),replaced=!!m.replacementId;
   html+=`<details class="exercise" id="ex-${inst.instanceId.replace(/[^a-z0-9]/gi,"")}"><summary class="exercise-summary">
-   <input class="donebox" type="checkbox" ${e.done?"checked":""} onclick="event.stopPropagation()" onchange="updateEntry('${day}','${inst.instanceId}','done',this.checked)">
+   <span class="exercise-status ${e.done?"done":""}">${e.done?"✓":""}</span>
    <div class="exercise-main"><div class="exercise-name">${esc(itemName(m))} ${inst.added?`<span class="extra-badge">${t("extra")}</span>`:""}</div><div class="exercise-target">${targetText(m)}</div>
    ${replaced?`<div class="replacement-note">${t("baseReplacement")}: ${esc(itemName(EX[inst.exerciseId]))}</div>`:""}
    ${last?`<div class="exercise-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}</div><span class="chevron"></span></summary>
@@ -815,6 +942,14 @@ function replaceExercise(day,id,exerciseId){
  e.replacementId=exerciseId;e.sets=[];e.minutes="";e.speed="";e.done=false;saveState();libraryDialog.close();renderDay(day);
 }
 
+
+function toggleTodayMenu(){const el=document.getElementById("todayMenu");if(el)el.classList.toggle("open")}
+function toggleTodayDate(){const el=document.getElementById("todayDateWrap");if(!el)return;el.classList.toggle("show");const btn=document.getElementById("todayDateBtn");if(btn)btn.textContent=el.classList.contains("show")?t("hideDate"):t("changeDate")}
+function exerciseStep(id){return Number(state.settings?.exerciseSteps?.[id]||2.5)}
+function setExerciseStep(id,v){state.settings.exerciseSteps[id]=Number(v)||2.5;saveState(false);renderLive()}
+function setHistoryTab(tab){state.settings.historyTab=tab;saveState(false);renderHistoryScreen()}
+function workoutVolume(w){let total=0;(w.records||[]).forEach(r=>(r.sets||[]).filter(s=>(s.kind||"working")==="working").forEach(s=>total+=(Number(s.kg)||0)*(Number(s.reps)||0)));return Math.round(total)}
+
 function showToday(day=selectedTodayDay){
  selectedTodayDay=day||recommendedDay();localStorage.setItem("gymTodayDay",selectedTodayDay);
  currentScreen="today";
@@ -825,26 +960,58 @@ function showToday(day=selectedTodayDay){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderHistoryScreen(){
- const rows=[...(state.workouts||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
- history.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("historyTitle")}</h2><p>${rows.length} ${t("workouts").toLowerCase()}</p></div></div></div>`+
- (rows.length?`<div class="card"><div class="history-list">${rows.map(w=>{
-   const title=BASE_PLANS[w.day]?.["title_"+lang()]||w.day;
-   return `<div class="history-row"><div class="history-date">${esc(w.date||"")}</div><div><h4>${esc(title)}</h4><p>${w.minutes||"–"} min${w.note?` • ${esc(w.note)}`:""}</p></div><span>›</span></div>`;
- }).join("")}</div></div>`:`<div class="card empty">${t("historyEmpty")}</div>`);
+ const tab=state.settings.historyTab||"workouts",rows=[...(state.workouts||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||"")),measurements=[...(state.progress||[])].sort((a,b)=>b.date.localeCompare(a.date));
+ let content="";
+ if(tab==="workouts")content=rows.length?`<div class="card"><div class="history-list">${rows.map(w=>{const title=BASE_PLANS[w.day]?.["title_"+lang()]||BASE_PLANS[w.day]?.title_en||w.day,volume=workoutVolume(w);return `<div class="history-row"><div class="history-date">${esc(w.date||"")}</div><div><h4>${esc(title)}</h4><p>${w.minutes||"–"} min${w.note?` • ${esc(w.note)}`:""}</p>${volume?`<span class="volume-chip">${t("totalVolume")}: ${volume.toLocaleString()} kg</span>`:""}</div><span>›</span></div>`}).join("")}</div></div>`:`<div class="card empty">${t("historyEmpty")}</div>`;
+ else content=measurements.length?`<div class="card"><div class="history-list">${measurements.map(x=>`<div class="history-row"><div class="history-date">${esc(x.date)}</div><div><h4>${x.weight?esc(x.weight)+" kg":"–"} · ${x.waist?esc(x.waist)+" cm":"–"}</h4><p>${t("measurement")}</p></div><button class="smallbtn" onclick="editProgress('${x.date}')">${t("edit")}</button></div>`).join("")}</div></div>`:`<div class="card empty">${t("noWorkout")}</div>`;
+ history.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("historyTitle")}</h2><p>${rows.length} ${t("workouts").toLowerCase()}</p></div></div><div class="history-tabs"><button class="${tab==="workouts"?"active":""}" onclick="setHistoryTab('workouts')">${t("trainingTab")}</button><button class="${tab==="measurements"?"active":""}" onclick="setHistoryTab('measurements')">${t("measurementTab")}</button></div></div>${content}`;
 }
+
 function renderMore(){
  const arr=[...state.progress].sort((a,b)=>a.date.localeCompare(b.date)),last=arr.at(-1)||{};
+ const languageOptions=[
+   ["cs","Čeština"],["en","English"],["ja","日本語"]
+ ].map(([value,label])=>`<option value="${value}" ${lang()===value?"selected":""}>${label}</option>`).join("");
  more.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("moreTitle")}</h2><p>${t("moreSub")}</p></div></div></div>
- <div class="card"><div class="stat-grid"><div class="stat"><span>${t("latestWeight")}</span><strong>${last.weight?esc(last.weight)+" kg":"–"}</strong></div><div class="stat"><span>${t("latestWaist")}</span><strong>${last.waist?esc(last.waist)+" cm":"–"}</strong></div></div></div>
+
+ <div class="card"><h3 style="margin-top:0">👤 ${t("account")}</h3>
+   <p class="subtitle">${cloudUser?`${t("signedAs")}: ${esc(cloudUser.email||"")}`:t("cloudSignedOut")}</p>
+   <div class="actions">
+     <button class="primary" onclick="openCloud()">${cloudUser?t("cloud"):t("signIn")}</button>
+     ${cloudUser?`<button class="danger" onclick="cloudSignOut()">${t("signOut")}</button>`:""}
+   </div>
+ </div>
+
+ <div class="card"><h3 style="margin-top:0">🌐 ${t("language")}</h3>
+   <select onchange="setLanguage(this.value)">${languageOptions}</select>
+ </div>
+
+ <div class="card"><h3 style="margin-top:0">◐ ${t("appearance")}</h3>
+   <select onchange="setTheme(this.value)">
+     <option value="light" ${state.settings.theme==="light"?"selected":""}>${t("light")}</option>
+     <option value="dark" ${state.settings.theme==="dark"?"selected":""}>${t("dark")}</option>
+   </select>
+ </div>
+
+ <div class="card"><div class="stat-grid">
+   <div class="stat"><span>${t("latestWeight")}</span><strong>${last.weight?esc(last.weight)+" kg":"–"}</strong></div>
+   <div class="stat"><span>${t("latestWaist")}</span><strong>${last.waist?esc(last.waist)+" cm":"–"}</strong></div>
+ </div>
+ <div class="actions"><button class="secondary full" onclick="showScreen('progress',null)">📈 ${t("editMeasurement")}</button></div></div>
+
  <div class="card"><div class="more-grid">
-   <button class="more-action" onclick="showScreen('progress',null)"><span>📈 ${t("progressTitle")}</span><span>›</span></button>
-   <button class="more-action" onclick="openCloud()"><span>☁️ ${t("cloud")}</span><span id="moreCloudStatus">${cloudUser?.email||t("cloudSignedOut")}</span></button>
-   <button class="more-action" onclick="toggleTheme()"><span>◐ ${lang()==="cs"?"Vzhled":"Appearance"}</span><span>${state.settings.theme}</span></button>
+   <button class="more-action" onclick="syncNow()"><span>☁️ ${t("sync")}</span><span>${cloudUser?cloudUser.email:t("cloudSignedOut")}</span></button>
    <button class="more-action" onclick="exportBackup()"><span>⬇️ ${t("export")}</span><span>›</span></button>
    <button class="more-action" onclick="importInput.click()"><span>⬆️ ${t("import")}</span><span>›</span></button>
  </div></div>`;
 }
-
+function setLanguage(value){
+ if(!["cs","en","ja"].includes(value))return;
+ state.settings.language=value;saveState();applyLanguage();renderMore();
+}
+function setTheme(value){
+ state.settings.theme=value==="dark"?"dark":"light";saveState();applyTheme();renderMore();
+}
 function showScreen(id,btn){
  currentScreen=id;
  document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===id));
@@ -857,7 +1024,7 @@ function showScreen(id,btn){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function applyLanguage(){
- document.documentElement.lang=lang();appSubtitle.textContent=t("subtitle");langBtn.textContent=lang()==="cs"?"EN":"CZ";
+ document.documentElement.lang=lang();appSubtitle.textContent=t("subtitle");
  navToday.textContent=t("todayNav");navHistory.textContent=t("historyNav");navDatabase.textContent=t("database");navMore.textContent=t("moreNav");
  resumeBtn.textContent=t("resume");liveLabel.textContent=t("workout");liveFinishBtn.textContent=t("finish");prevBtn.textContent=t("prevExercise");nextBtn.textContent=t("nextExercise");
  restLabel.textContent=t("rest");restReturnBtn.textContent=t("backWorkout");restSkipBtn.textContent=t("skipRest");
@@ -867,7 +1034,7 @@ function applyLanguage(){
  retroSaveBtn.textContent=t("saveSet");updateCloudUI();
  DAYS.forEach(renderDay);renderProgress();renderHistoryScreen();renderMore();if(state.activeWorkout)renderLive();
 }
-function toggleLanguage(){state.settings.language=lang()==="cs"?"en":"cs";saveState();applyLanguage()}
+function toggleLanguage(){const order=["cs","en","ja"],i=order.indexOf(lang());setLanguage(order[(i+1)%order.length])}
 function toggleTheme(){state.settings.theme=state.settings.theme==="dark"?"light":"dark";saveState();applyTheme()}
 function applyTheme(){document.body.classList.toggle("dark",state.settings.theme==="dark")}
 
@@ -994,6 +1161,14 @@ function elapsedMs(){
 }
 function fmt(ms){const sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
 function startWorkout(day){
+ if(day==="monday"){
+   const d=state.days.monday||{};
+   if(!String(d.weight||"").trim()||!String(d.waist||"").trim()){
+     alert(t("mondayRequired"));renderDay("monday");
+     setTimeout(()=>document.querySelector("#monday .meta input[inputmode='decimal']")?.focus(),100);
+     return;
+   }
+ }
  if(state.activeWorkout){
   if(state.activeWorkout.day!==day)return alert(`${t("workout")}: ${BASE_PLANS[state.activeWorkout.day]["title_"+lang()]}`);
   openLiveWorkout();return;
@@ -1038,12 +1213,12 @@ function undoLastSet(){
 
 function renderLive(){
  if(!state.activeWorkout)return;const arr=activeInstances(),inst=currentLive();if(!inst)return;
- const day=state.activeWorkout.day,e=entry(day,inst.instanceId),m=metaFor(day,inst);ensurePrefill(day,inst,m,e);const idx=firstIncompleteSet(m,e),last=lastRecord(m.id);
+ const day=state.activeWorkout.day,e=entry(day,inst.instanceId),m=metaFor(day,inst);ensurePrefill(day,inst,m,e);const idx=firstIncompleteSet(m,e),last=lastRecord(m.id),step=exerciseStep(m.id);
  liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;liveProgressText.textContent=`${t("exercise")} ${state.activeWorkout.position+1} / ${arr.length}`;
  let inputs="";
  const s=e.sets?.[idx]||{};
  if(m.mode==="weight")inputs=`<div class="live-inputs">
- <div class="live-input-block"><div class="live-input-label">kg</div><div class="quick-stepper"><button onclick="adjustLiveInput('liveKg',-2.5)">−</button><input id="liveKg" inputmode="decimal" placeholder="kg" value="${esc(s.kg)}"><button onclick="adjustLiveInput('liveKg',2.5)">＋</button></div></div>
+ <div class="live-input-block"><div class="live-input-label">kg</div><div class="quick-stepper"><button onclick="adjustLiveInput('liveKg',-step)">−</button><input id="liveKg" inputmode="decimal" placeholder="kg" value="${esc(s.kg)}"><button onclick="adjustLiveInput('liveKg',step)">＋</button></div><div class="increment-control">${t("weightIncrement")}: <select onchange="setExerciseStep('${m.id}',this.value)">${[1,2,2.5,5,10].map(v=>`<option value="${v}" ${step===v?"selected":""}>${v} kg</option>`).join("")}</select></div></div>
  <div class="live-input-block"><div class="live-input-label">${t("reps")}</div><div class="quick-stepper"><button onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="${t("reps")}" value="${esc(s.reps)}"><button onclick="adjustLiveInput('liveReps',1)">＋</button></div></div>
  </div>`;
  if(m.mode==="reps")inputs=`<div class="live-inputs one"><div class="live-input-block"><div class="quick-stepper"><button onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="${t("reps")}" value="${esc(s.reps)}"><button onclick="adjustLiveInput('liveReps',1)">＋</button></div></div></div>`;
@@ -1055,7 +1230,7 @@ function renderLive(){
  <button class="video-btn" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
  <div class="live-set"><h3>${m.mode==="cardio"?"Kardio":`${t("set")} ${idx+1} / ${m.sets}`}</h3><div class="set-kind"><button class="${(s.kind||"working")==="warmup"?"active":""}" onclick="setLiveSetKind('warmup')">${t("warmup")}</button><button class="${(s.kind||"working")==="working"?"active":""}" onclick="setLiveSetKind('working')">${t("working")}</button></div>${inputs}<button class="live-done" onclick="completeLiveSet('${inst.instanceId}',${idx})">${m.mode==="cardio"?t("saveCardio"):t("doneRest")}</button></div>
  <input class="note" placeholder="${t("note")}" value="${esc(e.notes)}" oninput="updateEntry('${day}','${inst.instanceId}','notes',this.value)">
- <details><summary>${t("technique")} ▾</summary><div class="live-tech"><b>${t("tips")}:</b><ul>${m.tips[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul><b>${t("avoid")}:</b><ul>${m.mistakes[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul></div></details>`;
+ ${(()=>{const next=arr[state.activeWorkout.position+1];return next?`<div class="live-next-preview">${t("nextExercise")}: <strong>${itemName(metaFor(day,next))}</strong></div>`:""})()}<details><summary>${t("technique")} ▾</summary><div class="live-tech"><b>${t("tips")}:</b><ul>${m.tips[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul><b>${t("avoid")}:</b><ul>${m.mistakes[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul></div></details>`;
  updateWorkoutTimes();
 }
 function completeLiveSet(instanceId,index){
@@ -1120,6 +1295,19 @@ function upsertProgress(date,weight,waist){
  const x=state.progress.find(p=>p.date===date);if(x){if(weight)x.weight=weight;if(waist)x.waist=waist}else state.progress.push({date,weight:weight||"",waist:waist||""});
  state.progress.sort((a,b)=>a.date.localeCompare(b.date));
 }
+
+function editProgress(date){
+ const x=state.progress.find(p=>p.date===date);if(!x)return;
+ showScreen("progress",null);
+ setTimeout(()=>{
+   progressDate.value=x.date||date;
+   progressWeight.value=x.weight||"";
+   progressWaist.value=x.waist||"";
+   progressWeight.focus();
+   window.scrollTo({top:0,behavior:"smooth"});
+ },60);
+}
+
 function saveMeasurement(){
  const date=progressDate.value,weight=progressWeight.value.trim(),waist=progressWaist.value.trim();if(!weight&&!waist)return;
  upsertProgress(date,weight,waist);saveState();renderProgress();
@@ -1132,7 +1320,7 @@ function renderProgress(){
  <div class="stat-grid"><div class="stat"><span>${t("latestWeight")}</span><strong>${last.weight?esc(last.weight)+" kg":"–"}</strong></div><div class="stat"><span>${t("latestWaist")}</span><strong>${last.waist?esc(last.waist)+" cm":"–"}</strong></div><div class="stat"><span>${t("workouts")}</span><strong>${state.workouts.length}</strong></div></div>
  <div class="card"><h3>${t("weightChart")}</h3><canvas id="weightCanvas" width="700" height="220"></canvas></div>
  <div class="card"><h3>${t("waistChart")}</h3><canvas id="waistCanvas" width="700" height="220"></canvas></div>
- <div class="card"><h3>${t("measurements")}</h3>${arr.length?arr.slice().reverse().map((x,i)=>`<div class="history-card"><strong>${esc(x.date)}</strong><p>${x.weight?esc(x.weight)+" kg":""}${x.weight&&x.waist?" • ":""}${x.waist?esc(x.waist)+" cm":""}</p><button class="danger" onclick="deleteProgress('${x.date}')">${t("deleteMeasurement")}</button></div>`).join(""):`<div class="empty">${t("noHistory")}</div>`}</div>`;
+ <div class="card"><h3>${t("measurements")}</h3>${arr.length?arr.slice().reverse().map((x,i)=>`<div class="history-card"><strong>${esc(x.date)}</strong><p>${x.weight?esc(x.weight)+" kg":""}${x.weight&&x.waist?" • ":""}${x.waist?esc(x.waist)+" cm":""}</p><div class="actions"><button class="secondary" onclick="editProgress('${x.date}')">${t("edit")}</button><button class="danger" onclick="deleteProgress('${x.date}')">${t("deleteMeasurement")}</button></div></div>`).join(""):`<div class="empty">${t("noHistory")}</div>`}</div>`;
  setTimeout(()=>{drawChart("weightCanvas","weight");drawChart("waistCanvas","waist")},0);
 }
 function drawChart(id,key){
