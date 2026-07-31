@@ -1084,11 +1084,13 @@ body.dark .saved-set-row button{
 }
 .compact-video-btn{
   width:auto;
-  min-width:94px;
-  min-height:46px;
+  min-width:54px;
+  min-height:36px;
   margin:0;
-  padding:10px 12px;
-  border-radius:13px;
+  padding:6px 9px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.1;
 }
 .live-card{
   padding:14px;
@@ -1258,6 +1260,68 @@ body.dark .weight-reps-live .quick-stepper button{
   }
   .compact-video-btn::first-letter{
     font-size:16px;
+  }
+}
+
+
+/* v44 – always-visible workout navigation */
+.live-shell{
+  padding-bottom:calc(132px + env(safe-area-inset-bottom));
+}
+.live-nav{
+  z-index:95;
+  bottom:calc(8px + env(safe-area-inset-bottom));
+  padding:8px;
+  border:1px solid rgba(32,184,176,.38);
+  border-radius:19px;
+  background:rgba(8,24,32,.96);
+  box-shadow:0 14px 38px rgba(0,0,0,.42);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+}
+.live-nav button{
+  min-height:54px;
+  border-radius:13px;
+  opacity:1;
+  box-shadow:none;
+}
+.live-nav button:first-child{
+  border:1px solid #D4E9ED;
+  background:#EAF7FA;
+  color:#123047;
+}
+.live-nav button:last-child{
+  border:1px solid #20B8B0;
+  background:#20B8B0;
+  color:#081820;
+}
+.live-nav button:disabled{
+  opacity:.48;
+}
+@media(max-width:430px){
+  .live-nav{
+    width:calc(100% - 16px);
+    gap:7px;
+    padding:7px;
+  }
+  .live-nav button{
+    min-height:52px;
+    font-size:13px;
+  }
+}
+
+
+/* v45 – smaller live workout video button */
+.live-head .compact-video-btn{
+  align-self:flex-start;
+  box-shadow:none;
+}
+@media(max-width:430px){
+  .compact-video-btn{
+    min-width:50px;
+    min-height:34px;
+    padding:5px 8px;
+    font-size:11px;
   }
 }
 
@@ -2416,7 +2480,7 @@ function renderLive(){
      <h2>${esc(itemName(m))}</h2>
      <div class="live-target">${targetText(m)}</div>
    </div>
-   <button class="video-btn compact-video-btn" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
+   <button class="video-btn compact-video-btn" onclick="openVideo('${m.id}')">${t("video")}</button>
  </div>
  ${last?`<div class="live-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}
  <div class="live-set"><h3>${m.mode==="cardio"?"Kardio":`${t("set")} ${idx+1} / ${m.sets}`}</h3>${inputs}<button class="live-done" onclick="completeLiveSet('${inst.instanceId}',${idx})">${m.mode==="cardio"?t("saveCardio"):t("doneRest")}</button></div>
