@@ -1,5 +1,5 @@
 {
-  "name": "Gym Tracker Pro v55",
+  "name": "Gym Tracker Pro v56",
   "short_name": "Gym Tracker",
   "start_url": "./",
   "display": "standalone",
@@ -18,5 +18,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "description": "Flexible gym tracker with progressive offline exercise images."
 }

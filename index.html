@@ -2676,6 +2676,25 @@ body.dark .modern-live-guide{
 .modern-week-day:not(.training-day) i{color:var(--modern-teal)}.modern-week-day:not(.training-day){cursor:pointer}
 @media(max-width:480px){.flex-day-card{grid-template-columns:42px 1fr}.flex-day-card button{grid-column:1/-1;width:100%}}
 
+
+/* v56 reliable images, simplified actions and schedule */
+.brand-title-row{display:flex;align-items:center;gap:7px}.brand-title-row h1{margin:0}.app-version{display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:999px;background:rgba(32,184,176,.12);color:var(--modern-teal-dark);font-size:10px;font-weight:950}
+.app-update-banner{position:sticky;top:5px;z-index:90;margin:7px auto;width:min(calc(100% - 24px),720px);display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:11px;border-radius:16px;background:#173743;color:#fff;box-shadow:0 12px 30px rgba(0,0,0,.25)}.app-update-banner[hidden]{display:none}.app-update-banner div{display:grid;gap:2px}.app-update-banner span{font-size:10px;color:#cde8e7}.app-update-banner button{min-height:38px;border:0;border-radius:11px;padding:7px 10px;font-weight:900;background:var(--modern-teal);color:#fff}.app-update-banner .update-later{background:transparent;border:1px solid rgba(255,255,255,.22)}
+.week-navigation{display:grid;grid-template-columns:38px 1fr 38px;align-items:center;gap:8px}.week-navigation>button{height:38px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:22px;color:var(--text)}.week-navigation>div{display:flex;align-items:center;justify-content:center;gap:8px}.week-navigation strong{font-size:12px}.week-navigation div button{border:0;background:transparent;color:var(--modern-teal-dark);font-size:10px;font-weight:950}.week-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:5px;color:var(--muted);font-size:9px;font-weight:800}.modern-week-day.cardio-done i{color:#e05e78!important}
+.flex-day-choice{padding:6px 9px;border-radius:999px;background:rgba(32,184,176,.14);color:var(--modern-teal-dark);font-size:9px;font-weight:950;white-space:nowrap}
+.hero-next-exercise{display:grid;grid-template-columns:58px 1fr;gap:10px;align-items:center;margin-top:12px;padding:9px;border-radius:16px;background:rgba(255,255,255,.12)}.hero-next-exercise img,.hero-next-exercise>span{width:58px;height:54px;object-fit:cover;border-radius:12px;background:#edf4f6}.hero-next-exercise>span{display:grid;place-items:center;font-size:24px}.hero-next-exercise div{display:grid;gap:2px}.hero-next-exercise small{font-size:8px;text-transform:uppercase;letter-spacing:.08em;opacity:.75}.hero-next-exercise strong{font-size:13px}.hero-next-exercise em{font-style:normal;font-size:9px;opacity:.8}.hero-actions-three{display:grid!important;grid-template-columns:1.25fr 1fr 1fr!important}.hero-date-button{min-height:49px;border:1px solid rgba(255,255,255,.25);border-radius:14px;background:rgba(255,255,255,.09);color:#fff;font-weight:900}
+.rotation-tabs button{display:flex;align-items:center;justify-content:center;gap:6px}.rotation-tabs button b{display:grid;place-items:center;width:22px;height:22px;border-radius:8px;background:rgba(32,184,176,.12)}.rotation-tabs button.active b{background:#fff;color:var(--modern-teal-dark)}.rotation-tabs button span{font-size:10px}
+.collapsible-plan{padding:0!important;overflow:hidden}.collapsible-plan-summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:15px;cursor:pointer}.collapsible-plan-summary::-webkit-details-marker{display:none}.collapsible-plan-summary h3{margin:2px 0;font-size:16px}.collapsible-plan-summary small{color:var(--muted);font-size:10px}.plan-summary-chevron{font-size:28px;transition:transform .2s}.collapsible-plan[open] .plan-summary-chevron{transform:rotate(90deg)}.collapsible-plan-body{padding:0 15px 15px;border-top:1px solid var(--line)}
+.exercise-image-failed{cursor:pointer;object-fit:cover!important;background:#edf4f6!important}.exercise-image-retrying{opacity:.55;animation:imageRetryPulse .7s infinite alternate}@keyframes imageRetryPulse{to{opacity:1}}
+.app-build-note{text-align:center;color:var(--muted);font-size:9px;font-weight:800;padding:5px 0 18px}body.dark .app-version{color:#bfeceb}body.dark .hero-next-exercise{background:rgba(255,255,255,.07)}
+@media(max-width:520px){.app-update-banner{grid-template-columns:1fr auto}.app-update-banner .update-later{grid-column:1/-1}.hero-actions-three{grid-template-columns:1fr 1fr!important}.hero-actions-three .hero-start{grid-column:1/-1}.flex-day-card{grid-template-columns:42px 1fr}.flex-day-choice{grid-column:1/-1;text-align:center}}
+
+
+/* v56.1 compact mobile navigation */
+.app{padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+nav{bottom:calc(5px + env(safe-area-inset-bottom));width:min(500px,calc(100% - 18px));padding:4px;border-radius:22px}
+.navbtn{min-height:47px;border-radius:16px;gap:2px}.nav-glyph{font-size:18px}.navbtn b{font-size:9px}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -2688,10 +2707,16 @@ body.dark .modern-live-guide{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><h1>Gym Tracker</h1><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v56</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
+
+<div class="app-update-banner" id="appUpdateBanner" hidden>
+  <div><b id="appUpdateTitle">Je dostupná nová verze</b><span id="appUpdateText">Aktualizace opravuje načítání obrázků a offline režim.</span></div>
+  <button type="button" onclick="applyAppUpdate()" id="appUpdateApply">Aktualizovat</button>
+  <button type="button" class="update-later" onclick="hideUpdateBanner()">Později</button>
+</div>
 
 <div class="workout-running" id="workoutRunning">
   <span id="runningDay"></span><strong id="runningTime">00:00</strong>
@@ -2828,6 +2853,17 @@ body.dark .modern-live-guide{
   <div id="cardioDialogBody"></div>
 </div></dialog>
 
+<dialog id="dateDialog"><div class="modal">
+  <button class="iconbtn close" onclick="dateDialog.close()">✕</button>
+  <h2 id="dateDialogTitle" style="margin:3px 0 8px">Změnit datum</h2>
+  <p class="subtitle" id="dateDialogSubtitle">Vyber den, kdy chceš trénink skutečně odcvičit.</p>
+  <label><span id="dateDialogLabel">Datum tréninku</span><input id="quickWorkoutDate" type="date"></label>
+  <div class="actions">
+    <button class="secondary" onclick="setDateDialogToday()" id="dateDialogToday">Dnes</button>
+    <button class="primary" onclick="applyDateDialog()" id="dateDialogApply">Použít datum</button>
+  </div>
+</div></dialog>
+
 <dialog id="cloudDialog"><div class="modal">
   <button class="iconbtn close" onclick="cloudDialog.close()">✕</button>
   <h2 id="cloudTitle" style="margin:3px 0"></h2>
@@ -2853,7 +2889,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=55;
+const VERSION=56;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
 
@@ -3382,38 +3418,75 @@ function estimateWorkoutMinutes(day,instances){
 function completedWorkoutsThisWeek(){
  const monday=weekStart(today());
  const sunday=uiAddDays(monday,6);
- return (state.workouts||[]).filter(w=>w.date>=monday&&w.date<=sunday).length;
+ return (state.workouts||[]).filter(w=>w.type!=="cardio"&&w.date>=monday&&w.date<=sunday).length;
 }
 function localizedFullDate(iso){
  const d=uiDateFromIso(iso);
  return new Intl.DateTimeFormat(lang()==="cs"?"cs-CZ":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(d);
 }
+function localizedMonthRange(startIso,endIso){
+ const f=new Intl.DateTimeFormat(lang()==="cs"?"cs-CZ":"en-GB",{day:"numeric",month:"short"});
+ return `${f.format(uiDateFromIso(startIso))} – ${f.format(uiDateFromIso(endIso))}`;
+}
 function isPlannedStrengthDate(iso){return [1,3,5].includes(uiDateFromIso(iso).getDay())}
 function completedWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
+function cardioWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type==="cardio"&&w.date===iso)}
 function activatePlanForDate(day,iso){
  const current=state.days[day]||defaultDay(iso);
  if(current.completed&&current.date!==iso)state.days[day]=defaultDay(iso);
  else state.days[day]={...defaultDay(iso),...current,date:iso};
  ensureOrder(day);
 }
+function activeWorkoutDate(){
+ if(!state.activeWorkout)return "";
+ return state.activeWorkout.date||state.days?.[state.activeWorkout.day]?.date||today();
+}
 function selectScheduleDate(iso){
+ if(state.activeWorkout&&iso!==activeWorkoutDate()){
+   const from=localizedFullDate(activeWorkoutDate()),to=localizedFullDate(iso);
+   const message=lang()==="cs"?`Přesunout rozpracovaný trénink z ${from} na ${to}?`:`Move the active workout from ${from} to ${to}?`;
+   if(!confirm(message))return;
+   const day=state.activeWorkout.day;
+   state.activeWorkout.date=iso;
+   state.days[day].date=iso;
+   saveState();
+ }
  selectedWorkoutDate=iso;
  localStorage.setItem("gymSelectedWorkoutDate",iso);
- showToday(recommendedDay(),iso);
+ showToday(state.activeWorkout?.day||recommendedDay(),iso);
+}
+function changeScheduleWeek(offset){selectScheduleDate(uiAddDays(selectedWorkoutDate||today(),offset*7))}
+function goToTodayDate(){selectScheduleDate(today())}
+function openDateDialog(){
+ quickWorkoutDate.value=selectedWorkoutDate||today();
+ dateDialogTitle.textContent=lang()==="cs"?"Změnit datum":"Change date";
+ dateDialogSubtitle.textContent=lang()==="cs"?"Vyber den, kdy chceš trénink skutečně odcvičit.":"Choose the day when you will actually do the workout.";
+ dateDialogLabel.textContent=lang()==="cs"?"Datum tréninku":"Workout date";
+ dateDialogToday.textContent=lang()==="cs"?"Dnes":"Today";
+ dateDialogApply.textContent=lang()==="cs"?"Použít datum":"Use date";
+ dateDialog.showModal();
+}
+function setDateDialogToday(){quickWorkoutDate.value=today()}
+function applyDateDialog(){const value=quickWorkoutDate.value||today();dateDialog.close();selectScheduleDate(value)}
+function nextPlannedDateAfter(iso){
+ let candidate=uiAddDays(iso,1);
+ for(let i=0;i<8;i++){if(isPlannedStrengthDate(candidate))return candidate;candidate=uiAddDays(candidate,1)}
+ return uiAddDays(iso,2);
 }
 function weekStripMarkup(selectedDay){
- const monday=weekStart(selectedWorkoutDate||today());
+ const monday=weekStart(selectedWorkoutDate||today()),sunday=uiAddDays(monday,6);
  const dayNames=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
- return `<div class="modern-week-strip">${Array.from({length:7},(_,i)=>{
-   const iso=uiAddDays(monday,i);
-   const selected=iso===selectedWorkoutDate;
-   const completed=completedWorkoutOnDate(iso);
-   const isToday=iso===today();
-   const planned=isPlannedStrengthDate(iso);
-   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')">
-     <span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${completed?"✓":planned?"•":"+"}</i>
-   </button>`;
- }).join("")}</div>`;
+ return `<div class="week-navigation">
+   <button type="button" onclick="changeScheduleWeek(-1)" aria-label="${lang()==="cs"?"Předchozí týden":"Previous week"}">‹</button>
+   <div><strong>${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div>
+   <button type="button" onclick="changeScheduleWeek(1)" aria-label="${lang()==="cs"?"Další týden":"Next week"}">›</button>
+ </div>
+ <div class="modern-week-strip">${Array.from({length:7},(_,i)=>{
+   const iso=uiAddDays(monday,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
+   const marker=completed?"✓":cardio?"♥":planned?"•":"";
+   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')"><span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
+ }).join("")}</div>
+ <div class="week-legend"><span>• ${lang()==="cs"?"doporučený silový den":"planned strength day"}</span><span>♥ ${lang()==="cs"?"kardio":"cardio"}</span><span>✓ ${lang()==="cs"?"hotovo":"completed"}</span></div>`;
 }
 function setDatabaseQuery(value){
  databaseQuery=String(value||"");
@@ -3474,7 +3547,7 @@ function renderDay(day){
        <h3>${lang()==="cs"?"Dnes není pevný silový den":"Today is not a fixed strength day"}</h3>
        <p>${lang()==="cs"?`Můžeš odjet další trénink v pořadí – ${esc(planTitle)} – nebo přidat lehké kardio.`:`You can do the next workout in rotation – ${esc(planTitle)} – or add light cardio.`}</p>
      </div>
-     <button onclick="openCardioDialog()">♡ ${t("cardioOnly")}</button>
+     <span class="flex-day-choice">${lang()==="cs"?"Trénink nebo kardio":"Workout or cardio"}</span>
    </section>`:""}
 
    <div class="login-warning modern-login-warning" ${cloudUser?"hidden":""}>
@@ -3500,30 +3573,22 @@ function renderDay(day){
        <span>◎ ${blocked?(lang()==="cs"?"čeká měření":"check-in needed"):(lang()==="cs"?"připraveno":"ready")}</span>
      </div>
 
-     <div class="hero-exercise-preview">
-       ${previewItems.map((inst,index)=>{
-         const m=metaFor(day,inst);
-         return `<div class="hero-preview-row">
-           ${m.guideThumb
-  ?`<img class="hero-preview-thumb" src="${m.guideThumb}" alt="" loading="lazy">`
-  :`<span class="hero-preview-icon">${categoryGlyph(m.category)}</span>`}
-           <div><strong>${esc(itemName(m))}</strong><small>${targetText(m)}</small></div>
-           <span>${entry(day,inst.instanceId).done?"✓":index+1}</span>
-         </div>`;
-       }).join("")}
-       ${orderedInstances.length>3?`<div class="hero-more">+${orderedInstances.length-3} ${lang()==="cs"?"další cviky":"more exercises"}</div>`:""}
-     </div>
+     ${previewItems[0]?(()=>{
+       const first=metaFor(day,previewItems[0]);
+       return `<div class="hero-next-exercise">${first.guideThumb?`<img src="${first.guideThumb}" alt="" loading="lazy">`:`<span>${categoryGlyph(first.category)}</span>`}<div><small>${lang()==="cs"?"První cvik":"First exercise"}</small><strong>${esc(itemName(first))}</strong><em>${targetText(first)}</em></div></div>`;
+     })():""}
 
-     <div class="hero-actions">
+     <div class="hero-actions hero-actions-three">
        <button class="primary hero-start" ${blocked?"disabled":""} onclick="startWorkout('${day}')">▶ ${state.activeWorkout?.day===day?t("resume"):t("start")}</button>
        <button class="hero-cardio" onclick="openCardioDialog()">♡ ${t("cardioOnly")}</button>
+       <button class="hero-date-button" onclick="openDateDialog()">▣ ${lang()==="cs"?"Změnit datum":"Change date"}</button>
      </div>
    </section>
 
-   <div class="modern-day-tabs">
-     <button class="${day==="monday"?"active":""}" onclick="showToday('monday')">${t("mon")}</button>
-     <button class="${day==="wednesday"?"active":""}" onclick="showToday('wednesday')">${t("wed")}</button>
-     <button class="${day==="friday"?"active":""}" onclick="showToday('friday')">${t("fri")}</button>
+   <div class="modern-day-tabs rotation-tabs">
+     <button class="${day==="monday"?"active":""}" onclick="showToday('monday',selectedWorkoutDate)"><b>1</b><span>${lang()==="cs"?"Síla":"Strength"}</span></button>
+     <button class="${day==="wednesday"?"active":""}" onclick="showToday('wednesday',selectedWorkoutDate)"><b>2</b><span>${lang()==="cs"?"Stabilita":"Stability"}</span></button>
+     <button class="${day==="friday"?"active":""}" onclick="showToday('friday',selectedWorkoutDate)"><b>3</b><span>${lang()==="cs"?"Kontrola":"Control"}</span></button>
    </div>`;
 
  if(!measure){
@@ -3541,13 +3606,12 @@ function renderDay(day){
    </section>`;
  }
 
- html+=`<section class="modern-plan-section">
-   <div class="section-title-row">
-     <div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Cviky v tréninku":"Workout exercises"}</h3></div>
-     <button class="section-add" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button>
-   </div>
-   ${blocked?`<div class="preview-lock-note">🔒 ${t("previewLocked")}</div>`:""}
-   <div class="plan-preview-list" id="todayPreviewList">`;
+ html+=`<details class="modern-plan-section collapsible-plan">
+   <summary class="collapsible-plan-summary"><div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Zobrazit cviky":"Show exercises"}</h3><small>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</small></div><span class="plan-summary-chevron">›</span></summary>
+   <div class="collapsible-plan-body">
+     <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"TRÉNINK":"WORKOUT"}</span><h3>${esc(planTitle)}</h3></div><button class="section-add" onclick="event.preventDefault();openLibrary('${day}','add')">＋ ${t("add")}</button></div>
+     ${blocked?`<div class="preview-lock-note">🔒 ${t("previewLocked")}</div>`:""}
+     <div class="plan-preview-list" id="todayPreviewList">`;
 
  let extraDividerShown=false;
  orderedInstances.forEach((inst,index)=>{
@@ -3589,11 +3653,9 @@ function renderDay(day){
  });
 
  html+=`</div>
-   <div class="modern-plan-footer">
-     <button class="secondary" onclick="collapseTodayCards()">${t("collapse")}</button>
-     <button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button>
+     <div class="modern-plan-footer"><button class="secondary" onclick="collapseTodayCards()">${t("collapse")}</button><button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button></div>
    </div>
- </section>`;
+ </details>`;
 
  if(rec){
    html+=`<section class="modern-recommendation">
@@ -3726,7 +3788,9 @@ function renderMore(){
    <button class="more-action" onclick="syncNow()"><span>☁️ ${t("sync")}</span><span>${cloudUser?cloudUser.email:t("cloudSignedOut")}</span></button>
    <button class="more-action" onclick="exportBackup()"><span>⬇️ ${t("export")}</span><span>›</span></button>
    <button class="more-action" onclick="importInput.click()"><span>⬆️ ${t("import")}</span><span>›</span></button>
- </div></div>`;
+   <button class="more-action" onclick="checkForAppUpdate(true)"><span>↻ ${lang()==="cs"?"Aktualizovat aplikaci":"Update app"}</span><span>v${VERSION}</span></button>
+ </div></div>
+ <div class="app-build-note">Gym Tracker Pro v${VERSION} · ${lang()==="cs"?"Obrázky se načítají postupně a ukládají offline.":"Images load progressively and are stored offline."}</div>`;
 }
 function setLanguage(value){
  if(!["cs","en"].includes(value))return;
@@ -3870,6 +3934,32 @@ function renderLibrary(){
   </div>`;
  }).join("")}</div>`).join("");
 }
+const EXERCISE_IMAGE_PLACEHOLDER=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360"><rect width="520" height="360" rx="26" fill="#edf4f6"/><g fill="none" stroke="#1d8f92" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><rect x="125" y="70" width="270" height="200" rx="22"/><circle cx="205" cy="145" r="28"/><path d="M155 235l70-65 55 48 38-35 47 52"/></g><text x="260" y="315" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#173743">Tap to reload image</text></svg>`)}`;
+function isExerciseImage(img){return img instanceof HTMLImageElement&&String(img.getAttribute("src")||"").includes("assets/exercises/")}
+function handleExerciseImageFailure(img){
+ if(!isExerciseImage(img)||img.dataset.failed==="1")return;
+ img.dataset.originalSrc=img.getAttribute("src")||"";
+ img.dataset.failed="1";
+ img.classList.add("exercise-image-failed");
+ img.setAttribute("src",EXERCISE_IMAGE_PLACEHOLDER);
+ img.title=lang()==="cs"?"Obrázek se nenačetl. Klepni pro opakování.":"Image failed to load. Tap to retry.";
+}
+async function retryExerciseImage(img){
+ const original=img.dataset.originalSrc;if(!original)return;
+ img.classList.add("exercise-image-retrying");
+ try{
+   if(navigator.serviceWorker?.controller)navigator.serviceWorker.controller.postMessage({type:"PURGE_URL",url:new URL(original,location.href).href});
+   await fetch(original,{cache:"reload"});
+ }catch(_){}
+ img.dataset.failed="0";
+ img.setAttribute("src",`${original}${original.includes("?")?"&":"?"}retry=${Date.now()}`);
+}
+function installExerciseImageRecovery(){
+ document.addEventListener("error",event=>{const img=event.target;if(isExerciseImage(img))handleExerciseImageFailure(img)},true);
+ document.addEventListener("load",event=>{const img=event.target;if(img instanceof HTMLImageElement&&img.dataset.failed==="0"){img.classList.remove("exercise-image-failed","exercise-image-retrying");img.removeAttribute("title")}},true);
+ document.addEventListener("click",event=>{const img=event.target;if(img instanceof HTMLImageElement&&img.dataset.failed==="1"){event.preventDefault();event.stopPropagation();retryExerciseImage(img)}},true);
+}
+
 function openVideo(exerciseId){
  const x=EX[exerciseId];
  if(!x)return;
@@ -4379,7 +4469,9 @@ function saveFinishedWorkout(){
  if(byId("liveClock"))byId("liveClock").textContent="00:00";
  if(byId("runningTime"))byId("runningTime").textContent="00:00";
  saveState();
- selectedTodayDay=nextStrengthDay();selectedWorkoutDate=today();localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
+ selectedTodayDay=nextStrengthDay();
+ selectedWorkoutDate=nextPlannedDateAfter(d.date||today());
+ localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
  renderProgress();renderHistoryScreen();showToday(selectedTodayDay,selectedWorkoutDate);
  alert(t("workoutDone"));
 }
@@ -4558,9 +4650,40 @@ async function cloudSignIn(){
 async function cloudSignOut(){await supabaseClient.auth.signOut();cloudUser=null;updateCloudUI();cloudDialog.close()}
 async function syncNow(){await saveCloud();alert(t("syncDone"))}
 
+let swRegistration=null,reloadingForUpdate=false;
+function showUpdateBanner(){
+ const banner=document.getElementById("appUpdateBanner");if(!banner)return;
+ appUpdateTitle.textContent=lang()==="cs"?"Je dostupná nová verze":"A new version is available";
+ appUpdateText.textContent=lang()==="cs"?"Aktualizace opravuje načítání obrázků a offline režim.":"The update improves image loading and offline mode.";
+ appUpdateApply.textContent=lang()==="cs"?"Aktualizovat":"Update";
+ banner.hidden=false;
+}
+function hideUpdateBanner(){document.getElementById("appUpdateBanner").hidden=true}
+function applyAppUpdate(){if(swRegistration?.waiting)swRegistration.waiting.postMessage({type:"SKIP_WAITING"});else location.reload()}
+async function checkForAppUpdate(manual=false){
+ if(!("serviceWorker" in navigator)){if(manual)alert(lang()==="cs"?"Tento prohlížeč nepodporuje offline aktualizace.":"This browser does not support offline updates.");return}
+ try{
+   swRegistration=swRegistration||await navigator.serviceWorker.getRegistration();
+   if(!swRegistration)swRegistration=await navigator.serviceWorker.register("./sw.js");
+   await swRegistration.update();
+   if(swRegistration.waiting)showUpdateBanner();
+   else if(manual)alert(lang()==="cs"?`Používáš aktuální verzi v${VERSION}.`:`You are using the current version v${VERSION}.`);
+ }catch(error){console.error(error);if(manual)alert(lang()==="cs"?"Kontrola aktualizace se nepodařila. Zkontroluj připojení.":"Update check failed. Check your connection.")}
+}
+async function registerAppServiceWorker(){
+ if(!("serviceWorker" in navigator))return;
+ try{
+   swRegistration=await navigator.serviceWorker.register("./sw.js");
+   if(swRegistration.waiting)showUpdateBanner();
+   swRegistration.addEventListener("updatefound",()=>{const worker=swRegistration.installing;if(!worker)return;worker.addEventListener("statechange",()=>{if(worker.state==="installed"&&navigator.serviceWorker.controller)showUpdateBanner()})});
+   navigator.serviceWorker.addEventListener("controllerchange",()=>{if(reloadingForUpdate)return;reloadingForUpdate=true;location.reload()});
+ }catch(error){console.error("Service worker registration failed",error)}
+}
+
 function init(){
- applyTheme();applyLanguage();showToday(selectedTodayDay);restoreActiveWorkout();initCloud();
- if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
+ installExerciseImageRecovery();
+ applyTheme();applyLanguage();showToday(selectedTodayDay,selectedWorkoutDate);restoreActiveWorkout();initCloud();
+ registerAppServiceWorker();
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest()}});
 }
 init();
