@@ -1,0 +1,15 @@
+GYM TRACKER v47 – TEST REPORT
+
+Změny:
+- Romanian Deadlift nahrazen cvikem Hip Thrust 3 × 8–12.
+- Běžecký pás má nově pole Sklon %.
+- Sklon je dostupný ve vloženém pásu v silovém tréninku.
+- Sklon je dostupný také v samostatném kardio záznamu.
+- Pole Sklon se v samostatném kardiu zobrazí jen pro Běžecký pás.
+- Sklon se ukládá do historie a zobrazuje u minulého výkonu.
+
+Kontroly:
+- JavaScript syntaxe: OK
+- pondělní plán neobsahuje Romanian Deadlift: OK
+- pondělní plán obsahuje Hip Thrust: OK
+- PASS: treadmill incline save and display

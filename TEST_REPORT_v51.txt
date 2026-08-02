@@ -1,0 +1,13 @@
+GYM TRACKER v51 – TEST REPORT
+
+Počet cviků v databázi: 88
+
+Ověřeno:
+- JavaScript syntaxe: OK
+- jedinečné menu tří teček pro každý trénink: OK
+- upozornění při nepřihlášení: OK
+- změna cviku z rozbalovací karty: OK
+- výběr ze všech svalových skupin: OK
+- TOP označení: OK
+- tlačítko Smazat trénink: OK
+- PASS: delete workout clears the active session

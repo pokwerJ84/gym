@@ -1,0 +1,10 @@
+GYM TRACKER v50 – TEST REPORT
+
+PASS: active workout and completed local sets are protected
+
+Ověřeno:
+- JavaScript syntaxe: OK
+- aktivní trénink je rozpoznán jako místní datum: OK
+- dokončené místní série jsou rozpoznány: OK
+- před načtením cloudu se vytváří bezpečnostní kopie: OK
+- zrušení synchronizace už nenačítá cloud přes místní data: OK

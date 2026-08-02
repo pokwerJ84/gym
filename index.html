@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#0b5f9b">
+<meta name="theme-color" content="#123047">
 <meta name="apple-mobile-web-app-title" content="Gym Tracker">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Gym Tracker</title>
@@ -1325,6 +1325,1357 @@ body.dark .weight-reps-live .quick-stepper button{
   }
 }
 
+
+/* v46 – working editor for completed sets */
+#editSetDialog{z-index:220}
+#editSetDialog::backdrop{
+  background:rgba(4,15,22,.72);
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+}
+#editSetDialog .modal{
+  width:min(92vw,430px);
+  max-height:min(82vh,680px);
+  overflow:auto;
+}
+#editSetDialog .dialog-actions{
+  position:sticky;
+  bottom:0;
+  margin-top:14px;
+  padding-top:10px;
+  background:var(--surface);
+}
+#editSetDialog .dialog-actions button{
+  min-height:50px;
+}
+#editSetDialogContent input{
+  width:100%;
+  min-height:62px;
+  font-size:25px;
+  font-weight:950;
+  text-align:center;
+}
+.saved-set-row button{
+  position:relative;
+  z-index:2;
+  pointer-events:auto;
+}
+
+
+/* v47 – treadmill incline */
+.cardio-entry-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.cardio-entry-grid input{
+  min-height:56px;
+  font-size:20px;
+  font-weight:900;
+  text-align:center;
+}
+.cardio-live-inputs{
+  grid-template-columns:1fr !important;
+  gap:12px;
+}
+.cardio-live-inputs .live-input-block{
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--surface2);
+}
+.cardio-live-inputs input{
+  width:100%;
+  min-height:66px;
+  font-size:29px;
+  font-weight:950;
+  text-align:center;
+}
+body.dark .cardio-live-inputs .live-input-block{
+  background:#102733;
+}
+@media(max-width:520px){
+  .cardio-entry-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* v49 – treadmill time only */
+.cardio-entry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#cardioSpeedWrap[hidden]{display:none}
+@media(max-width:520px){.cardio-entry-grid{grid-template-columns:1fr}}
+
+/* v51 – login warning, replacement controls and TOP exercises */
+#cloudStatus{
+  display:block;
+  margin:7px 3px 0;
+  font-size:11px;
+  font-weight:900;
+}
+.cloud-warning-status{
+  color:var(--warn)!important;
+}
+.login-warning{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:10px 0 12px;
+  padding:11px 12px;
+  border:1px solid rgba(232,155,60,.42);
+  border-radius:15px;
+  background:rgba(232,155,60,.10);
+}
+.login-warning[hidden]{display:none}
+.login-warning b{
+  display:block;
+  font-size:13px;
+}
+.login-warning span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.35;
+}
+.login-warning button{
+  flex:0 0 auto;
+  min-height:40px;
+  padding:7px 11px;
+  border:0;
+  border-radius:11px;
+  background:#123047;
+  color:#fff;
+  font-weight:900;
+}
+.top-pick-badge{
+  display:inline-flex;
+  align-items:center;
+  margin-left:5px;
+  padding:3px 6px;
+  border-radius:999px;
+  background:rgba(32,184,176,.14);
+  color:#0A817B;
+  font-size:9px;
+  font-weight:950;
+  vertical-align:middle;
+}
+body.dark .top-pick-badge{
+  background:rgba(32,184,176,.18);
+  color:#62DED7;
+}
+.top-pick-item{
+  border-color:rgba(32,184,176,.45)!important;
+}
+.preview-card-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:11px;
+}
+.preview-card-actions button{
+  margin:0;
+  flex:1 1 120px;
+}
+.preview-change-button{
+  background:#123047!important;
+  color:#fff!important;
+}
+.preview-reset-button{
+  background:transparent!important;
+}
+.finish-dialog-actions{
+  display:grid;
+  grid-template-columns:1fr 1.35fr;
+  gap:9px;
+}
+.finish-dialog-actions button{
+  min-height:52px;
+}
+@media(max-width:430px){
+  .login-warning{
+    align-items:flex-start;
+  }
+  .finish-dialog-actions{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ============================================================
+   v52 – MODERN REDESIGN / PHASE 1
+   Clean hierarchy, floating navigation, focused live workout
+   ============================================================ */
+:root{
+  --modern-navy:#102F46;
+  --modern-navy-2:#173E58;
+  --modern-teal:#20B8B0;
+  --modern-teal-dark:#0B8E88;
+  --modern-bg:#F5F8FA;
+  --modern-soft:#EDF3F6;
+  --modern-orange:#F0A23C;
+}
+body{
+  background:
+    radial-gradient(circle at 10% 0%,rgba(32,184,176,.08),transparent 28%),
+    linear-gradient(180deg,#F8FBFC 0%,var(--modern-bg) 100%)!important;
+}
+body.dark{
+  background:linear-gradient(180deg,#07161E 0%,#0A202B 100%)!important;
+}
+.app{
+  max-width:720px;
+  padding-bottom:calc(112px + env(safe-area-inset-bottom));
+}
+header{
+  position:relative;
+  top:auto;
+  padding:calc(15px + env(safe-area-inset-top)) 18px 8px;
+  border-bottom:0;
+  background:transparent;
+  backdrop-filter:none;
+}
+.brand img{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  box-shadow:none;
+}
+.brand h1{font-size:19px}
+#appSubtitle{display:none}
+#cloudStatus{
+  position:absolute;
+  top:calc(18px + env(safe-area-inset-top));
+  right:18px;
+  margin:0;
+  padding:7px 10px;
+  border-radius:999px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  box-shadow:0 7px 20px rgba(18,48,71,.08);
+  font-size:9px;
+}
+main{padding:10px 14px 24px}
+.card{border-radius:22px;box-shadow:0 10px 28px rgba(18,48,71,.07)}
+
+nav{
+  position:fixed;
+  z-index:60;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  width:min(520px,calc(100% - 24px));
+  padding:7px;
+  border:1px solid rgba(207,224,230,.9);
+  border-radius:27px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 18px 48px rgba(18,48,71,.18);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+}
+body.dark nav{
+  background:rgba(16,37,48,.92);
+  border-color:#274A59;
+}
+.navinner{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+}
+.navbtn{
+  min-height:57px;
+  border:0;
+  border-radius:20px;
+  background:transparent;
+  color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+}
+.navbtn.active{
+  background:rgba(32,184,176,.12);
+  color:var(--modern-teal-dark);
+}
+.nav-glyph{
+  font-size:21px;
+  line-height:1;
+  font-weight:800;
+}
+.navbtn b{
+  font-size:10px;
+  line-height:1;
+}
+
+.modern-today{display:grid;gap:13px}
+.modern-today-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:2px 3px 0;
+}
+.eyebrow{
+  display:block;
+  color:var(--modern-teal-dark);
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.modern-today-head h2,
+.library-header h2{
+  margin:4px 0 3px;
+  font-size:27px;
+  letter-spacing:-.045em;
+}
+.modern-today-head p,
+.library-header p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+}
+.today-options-button{
+  width:44px;
+  height:44px;
+  border-radius:15px;
+  background:var(--surface);
+  box-shadow:0 8px 22px rgba(18,48,71,.08);
+}
+
+.modern-week-strip{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:var(--surface);
+  box-shadow:0 8px 24px rgba(18,48,71,.06);
+}
+.modern-week-day{
+  min-width:0;
+  min-height:65px;
+  padding:6px 2px;
+  border:0;
+  border-radius:14px;
+  background:transparent;
+  color:var(--muted);
+}
+.modern-week-day span{
+  display:block;
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.modern-week-day strong{
+  display:block;
+  margin-top:5px;
+  font-size:16px;
+}
+.modern-week-day i{
+  display:block;
+  height:10px;
+  margin-top:3px;
+  color:var(--modern-teal);
+  font-style:normal;
+  font-size:11px;
+}
+.modern-week-day.training-day{color:var(--text)}
+.modern-week-day.today{box-shadow:inset 0 0 0 1px rgba(32,184,176,.35)}
+.modern-week-day.selected{
+  background:var(--modern-teal);
+  color:#fff;
+}
+.modern-week-day.selected i{color:#fff}
+.modern-week-day.completed:not(.selected){
+  background:rgba(43,174,114,.10);
+  color:var(--good);
+}
+
+.modern-login-warning{
+  margin:0;
+  border-radius:18px;
+  box-shadow:none;
+}
+.workout-hero{
+  position:relative;
+  overflow:hidden;
+  padding:18px;
+  border-radius:26px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 90% 5%,rgba(32,184,176,.38),transparent 35%),
+    linear-gradient(145deg,#102F46 0%,#173E58 100%);
+  box-shadow:0 20px 45px rgba(16,47,70,.22);
+}
+.workout-hero::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  right:-70px;
+  bottom:-95px;
+  border:28px solid rgba(255,255,255,.05);
+  border-radius:50%;
+}
+.workout-hero-top{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.hero-kicker{
+  display:block;
+  color:#7FE4DE;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.12em;
+}
+.workout-hero h2{
+  margin:5px 0 4px;
+  font-size:25px;
+  letter-spacing:-.04em;
+}
+.workout-hero p{
+  margin:0;
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+}
+.hero-plan-number{
+  display:grid;
+  place-items:center;
+  min-width:47px;
+  height:47px;
+  border-radius:15px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+  font-weight:950;
+}
+.hero-meta{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 13px;
+  margin-top:15px;
+  color:rgba(255,255,255,.82);
+  font-size:10px;
+  font-weight:800;
+}
+.hero-exercise-preview{
+  position:relative;
+  z-index:1;
+  display:grid;
+  gap:7px;
+  margin-top:15px;
+}
+.hero-preview-row{
+  display:grid;
+  grid-template-columns:32px 1fr auto;
+  align-items:center;
+  gap:9px;
+  padding:8px 9px;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+}
+.hero-preview-icon{
+  display:grid;
+  place-items:center;
+  width:31px;
+  height:31px;
+  border-radius:10px;
+  color:#7FE4DE;
+  background:rgba(32,184,176,.12);
+  font-size:17px;
+}
+.hero-preview-row strong{
+  display:block;
+  font-size:11px;
+}
+.hero-preview-row small{
+  display:block;
+  margin-top:2px;
+  color:rgba(255,255,255,.62);
+  font-size:9px;
+}
+.hero-preview-row>span:last-child{
+  color:#7FE4DE;
+  font-size:11px;
+  font-weight:950;
+}
+.hero-more{
+  text-align:center;
+  color:rgba(255,255,255,.62);
+  font-size:10px;
+}
+.hero-actions{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1.45fr .8fr;
+  gap:9px;
+  margin-top:16px;
+}
+.hero-actions button{
+  min-height:51px;
+  border-radius:15px;
+  font-weight:950;
+}
+.hero-start{
+  border:0!important;
+  background:linear-gradient(135deg,#22C4BB,#15A59E)!important;
+  color:#fff!important;
+}
+.hero-cardio{
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.modern-day-tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.modern-day-tabs button{
+  min-height:45px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+}
+.modern-day-tabs button.active{
+  border-color:var(--modern-teal);
+  background:rgba(32,184,176,.10);
+  color:var(--modern-teal-dark);
+}
+
+.modern-checkin-card{
+  margin:0;
+  padding:15px;
+  border-radius:22px;
+}
+.checkin-heading{
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+}
+.checkin-icon{
+  display:grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  flex:0 0 auto;
+  border-radius:13px;
+  background:rgba(232,155,60,.12);
+  color:var(--warn);
+  font-size:20px;
+}
+.checkin-heading p{margin:4px 0 0}
+.checkin-date{
+  margin:9px 0;
+  color:var(--muted);
+  font-size:10px;
+  text-align:center;
+}
+
+.modern-plan-section{
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:var(--surface);
+  box-shadow:0 10px 28px rgba(18,48,71,.06);
+}
+.section-title-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.section-title-row h3{
+  margin:4px 0 0;
+  font-size:19px;
+  letter-spacing:-.035em;
+}
+.section-add{
+  min-height:41px;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--surface2);
+  color:var(--modern-teal-dark);
+  font-weight:900;
+}
+.modern-exercise-card{
+  border-radius:18px;
+  box-shadow:none;
+}
+.modern-exercise-card summary{
+  grid-template-columns:31px 34px minmax(0,1fr) auto 13px;
+  min-height:76px;
+  padding:10px;
+}
+.exercise-category-icon{
+  display:grid;
+  place-items:center;
+  width:33px;
+  height:33px;
+  border-radius:11px;
+  background:var(--surface2);
+  color:var(--modern-teal-dark);
+  font-size:17px;
+}
+.modern-exercise-card.exercise-done{
+  border-color:rgba(43,174,114,.38);
+  background:rgba(43,174,114,.04);
+}
+.modern-exercise-card.exercise-done .preview-card-number{
+  background:var(--good);
+  color:#fff;
+}
+.preview-video-button{
+  min-width:66px;
+  width:auto;
+  min-height:41px;
+  border:1px solid rgba(32,184,176,.42);
+  background:rgba(32,184,176,.08);
+  color:var(--modern-teal-dark);
+}
+.preview-card-body{
+  border-top-color:var(--line);
+  background:var(--modern-soft);
+}
+.preview-card-actions button{min-height:42px}
+.modern-plan-footer{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+.modern-plan-footer button{min-height:46px}
+.modern-recommendation{
+  display:grid;
+  grid-template-columns:44px 1fr 42px;
+  gap:11px;
+  align-items:center;
+  padding:14px;
+  border:1px solid rgba(32,184,176,.30);
+  border-radius:20px;
+  background:rgba(32,184,176,.07);
+}
+.recommendation-star{
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:var(--modern-teal);
+  color:#fff;
+  font-size:21px;
+}
+.modern-recommendation h3{margin:3px 0;font-size:15px}
+.modern-recommendation p{margin:0;color:var(--muted);font-size:10px}
+.modern-recommendation button{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:13px;
+  background:var(--modern-navy);
+  color:#fff;
+  font-size:20px;
+}
+
+/* LIVE */
+.live-overlay{
+  background:
+    radial-gradient(circle at 85% 0%,rgba(32,184,176,.20),transparent 30%),
+    linear-gradient(180deg,#0A2739 0%,#071923 100%)!important;
+}
+.live-shell{
+  max-width:680px;
+  padding:calc(12px + env(safe-area-inset-top)) 12px calc(138px + env(safe-area-inset-bottom));
+}
+.live-top{
+  grid-template-columns:48px 1fr auto;
+}
+.live-top button{
+  border-radius:16px;
+  background:rgba(255,255,255,.09);
+}
+.live-progress{
+  height:5px;
+  background:rgba(255,255,255,.10);
+}
+.live-progress div{
+  background:linear-gradient(90deg,#20B8B0,#78E1DB);
+}
+.live-card{
+  margin-top:13px;
+  padding:14px;
+  border-radius:26px;
+  background:#F8FBFC;
+  box-shadow:0 24px 70px rgba(0,0,0,.32);
+}
+.modern-live-hero{
+  display:grid;
+  grid-template-columns:58px 1fr auto;
+  gap:12px;
+  align-items:center;
+}
+.modern-live-glyph{
+  display:grid;
+  place-items:center;
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#E8F7F6,#D9EEEE);
+  color:#0B8E88;
+  font-size:28px;
+}
+.modern-live-title span{
+  display:block;
+  color:#6D8190;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.modern-live-title h2{
+  margin:3px 0;
+  font-size:22px;
+}
+.modern-live-title p{
+  margin:0;
+  color:#0B8E88;
+  font-size:11px;
+  font-weight:900;
+}
+.modern-video-btn{
+  width:auto;
+  min-width:72px;
+  min-height:39px;
+  padding:7px 10px;
+  border:1px solid #BFE4E2;
+  border-radius:12px;
+  background:#EEF9F8;
+  color:#0B8E88;
+  font-size:11px;
+}
+.modern-previous{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:11px;
+  padding:9px 11px;
+  border-radius:13px;
+  background:#EEF3F6;
+  color:#607787;
+  font-size:10px;
+}
+.live-round-metrics{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+.live-round-metrics div{
+  display:grid;
+  place-items:center;
+  min-height:82px;
+  padding:8px;
+  border:5px solid #D8EEEE;
+  border-radius:50%;
+  text-align:center;
+}
+.live-round-metrics div:nth-child(2){border-color:#BFE3E1}
+.live-round-metrics div:nth-child(3){border-color:#F2D29D}
+.live-round-metrics strong{
+  display:block;
+  color:#173E58;
+  font-size:17px;
+}
+.live-round-metrics span{
+  display:block;
+  color:#708594;
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.modern-live-set{
+  margin-top:13px;
+  padding:13px;
+  border:1px solid #D8E6EC;
+  border-radius:20px;
+  background:#F1F6F8;
+}
+.modern-set-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.modern-set-heading span{
+  color:#0B8E88;
+  font-size:9px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+.modern-set-heading h3{
+  margin:2px 0 0;
+  color:#173E58;
+  font-size:16px;
+}
+.set-progress-pill{
+  display:grid;
+  place-items:center;
+  min-width:44px;
+  height:34px;
+  padding:0 9px;
+  border-radius:999px;
+  background:#173E58;
+  color:#fff!important;
+}
+.modern-live-inputs{
+  gap:9px;
+}
+.modern-live-inputs .live-input-block{
+  padding:11px;
+  border:1px solid #D9E7ED;
+  border-radius:18px;
+  background:#fff;
+}
+.modern-live-inputs .live-input-label{
+  color:#6C8492;
+  font-size:9px;
+  text-align:center;
+}
+.modern-live-inputs .quick-stepper{
+  grid-template-columns:44px minmax(0,1fr) 44px;
+}
+.modern-live-inputs .quick-stepper button{
+  min-height:54px;
+  border-radius:14px;
+  background:#EAF5F5;
+  color:#0B8E88;
+  font-size:25px;
+}
+.modern-live-inputs input{
+  min-width:0;
+  min-height:64px;
+  border:0;
+  background:#fff;
+  color:#102F46;
+  font-size:30px;
+  text-align:center;
+}
+.modern-live-inputs .weight-step-row{
+  margin-top:5px;
+}
+.modern-complete-set{
+  min-height:56px;
+  margin-top:10px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#20B8B0,#0FA29B);
+  font-size:15px;
+}
+.modern-saved-sets{
+  margin-top:13px;
+  padding:13px;
+  border-radius:19px;
+  background:#F1F6F8;
+}
+.modern-saved-sets .saved-sets-title{
+  display:flex;
+  justify-content:space-between;
+}
+.modern-saved-sets .saved-sets-title small{
+  display:grid;
+  place-items:center;
+  min-width:25px;
+  height:25px;
+  border-radius:999px;
+  background:#173E58;
+  color:#fff;
+}
+.completed-set-table{
+  overflow:hidden;
+  margin-top:8px;
+  border:1px solid #D9E7ED;
+  border-radius:14px;
+  background:#fff;
+}
+.modern-saved-sets .saved-set-row{
+  display:grid;
+  grid-template-columns:28px 1fr auto;
+  border:0;
+  border-bottom:1px solid #E2ECF0;
+  border-radius:0;
+  background:#fff;
+}
+.modern-saved-sets .saved-set-row:last-child{border-bottom:0}
+.saved-set-number{
+  display:grid;
+  place-items:center;
+  width:25px;
+  height:25px;
+  border-radius:8px;
+  background:#EAF5F5;
+  color:#0B8E88;
+  font-weight:950;
+}
+.live-nav{
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  width:min(650px,calc(100% - 20px));
+  border-radius:22px;
+  background:rgba(7,25,35,.96);
+}
+
+/* LIBRARY */
+.modern-library{display:grid;gap:14px}
+.library-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.library-add-custom{
+  width:46px;
+  height:46px;
+  border:0;
+  border-radius:15px;
+  background:var(--modern-navy);
+  color:#fff;
+  font-size:22px;
+}
+.library-search-wrap{
+  display:grid;
+  grid-template-columns:28px 1fr 42px;
+  align-items:center;
+  gap:7px;
+  padding:7px 8px 7px 12px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:var(--surface);
+  box-shadow:0 8px 24px rgba(18,48,71,.06);
+}
+.library-search-wrap>span{
+  color:var(--muted);
+  font-size:23px;
+}
+.library-search-wrap input{
+  min-height:45px;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.library-search-wrap button{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:13px;
+  background:var(--surface2);
+  color:var(--modern-navy);
+}
+.library-category-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.library-category-grid button{
+  min-height:88px;
+  padding:10px 8px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--surface);
+  color:var(--text);
+}
+.library-category-grid button.active{
+  border-color:var(--modern-teal);
+  background:rgba(32,184,176,.09);
+}
+.library-category-grid span{
+  display:block;
+  color:var(--modern-teal-dark);
+  font-size:25px;
+}
+.library-category-grid strong{
+  display:block;
+  margin-top:4px;
+  font-size:10px;
+}
+.library-category-grid small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:8px;
+}
+.library-filter-row{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  padding-bottom:2px;
+  scrollbar-width:none;
+}
+.library-filter-row::-webkit-scrollbar{display:none}
+.library-filter-row button{
+  flex:0 0 auto;
+  min-height:36px;
+  padding:7px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:9px;
+  font-weight:900;
+}
+.library-filter-row button.active{
+  border-color:var(--modern-teal);
+  background:var(--modern-teal);
+  color:#fff;
+}
+.library-results{
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:var(--surface);
+  box-shadow:0 10px 28px rgba(18,48,71,.06);
+}
+.result-count{
+  display:grid;
+  place-items:center;
+  min-width:40px;
+  height:40px;
+  border-radius:13px;
+  background:var(--surface2);
+  color:var(--modern-teal-dark);
+  font-weight:950;
+}
+.modern-library-group>h4{
+  display:flex;
+  justify-content:space-between;
+  margin:17px 2px 8px;
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.modern-exercise-list{display:grid;gap:8px}
+.modern-database-item{
+  display:grid;
+  grid-template-columns:44px 1fr auto;
+  align-items:center;
+  gap:10px;
+  margin:0;
+  padding:10px;
+  border-radius:16px;
+  background:var(--surface2);
+}
+.database-glyph{
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:var(--surface);
+  color:var(--modern-teal-dark);
+  font-size:22px;
+}
+.database-copy{min-width:0}
+.database-copy h4{
+  margin:0;
+  font-size:12px;
+}
+.database-copy p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:9px;
+}
+.quality-tag{
+  display:inline-block;
+  margin-top:5px;
+  color:#0B8E88;
+  font-size:8px;
+  font-weight:950;
+}
+.video-row-btn{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(32,184,176,.35);
+  border-radius:13px;
+  background:rgba(32,184,176,.08);
+  color:var(--modern-teal-dark);
+}
+body.dark .workout-hero{box-shadow:0 20px 45px rgba(0,0,0,.35)}
+body.dark .modern-plan-section,
+body.dark .library-results,
+body.dark .modern-week-strip,
+body.dark .library-category-grid button,
+body.dark .library-search-wrap{
+  background:var(--surface);
+}
+body.dark .preview-card-body,
+body.dark .modern-database-item{
+  background:#122D3A;
+}
+body.dark .exercise-category-icon,
+body.dark .database-glyph{
+  background:#173847;
+}
+body.dark .modern-live-set,
+body.dark .modern-saved-sets,
+body.dark .modern-previous{
+  background:#EAF1F4;
+}
+@media(max-width:430px){
+  .modern-today-head h2,.library-header h2{font-size:24px}
+  .hero-actions{grid-template-columns:1fr}
+  .modern-exercise-card summary{
+    grid-template-columns:29px 31px minmax(0,1fr) 49px 12px;
+    gap:6px;
+  }
+  .preview-video-button{
+    min-width:48px;
+    width:48px;
+    padding:6px;
+  }
+  .preview-video-button span{display:none}
+  .modern-live-hero{
+    grid-template-columns:52px 1fr auto;
+  }
+  .modern-live-glyph{
+    width:52px;
+    height:52px;
+  }
+  .modern-video-btn{
+    min-width:48px;
+    width:48px;
+    overflow:hidden;
+    white-space:nowrap;
+    color:transparent;
+  }
+  .modern-video-btn::first-letter{color:#0B8E88}
+  .live-round-metrics div{
+    min-height:72px;
+    border-width:4px;
+  }
+  .live-round-metrics strong{font-size:15px}
+  .library-category-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+
+/* ============================================================
+   v53 – exercise guide images
+   ============================================================ */
+.hero-preview-thumb,
+.exercise-guide-thumb,
+.database-guide-thumb,
+.library-guide-thumb{
+  display:block;
+  object-fit:cover;
+  object-position:50% 18%;
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.hero-preview-thumb{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+}
+
+.exercise-guide-thumb{
+  width:34px;
+  height:42px;
+  border-radius:10px;
+}
+
+.database-guide-thumb{
+  width:48px;
+  height:55px;
+  border-radius:13px;
+}
+
+.library-guide-thumb{
+  width:52px;
+  height:58px;
+  flex:0 0 auto;
+  border-radius:13px;
+}
+
+.library-guide-fallback{
+  display:grid;
+  place-items:center;
+  width:52px;
+  height:52px;
+  flex:0 0 auto;
+  border-radius:13px;
+  background:var(--surface);
+  color:var(--modern-teal-dark);
+  font-size:23px;
+}
+
+.library-item{
+  align-items:center;
+}
+
+.library-recommend{
+  position:relative;
+  overflow:hidden;
+}
+
+.library-recommend-thumb{
+  float:left;
+  width:72px;
+  height:82px;
+  margin:0 11px 8px 0;
+  border:1px solid var(--line);
+  border-radius:14px;
+  object-fit:cover;
+  object-position:50% 18%;
+  background:#fff;
+}
+
+.modern-live-guide{
+  display:grid;
+  grid-template-columns:76px 1fr 25px;
+  align-items:center;
+  gap:11px;
+  width:100%;
+  margin-top:12px;
+  padding:8px;
+  border:1px solid #D7E7EC;
+  border-radius:17px;
+  background:#EEF5F7;
+  color:#173E58;
+  text-align:left;
+}
+
+.modern-live-guide img{
+  width:76px;
+  height:70px;
+  border-radius:12px;
+  object-fit:cover;
+  object-position:50% 18%;
+  background:#fff;
+}
+
+.modern-live-guide b{
+  display:block;
+  font-size:12px;
+}
+
+.modern-live-guide small{
+  display:block;
+  margin-top:3px;
+  color:#708594;
+  font-size:9px;
+}
+
+.modern-live-guide i{
+  color:#0B8E88;
+  font-size:25px;
+  font-style:normal;
+}
+
+.guide-modal{
+  width:min(95vw,720px)!important;
+}
+
+.video-guide-wrap{
+  margin:12px 0;
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--surface2);
+  text-align:center;
+}
+
+.video-guide-wrap[hidden]{
+  display:none;
+}
+
+.video-guide-wrap img{
+  display:block;
+  width:100%;
+  max-height:62vh;
+  margin:auto;
+  border-radius:13px;
+  object-fit:contain;
+  background:#fff;
+  cursor:zoom-in;
+  transition:max-height .2s ease;
+}
+
+.video-guide-wrap.expanded img{
+  max-height:none;
+  cursor:zoom-out;
+}
+
+.video-guide-wrap p{
+  margin:7px 4px 2px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.video-external-action{
+  margin:12px 0 2px;
+  text-align:center;
+}
+
+.video-external-action a{
+  display:inline-block;
+  text-decoration:none;
+}
+
+body.dark .modern-live-guide{
+  background:#EAF1F4;
+}
+
+@media(max-width:430px){
+  .modern-exercise-card summary{
+    grid-template-columns:29px 35px minmax(0,1fr) 49px 12px;
+  }
+
+  .exercise-guide-thumb{
+    width:35px;
+    height:43px;
+  }
+
+  .database-guide-thumb{
+    width:44px;
+    height:52px;
+  }
+
+  .modern-live-guide{
+    grid-template-columns:68px 1fr 20px;
+  }
+
+  .modern-live-guide img{
+    width:68px;
+    height:64px;
+  }
+}
+
+
+/* v55 flexible schedule */
+.selected-workout-date{margin-top:5px!important;color:var(--text)!important;font-size:12px!important;font-weight:900;text-transform:capitalize}
+.flex-day-card{display:grid;grid-template-columns:46px 1fr auto;gap:11px;align-items:center;padding:14px;border:1px solid rgba(32,184,176,.28);border-radius:20px;background:rgba(32,184,176,.07)}
+.flex-day-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:15px;background:var(--modern-teal);color:#fff;font-size:23px;font-weight:950}
+.flex-day-card h3{margin:3px 0;font-size:15px}.flex-day-card p{margin:0;color:var(--muted);font-size:10px;line-height:1.45}
+.flex-day-card button{min-height:42px;padding:8px 11px;border:1px solid rgba(32,184,176,.35);border-radius:13px;background:var(--surface);color:var(--modern-teal-dark);font-weight:900}
+.modern-week-day:not(.training-day) i{color:var(--modern-teal)}.modern-week-day:not(.training-day){cursor:pointer}
+@media(max-width:480px){.flex-day-card{grid-template-columns:42px 1fr}.flex-day-card button{grid-column:1/-1;width:100%}}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -1339,7 +2690,7 @@ body.dark .weight-reps-live .quick-stepper button{
   <div class="toprow">
     <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><h1>Gym Tracker</h1><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
-  <div id="cloudStatus" hidden></div>
+  <div id="cloudStatus"></div>
 </header>
 
 <div class="workout-running" id="workoutRunning">
@@ -1360,10 +2711,10 @@ body.dark .weight-reps-live .quick-stepper button{
 </div>
 
 <nav><div class="navinner">
-  <button class="navbtn active" data-screen="today" id="navTodayBtn" onclick="showToday(recommendedDay())"><span>🏠</span><b id="navToday"></b></button>
-  <button class="navbtn" data-screen="history" onclick="showScreen('history',this)"><span>🕘</span><b id="navHistory"></b></button>
-  <button class="navbtn" data-screen="database" onclick="showScreen('database',this)"><span>📚</span><b id="navDatabase"></b></button>
-  <button class="navbtn" data-screen="more" onclick="showScreen('more',this)"><span>⚙️</span><b id="navMore"></b></button>
+  <button class="navbtn active" data-screen="today" id="navTodayBtn" onclick="showToday(recommendedDay())"><span class="nav-glyph">⌂</span><b id="navToday"></b></button>
+  <button class="navbtn" data-screen="history" onclick="showScreen('history',this)"><span class="nav-glyph">◔</span><b id="navHistory"></b></button>
+  <button class="navbtn" data-screen="database" onclick="showScreen('database',this)"><span class="nav-glyph">▦</span><b id="navDatabase"></b></button>
+  <button class="navbtn" data-screen="more" onclick="showScreen('more',this)"><span class="nav-glyph">•••</span><b id="navMore"></b></button>
 </div></nav>
 
 <div class="toast" id="undoToast"><span id="undoToastText"></span><button id="undoToastBtn" onclick="undoLastSet()"></button></div>
@@ -1431,11 +2782,15 @@ body.dark .weight-reps-live .quick-stepper button{
   <div class="actions"><button class="primary full" onclick="saveCustomExercise()" id="customSaveBtn"></button></div>
 </div></dialog>
 
-<dialog id="videoDialog"><div class="modal">
+<dialog id="videoDialog"><div class="modal wide guide-modal">
   <button class="iconbtn close" onclick="videoDialog.close()">✕</button>
   <h2 id="videoTitle" style="margin:3px 0"></h2>
+  <div id="videoGuideWrap" class="video-guide-wrap" hidden>
+    <img id="videoGuideImage" alt="" loading="eager">
+    <p id="videoGuideHint"></p>
+  </div>
   <div id="videoTips"></div>
-  <p style="text-align:center"><a id="videoLink" class="primary" style="display:inline-block;text-decoration:none" target="_blank" rel="noopener"></a></p>
+  <p class="video-external-action"><a id="videoLink" class="primary" target="_blank" rel="noopener"></a></p>
 </div></dialog>
 
 <dialog id="historyDialog"><div class="modal">
@@ -1443,6 +2798,10 @@ body.dark .weight-reps-live .quick-stepper button{
   <h2 id="historyTitle" style="margin:3px 0"></h2>
   <div id="historyContent"></div>
 </div></dialog>
+
+<dialog id="editSetDialog">
+  <div class="modal" id="editSetDialogContent"></div>
+</dialog>
 
 <dialog id="retroDialog"><div class="modal">
   <button class="iconbtn close" onclick="retroDialog.close()">✕</button>
@@ -1457,7 +2816,10 @@ body.dark .weight-reps-live .quick-stepper button{
   <h2 id="finishTitle" style="margin:3px 0"></h2>
   <div id="finishSummary"></div>
   <label><span id="finishNoteLabel"></span><textarea id="finishNote" rows="3"></textarea></label>
-  <div class="actions"><button class="primary full" onclick="saveFinishedWorkout()" id="finishSaveBtn"></button></div>
+  <div class="actions finish-dialog-actions">
+    <button class="danger" onclick="deleteActiveWorkout()" id="finishDeleteBtn"></button>
+    <button class="primary" onclick="saveFinishedWorkout()" id="finishSaveBtn"></button>
+  </div>
 </div></dialog>
 
 
@@ -1485,13 +2847,13 @@ body.dark .weight-reps-live .quick-stepper button{
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const LIBRARY=[{"id":"machine_chest_press","cs":"Tlaky na hrudník na stroji","en":"Machine Chest Press","category":"chest","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Lopatky drž opřené","Lokty lehce pod úrovní ramen","Madla tlač plynule dopředu"],"en":["Keep your shoulder blades against the pad","Keep elbows slightly below shoulder level","Press the handles smoothly"]},"mistakes":{"cs":["Ramena dopředu","Odlepování zad od opěrky","Narážení závaží"],"en":["Letting shoulders roll forward","Lifting your back off the pad","Slamming the weight stack"]}},{"id":"bench_press","cs":"Bench press","en":"Bench Press","category":"chest","mode":"weight","sets":3,"range":"6–10","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"incline_dumbbell_press","cs":"Tlaky s jednoručkami na šikmé lavici","en":"Incline Dumbbell Press","category":"chest","mode":"weight","sets":3,"range":"8–10","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"pec_deck","cs":"Peck deck","en":"Pec Deck","category":"chest","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"cable_fly","cs":"Rozpažky na kladkách","en":"Cable Fly","category":"chest","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"push_up","cs":"Kliky","en":"Push-Up","category":"chest","mode":"reps","sets":3,"range":"8–20","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]}},{"id":"lat_pulldown","cs":"Stahování horní kladky","en":"Lat Pulldown","category":"back","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Hrudník drž lehce vzhůru","Začni stažením lopatek dolů","Táhni madlo před tělo"],"en":["Keep your chest slightly lifted","Start by pulling the shoulder blades down","Pull the bar in front of your body"]},"mistakes":{"cs":["Tah za krk","Houpání trupem","Ramena u uší"],"en":["Pulling behind the neck","Swinging the torso","Shrugging"]}},{"id":"assisted_pull_up","cs":"Shyby s dopomocí","en":"Assisted Pull-Up","category":"back","mode":"weight","sets":3,"range":"6–10","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"seated_row","cs":"Přitahování vsedě","en":"Seated Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"chest_supported_row","cs":"Přitahování s oporou hrudníku","en":"Chest-Supported Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"one_arm_cable_row","cs":"Přitahování kladky jednou rukou","en":"Single-Arm Cable Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":90,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"straight_arm_pulldown","cs":"Stahování natažených paží","en":"Straight-Arm Pulldown","category":"back","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"machine_shoulder_press","cs":"Tlaky na ramena na stroji","en":"Machine Shoulder Press","category":"shoulders","mode":"weight","sets":2,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"dumbbell_shoulder_press","cs":"Tlaky s jednoručkami na ramena","en":"Dumbbell Shoulder Press","category":"shoulders","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"lateral_raise","cs":"Upažování","en":"Lateral Raise","category":"shoulders","mode":"weight","sets":2,"range":"12–15","rest":75,"tips":{"cs":["Lokty nech lehce pokrčené","Veď pohyb lokty","Zvedej přibližně do výše ramen"],"en":["Keep a slight bend in the elbows","Lead with your elbows","Raise to about shoulder height"]},"mistakes":{"cs":["Švihání trupem","Ramena k uším","Příliš těžká váha"],"en":["Swinging the torso","Shrugging","Using too much weight"]}},{"id":"cable_lateral_raise","cs":"Upažování na kladce","en":"Cable Lateral Raise","category":"shoulders","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"rear_delt_fly","cs":"Obrácené rozpažky","en":"Rear Delt Fly","category":"shoulders","mode":"weight","sets":3,"range":"12–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"face_pull","cs":"Přitahování lana k obličeji","en":"Face Pull","category":"shoulders","mode":"weight","sets":2,"range":"12–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"barbell_curl","cs":"Bicepsový zdvih s osou","en":"Barbell Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"dumbbell_curl","cs":"Bicepsový zdvih s jednoručkami","en":"Dumbbell Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"hammer_curl","cs":"Kladivové zdvihy","en":"Hammer Curl","category":"biceps","mode":"weight","sets":3,"range":"10–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"cable_curl","cs":"Bicepsový zdvih na kladce","en":"Cable Curl","category":"biceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"preacher_curl","cs":"Biceps na Scottově lavici","en":"Preacher Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"triceps_pushdown","cs":"Stlačování kladky na triceps","en":"Triceps Pushdown","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"rope_pushdown","cs":"Stlačování lana na triceps","en":"Rope Pushdown","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"overhead_triceps_extension","cs":"Triceps nad hlavou na kladce","en":"Overhead Cable Triceps Extension","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"dip_machine","cs":"Tricepsové dipy na stroji","en":"Dip Machine","category":"triceps","mode":"weight","sets":3,"range":"8–12","rest":90,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"single_arm_pushdown","cs":"Stlačování kladky jednou rukou","en":"Single-Arm Pushdown","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":60,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"hack_squat","cs":"Hack dřep na stroji","en":"Hack Squat Machine","category":"quads","mode":"weight","sets":3,"range":"8–10","rest":150,"tips":{"cs":["Záda drž opřená","Kolena ve směru špiček","Tlač přes celé chodidlo"],"en":["Keep your back against the pad","Track knees over toes","Push through the whole foot"]},"mistakes":{"cs":["Kolena dovnitř","Zvedání pat","Kulatá bedra"],"en":["Knees collapsing inward","Heels lifting","Rounding the lower back"]}},{"id":"leg_press","cs":"Tlak na nohy","en":"Leg Press","category":"quads","mode":"weight","sets":3,"range":"10–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"leg_extension","cs":"Předkopávání","en":"Leg Extension","category":"quads","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"smith_squat","cs":"Dřep na Smithově stroji","en":"Smith Machine Squat","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"bulgarian_split_squat","cs":"Bulharský dřep","en":"Bulgarian Split Squat","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":90,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"romanian_deadlift","cs":"Rumunský mrtvý tah","en":"Romanian Deadlift","category":"hamstrings","mode":"weight","sets":3,"range":"8–10","rest":150,"tips":{"cs":["Posílej boky dozadu","Činku drž blízko stehen","Záda drž neutrálně"],"en":["Push your hips backwards","Keep the weight close to your thighs","Keep a neutral spine"]},"mistakes":{"cs":["Kulatá záda","Činka daleko od těla","Příliš hluboký pohyb"],"en":["Rounding the back","Letting the weight drift away","Going too deep"]}},{"id":"seated_leg_curl","cs":"Zakopávání vsedě","en":"Seated Leg Curl","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"lying_leg_curl","cs":"Zakopávání vleže","en":"Lying Leg Curl","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"hip_thrust","cs":"Hip thrust","en":"Hip Thrust","category":"hamstrings","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"back_extension","cs":"Hyperextenze","en":"Back Extension","category":"hamstrings","mode":"reps","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]}},{"id":"cable_pull_through","cs":"Pull-through na kladce","en":"Cable Pull-Through","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"standing_calf_raise","cs":"Výpony na lýtka ve stoje","en":"Standing Calf Raise","category":"calves","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"seated_calf_raise","cs":"Výpony na lýtka vsedě","en":"Seated Calf Raise","category":"calves","mode":"weight","sets":3,"range":"12–20","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"leg_press_calf_raise","cs":"Výpony na leg pressu","en":"Leg Press Calf Raise","category":"calves","mode":"weight","sets":3,"range":"12–20","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"cable_crunch","cs":"Stahování kladky na břicho","en":"Cable Crunch","category":"core","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Žebra přibližuj k pánvi","Pánev drž téměř na místě","Dole vydechni"],"en":["Bring your ribs toward your pelvis","Keep the pelvis nearly still","Exhale at the bottom"]},"mistakes":{"cs":["Tahání rukama","Pohyb jen v kyčlích","Příliš těžká váha"],"en":["Pulling with the arms","Moving only at the hips","Using too much weight"]}},{"id":"reverse_crunch","cs":"Obrácené zkracovačky","en":"Reverse Crunch","category":"core","mode":"reps","sets":3,"range":"10–15","rest":60,"tips":{"cs":["Nahoře lehce podsad pánev","Bedra zvedej kontrolovaně","Nohy spouštěj pomalu"],"en":["Curl your pelvis up at the top","Lift the lower back under control","Lower the legs slowly"]},"mistakes":{"cs":["Švihání nohama","Pohyb jen v kyčlích","Rychlý návrat"],"en":["Swinging the legs","Moving only at the hips","Dropping too quickly"]}},{"id":"ab_wheel","cs":"Kolečko na břicho","en":"Ab Wheel Rollout","category":"core","mode":"reps","sets":3,"range":"6–10","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]}},{"id":"pallof_press","cs":"Pallof press","en":"Pallof Press","category":"core","mode":"sideweight","sets":3,"range":"10–12","rest":75,"tips":{"cs":["Tělo drž rovně","Odpor nenech otočit trup","Obě strany cvič stejně"],"en":["Keep your torso square","Do not let the resistance rotate you","Train both sides equally"]},"mistakes":{"cs":["Otáčení trupu","Příliš těžká váha","Nerovnoměrné strany"],"en":["Rotating the torso","Using too much weight","Uneven sides"]}},{"id":"hanging_knee_raise","cs":"Zvedání kolen ve visu nebo na bradlech","en":"Hanging / Captain’s Chair Knee Raise","category":"core","mode":"reps","sets":3,"range":"8–15","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]}},{"id":"side_plank","cs":"Boční plank","en":"Side Plank","category":"core","mode":"sidetime","sets":3,"range":"30–45","rest":60,"tips":{"cs":["Drž boky vysoko","Tělo drž v jedné linii","Dýchej pravidelně"],"en":["Keep your hips high","Keep your body in one line","Breathe normally"]},"mistakes":{"cs":["Propadlé boky","Rotace trupu","Zadržování dechu"],"en":["Letting the hips drop","Rotating the torso","Holding your breath"]}},{"id":"plank","cs":"Plank","en":"Plank","category":"core","mode":"time","sets":3,"range":"30–60","rest":60,"tips":{"cs":["Drž tělo pevné","Dýchej pravidelně","Ukonči sérii při ztrátě pozice"],"en":["Keep your body braced","Breathe normally","Stop when your position breaks down"]},"mistakes":{"cs":["Propadlá bedra","Zadržování dechu","Příliš dlouhá série se špatnou technikou"],"en":["Letting the lower back sag","Holding your breath","Extending the set with poor form"]}},{"id":"dead_bug","cs":"Dead bug","en":"Dead Bug","category":"core","mode":"reps","sets":3,"range":"8–12","rest":60,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]}},{"id":"machine_crunch","cs":"Zkracovačky na stroji","en":"Machine Crunch","category":"core","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]}},{"id":"lying_leg_raise","cs":"Zvedání nohou vleže","en":"Lying Leg Raise","category":"core","mode":"reps","sets":3,"range":"8–15","rest":60,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]}},{"id":"treadmill","cs":"Běžecký pás","en":"Treadmill","category":"cardio","mode":"cardio","sets":1,"range":"10–15 min","rest":0,"tips":{"cs":["Drž přirozený krok","Začni lehce","Na konci postupně zpomal"],"en":["Use a natural stride","Start easy","Slow down gradually at the end"]},"mistakes":{"cs":["Držení madel","Příliš rychlý start","Náhlé zastavení"],"en":["Holding the rails","Starting too fast","Stopping suddenly"]}},{"id":"stationary_bike","cs":"Rotoped","en":"Stationary Bike","category":"cardio","mode":"cardio","sets":1,"range":"10–20 min","rest":0,"tips":{"cs":["Drž přirozený krok","Začni lehce","Na konci postupně zpomal"],"en":["Use a natural stride","Start easy","Slow down gradually at the end"]},"mistakes":{"cs":["Držení madel","Příliš rychlý start","Náhlé zastavení"],"en":["Holding the rails","Starting too fast","Stopping suddenly"]}},{"id":"elliptical","cs":"Eliptický trenažér","en":"Elliptical Trainer","category":"cardio","mode":"cardio","sets":1,"range":"10–20 min","rest":0,"tips":{"cs":["Drž přirozený krok","Začni lehce","Na konci postupně zpomal"],"en":["Use a natural stride","Start easy","Slow down gradually at the end"]},"mistakes":{"cs":["Držení madel","Příliš rychlý start","Náhlé zastavení"],"en":["Holding the rails","Starting too fast","Stopping suddenly"]}}];
-const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Celé tělo + přední část břicha","sub_en":"Full body + front abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"machine_chest_press","sets":3,"range":"8–12"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"romanian_deadlift","sets":3,"range":"8–10"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"reverse_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Celé tělo + stabilita středu","sub_en":"Full body + core stability","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"ab_wheel","sets":3,"range":"6–10"},{"id":"pallof_press","sets":3,"range":"10–12"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Celé tělo + spodní a boční břicho","sub_en":"Full body + lower and side abs","items":[{"id":"hack_squat","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"side_plank","sets":3,"range":"30–45"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
+const LIBRARY=[{"id":"machine_chest_press","cs":"Tlaky na hrudník na stroji","en":"Machine Chest Press","category":"chest","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Lopatky drž opřené","Lokty lehce pod úrovní ramen","Madla tlač plynule dopředu"],"en":["Keep your shoulder blades against the pad","Keep elbows slightly below shoulder level","Press the handles smoothly"]},"mistakes":{"cs":["Ramena dopředu","Odlepování zad od opěrky","Narážení závaží"],"en":["Letting shoulders roll forward","Lifting your back off the pad","Slamming the weight stack"]},"topPick":true,"guideImage":"assets/exercises/machine_chest_press-guide.webp","guideThumb":"assets/exercises/machine_chest_press-thumb.webp","guideExact":true},{"id":"bench_press","cs":"Bench press","en":"Bench Press","category":"chest","mode":"weight","sets":3,"range":"6–10","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/bench_press-guide.webp","guideThumb":"assets/exercises/bench_press-thumb.webp","guideExact":true},{"id":"incline_dumbbell_press","cs":"Tlaky s jednoručkami na šikmé lavici","en":"Incline Dumbbell Press","category":"chest","mode":"weight","sets":3,"range":"8–10","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/incline_dumbbell_press-guide.webp","guideThumb":"assets/exercises/incline_dumbbell_press-thumb.webp","guideExact":true},{"id":"pec_deck","cs":"Peck deck","en":"Pec Deck","category":"chest","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/pec_deck-guide.webp","guideThumb":"assets/exercises/pec_deck-thumb.webp","guideExact":true},{"id":"cable_fly","cs":"Rozpažky na kladkách","en":"Cable Fly","category":"chest","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_fly-guide.webp","guideThumb":"assets/exercises/cable_fly-thumb.webp","guideExact":true},{"id":"push_up","cs":"Kliky","en":"Push-Up","category":"chest","mode":"reps","sets":3,"range":"8–20","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]},"guideImage":"assets/exercises/push_up-guide.webp","guideThumb":"assets/exercises/push_up-thumb.webp","guideExact":true},{"id":"lat_pulldown","cs":"Stahování horní kladky","en":"Lat Pulldown","category":"back","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Hrudník drž lehce vzhůru","Začni stažením lopatek dolů","Táhni madlo před tělo"],"en":["Keep your chest slightly lifted","Start by pulling the shoulder blades down","Pull the bar in front of your body"]},"mistakes":{"cs":["Tah za krk","Houpání trupem","Ramena u uší"],"en":["Pulling behind the neck","Swinging the torso","Shrugging"]},"topPick":true,"guideImage":"assets/exercises/lat_pulldown-guide.webp","guideThumb":"assets/exercises/lat_pulldown-thumb.webp","guideExact":true},{"id":"assisted_pull_up","cs":"Shyby s dopomocí","en":"Assisted Pull-Up","category":"back","mode":"weight","sets":3,"range":"6–10","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/assisted_pull_up-guide.webp","guideThumb":"assets/exercises/assisted_pull_up-thumb.webp","guideExact":true},{"id":"seated_row","cs":"Přitahování vsedě","en":"Seated Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/seated_row-guide.webp","guideThumb":"assets/exercises/seated_row-thumb.webp","guideExact":true},{"id":"chest_supported_row","cs":"Přitahování s oporou hrudníku","en":"Chest-Supported Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/chest_supported_row-guide.webp","guideThumb":"assets/exercises/chest_supported_row-thumb.webp","guideExact":true},{"id":"one_arm_cable_row","cs":"Přitahování kladky jednou rukou","en":"Single-Arm Cable Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":90,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/one_arm_cable_row-guide.webp","guideThumb":"assets/exercises/one_arm_cable_row-thumb.webp","guideExact":true},{"id":"straight_arm_pulldown","cs":"Stahování natažených paží","en":"Straight-Arm Pulldown","category":"back","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/straight_arm_pulldown-guide.webp","guideThumb":"assets/exercises/straight_arm_pulldown-thumb.webp","guideExact":true},{"id":"machine_shoulder_press","cs":"Tlaky na ramena na stroji","en":"Machine Shoulder Press","category":"shoulders","mode":"weight","sets":2,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/machine_shoulder_press-guide.webp","guideThumb":"assets/exercises/machine_shoulder_press-thumb.webp","guideExact":true},{"id":"dumbbell_shoulder_press","cs":"Tlaky s jednoručkami na ramena","en":"Dumbbell Shoulder Press","category":"shoulders","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/dumbbell_shoulder_press-guide.webp","guideThumb":"assets/exercises/dumbbell_shoulder_press-thumb.webp","guideExact":true},{"id":"lateral_raise","cs":"Upažování","en":"Lateral Raise","category":"shoulders","mode":"weight","sets":2,"range":"12–15","rest":75,"tips":{"cs":["Lokty nech lehce pokrčené","Veď pohyb lokty","Zvedej přibližně do výše ramen"],"en":["Keep a slight bend in the elbows","Lead with your elbows","Raise to about shoulder height"]},"mistakes":{"cs":["Švihání trupem","Ramena k uším","Příliš těžká váha"],"en":["Swinging the torso","Shrugging","Using too much weight"]},"topPick":true,"guideImage":"assets/exercises/lateral_raise-guide.webp","guideThumb":"assets/exercises/lateral_raise-thumb.webp","guideExact":true},{"id":"cable_lateral_raise","cs":"Upažování na kladce","en":"Cable Lateral Raise","category":"shoulders","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_lateral_raise-guide.webp","guideThumb":"assets/exercises/cable_lateral_raise-thumb.webp","guideExact":true},{"id":"rear_delt_fly","cs":"Obrácené rozpažky","en":"Rear Delt Fly","category":"shoulders","mode":"weight","sets":3,"range":"12–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/rear_delt_fly-guide.webp","guideThumb":"assets/exercises/rear_delt_fly-thumb.webp","guideExact":true},{"id":"face_pull","cs":"Přitahování lana k obličeji","en":"Face Pull","category":"shoulders","mode":"weight","sets":2,"range":"12–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/face_pull-guide.webp","guideThumb":"assets/exercises/face_pull-thumb.webp","guideExact":true},{"id":"barbell_curl","cs":"Bicepsový zdvih s osou","en":"Barbell Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/barbell_curl-guide.webp","guideThumb":"assets/exercises/barbell_curl-thumb.webp","guideExact":true},{"id":"dumbbell_curl","cs":"Bicepsový zdvih s jednoručkami","en":"Dumbbell Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/dumbbell_curl-guide.webp","guideThumb":"assets/exercises/dumbbell_curl-thumb.webp","guideExact":true},{"id":"hammer_curl","cs":"Kladivové zdvihy","en":"Hammer Curl","category":"biceps","mode":"weight","sets":3,"range":"10–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/hammer_curl-guide.webp","guideThumb":"assets/exercises/hammer_curl-thumb.webp","guideExact":true},{"id":"cable_curl","cs":"Bicepsový zdvih na kladce","en":"Cable Curl","category":"biceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/cable_curl-guide.webp","guideThumb":"assets/exercises/cable_curl-thumb.webp","guideExact":true},{"id":"preacher_curl","cs":"Biceps na Scottově lavici","en":"Preacher Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/preacher_curl-guide.webp","guideThumb":"assets/exercises/preacher_curl-thumb.webp","guideExact":true},{"id":"triceps_pushdown","cs":"Stlačování kladky na triceps","en":"Triceps Pushdown","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/triceps_pushdown-guide.webp","guideThumb":"assets/exercises/triceps_pushdown-thumb.webp","guideExact":true},{"id":"rope_pushdown","cs":"Stlačování lana na triceps","en":"Rope Pushdown","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/rope_pushdown-guide.webp","guideThumb":"assets/exercises/rope_pushdown-thumb.webp","guideExact":true},{"id":"overhead_triceps_extension","cs":"Triceps nad hlavou na kladce","en":"Overhead Cable Triceps Extension","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/overhead_triceps_extension-guide.webp","guideThumb":"assets/exercises/overhead_triceps_extension-thumb.webp","guideExact":true},{"id":"dip_machine","cs":"Tricepsové dipy na stroji","en":"Dip Machine","category":"triceps","mode":"weight","sets":3,"range":"8–12","rest":90,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/dip_machine-guide.webp","guideThumb":"assets/exercises/dip_machine-thumb.webp","guideExact":true},{"id":"single_arm_pushdown","cs":"Stlačování kladky jednou rukou","en":"Single-Arm Pushdown","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":60,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/single_arm_pushdown-guide.webp","guideThumb":"assets/exercises/single_arm_pushdown-thumb.webp","guideExact":true},{"id":"hack_squat","cs":"Hack dřep na stroji","en":"Hack Squat Machine","category":"quads","mode":"weight","sets":3,"range":"8–10","rest":150,"tips":{"cs":["Záda drž opřená","Kolena ve směru špiček","Tlač přes celé chodidlo"],"en":["Keep your back against the pad","Track knees over toes","Push through the whole foot"]},"mistakes":{"cs":["Kolena dovnitř","Zvedání pat","Kulatá bedra"],"en":["Knees collapsing inward","Heels lifting","Rounding the lower back"]},"topPick":true,"guideImage":"assets/exercises/hack_squat-guide.webp","guideThumb":"assets/exercises/hack_squat-thumb.webp","guideExact":true},{"id":"leg_press","cs":"Tlak na nohy","en":"Leg Press","category":"quads","mode":"weight","sets":3,"range":"10–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/leg_press-guide.webp","guideThumb":"assets/exercises/leg_press-thumb.webp","guideExact":true},{"id":"leg_extension","cs":"Předkopávání","en":"Leg Extension","category":"quads","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/leg_extension-guide.webp","guideThumb":"assets/exercises/leg_extension-thumb.webp","guideExact":true},{"id":"smith_squat","cs":"Dřep na Smithově stroji","en":"Smith Machine Squat","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":120,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/smith_squat-guide.webp","guideThumb":"assets/exercises/smith_squat-thumb.webp","guideExact":true},{"id":"bulgarian_split_squat","cs":"Bulharský dřep","en":"Bulgarian Split Squat","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":90,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/bulgarian_split_squat-guide.webp","guideThumb":"assets/exercises/bulgarian_split_squat-thumb.webp","guideExact":true},{"id":"romanian_deadlift","cs":"Rumunský mrtvý tah","en":"Romanian Deadlift","category":"hamstrings","mode":"weight","sets":3,"range":"8–10","rest":150,"tips":{"cs":["Posílej boky dozadu","Činku drž blízko stehen","Záda drž neutrálně"],"en":["Push your hips backwards","Keep the weight close to your thighs","Keep a neutral spine"]},"mistakes":{"cs":["Kulatá záda","Činka daleko od těla","Příliš hluboký pohyb"],"en":["Rounding the back","Letting the weight drift away","Going too deep"]},"guideImage":"assets/exercises/romanian_deadlift-guide.webp","guideThumb":"assets/exercises/romanian_deadlift-thumb.webp","guideExact":true},{"id":"seated_leg_curl","cs":"Zakopávání vsedě","en":"Seated Leg Curl","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/seated_leg_curl-guide.webp","guideThumb":"assets/exercises/seated_leg_curl-thumb.webp","guideExact":true},{"id":"lying_leg_curl","cs":"Zakopávání vleže","en":"Lying Leg Curl","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/lying_leg_curl-guide.webp","guideThumb":"assets/exercises/lying_leg_curl-thumb.webp","guideExact":true},{"id":"hip_thrust","cs":"Hip thrust na stroji","en":"Hip Thrust Machine","category":"hamstrings","mode":"weight","sets":3,"range":"8–12","rest":105,"tips":{"cs":["Opři celá záda o opěrku","Chodidla drž stabilně na plošině","Nahoře krátce zatni hýždě"],"en":["Keep your whole back against the pad","Keep your feet stable on the platform","Briefly squeeze your glutes at the top"]},"mistakes":{"cs":["Prohýbání spodních zad","Odrážení váhy","Příliš krátký rozsah"],"en":["Overarching the lower back","Bouncing the weight","Using too short a range"]},"topPick":true,"guideImage":"assets/exercises/hip_thrust-guide.webp","guideThumb":"assets/exercises/hip_thrust-thumb.webp","guideExact":true},{"id":"back_extension","cs":"Hyperextenze","en":"Back Extension","category":"hamstrings","mode":"reps","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]},"guideImage":"assets/exercises/back_extension-guide.webp","guideThumb":"assets/exercises/back_extension-thumb.webp","guideExact":true},{"id":"cable_pull_through","cs":"Pull-through na kladce","en":"Cable Pull-Through","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_pull_through-guide.webp","guideThumb":"assets/exercises/cable_pull_through-thumb.webp","guideExact":true},{"id":"standing_calf_raise","cs":"Výpony na lýtka ve stoje","en":"Standing Calf Raise","category":"calves","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/standing_calf_raise-guide.webp","guideThumb":"assets/exercises/standing_calf_raise-thumb.webp","guideExact":true},{"id":"seated_calf_raise","cs":"Výpony na lýtka vsedě","en":"Seated Calf Raise","category":"calves","mode":"weight","sets":3,"range":"12–20","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"topPick":true,"guideImage":"assets/exercises/seated_calf_raise-guide.webp","guideThumb":"assets/exercises/seated_calf_raise-thumb.webp","guideExact":true},{"id":"leg_press_calf_raise","cs":"Výpony na leg pressu","en":"Leg Press Calf Raise","category":"calves","mode":"weight","sets":3,"range":"12–20","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/leg_press_calf_raise-guide.webp","guideThumb":"assets/exercises/leg_press_calf_raise-thumb.webp","guideExact":true},{"id":"cable_crunch","cs":"Stahování kladky na břicho","en":"Cable Crunch","category":"core","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Žebra přibližuj k pánvi","Pánev drž téměř na místě","Dole vydechni"],"en":["Bring your ribs toward your pelvis","Keep the pelvis nearly still","Exhale at the bottom"]},"mistakes":{"cs":["Tahání rukama","Pohyb jen v kyčlích","Příliš těžká váha"],"en":["Pulling with the arms","Moving only at the hips","Using too much weight"]},"topPick":true,"guideImage":"assets/exercises/cable_crunch-guide.webp","guideThumb":"assets/exercises/cable_crunch-thumb.webp","guideExact":true},{"id":"reverse_crunch","cs":"Obrácené zkracovačky","en":"Reverse Crunch","category":"core","mode":"reps","sets":3,"range":"10–15","rest":60,"tips":{"cs":["Nahoře lehce podsad pánev","Bedra zvedej kontrolovaně","Nohy spouštěj pomalu"],"en":["Curl your pelvis up at the top","Lift the lower back under control","Lower the legs slowly"]},"mistakes":{"cs":["Švihání nohama","Pohyb jen v kyčlích","Rychlý návrat"],"en":["Swinging the legs","Moving only at the hips","Dropping too quickly"]},"topPick":true,"guideImage":"assets/exercises/reverse_crunch-guide.webp","guideThumb":"assets/exercises/reverse_crunch-thumb.webp","guideExact":true},{"id":"ab_wheel","cs":"Kolečko na břicho","en":"Ab Wheel Rollout","category":"core","mode":"reps","sets":3,"range":"6–10","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]},"topPick":true,"guideImage":"assets/exercises/ab_wheel-guide.webp","guideThumb":"assets/exercises/ab_wheel-thumb.webp","guideExact":true},{"id":"pallof_press","cs":"Pallof press","en":"Pallof Press","category":"core","mode":"sideweight","sets":3,"range":"10–12","rest":75,"tips":{"cs":["Tělo drž rovně","Odpor nenech otočit trup","Obě strany cvič stejně"],"en":["Keep your torso square","Do not let the resistance rotate you","Train both sides equally"]},"mistakes":{"cs":["Otáčení trupu","Příliš těžká váha","Nerovnoměrné strany"],"en":["Rotating the torso","Using too much weight","Uneven sides"]},"topPick":true,"guideImage":"assets/exercises/pallof_press-guide.webp","guideThumb":"assets/exercises/pallof_press-thumb.webp","guideExact":true},{"id":"hanging_knee_raise","cs":"Zvedání kolen ve visu nebo na bradlech","en":"Hanging / Captain’s Chair Knee Raise","category":"core","mode":"reps","sets":3,"range":"8–15","rest":75,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]},"topPick":true,"guideImage":"assets/exercises/hanging_knee_raise-guide.webp","guideThumb":"assets/exercises/hanging_knee_raise-thumb.webp","guideExact":true},{"id":"side_plank","cs":"Boční plank","en":"Side Plank","category":"core","mode":"sidetime","sets":3,"range":"30–45","rest":60,"tips":{"cs":["Drž boky vysoko","Tělo drž v jedné linii","Dýchej pravidelně"],"en":["Keep your hips high","Keep your body in one line","Breathe normally"]},"mistakes":{"cs":["Propadlé boky","Rotace trupu","Zadržování dechu"],"en":["Letting the hips drop","Rotating the torso","Holding your breath"]},"topPick":true,"guideImage":"assets/exercises/side_plank-guide.webp","guideThumb":"assets/exercises/side_plank-thumb.webp","guideExact":true},{"id":"plank","cs":"Plank","en":"Plank","category":"core","mode":"time","sets":3,"range":"30–60","rest":60,"tips":{"cs":["Drž tělo pevné","Dýchej pravidelně","Ukonči sérii při ztrátě pozice"],"en":["Keep your body braced","Breathe normally","Stop when your position breaks down"]},"mistakes":{"cs":["Propadlá bedra","Zadržování dechu","Příliš dlouhá série se špatnou technikou"],"en":["Letting the lower back sag","Holding your breath","Extending the set with poor form"]},"guideImage":"assets/exercises/plank-guide.webp","guideThumb":"assets/exercises/plank-thumb.webp","guideExact":true},{"id":"dead_bug","cs":"Dead bug","en":"Dead Bug","category":"core","mode":"reps","sets":3,"range":"8–12","rest":60,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]},"guideImage":"assets/exercises/dead_bug-guide.webp","guideThumb":"assets/exercises/dead_bug-thumb.webp","guideExact":true},{"id":"machine_crunch","cs":"Zkracovačky na stroji","en":"Machine Crunch","category":"core","mode":"weight","sets":3,"range":"10–15","rest":75,"tips":{"cs":["Zpevni střed těla","Pohyb veď kontrolovaně","Použij plný bezpečný rozsah"],"en":["Brace your core","Use a controlled movement","Use a full comfortable range"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/machine_crunch-guide.webp","guideThumb":"assets/exercises/machine_crunch-thumb.webp","guideExact":true},{"id":"lying_leg_raise","cs":"Zvedání nohou vleže","en":"Lying Leg Raise","category":"core","mode":"reps","sets":3,"range":"8–15","rest":60,"tips":{"cs":["Pohyb dělej pomalu","Nešvihej tělem","Kontroluj návrat"],"en":["Move slowly","Do not swing","Control the lowering phase"]},"mistakes":{"cs":["Houpání","Rychlé spouštění","Ztráta kontroly"],"en":["Swinging","Dropping too quickly","Losing control"]},"guideImage":"assets/exercises/lying_leg_raise-guide.webp","guideThumb":"assets/exercises/lying_leg_raise-thumb.webp","guideExact":true},{"id":"treadmill","cs":"Běžecký pás","en":"Treadmill","category":"cardio","mode":"cardio","sets":1,"range":"10–15 min","rest":0,"tips":{"cs":["Drž přirozený krok","Začni lehce","Na konci postupně zpomal"],"en":["Use a natural stride","Start easy","Slow down gradually at the end"]},"mistakes":{"cs":["Držení madel","Příliš rychlý start","Náhlé zastavení"],"en":["Holding the rails","Starting too fast","Stopping suddenly"]},"topPick":true,"guideImage":"assets/exercises/treadmill-guide.webp","guideThumb":"assets/exercises/treadmill-thumb.webp","guideExact":true},{"id":"stationary_bike","cs":"Rotoped","en":"Stationary Bike","category":"cardio","mode":"cardio","sets":1,"range":"10–20 min","rest":0,"tips":{"cs":["Drž přirozený krok","Začni lehce","Na konci postupně zpomal"],"en":["Use a natural stride","Start easy","Slow down gradually at the end"]},"mistakes":{"cs":["Držení madel","Příliš rychlý start","Náhlé zastavení"],"en":["Holding the rails","Starting too fast","Stopping suddenly"]},"guideImage":"assets/exercises/stationary_bike-guide.webp","guideThumb":"assets/exercises/stationary_bike-thumb.webp","guideExact":true},{"id":"elliptical","cs":"Eliptický trenažér","en":"Elliptical Trainer","category":"cardio","mode":"cardio","sets":1,"range":"10–20 min","rest":0,"tips":{"cs":["Drž přirozený krok","Začni lehce","Na konci postupně zpomal"],"en":["Use a natural stride","Start easy","Slow down gradually at the end"]},"mistakes":{"cs":["Držení madel","Příliš rychlý start","Náhlé zastavení"],"en":["Holding the rails","Starting too fast","Stopping suddenly"]},"guideImage":"assets/exercises/elliptical-guide.webp","guideThumb":"assets/exercises/elliptical-thumb.webp","guideExact":true},{"id":"incline_machine_press","cs":"Tlaky na šikmém stroji","en":"Incline Chest Press Machine","category":"chest","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/incline_machine_press-guide.webp","guideThumb":"assets/exercises/incline_machine_press-thumb.webp","guideExact":true},{"id":"converging_chest_press","cs":"Sbíhavé tlaky na hrudník","en":"Converging Chest Press","category":"chest","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/converging_chest_press-guide.webp","guideThumb":"assets/exercises/converging_chest_press-thumb.webp","guideExact":true},{"id":"decline_chest_press_machine","cs":"Tlaky na spodní hrudník na stroji","en":"Decline Chest Press Machine","category":"chest","mode":"weight","sets":3,"range":"8–12","rest":90,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/decline_chest_press_machine-guide.webp","guideThumb":"assets/exercises/decline_chest_press_machine-thumb.webp","guideExact":true},{"id":"smith_incline_press","cs":"Tlaky na šikmé lavici ve Smith stroji","en":"Smith Machine Incline Press","category":"chest","mode":"weight","sets":3,"range":"8–10","rest":120,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/smith_incline_press-guide.webp","guideThumb":"assets/exercises/smith_incline_press-thumb.webp","guideExact":true},{"id":"machine_high_row","cs":"Horní přítahy na stroji","en":"Machine High Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/machine_high_row-guide.webp","guideThumb":"assets/exercises/machine_high_row-thumb.webp","guideExact":true},{"id":"plate_loaded_row","cs":"Přítahy na kotoučovém stroji","en":"Plate-Loaded Row","category":"back","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/plate_loaded_row-guide.webp","guideThumb":"assets/exercises/plate_loaded_row-thumb.webp","guideExact":true},{"id":"neutral_grip_lat_pulldown","cs":"Stahování kladky neutrálním úchopem","en":"Neutral-Grip Lat Pulldown","category":"back","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/neutral_grip_lat_pulldown-guide.webp","guideThumb":"assets/exercises/neutral_grip_lat_pulldown-thumb.webp","guideExact":true},{"id":"machine_pullover","cs":"Pullover na stroji","en":"Machine Pullover","category":"back","mode":"weight","sets":3,"range":"10–15","rest":90,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/machine_pullover-guide.webp","guideThumb":"assets/exercises/machine_pullover-thumb.webp","guideExact":true},{"id":"low_row_machine","cs":"Spodní přítahy na stroji","en":"Low Row Machine","category":"back","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/low_row_machine-guide.webp","guideThumb":"assets/exercises/low_row_machine-thumb.webp","guideExact":true},{"id":"machine_lateral_raise","cs":"Upažování na stroji","en":"Machine Lateral Raise","category":"shoulders","mode":"weight","sets":3,"range":"10–15","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/machine_lateral_raise-guide.webp","guideThumb":"assets/exercises/machine_lateral_raise-thumb.webp","guideExact":true},{"id":"reverse_pec_deck","cs":"Obrácený peck deck","en":"Reverse Pec Deck","category":"shoulders","mode":"weight","sets":3,"range":"12–15","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/reverse_pec_deck-guide.webp","guideThumb":"assets/exercises/reverse_pec_deck-thumb.webp","guideExact":true},{"id":"cable_rear_delt_fly","cs":"Rozpažky na zadní ramena na kladce","en":"Cable Rear Delt Fly","category":"shoulders","mode":"weight","sets":3,"range":"12–15","rest":75,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_rear_delt_fly-guide.webp","guideThumb":"assets/exercises/cable_rear_delt_fly-thumb.webp","guideExact":true},{"id":"plate_loaded_shoulder_press","cs":"Tlaky na ramena na kotoučovém stroji","en":"Plate-Loaded Shoulder Press","category":"shoulders","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/plate_loaded_shoulder_press-guide.webp","guideThumb":"assets/exercises/plate_loaded_shoulder_press-thumb.webp","guideExact":true},{"id":"machine_preacher_curl","cs":"Bicepsový zdvih na stroji","en":"Machine Preacher Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/machine_preacher_curl-guide.webp","guideThumb":"assets/exercises/machine_preacher_curl-thumb.webp","guideExact":true},{"id":"bayesian_cable_curl","cs":"Bayesian bicepsový zdvih na kladce","en":"Bayesian Cable Curl","category":"biceps","mode":"weight","sets":3,"range":"10–15","rest":75,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/bayesian_cable_curl-guide.webp","guideThumb":"assets/exercises/bayesian_cable_curl-thumb.webp","guideExact":true},{"id":"ez_cable_curl","cs":"Bicepsový zdvih s EZ adaptérem na kladce","en":"EZ-Bar Cable Curl","category":"biceps","mode":"weight","sets":3,"range":"8–12","rest":75,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/ez_cable_curl-guide.webp","guideThumb":"assets/exercises/ez_cable_curl-thumb.webp","guideExact":true},{"id":"machine_triceps_extension","cs":"Tricepsové extenze na stroji","en":"Machine Triceps Extension","category":"triceps","mode":"weight","sets":3,"range":"8–12","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/machine_triceps_extension-guide.webp","guideThumb":"assets/exercises/machine_triceps_extension-thumb.webp","guideExact":true},{"id":"cable_overhead_rope_extension","cs":"Triceps nad hlavou s lanem","en":"Cable Overhead Rope Extension","category":"triceps","mode":"weight","sets":3,"range":"10–15","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_overhead_rope_extension-guide.webp","guideThumb":"assets/exercises/cable_overhead_rope_extension-thumb.webp","guideExact":true},{"id":"close_grip_press_machine","cs":"Úzké tlaky na stroji","en":"Close-Grip Press Machine","category":"triceps","mode":"weight","sets":3,"range":"8–12","rest":90,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/close_grip_press_machine-guide.webp","guideThumb":"assets/exercises/close_grip_press_machine-thumb.webp","guideExact":true},{"id":"pendulum_squat","cs":"Pendulum squat na stroji","en":"Pendulum Squat","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":120,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/pendulum_squat-guide.webp","guideThumb":"assets/exercises/pendulum_squat-thumb.webp","guideExact":true},{"id":"belt_squat_machine","cs":"Belt squat na stroji","en":"Belt Squat Machine","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":120,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/belt_squat_machine-guide.webp","guideThumb":"assets/exercises/belt_squat_machine-thumb.webp","guideExact":true},{"id":"v_squat_machine","cs":"V-squat na stroji","en":"V-Squat Machine","category":"quads","mode":"weight","sets":3,"range":"8–12","rest":120,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/v_squat_machine-guide.webp","guideThumb":"assets/exercises/v_squat_machine-thumb.webp","guideExact":true},{"id":"horizontal_leg_press","cs":"Horizontální leg press","en":"Horizontal Leg Press","category":"quads","mode":"weight","sets":3,"range":"10–15","rest":105,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/horizontal_leg_press-guide.webp","guideThumb":"assets/exercises/horizontal_leg_press-thumb.webp","guideExact":true},{"id":"glute_drive_machine","cs":"Glute drive na stroji","en":"Glute Drive Machine","category":"hamstrings","mode":"weight","sets":3,"range":"8–12","rest":105,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/glute_drive_machine-guide.webp","guideThumb":"assets/exercises/glute_drive_machine-thumb.webp","guideExact":true},{"id":"standing_leg_curl","cs":"Zakopávání ve stoje na stroji","en":"Standing Leg Curl Machine","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/standing_leg_curl-guide.webp","guideThumb":"assets/exercises/standing_leg_curl-thumb.webp","guideExact":true},{"id":"single_leg_curl_machine","cs":"Zakopávání jednou nohou na stroji","en":"Single-Leg Curl Machine","category":"hamstrings","mode":"weight","sets":3,"range":"10–15","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/single_leg_curl_machine-guide.webp","guideThumb":"assets/exercises/single_leg_curl_machine-thumb.webp","guideExact":true},{"id":"cable_glute_kickback","cs":"Zanožování na kladce","en":"Cable Glute Kickback","category":"hamstrings","mode":"weight","sets":3,"range":"12–15","rest":60,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_glute_kickback-guide.webp","guideThumb":"assets/exercises/cable_glute_kickback-thumb.webp","guideExact":true},{"id":"calf_press_machine","cs":"Výpony na lýtka na stroji","en":"Calf Press Machine","category":"calves","mode":"weight","sets":3,"range":"10–15","rest":75,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/calf_press_machine-guide.webp","guideThumb":"assets/exercises/calf_press_machine-thumb.webp","guideExact":true},{"id":"torso_rotation_machine","cs":"Rotace trupu na stroji","en":"Torso Rotation Machine","category":"core","mode":"sideweight","sets":3,"range":"10–15","rest":60,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/torso_rotation_machine-guide.webp","guideThumb":"assets/exercises/torso_rotation_machine-thumb.webp","guideExact":true},{"id":"decline_crunch","cs":"Zkracovačky na šikmé lavici","en":"Decline Bench Crunch","category":"core","mode":"reps","sets":3,"range":"10–15","rest":60,"topPick":false,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/decline_crunch-guide.webp","guideThumb":"assets/exercises/decline_crunch-thumb.webp","guideExact":true},{"id":"cable_woodchop","cs":"Woodchop na kladce","en":"Cable Woodchop","category":"core","mode":"sideweight","sets":3,"range":"10–15","rest":60,"topPick":true,"tips":{"cs":["Nastav si správnou polohu","Pohyb veď plynule","Kontroluj návrat"],"en":["Set up the correct position","Move smoothly","Control the return"]},"mistakes":{"cs":["Příliš těžká váha","Švihání","Zkrácený rozsah"],"en":["Using too much weight","Swinging","Using a short range"]},"guideImage":"assets/exercises/cable_woodchop-guide.webp","guideThumb":"assets/exercises/cable_woodchop-thumb.webp","guideExact":true},{"id":"stair_climber","cs":"Schodový trenažér","en":"Stair Climber","category":"cardio","mode":"cardio","sets":1,"range":"10–20 min","rest":0,"topPick":true,"tips":{"cs":["Začni lehkým tempem","Drž vzpřímený postoj","Nedrž celou váhu na madlech"],"en":["Start at an easy pace","Stay upright","Do not support all your weight on the rails"]},"mistakes":{"cs":["Příliš rychlý začátek","Hrbení","Opírání celé váhy o madla"],"en":["Starting too fast","Slouching","Leaning all your weight on the rails"]},"guideImage":"assets/exercises/stair_climber-guide.webp","guideThumb":"assets/exercises/stair_climber-thumb.webp","guideExact":true},{"id":"rowing_machine","cs":"Veslovací trenažér","en":"Rowing Machine","category":"cardio","mode":"cardio","sets":1,"range":"10–20 min","rest":0,"topPick":false,"tips":{"cs":["Tlač nejdřív nohama","Pak zapoj trup a ruce","Vracej se kontrolovaně"],"en":["Drive with the legs first","Then use the torso and arms","Return under control"]},"mistakes":{"cs":["Tahání jen rukama","Kulatá záda","Příliš rychlý návrat"],"en":["Pulling only with the arms","Rounding the back","Returning too quickly"]},"guideImage":"assets/exercises/rowing_machine-guide.webp","guideThumb":"assets/exercises/rowing_machine-thumb.webp","guideExact":true}];
+const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Celé tělo + přední část břicha","sub_en":"Full body + front abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"machine_chest_press","sets":3,"range":"8–12"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"reverse_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Celé tělo + stabilita středu","sub_en":"Full body + core stability","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"ab_wheel","sets":3,"range":"6–10"},{"id":"pallof_press","sets":3,"range":"10–12"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Celé tělo + spodní a boční břicho","sub_en":"Full body + lower and side abs","items":[{"id":"hack_squat","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"side_plank","sets":3,"range":"30–45"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=36;
+const VERSION=55;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
 
@@ -1501,7 +2863,7 @@ const UI={
   date:"Datum",weight:"Váha (kg)",waist:"Pas (cm)",start:"Začít trénink",resume:"Pokračovat",
   clear:"Vymazat zápis",add:"Přidat cvik",collapse:"Sbalit vše",recommended:"Doporučení podle historie",
   optional:"Volitelný cvik navíc",addToday:"Přidat do dnešního tréninku",previous:"Minule",
-  set:"Série",reps:"opak.",seconds:"sekundy",left:"levá",right:"pravá",minutes:"minuty",speed:"rychlost km/h",
+  set:"Série",reps:"opak.",seconds:"sekundy",left:"levá",right:"pravá",minutes:"minuty",speed:"rychlost km/h",incline:"sklon %",
   note:"Poznámka / RPE",video:"Video správné techniky",history:"Historie",replace:"Nahradit cvik",
   resetReplacement:"Vrátit původní",occupied:"Obsazeno → přesunout na konec",remove:"Odebrat",
   technique:"Technika a chyby",avoid:"Nedělej",library:"Přidat další cvik",librarySub:"Cvik se přidá pouze do tohoto tréninku. Příště dostaneš nové doporučení.",
@@ -1529,14 +2891,14 @@ const UI={
   lowVolumeReason:"Za posledních 21 dní má tato svalová skupina méně přímých pracovních sérií",
   freshReason:"Tento cvik jsi v posledních trénincích nedělal.",
   plateauReason:"Poslední výkon v této svalové skupině se moc nezvyšoval, proto nabízím jinou variantu.",
-  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis"
+  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis",changeExercise:"Změnit cvik",replaceSub:"Vyber jiný cvik z databáze. Nejdřív vidíš stejnou svalovou skupinu, ale můžeš zvolit i Vše.",topPick:"TOP cvik",loginWarningTitle:"Nejsi přihlášený",loginWarningText:"Trénink se ukládá jen do tohoto zařízení. Přihlas se, aby se uložil také do cloudu.",loginNow:"Přihlásit",originalExercise:"Původní cvik",deleteWorkout:"Smazat trénink",deleteWorkoutConfirm:"Opravdu smazat celý rozpracovaný trénink? Zapsané série se neuloží.",workoutDeleted:"Trénink byl smazán."
  },
  en:{
   subtitle:"Simple training, clear progress.",todayNav:"Today",historyNav:"History",database:"Exercises",moreNav:"Settings",mon:"🏋️ Strength",wed:"🛡️ Stability",fri:"⚡ Control",progress:"Progress",
   date:"Date",weight:"Weight (kg)",waist:"Waist (cm)",start:"Start workout",resume:"Resume",
   clear:"Clear entry",add:"Add exercise",collapse:"Collapse all",recommended:"History-based recommendation",
   optional:"Optional extra exercise",addToday:"Add to today's workout",previous:"Previous",
-  set:"Set",reps:"reps",seconds:"seconds",left:"left",right:"right",minutes:"minutes",speed:"speed km/h",
+  set:"Set",reps:"reps",seconds:"seconds",left:"left",right:"right",minutes:"minutes",speed:"speed km/h",incline:"incline %",
   note:"Note / RPE",video:"Proper form video",history:"History",replace:"Replace exercise",
   resetReplacement:"Use original exercise",occupied:"Busy → move to end",remove:"Remove",
   technique:"Technique and mistakes",avoid:"Avoid",library:"Add another exercise",librarySub:"The exercise is added only to this workout. You will receive a new recommendation next time.",
@@ -1562,7 +2924,7 @@ const UI={
   noRecommendation:"Today's base plan is already well balanced.",noDataReason:"There is not enough history yet, so the recommendation rotates by day and date.",
   lowVolumeReason:"Over the past 21 days, this muscle group has fewer direct working sets",
   freshReason:"You have not trained this exercise in your recent workouts.",plateauReason:"Recent performance in this muscle group has not increased much, so a different variation is suggested.",
-  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry"
+  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry",changeExercise:"Change exercise",replaceSub:"Choose another exercise from the database. The same muscle group is shown first, but you can select All.",topPick:"TOP exercise",loginWarningTitle:"You are not signed in",loginWarningText:"The workout is stored only on this device. Sign in to also save it to the cloud.",loginNow:"Sign in",originalExercise:"Original exercise",deleteWorkout:"Delete workout",deleteWorkoutConfirm:"Delete the entire active workout? Entered sets will not be saved.",workoutDeleted:"The workout was deleted."
  }
 };
 
@@ -1579,7 +2941,7 @@ function findExerciseByName(name){
  const n=normalizeName(name);if(!n)return null;
  return allLibrary().find(x=>normalizeName(x.cs)===n||normalizeName(x.en)===n||normalizeName(x.en).includes(n)||n.includes(normalizeName(x.en)))||null;
 }
-function defaultDay(){return {date:today(),weight:"",waist:"",entries:{},extras:[],order:[],completed:false}}
+function defaultDay(date=today()){return {date,weight:"",waist:"",entries:{},extras:[],order:[],completed:false}}
 function defaultState(){return {version:VERSION,settings:{language:"cs",theme:"light",exerciseSteps:{}},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
 function migrateState(raw){
  if(raw?.version>=18){
@@ -1617,15 +2979,10 @@ if(state.activeWorkout){
    if(!Array.isArray(e.sets))return;
    if(e.done){
      e.sets.forEach(set=>{if(set)set._complete=true});
-   }else{
-     e.sets=e.sets.map(set=>{
-       if(!set)return set;
-       const {_complete,...draft}=set;
-       return draft;
-     });
    }
  });
 }
+state.version=VERSION;
 localStorage.setItem(KEY,JSON.stringify(state));
 refreshExerciseIndex();
 
@@ -1708,7 +3065,7 @@ function formatMondayDate(value){
  }catch(_){return value}
 }
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
-let currentScreen="today",selectedTodayDay=recommendedDay(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all";
+let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all";
 let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
 
 
@@ -1767,31 +3124,76 @@ function deleteCustomExercise(id){
  refreshExerciseIndex();saveState();renderDatabase();
 }
 function renderDatabase(){
- const q=(document.getElementById("databaseSearch")?.value||"").trim().toLowerCase();
- const cat=document.getElementById("databaseCategory")?.value||"all";
+ const q=databaseQuery.trim().toLowerCase();
+ const cat=databaseCategoryFilter||"all";
  let list=allLibrary();
+
  if(q)list=list.filter(x=>(x.cs+" "+x.en).toLowerCase().includes(q));
  if(cat!=="all")list=list.filter(x=>x.category===cat);
- const groups={};list.forEach(x=>(groups[x.category]=groups[x.category]||[]).push(x));
- database.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("databaseTitle")}</h2><p>${t("databaseSub")}</p></div></div>
- <div class="database-toolbar"><button class="primary" onclick="openCustomExerciseDialog()">＋ ${t("addCustom")}</button></div>
- <div class="custom-form-grid">
-   <label><span>${t("search")}</span><input id="databaseSearch" oninput="renderDatabase()" value="${esc(q)}" placeholder="${t("search")}"></label>
-   <label><span>${t("customCategory")}</span><select id="databaseCategory" onchange="renderDatabase()"><option value="all">${t("all")}</option>${Object.keys(CATEGORIES).map(c=>`<option value="${c}" ${cat===c?"selected":""}>${categoryName(c)}</option>`).join("")}</select></label>
- </div></div>`+
- Object.entries(groups).map(([category,items])=>`<div class="card"><h3 style="margin-top:0">${categoryName(category)}</h3><div class="database-grid">${items.map(x=>`
- <div class="database-item"><div><h4>${esc(itemName(x))}${x.custom?`<span class="custom-badge">${t("customBadge")}</span>`:""}</h4><p>${targetText(x)} • ${x.mode}</p></div>
- <div class="database-actions"><button class="smallbtn" onclick="openVideo('${x.id}')">▶ ${t("video")}</button>${x.custom?`<button class="danger" onclick="deleteCustomExercise('${x.id}')">${t("deleteCustom")}</button>`:""}</div></div>`).join("")}</div></div>`).join("");
-}
 
+ list.sort((a,b)=>(Number(b.topPick===true)-Number(a.topPick===true))||itemName(a).localeCompare(itemName(b),lang()));
+
+ const counts={};
+ allLibrary().forEach(x=>counts[x.category]=(counts[x.category]||0)+1);
+
+ const groups={};
+ list.forEach(x=>(groups[x.category]=groups[x.category]||[]).push(x));
+
+ database.innerHTML=`<div class="modern-library">
+   <section class="library-header">
+     <div><span class="eyebrow">${lang()==="cs"?"DATABÁZE":"DATABASE"}</span><h2>${t("databaseTitle")}</h2><p>${allLibrary().length} ${lang()==="cs"?"cviků pro vlastní trénink":"exercises for your training"}</p></div>
+     <button class="library-add-custom" onclick="openCustomExerciseDialog()">＋</button>
+   </section>
+
+   <div class="library-search-wrap">
+     <span>⌕</span>
+     <input id="databaseSearch" value="${esc(databaseQuery)}" oninput="setDatabaseQuery(this.value)" placeholder="${t("search")}">
+     <button onclick="setDatabaseCategoryFilter('all')" aria-label="${t("all")}">☷</button>
+   </div>
+
+   <div class="library-category-grid">
+     <button class="${cat==="all"?"active":""}" onclick="setDatabaseCategoryFilter('all')"><span>▦</span><strong>${t("all")}</strong><small>${allLibrary().length}</small></button>
+     ${Object.keys(CATEGORIES).map(c=>`<button class="${cat===c?"active":""}" onclick="setDatabaseCategoryFilter('${c}')"><span>${categoryGlyph(c)}</span><strong>${categoryName(c)}</strong><small>${counts[c]||0}</small></button>`).join("")}
+   </div>
+
+   <div class="library-filter-row">
+     <button class="${cat==="all"?"active":""}" onclick="setDatabaseCategoryFilter('all')">${t("all")}</button>
+     ${Object.keys(CATEGORIES).map(c=>`<button class="${cat===c?"active":""}" onclick="setDatabaseCategoryFilter('${c}')">${categoryName(c)}</button>`).join("")}
+   </div>
+
+   <section class="library-results">
+     <div class="section-title-row">
+       <div><span class="eyebrow">${cat==="all"?(lang()==="cs"?"VŠECHNY SKUPINY":"ALL GROUPS"):categoryName(cat)}</span><h3>${q?(lang()==="cs"?"Výsledky hledání":"Search results"):(lang()==="cs"?"Vyber si cvik":"Choose an exercise")}</h3></div>
+       <span class="result-count">${list.length}</span>
+     </div>
+
+     ${Object.keys(groups).length?Object.entries(groups).map(([category,items])=>`<div class="library-group modern-library-group">
+       <h4>${categoryName(category)} <span>${items.length}</span></h4>
+       <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item ${x.topPick?"top-pick-item":""}">
+         ${x.guideThumb
+  ?`<img class="database-guide-thumb" src="${x.guideThumb}" alt="" loading="lazy">`
+  :`<div class="database-glyph">${categoryGlyph(x.category)}</div>`}
+         <div class="database-copy">
+           <h4>${esc(itemName(x))}${x.custom?` <span class="custom-badge">${t("customBadge")}</span>`:""}</h4>
+           <p>${targetText(x)} · ${x.mode}</p>
+           ${x.topPick?`<span class="quality-tag">★ ${t("topPick")}</span>`:""}
+         </div>
+         <div class="database-actions">
+           <button class="video-row-btn" onclick="openVideo('${x.id}')">▶</button>
+           ${x.custom?`<button class="danger" onclick="deleteCustomExercise('${x.id}')">✕</button>`:""}
+         </div>
+       </article>`).join("")}</div>
+     </div>`).join(""):`<div class="card empty">${t("noResults")}</div>`}
+   </section>
+ </div>`;
+}
 function saveState(sync=true){
  state.version=VERSION;localStorage.setItem(KEY,JSON.stringify(state));
  if(sync)scheduleCloud();
 }
 function prepareDay(day){
- const d=state.days[day]||defaultDay();
- if(d.completed&&d.date!==today()){state.days[day]=defaultDay();saveState();}
- else state.days[day]={...defaultDay(),...d,entries:d.entries||{},extras:d.extras||[],order:d.order||[]};
+ const d=state.days[day]||defaultDay(selectedWorkoutDate||today());
+ state.days[day]={...defaultDay(d.date||selectedWorkoutDate||today()),...d,entries:d.entries||{},extras:d.extras||[],order:d.order||[]};
  ensureOrder(day);
 }
 function baseInstances(day){
@@ -1864,7 +3266,7 @@ function ensurePrefill(day,inst,m,e,index=0){
  if(m.mode==="cardio"){
    const last=lastRecord(m.id);
    if(!e.minutes&&last?.minutes){e.minutes=last.minutes;changed=true}
-   if(!e.speed&&last?.speed){e.speed=last.speed;changed=true}
+   if(m.id!=="treadmill"&&!e.speed&&last?.speed){e.speed=last.speed;changed=true}
  }else{
    e.sets[index]=e.sets[index]||{};
    const last=lastRecord(m.id),fields=prefillFieldsForMode(m.mode);
@@ -1902,11 +3304,14 @@ function setRows(day,inst,m,e){
  return out;
 }
 
-function toggleTodayOptions(){
- const menu=document.getElementById("todayOptions");
- if(menu)menu.classList.toggle("open");
+function toggleTodayOptions(day){
+ const menu=document.getElementById(`todayOptions-${day}`);
+ if(!menu)return;
+ document.querySelectorAll(".today-options.open").forEach(other=>{
+   if(other!==menu)other.classList.remove("open");
+ });
+ menu.classList.toggle("open");
 }
-
 function setupExclusivePreviewCards(){
  const cards=[...document.querySelectorAll("#todayPreviewList details.preview-accordion")];
  cards.forEach(card=>{
@@ -1926,105 +3331,279 @@ function collapseTodayCards(){
  });
 }
 document.addEventListener("click",event=>{
- const menu=document.getElementById("todayOptions");
- if(menu&&!menu.contains(event.target))menu.classList.remove("open");
+ document.querySelectorAll(".today-options.open").forEach(menu=>{
+   if(!menu.contains(event.target))menu.classList.remove("open");
+ });
 });
+
+
+function uiDateFromIso(iso){
+ const [y,m,d]=String(iso||today()).split("-").map(Number);
+ return new Date(y,m-1,d,12,0,0);
+}
+function uiIsoFromDate(date){
+ const y=date.getFullYear();
+ const m=String(date.getMonth()+1).padStart(2,"0");
+ const d=String(date.getDate()).padStart(2,"0");
+ return `${y}-${m}-${d}`;
+}
+function uiAddDays(iso,days){
+ const date=uiDateFromIso(iso);
+ date.setDate(date.getDate()+days);
+ return uiIsoFromDate(date);
+}
+function trainingDayForIso(iso){
+ const n=uiDateFromIso(iso).getDay();
+ if(n===1)return "monday";
+ if(n===3)return "wednesday";
+ if(n===5)return "friday";
+ return "";
+}
+function categoryGlyph(category){
+ const map={
+  chest:"◒",back:"⌁",shoulders:"◇",biceps:"⌇",triceps:"⌁",
+  quads:"◩",hamstrings:"◫",calves:"△",core:"◎",cardio:"♥"
+ };
+ return map[category]||"•";
+}
+function estimateWorkoutMinutes(day,instances){
+ let seconds=0;
+ instances.forEach(inst=>{
+   const m=metaFor(day,inst);
+   if(m.mode==="cardio"){
+     const found=String(m.range||"").match(/\d+/);
+     seconds+=(Number(found?.[0])||10)*60;
+   }else{
+     seconds+=(Number(m.sets)||3)*((Number(m.rest)||75)+42);
+   }
+ });
+ return Math.max(25,Math.round(seconds/300)*5);
+}
+function completedWorkoutsThisWeek(){
+ const monday=weekStart(today());
+ const sunday=uiAddDays(monday,6);
+ return (state.workouts||[]).filter(w=>w.date>=monday&&w.date<=sunday).length;
+}
+function localizedFullDate(iso){
+ const d=uiDateFromIso(iso);
+ return new Intl.DateTimeFormat(lang()==="cs"?"cs-CZ":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(d);
+}
+function isPlannedStrengthDate(iso){return [1,3,5].includes(uiDateFromIso(iso).getDay())}
+function completedWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
+function activatePlanForDate(day,iso){
+ const current=state.days[day]||defaultDay(iso);
+ if(current.completed&&current.date!==iso)state.days[day]=defaultDay(iso);
+ else state.days[day]={...defaultDay(iso),...current,date:iso};
+ ensureOrder(day);
+}
+function selectScheduleDate(iso){
+ selectedWorkoutDate=iso;
+ localStorage.setItem("gymSelectedWorkoutDate",iso);
+ showToday(recommendedDay(),iso);
+}
+function weekStripMarkup(selectedDay){
+ const monday=weekStart(selectedWorkoutDate||today());
+ const dayNames=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
+ return `<div class="modern-week-strip">${Array.from({length:7},(_,i)=>{
+   const iso=uiAddDays(monday,i);
+   const selected=iso===selectedWorkoutDate;
+   const completed=completedWorkoutOnDate(iso);
+   const isToday=iso===today();
+   const planned=isPlannedStrengthDate(iso);
+   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')">
+     <span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${completed?"✓":planned?"•":"+"}</i>
+   </button>`;
+ }).join("")}</div>`;
+}
+function setDatabaseQuery(value){
+ databaseQuery=String(value||"");
+ renderDatabase();
+ requestAnimationFrame(()=>{
+   const input=document.getElementById("databaseSearch");
+   if(input){
+     input.focus();
+     input.setSelectionRange(input.value.length,input.value.length);
+   }
+ });
+}
+function setDatabaseCategoryFilter(value){
+ databaseCategoryFilter=value||"all";
+ renderDatabase();
+}
 
 function renderDay(day){
  prepareDay(day);
- const plan=BASE_PLANS[day],d=state.days[day],instances=dayInstances(day);
+ activatePlanForDate(day,selectedWorkoutDate||today());
+
+ const plan=BASE_PLANS[day];
+ const d=state.days[day];
+ const instances=dayInstances(day);
  const orderedInstances=[...instances.filter(x=>!x.added),...instances.filter(x=>x.added)];
- const rec=recommendExercise(day),recommended=recommendedDay(),measure=measurementThisWeek(),draft=weeklyDraft();
- const isRecommended=day===recommended,monday=weekStart(today());
+ const rec=recommendExercise(day);
+ const measure=measurementThisWeek();
+ const draft=weeklyDraft();
+ const monday=weekStart(today());
  const blocked=!measure;
- const recommendedTitle=BASE_PLANS[recommended]["title_"+lang()]||BASE_PLANS[recommended].title_en;
+ const estimate=estimateWorkoutMinutes(day,orderedInstances);
+ const completedCount=completedWorkoutsThisWeek();
+ const planIndex=DAYS.indexOf(day)+1;
+ const planTitle=plan["title_"+lang()]||plan.title_en;
+ const planSub=plan["sub_"+lang()]||plan.sub_en;
+ const previewItems=orderedInstances.slice(0,3);
 
- let html=`<div class="card today-clean">
-   <div class="day-switch">
-    <button class="day-monday ${day==="monday"?"active":""}" onclick="showToday('monday')"><span class="day-dot"></span>${t("mon")}</button>
-    <button class="day-wednesday ${day==="wednesday"?"active":""}" onclick="showToday('wednesday')"><span class="day-dot"></span>${t("wed")}</button>
-    <button class="day-friday ${day==="friday"?"active":""}" onclick="showToday('friday')"><span class="day-dot"></span>${t("fri")}</button>
-   </div>
-
-   <div class="next-plan-line"><span>${t("nextStrength")}:</span><strong>${esc(recommendedTitle)}</strong></div>
-   ${recoveryWarningNeeded()?`<div class="recovery-warning compact-warning">⚠️ ${t("recoveryWarning")}</div>`:""}
-
-   <div class="clean-title-row">
-     <div><h2>${plan["title_"+lang()]||plan.title_en}</h2><p>${plan["sub_"+lang()]||plan.sub_en}</p></div>
-     <div class="today-options" id="todayOptions">
-       <button class="today-options-button" aria-label="${t("workoutOptions")}" onclick="event.stopPropagation();toggleTodayOptions()">⋯</button>
+ let html=`<div class="modern-today">
+   <section class="modern-today-head">
+     <div>
+       <span class="eyebrow">${lang()==="cs"?"DNEŠNÍ PLÁN":"TODAY'S PLAN"}</span>
+       <h2>${lang()==="cs"?"Připraven na trénink?":"Ready to train?"}</h2>
+       <p class="selected-workout-date">${esc(localizedFullDate(selectedWorkoutDate))}</p><p>${completedCount}/3 ${lang()==="cs"?"silových tréninků tento týden":"strength workouts this week"}</p>
+     </div>
+     <div class="today-options" id="todayOptions-${day}">
+       <button class="today-options-button" aria-label="${t("workoutOptions")}" onclick="event.stopPropagation();toggleTodayOptions('${day}')">⋯</button>
        <div class="today-options-panel">
-         <button class="danger-option" onclick="clearDay('${day}');toggleTodayOptions()">${t("clearToday")}</button>
+         <button class="danger-option" onclick="clearDay('${day}');toggleTodayOptions('${day}')">${t("clearToday")}</button>
        </div>
      </div>
+   </section>
+
+   ${weekStripMarkup(day)}
+
+   ${!isPlannedStrengthDate(selectedWorkoutDate)?`<section class="flex-day-card">
+     <div class="flex-day-icon">↻</div>
+     <div><span class="eyebrow">${lang()==="cs"?"FLEXIBILNÍ DEN":"FLEXIBLE DAY"}</span>
+       <h3>${lang()==="cs"?"Dnes není pevný silový den":"Today is not a fixed strength day"}</h3>
+       <p>${lang()==="cs"?`Můžeš odjet další trénink v pořadí – ${esc(planTitle)} – nebo přidat lehké kardio.`:`You can do the next workout in rotation – ${esc(planTitle)} – or add light cardio.`}</p>
+     </div>
+     <button onclick="openCardioDialog()">♡ ${t("cardioOnly")}</button>
+   </section>`:""}
+
+   <div class="login-warning modern-login-warning" ${cloudUser?"hidden":""}>
+     <div><b>⚠️ ${t("loginWarningTitle")}</b><span>${t("loginWarningText")}</span></div>
+     <button type="button" onclick="openCloud()">${t("loginNow")}</button>
    </div>
 
-   <div class="compact-date"><span>📅</span><input aria-label="${t("date")}" type="date" value="${esc(d.date)}" onchange="changeDayDate('${day}',this.value)"></div>`;
+   ${recoveryWarningNeeded()?`<div class="recovery-warning compact-warning">⚠️ ${t("recoveryWarning")}</div>`:""}
+
+   <section class="workout-hero">
+     <div class="workout-hero-top">
+       <div>
+         <span class="hero-kicker">${lang()==="cs"?"DNEŠNÍ TRÉNINK":"TODAY'S WORKOUT"}</span>
+         <h2>${esc(planTitle)}</h2>
+         <p>${esc(planSub)}</p>
+       </div>
+       <span class="hero-plan-number">${planIndex}/3</span>
+     </div>
+
+     <div class="hero-meta">
+       <span>◷ ~${estimate} min</span>
+       <span>▦ ${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</span>
+       <span>◎ ${blocked?(lang()==="cs"?"čeká měření":"check-in needed"):(lang()==="cs"?"připraveno":"ready")}</span>
+     </div>
+
+     <div class="hero-exercise-preview">
+       ${previewItems.map((inst,index)=>{
+         const m=metaFor(day,inst);
+         return `<div class="hero-preview-row">
+           ${m.guideThumb
+  ?`<img class="hero-preview-thumb" src="${m.guideThumb}" alt="" loading="lazy">`
+  :`<span class="hero-preview-icon">${categoryGlyph(m.category)}</span>`}
+           <div><strong>${esc(itemName(m))}</strong><small>${targetText(m)}</small></div>
+           <span>${entry(day,inst.instanceId).done?"✓":index+1}</span>
+         </div>`;
+       }).join("")}
+       ${orderedInstances.length>3?`<div class="hero-more">+${orderedInstances.length-3} ${lang()==="cs"?"další cviky":"more exercises"}</div>`:""}
+     </div>
+
+     <div class="hero-actions">
+       <button class="primary hero-start" ${blocked?"disabled":""} onclick="startWorkout('${day}')">▶ ${state.activeWorkout?.day===day?t("resume"):t("start")}</button>
+       <button class="hero-cardio" onclick="openCardioDialog()">♡ ${t("cardioOnly")}</button>
+     </div>
+   </section>
+
+   <div class="modern-day-tabs">
+     <button class="${day==="monday"?"active":""}" onclick="showToday('monday')">${t("mon")}</button>
+     <button class="${day==="wednesday"?"active":""}" onclick="showToday('wednesday')">${t("wed")}</button>
+     <button class="${day==="friday"?"active":""}" onclick="showToday('friday')">${t("fri")}</button>
+   </div>`;
 
  if(!measure){
-   html+=`<div class="weekly-measure-card missing">
-     <div><b>${t("mondayCheckMissing")}</b><p>${t("weeklyCheckInfo")}<br><strong>${t("savedForMonday")}: ${formatMondayDate(monday)}</strong></p></div>
+   html+=`<section class="weekly-measure-card missing modern-checkin-card">
+     <div class="checkin-heading">
+       <span class="checkin-icon">⌁</span>
+       <div><b>${t("mondayCheckMissing")}</b><p>${t("weeklyCheckInfo")}</p></div>
+     </div>
      <div class="weekly-measure-grid">
        <label><span>${t("weight")}</span><input inputmode="decimal" value="${esc(draft.weight)}" oninput="updateWeeklyMeasurement('weight',this.value)"></label>
        <label><span>${t("waist")}</span><input inputmode="decimal" value="${esc(draft.waist)}" oninput="updateWeeklyMeasurement('waist',this.value)"></label>
      </div>
+     <div class="checkin-date">${t("savedForMonday")}: ${formatMondayDate(monday)}</div>
      <button class="primary full weekly-save-btn" onclick="saveWeeklyMeasurement(true)">${t("saveMondayCheck")}</button>
-   </div>`;
+   </section>`;
  }
 
- html+=`<div class="today-primary-actions top-workout-actions">
-     <button class="primary" ${blocked?"disabled":""} onclick="startWorkout('${day}')">${state.activeWorkout?.day===day?t("resume"):t("start")}</button>
-     <button class="secondary cardio-only-btn" onclick="openCardioDialog()">🏃 ${t("cardioOnly")}</button>
+ html+=`<section class="modern-plan-section">
+   <div class="section-title-row">
+     <div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Cviky v tréninku":"Workout exercises"}</h3></div>
+     <button class="section-add" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button>
    </div>
-   <div class="plan-preview-card clean-preview">
    ${blocked?`<div class="preview-lock-note">🔒 ${t("previewLocked")}</div>`:""}
    <div class="plan-preview-list" id="todayPreviewList">`;
 
  let extraDividerShown=false;
  orderedInstances.forEach((inst,index)=>{
    if(inst.added&&!extraDividerShown){
-     html+=`<div class="simple-extra-divider">${lang()==="cs"?"Volitelné cviky":"Optional exercises"}</div>`;
+     html+=`<div class="simple-extra-divider">${lang()==="cs"?"VOLITELNÉ CVIKY":"OPTIONAL EXERCISES"}</div>`;
      extraDividerShown=true;
    }
-   const m=metaFor(day,inst),last=lastRecord(m.id);
+
+   const m=metaFor(day,inst);
+   const last=lastRecord(m.id);
    const tips=m.tips?.[lang()]||m.tips?.en||[];
    const mistakes=m.mistakes?.[lang()]||m.mistakes?.en||[];
-   html+=`<details class="preview-accordion">
+   const done=entry(day,inst.instanceId).done;
+
+   html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":""}">
      <summary>
-       <span class="preview-card-number">${index+1}</span>
+       <span class="preview-card-number">${done?"✓":index+1}</span>
+       ${m.guideThumb
+  ?`<img class="exercise-guide-thumb" src="${m.guideThumb}" alt="" loading="lazy">`
+  :`<span class="exercise-category-icon">${categoryGlyph(m.category)}</span>`}
        <div class="preview-card-main">
-         <strong>${esc(itemName(m))}${inst.added?` <span class="extra-badge">${t("extra")}</span>`:""}</strong>
-         <small>${targetText(m)}</small>
+         <strong>${esc(itemName(m))}${m.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}${inst.added?` <span class="extra-badge">${t("extra")}</span>`:""}</strong>
+         <small>${targetText(m)} · ${categoryName(m.category)}</small>
        </div>
-       <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();openVideo('${m.id}')" aria-label="${t("video")}">▶ <span>${t("video")}</span></button>
+       <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();openVideo('${m.id}')" aria-label="${t("video")}">▶ <span>Video</span></button>
        <span class="preview-card-chevron"></span>
      </summary>
      <div class="preview-card-body">
        ${last?`<div class="preview-last"><b>${t("previous")}:</b> ${esc(formatRecord(last))}</div>`:""}
-       ${tips.length?`<div class="preview-info"><b>${t("tips")}:</b> ${tips.join(" • ")}</div>`:""}
-       ${mistakes.length?`<div class="preview-info warning"><b>${t("avoid")}:</b> ${mistakes.join(" • ")}</div>`:""}
-       <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
+       ${tips.length?`<div class="preview-info"><b>${t("tips")}:</b> ${tips.slice(0,2).map(esc).join(" • ")}</div>`:""}
+       ${mistakes.length?`<div class="preview-info warning"><b>${t("avoid")}:</b> ${mistakes.slice(0,2).map(esc).join(" • ")}</div>`:""}
+       <div class="preview-card-actions">
+         <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
+         <button class="smallbtn preview-change-button" type="button" onclick="openLibrary('${day}','replace','${inst.instanceId}')">↔ ${t("changeExercise")}</button>
+         ${m.replacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="resetReplacement('${day}','${inst.instanceId}')">${t("originalExercise")}</button>`:""}
+       </div>
      </div>
    </details>`;
  });
 
- html+=`</div></div>
+ html+=`</div>
+   <div class="modern-plan-footer">
+     <button class="secondary" onclick="collapseTodayCards()">${t("collapse")}</button>
+     <button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button>
+   </div>
+ </section>`;
 
- </div>`;
  if(rec){
-   html+=`<div class="recommendation-bottom-divider"><span>${t("recommended")}</span></div>
-   <div class="card recommend compact-recommendation">
-     <h3>${esc(itemName(rec.item))}</h3>
-     <p>${esc(rec.reason)}</p>
-     <button class="secondary full" onclick="addExercise('${day}','${rec.item.id}')">＋ ${t("addToday")}</button>
-   </div>`;
+   html+=`<section class="modern-recommendation">
+     <span class="recommendation-star">★</span>
+     <div><span class="eyebrow">${t("recommended")}</span><h3>${esc(itemName(rec.item))}</h3><p>${esc(rec.reason)}</p></div>
+     <button onclick="addExercise('${day}','${rec.item.id}')">＋</button>
+   </section>`;
  }
 
- html+=`<div class="day-tools bottom-day-tools clean-bottom-tools">
-   <button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button>
-   <button class="secondary" id="todayPreviewToggle" onclick="collapseTodayCards()">${t("collapse")}</button>
- </div>`;
-
+ html+=`</div>`;
  document.getElementById(day).innerHTML=html;
  setupExclusivePreviewCards();
 }
@@ -2040,29 +3619,61 @@ function addExercise(day,exerciseId){
  const x={instanceId:`extra:${uid()}`,exerciseId,sets:EX[exerciseId].sets,range:EX[exerciseId].range};
  state.days[day].extras.push(x);state.days[day].order.push(x.instanceId);saveState();if(libraryDialog.open)libraryDialog.close();renderDay(day);alert(t("added"));
 }
-function resetReplacement(day,id){const e=entry(day,id);e.replacementId="";e.sets=[];e.minutes="";e.speed="";e.done=false;saveState();renderDay(day)}
+function resetReplacement(day,id){const e=entry(day,id);e.replacementId="";e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false;saveState();renderDay(day)}
 function replaceExercise(day,id,exerciseId){
  const e=entry(day,id),has=(e.sets||[]).some(s=>Object.values(s).some(Boolean))||e.minutes||e.speed;
  if(has&&!confirm(t("replaceDataConfirm")))return;
- e.replacementId=exerciseId;e.sets=[];e.minutes="";e.speed="";e.done=false;saveState();libraryDialog.close();renderDay(day);
+ e.replacementId=exerciseId;e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false;saveState();libraryDialog.close();renderDay(day);
 }
+
 
 
 function openCardioDialog(){
- cardioDialogBody.innerHTML=`<h2 style="margin:3px 0 5px">${t("cardioTitle")}</h2><p class="subtitle">${t("cardioOnly")}</p><label><span>${t("date")}</span><input id="cardioDate" type="date" value="${today()}"></label><label><span>${t("cardioType")}</span><select id="cardioType"><option value="treadmill">${t("treadmillCardio")}</option><option value="bike">${t("bikeCardio")}</option><option value="elliptical">${t("ellipticalCardio")}</option><option value="walking">${t("walkingCardio")}</option><option value="other">${t("otherCardio")}</option></select></label><div class="live-inputs"><label><span>${t("minutes")}</span><input id="cardioMinutes" inputmode="numeric" placeholder="30"></label><label><span>${t("speed")}</span><input id="cardioSpeed" inputmode="decimal" placeholder="5.5"></label></div><label><span>${t("noteOptional")}</span><textarea id="cardioNote" rows="3"></textarea></label><div class="actions"><button class="primary full" onclick="saveCardioWorkout()">${t("saveCardioWorkout")}</button></div>`;
+ cardioDialogBody.innerHTML=`<h2 style="margin:3px 0 5px">${t("cardioTitle")}</h2><p class="subtitle">${t("cardioOnly")}</p>
+ <label><span>${t("date")}</span><input id="cardioDate" type="date" value="${selectedWorkoutDate||today()}"></label>
+ <label><span>${t("cardioType")}</span><select id="cardioType" onchange="toggleCardioFields()">
+  <option value="treadmill">${t("treadmillCardio")}</option>
+  <option value="bike">${t("bikeCardio")}</option>
+  <option value="elliptical">${t("ellipticalCardio")}</option>
+  <option value="walking">${t("walkingCardio")}</option>
+  <option value="other">${t("otherCardio")}</option>
+ </select></label>
+ <div class="cardio-entry-grid">
+  <label><span>${t("minutes")}</span><input id="cardioMinutes" inputmode="numeric" placeholder="30"></label>
+  <label id="cardioSpeedWrap"><span>${t("speed")}</span><input id="cardioSpeed" inputmode="decimal" placeholder="5.5"></label>
+ </div>
+ <label><span>${t("noteOptional")}</span><textarea id="cardioNote" rows="3"></textarea></label>
+ <div class="actions"><button class="primary full" onclick="saveCardioWorkout()">${t("saveCardioWorkout")}</button></div>`;
  cardioDialog.showModal();
+ toggleCardioFields();
+}
+function toggleCardioFields(){
+ const type=document.getElementById("cardioType")?.value||"treadmill";
+ const speedWrap=document.getElementById("cardioSpeedWrap");
+ if(speedWrap)speedWrap.hidden=type==="treadmill";
 }
 function cardioTypeLabel(value){const map={treadmill:"treadmillCardio",bike:"bikeCardio",elliptical:"ellipticalCardio",walking:"walkingCardio",other:"otherCardio"};return t(map[value]||"otherCardio")}
+
 function saveCardioWorkout(){
- const date=document.getElementById("cardioDate")?.value||today(),cardioType=document.getElementById("cardioType")?.value||"other",minutes=String(document.getElementById("cardioMinutes")?.value||"").trim(),speed=String(document.getElementById("cardioSpeed")?.value||"").trim(),note=String(document.getElementById("cardioNote")?.value||"").trim();
+ const date=document.getElementById("cardioDate")?.value||today();
+ const cardioType=document.getElementById("cardioType")?.value||"other";
+ const minutes=String(document.getElementById("cardioMinutes")?.value||"").trim();
+ const speed=cardioType==="treadmill"?"":String(document.getElementById("cardioSpeed")?.value||"").trim();
+ const note=String(document.getElementById("cardioNote")?.value||"").trim();
  if(!minutes){alert(t("enterCardio"));return;}
  state.workouts.push({type:"cardio",date,cardioType,minutes:Number(minutes)||minutes,speed,note,savedAt:Date.now()});
  saveState();cardioDialog.close();renderHistoryScreen();renderProgress();showToday(recommendedDay());alert(t("cardioSaved"));
 }
-
-function showToday(day){
- if(state.activeWorkout)day=state.activeWorkout.day;
+function showToday(day,date=selectedWorkoutDate||today()){
+ if(state.activeWorkout){
+   day=state.activeWorkout.day;
+   selectedWorkoutDate=state.activeWorkout.date||state.days[day]?.date||today();
+ }else{
+   selectedWorkoutDate=date||today();
+   localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
+ }
  selectedTodayDay=day||recommendedDay();localStorage.setItem("gymTodayDay",selectedTodayDay);
+ activatePlanForDate(selectedTodayDay,selectedWorkoutDate);
  currentScreen="today";
  document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===selectedTodayDay));
  document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
@@ -2141,7 +3752,7 @@ function applyLanguage(){
  resumeBtn.textContent=t("resume");liveLabel.textContent=t("workout");liveFinishBtn.textContent=t("finish");prevBtn.textContent=t("prevExercise");nextBtn.textContent=t("nextExercise");
  restLabel.textContent=t("rest");restReturnBtn.textContent=t("backWorkout");restSkipBtn.textContent=t("skipRest");
  librarySearch.placeholder=t("search");videoLink.textContent=t("videoOpen");
- finishTitle.textContent=t("workoutDone");finishNoteLabel.textContent=t("workoutNote");finishSaveBtn.textContent=t("saveFinish");
+ finishTitle.textContent=t("workoutDone");finishNoteLabel.textContent=t("workoutNote");finishSaveBtn.textContent=t("saveFinish");finishDeleteBtn.textContent=t("deleteWorkout");
  cloudTitle.textContent=t("cloud");cloudIntro.textContent=t("cloudIntro");passwordLabel.textContent=t("password");signInBtn.textContent=t("signIn");signUpBtn.textContent=t("signUp");signedAsLabel.textContent=t("signedAs");syncBtn.textContent=t("sync");signOutBtn.textContent=t("signOut");
  retroSaveBtn.textContent=t("saveSet");updateCloudUI();
  DAYS.forEach(renderDay);renderProgress();renderHistoryScreen();renderMore();if(state.activeWorkout)renderLive();
@@ -2204,35 +3815,103 @@ function recommendExercise(day){
 }
 
 function openLibrary(day,mode="add",instanceId=null){
- libraryDay=day;libraryMode=mode;libraryInstance=instanceId;libraryCategory="all";librarySearch.value="";
- libraryTitle.textContent=mode==="replace"?t("replaceTitle"):t("library");librarySubtitle.textContent=mode==="replace"?"":t("librarySub");
- renderLibrary();libraryDialog.showModal();
+ libraryDay=day;
+ libraryMode=mode;
+ libraryInstance=instanceId;
+ const inst=instanceId?dayInstances(day).find(x=>x.instanceId===instanceId):null;
+ libraryCategory=mode==="replace"&&inst?metaFor(day,inst).category:"all";
+ librarySearch.value="";
+ libraryTitle.textContent=mode==="replace"?t("replaceTitle"):t("library");
+ librarySubtitle.textContent=mode==="replace"?t("replaceSub"):t("librarySub");
+ renderLibrary();
+ libraryDialog.showModal();
 }
 function renderLibrary(){
- const q=normalizeName(librarySearch.value),inst=libraryInstance?dayInstances(libraryDay).find(x=>x.instanceId===libraryInstance):null;
- const baseCat=inst?metaFor(libraryDay,inst).category:null;
- let list=allLibrary().filter(x=>libraryMode!=="replace"||x.category===baseCat);
+ const q=normalizeName(librarySearch.value);
+ const inst=libraryInstance?dayInstances(libraryDay).find(x=>x.instanceId===libraryInstance):null;
+ let list=allLibrary();
+
  if(q)list=list.filter(x=>normalizeName(x.cs+" "+x.en).includes(q));
  if(libraryCategory!=="all")list=list.filter(x=>x.category===libraryCategory);
+
+ list.sort((a,b)=>(Number(b.topPick===true)-Number(a.topPick===true))||itemName(a).localeCompare(itemName(b),lang()));
+
  const used=new Set(dayInstances(libraryDay).map(x=>metaFor(libraryDay,x).id));
- const cats=[...new Set(list.map(x=>x.category))];
+ const cats=Object.keys(CATEGORIES).filter(category=>allLibrary().some(x=>x.category===category));
+
  categoryChips.innerHTML=`<button class="chip ${libraryCategory==="all"?"active":""}" onclick="libraryCategory='all';renderLibrary()">${t("all")}</button>`+
  cats.map(c=>`<button class="chip ${libraryCategory===c?"active":""}" onclick="libraryCategory='${c}';renderLibrary()">${categoryName(c)}</button>`).join("");
+
  const rec=libraryMode==="add"?recommendExercise(libraryDay):null;
- libraryRecommendation.innerHTML=rec?`<div class="library-recommend"><div class="recommend-label">${t("recommended")}</div><h4>${esc(itemName(rec.item))}</h4><p>${esc(rec.reason)}</p><div class="actions"><button class="primary" onclick="addExercise('${libraryDay}','${rec.item.id}')">${t("addToday")}</button></div></div>`:"";
- if(!list.length){libraryList.innerHTML=`<div class="empty">${t("noResults")}</div>`;return}
- const groups={};list.forEach(x=>(groups[x.category]=groups[x.category]||[]).push(x));
+ libraryRecommendation.innerHTML=rec?`<div class="library-recommend">
+ ${rec.item.guideThumb?`<img class="library-recommend-thumb" src="${rec.item.guideThumb}" alt="" loading="lazy">`:""}
+ <div class="recommend-label">${t("recommended")}</div><h4>${esc(itemName(rec.item))}${rec.item.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}</h4><p>${esc(rec.reason)}</p><div class="actions"><button class="primary" onclick="addExercise('${libraryDay}','${rec.item.id}')">${t("addToday")}</button></div></div>`:"";
+
+ if(!list.length){
+   libraryList.innerHTML=`<div class="empty">${t("noResults")}</div>`;
+   return;
+ }
+
+ const groups={};
+ list.forEach(x=>(groups[x.category]=groups[x.category]||[]).push(x));
+
  libraryList.innerHTML=Object.entries(groups).map(([cat,items])=>`<div class="library-group"><h4>${categoryName(cat)}</h4>${items.map(x=>{
   const currentId=inst?metaFor(libraryDay,inst).id:null;
   const disabled=used.has(x.id)&&x.id!==currentId;
-  return `<div class="library-item"><div class="library-item-main"><div class="library-item-name">${esc(itemName(x))}</div><div class="library-item-meta">${targetText(x)} • ${categoryName(x.category)}</div></div><button class="${disabled?"secondary":"primary"}" ${disabled?"disabled":""} onclick="${libraryMode==="replace"?`replaceExercise('${libraryDay}','${libraryInstance}','${x.id}')`:`addExercise('${libraryDay}','${x.id}')`}">${libraryMode==="replace"?t("replace"):disabled?"✓":t("addToday")}</button></div>`;
+  return `<div class="library-item ${x.topPick?"top-pick-item":""}">
+    ${x.guideThumb
+      ?`<img class="library-guide-thumb" src="${x.guideThumb}" alt="" loading="lazy">`
+      :`<span class="library-guide-fallback">${categoryGlyph(x.category)}</span>`}
+    <div class="library-item-main">
+      <div class="library-item-name">${esc(itemName(x))}${x.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}</div>
+      <div class="library-item-meta">${targetText(x)} • ${categoryName(x.category)}</div>
+    </div>
+    <button class="${disabled?"secondary":"primary"}" ${disabled?"disabled":""} onclick="${libraryMode==="replace"?`replaceExercise('${libraryDay}','${libraryInstance}','${x.id}')`:`addExercise('${libraryDay}','${x.id}')`}">${libraryMode==="replace"?t("replace"):disabled?"✓":t("addToday")}</button>
+  </div>`;
  }).join("")}</div>`).join("");
 }
-
 function openVideo(exerciseId){
- const x=EX[exerciseId];if(!x)return;videoTitle.textContent=itemName(x);
- videoTips.innerHTML=`<div class="tip"><b>${t("tips")}:</b><ul>${x.tips[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul><b>${t("mistakes")}:</b><ul>${x.mistakes[lang()].map(v=>`<li>${esc(v)}</li>`).join("")}</ul></div>`;
+ const x=EX[exerciseId];
+ if(!x)return;
+
+ videoTitle.textContent=itemName(x);
+
+ const tips=x.tips?.[lang()]||x.tips?.en||[];
+ const mistakes=x.mistakes?.[lang()]||x.mistakes?.en||[];
+
+ videoTips.innerHTML=`<div class="tip">
+   ${tips.length?`<b>${t("tips")}:</b><ul>${tips.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:""}
+   ${mistakes.length?`<b>${t("mistakes")}:</b><ul>${mistakes.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:""}
+ </div>`;
+
+ const guideWrap=document.getElementById("videoGuideWrap");
+ const guideImage=document.getElementById("videoGuideImage");
+ const guideHint=document.getElementById("videoGuideHint");
+
+ if(x.guideImage){
+   guideImage.src=x.guideImage;
+   guideImage.alt=itemName(x);
+   guideWrap.hidden=false;
+   guideHint.textContent=x.guideExact===false
+     ?(lang()==="cs"
+       ?"Dočasně je použitý nejbližší související návod. Přesný obrázek tohoto cviku bude ještě doplněn."
+       :"A closely related guide is temporarily used. An exact image for this exercise still needs to be added.")
+     :(lang()==="cs"
+       ?"Obrázkový návod vytvořený pro tuto aplikaci. Klepnutím obrázek zvětšíš."
+       :"Illustrated guide created for this app. Tap the image to enlarge.");
+   guideImage.onclick=()=>guideWrap.classList.toggle("expanded");
+ }else{
+   guideImage.removeAttribute("src");
+   guideImage.alt="";
+   guideWrap.hidden=true;
+   guideWrap.classList.remove("expanded");
+ }
+
  videoLink.href=x.videoUrl||("https://www.youtube.com/results?search_query="+encodeURIComponent(x.en+" proper form tutorial"));
+ videoLink.textContent=x.guideImage
+   ?(lang()==="cs"?"Najít také video":"Find a video too")
+   :t("videoOpen");
+
  videoDialog.showModal();
 }
 function openHistory(exerciseId){
@@ -2311,8 +3990,10 @@ function startWorkout(day){
   if(state.activeWorkout.day!==day)return alert(`${t("workout")}: ${BASE_PLANS[state.activeWorkout.day]["title_"+lang()]}`);
   openLiveWorkout();return;
  }
+ activatePlanForDate(day,selectedWorkoutDate||today());
+ state.days[day].date=selectedWorkoutDate||today();
  const instances=dayInstances(day),first=Math.max(0,instances.findIndex(x=>!entry(day,x.instanceId).done));
- state.activeWorkout={day,startedAt:Date.now(),elapsed:0,paused:false,position:first<0?0:first,restEndAt:0,restExercise:""};saveState();openLiveWorkout();startWorkoutTicker();
+ state.activeWorkout={day,date:state.days[day].date,startedAt:Date.now(),elapsed:0,paused:false,position:first<0?0:first,restEndAt:0,restExercise:""};saveState();openLiveWorkout();startWorkoutTicker();
 }
 function startWorkoutTicker(){clearInterval(workoutTick);workoutTick=setInterval(updateWorkoutTimes,500);updateWorkoutTimes()}
 function updateWorkoutTimes(){
@@ -2390,7 +4071,14 @@ function editSavedSet(index){
  const meta=metaFor(day,inst);
  const e=entry(day,inst.instanceId);
  const set=e.sets?.[index];
- if(!set)return;
+ if(!set||set._complete!==true)return;
+
+ const dialog=document.getElementById("editSetDialog");
+ const content=document.getElementById("editSetDialogContent");
+ if(!dialog||!content){
+   alert(lang()==="cs"?"Editor série se nepodařilo otevřít.":"The set editor could not be opened.");
+   return;
+ }
 
  let fields="";
  if(meta.mode==="weight"){
@@ -2412,14 +4100,24 @@ function editSavedSet(index){
    <label><span>${t("speed")}</span><input id="editSetSpeed" type="number" inputmode="decimal" step="0.1" value="${esc(set.speed||"")}"></label>`;
  }
 
- genericDialog.innerHTML=`<div class="edit-set-dialog">
-   <div class="dialog-head"><div><h3>${t("editSet")} ${index+1}</h3><p>${esc(itemName(meta))}</p></div><button class="iconbtn" onclick="genericDialog.close()">✕</button></div>
-   <div class="edit-set-grid">${fields}</div>
-   <div class="dialog-actions"><button class="secondary" onclick="genericDialog.close()">${t("cancelEdit")}</button><button class="primary" onclick="saveEditedSet(${index})">${t("saveChanges")}</button></div>
+ content.innerHTML=`<div class="dialog-head">
+   <div><h3>${t("editSet")} ${index+1}</h3><p>${esc(itemName(meta))}</p></div>
+   <button type="button" class="iconbtn" onclick="closeEditSetDialog()">✕</button>
+ </div>
+ <div class="edit-set-grid">${fields}</div>
+ <div class="dialog-actions">
+   <button type="button" class="secondary" onclick="closeEditSetDialog()">${t("cancelEdit")}</button>
+   <button type="button" class="primary" onclick="saveEditedSet(${index})">${t("saveChanges")}</button>
  </div>`;
- genericDialog.showModal();
-}
 
+ if(dialog.open)dialog.close();
+ dialog.showModal();
+ requestAnimationFrame(()=>content.querySelector("input")?.focus());
+}
+function closeEditSetDialog(){
+ const dialog=document.getElementById("editSetDialog");
+ if(dialog?.open)dialog.close();
+}
 function saveEditedSet(index){
  const inst=currentLive();
  if(!inst||!state.activeWorkout)return;
@@ -2427,13 +4125,14 @@ function saveEditedSet(index){
  const meta=metaFor(day,inst);
  const e=entry(day,inst.instanceId);
  const original=e.sets?.[index];
- if(!original)return;
+ if(!original||original._complete!==true)return;
 
  const val=id=>document.getElementById(id)?.value?.trim()||"";
  const updated={...original,_complete:true};
 
  if(meta.mode==="weight"){
-   updated.kg=val("editSetKg"); updated.reps=val("editSetReps");
+   updated.kg=val("editSetKg");
+   updated.reps=val("editSetReps");
    if(!updated.kg||!updated.reps){alert(t("enterBoth"));return}
  }else if(meta.mode==="reps"){
    updated.reps=val("editSetReps");
@@ -2442,57 +4141,124 @@ function saveEditedSet(index){
    updated.seconds=val("editSetSeconds");
    if(!updated.seconds){alert(t("enterSeconds"));return}
  }else if(meta.mode==="sideweight"){
-   updated.kg=val("editSetKg"); updated.left=val("editSetLeft"); updated.right=val("editSetRight");
+   updated.kg=val("editSetKg");
+   updated.left=val("editSetLeft");
+   updated.right=val("editSetRight");
    if(!updated.kg||!updated.left||!updated.right){alert(t("enterSides"));return}
  }else if(meta.mode==="sidetime"){
-   updated.leftSeconds=val("editSetLeftSeconds"); updated.rightSeconds=val("editSetRightSeconds");
+   updated.leftSeconds=val("editSetLeftSeconds");
+   updated.rightSeconds=val("editSetRightSeconds");
    if(!updated.leftSeconds||!updated.rightSeconds){alert(t("enterSides"));return}
  }else if(meta.mode==="cardio"){
-   updated.minutes=val("editSetMinutes"); updated.speed=val("editSetSpeed");
+   updated.minutes=val("editSetMinutes");
+   updated.speed=val("editSetSpeed");
    if(!updated.minutes&&!updated.speed){alert(t("enterCardio"));return}
  }
 
  e.sets[index]=updated;
  saveState();
- genericDialog.close();
+ closeEditSetDialog();
  showToast(t("setUpdated"));
  renderLive();
 }
-
 function renderLive(){
- if(!state.activeWorkout)return;const arr=activeInstances(),inst=currentLive();if(!inst)return;
- const day=state.activeWorkout.day,e=entry(day,inst.instanceId),m=metaFor(day,inst),step=exerciseStep(m.id);const idx=firstIncompleteSet(m,e);ensurePrefill(day,inst,m,e,idx);const last=lastRecord(m.id);
- liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;liveProgressText.textContent=`${t("exercise")} ${state.activeWorkout.position+1} / ${arr.length}`;
+ if(!state.activeWorkout)return;
+
+ const arr=activeInstances();
+ const inst=currentLive();
+ if(!inst)return;
+
+ const day=state.activeWorkout.day;
+ const e=entry(day,inst.instanceId);
+ const m=metaFor(day,inst);
+ const step=exerciseStep(m.id);
+ const idx=firstIncompleteSet(m,e);
+
+ ensurePrefill(day,inst,m,e,idx);
+
+ const last=lastRecord(m.id);
+ const completedSets=(e.sets||[]).filter(set=>set?._complete===true).length;
+ const restLabel=m.mode==="cardio"?"—":`${Number(m.rest)||0}s`;
+
+ liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;
+ liveProgressText.textContent=`${state.activeWorkout.position+1} / ${arr.length} · ${categoryName(m.category)}`;
+
  let inputs="";
  const s=e.sets?.[idx]||{};
- if(m.mode==="weight")inputs=`<div class="live-inputs weight-reps-live">
- <div class="live-input-block"><div class="live-input-label">kg</div><div class="quick-stepper"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',-1)">−</button><input id="liveKg" inputmode="decimal" placeholder="kg" value="${esc(s.kg)}"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',1)">＋</button></div><div class="weight-step-row"><span>${lang()==="cs"?"Krok":"Step"}</span><select onchange="setExerciseStep('${m.id}',this.value)">${[1,2,2.5,5,10].map(v=>`<option value="${v}" ${step===v?"selected":""}>${v} kg</option>`).join("")}</select></div></div>
- <div class="live-input-block"><div class="live-input-label">${t("reps")}</div><div class="quick-stepper"><button onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="${t("reps")}" value="${esc(s.reps)}"><button onclick="adjustLiveInput('liveReps',1)">＋</button></div></div>
- </div>`;
- if(m.mode==="reps")inputs=`<div class="live-inputs one"><div class="live-input-block"><div class="quick-stepper"><button onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="${t("reps")}" value="${esc(s.reps)}"><button onclick="adjustLiveInput('liveReps',1)">＋</button></div></div></div>`;
- if(m.mode==="time")inputs=`<div class="live-inputs one"><input id="liveSeconds" inputmode="numeric" placeholder="${t("seconds")}" value="${esc(s.seconds)}"></div>`;
- if(m.mode==="sideweight")inputs=`<div class="live-inputs side-weight-live"><div class="live-input-block"><div class="live-input-label">kg</div><div class="quick-stepper"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',-1)">−</button><input id="liveKg" inputmode="decimal" placeholder="kg" value="${esc(s.kg)}"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',1)">＋</button></div><div class="weight-step-row"><span>${lang()==="cs"?"Krok":"Step"}</span><select onchange="setExerciseStep('${m.id}',this.value)">${[1,2,2.5,5,10].map(v=>`<option value="${v}" ${step===v?"selected":""}>${v} kg</option>`).join("")}</select></div></div><input id="liveLeft" inputmode="numeric" placeholder="${t("left")}" value="${esc(s.left)}"><input id="liveRight" inputmode="numeric" placeholder="${t("right")}" value="${esc(s.right)}"></div>`;
- if(m.mode==="sidetime")inputs=`<div class="live-inputs"><input id="liveLeftSeconds" inputmode="numeric" placeholder="${t("left")} s" value="${esc(s.leftSeconds)}"><input id="liveRightSeconds" inputmode="numeric" placeholder="${t("right")} s" value="${esc(s.rightSeconds)}"></div>`;
- if(m.mode==="cardio")inputs=`<div class="live-inputs"><input id="liveMinutes" inputmode="numeric" placeholder="${t("minutes")}" value="${esc(e.minutes)}"><input id="liveSpeed" inputmode="decimal" placeholder="${t("speed")}" value="${esc(e.speed)}"></div>`;
- liveContent.innerHTML=`<div class="live-exercise-head">
-   <div>
-     <div class="kicker">${BASE_PLANS[day]["title_"+lang()]}</div>
-     <h2>${esc(itemName(m))}</h2>
-     <div class="live-target">${targetText(m)}</div>
+
+ if(m.mode==="weight")inputs=`<div class="live-inputs weight-reps-live modern-live-inputs">
+   <div class="live-input-block">
+     <div class="live-input-label">KG</div>
+     <div class="quick-stepper"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',-1)">−</button><input id="liveKg" inputmode="decimal" placeholder="0" value="${esc(s.kg)}"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',1)">＋</button></div>
+     <div class="weight-step-row"><span>${lang()==="cs"?"Krok":"Step"}</span><select onchange="setExerciseStep('${m.id}',this.value)">${[1,2,2.5,5,10].map(v=>`<option value="${v}" ${step===v?"selected":""}>${v} kg</option>`).join("")}</select></div>
    </div>
-   <button class="video-btn compact-video-btn" onclick="openVideo('${m.id}')">${t("video")}</button>
+   <div class="live-input-block">
+     <div class="live-input-label">${t("reps").toUpperCase()}</div>
+     <div class="quick-stepper"><button type="button" onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="0" value="${esc(s.reps)}"><button type="button" onclick="adjustLiveInput('liveReps',1)">＋</button></div>
+   </div>
+ </div>`;
+
+ if(m.mode==="reps")inputs=`<div class="live-inputs one modern-live-inputs"><div class="live-input-block"><div class="live-input-label">${t("reps").toUpperCase()}</div><div class="quick-stepper"><button type="button" onclick="adjustLiveInput('liveReps',-1)">−</button><input id="liveReps" inputmode="numeric" placeholder="0" value="${esc(s.reps)}"><button type="button" onclick="adjustLiveInput('liveReps',1)">＋</button></div></div></div>`;
+
+ if(m.mode==="time")inputs=`<div class="live-inputs one modern-live-inputs"><div class="live-input-block"><div class="live-input-label">${t("seconds").toUpperCase()}</div><input id="liveSeconds" inputmode="numeric" placeholder="30" value="${esc(s.seconds)}"></div></div>`;
+
+ if(m.mode==="sideweight")inputs=`<div class="live-inputs side-weight-live modern-live-inputs">
+   <div class="live-input-block"><div class="live-input-label">KG</div><div class="quick-stepper"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',-1)">−</button><input id="liveKg" inputmode="decimal" placeholder="0" value="${esc(s.kg)}"><button type="button" onclick="adjustExerciseWeightInput('liveKg','${m.id}',1)">＋</button></div></div>
+   <div class="live-input-block"><div class="live-input-label">${t("left").toUpperCase()}</div><input id="liveLeft" inputmode="numeric" value="${esc(s.left)}"></div>
+   <div class="live-input-block"><div class="live-input-label">${t("right").toUpperCase()}</div><input id="liveRight" inputmode="numeric" value="${esc(s.right)}"></div>
+ </div>`;
+
+ if(m.mode==="sidetime")inputs=`<div class="live-inputs modern-live-inputs"><div class="live-input-block"><div class="live-input-label">${t("left").toUpperCase()} · S</div><input id="liveLeftSeconds" inputmode="numeric" value="${esc(s.leftSeconds)}"></div><div class="live-input-block"><div class="live-input-label">${t("right").toUpperCase()} · S</div><input id="liveRightSeconds" inputmode="numeric" value="${esc(s.rightSeconds)}"></div></div>`;
+
+ if(m.mode==="cardio")inputs=`<div class="live-inputs cardio-live-inputs modern-live-inputs">
+   <div class="live-input-block"><div class="live-input-label">${t("minutes").toUpperCase()}</div><input id="liveMinutes" inputmode="numeric" placeholder="15" value="${esc(e.minutes)}"></div>
+   ${m.id==="treadmill"?"":`<div class="live-input-block"><div class="live-input-label">${t("speed").toUpperCase()}</div><input id="liveSpeed" inputmode="decimal" placeholder="5.5" value="${esc(e.speed)}"></div>`}
+ </div>`;
+
+ liveContent.innerHTML=`<div class="modern-live-hero">
+   <div class="modern-live-glyph">${categoryGlyph(m.category)}</div>
+   <div class="modern-live-title">
+     <span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span>
+     <h2>${esc(itemName(m))}</h2>
+     <p>${targetText(m)}</p>
+   </div>
+   <button class="compact-video-btn modern-video-btn" onclick="openVideo('${m.id}')">▶ Video</button>
  </div>
- ${last?`<div class="live-last">${t("previous")}: <strong>${esc(formatRecord(last))}</strong></div>`:""}
- <div class="live-set"><h3>${m.mode==="cardio"?"Kardio":`${t("set")} ${idx+1} / ${m.sets}`}</h3>${inputs}<button class="live-done" onclick="completeLiveSet('${inst.instanceId}',${idx})">${m.mode==="cardio"?t("saveCardio"):t("doneRest")}</button></div>
- <div class="saved-sets-panel">
-   <div class="saved-sets-title">${t("savedSets")}</div>
+
+ ${m.guideImage?`<button class="modern-live-guide" type="button" onclick="openVideo('${m.id}')">
+   <img src="${m.guideThumb||m.guideImage}" alt="${esc(itemName(m))}">
+   <span><b>${lang()==="cs"?"Návod ke cviku":"Exercise guide"}</b><small>${lang()==="cs"?"Klepni pro celý obrázek":"Tap to open the full guide"}</small></span>
+   <i>›</i>
+ </button>`:""}
+
+ ${last?`<div class="modern-previous"><span>${t("previous")}</span><strong>${esc(formatRecord(last))}</strong></div>`:""}
+
+ <div class="live-round-metrics">
+   <div><strong>${m.mode==="cardio"?targetText(m):m.range}</strong><span>${m.mode==="cardio"?t("time"):t("reps")}</span></div>
+   <div><strong>${restLabel}</strong><span>${t("rest")}</span></div>
+   <div><strong>${m.mode==="cardio"?"1/1":`${Math.min(idx+1,m.sets)}/${m.sets}`}</strong><span>${t("set")}</span></div>
+ </div>
+
+ <div class="modern-live-set">
+   <div class="modern-set-heading">
+     <div><span>${m.mode==="cardio"?t("cardioWorkout"):`${t("set")} ${idx+1}`}</span><h3>${lang()==="cs"?"Zapiš výkon":"Log your performance"}</h3></div>
+     <span class="set-progress-pill">${completedSets}/${m.mode==="cardio"?1:m.sets}</span>
+   </div>
+   ${inputs}
+   <button class="live-done modern-complete-set" onclick="completeLiveSet('${inst.instanceId}',${idx})">✓ ${m.mode==="cardio"?t("saveCardio"):t("doneRest")}</button>
+ </div>
+
+ <div class="saved-sets-panel modern-saved-sets">
+   <div class="saved-sets-title"><span>${t("savedSets")}</span><small>${completedSets}</small></div>
    ${(e.sets||[]).filter(set=>set?._complete===true).length
-     ?(e.sets||[]).map((set,i)=>set?._complete===true?`<div class="saved-set-row">
-        <div><span>${t("set")} ${i+1}</span><strong>${savedSetSummary(m,set)}</strong></div>
+     ?`<div class="completed-set-table">${(e.sets||[]).map((set,i)=>set?._complete===true?`<div class="saved-set-row">
+        <span class="saved-set-number">${i+1}</span>
+        <strong>${savedSetSummary(m,set)}</strong>
         <button type="button" onclick="editSavedSet(${i})">✎ ${t("edit")}</button>
-      </div>`:"").join("")
+      </div>`:"").join("")}</div>`
      :`<div class="saved-sets-empty">${t("noSavedSets")}</div>`}
  </div>`;
+
  updateWorkoutTimes();
 }
 function completeLiveSet(instanceId,index){
@@ -2503,7 +4269,11 @@ function completeLiveSet(instanceId,index){
  if(m.mode==="sideweight"){s.kg=liveKg.value.trim();s.left=liveLeft.value.trim();s.right=liveRight.value.trim();if(!s.kg||!s.left||!s.right)return alert(t("enterSides"))}
  if(m.mode==="sidetime"){s.leftSeconds=liveLeftSeconds.value.trim();s.rightSeconds=liveRightSeconds.value.trim();if(!s.leftSeconds||!s.rightSeconds)return alert(t("enterSides"))}
  if(m.mode==="cardio"){
-  e.minutes=liveMinutes.value.trim();e.speed=liveSpeed.value.trim();if(!e.minutes&&!e.speed)return alert(t("enterCardio"));e.done=true;advanceAfterExercise();saveState();renderLive();return;
+  e.minutes=liveMinutes.value.trim();
+  e.speed=m.id==="treadmill"?"":(document.getElementById("liveSpeed")?.value||"").trim();
+  e.incline="";
+  if(!e.minutes)return alert(t("enterCardio"));
+  e.done=true;advanceAfterExercise();saveState();renderLive();return;
  }
  e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;
  const complete=e.sets.slice(0,m.sets).filter(x=>x?._complete===true).length>=m.sets;
@@ -2552,12 +4322,46 @@ function cancelFinish(){
    startWorkoutTicker();
  }
 }
+function deleteActiveWorkout(){
+ const w=state.activeWorkout;
+ if(!w)return;
+ if(!confirm(t("deleteWorkoutConfirm")))return;
+
+ const day=w.day;
+ const oldDay=state.days[day]||defaultDay();
+ const cleanDay=defaultDay();
+ cleanDay.date=oldDay.date||today();
+ state.days[day]=cleanDay;
+ state.activeWorkout=null;
+
+ const dialog=byId("finishDialog");
+ if(dialog?.open)dialog.close();
+ const note=byId("finishNote");
+ if(note)note.value="";
+
+ clearInterval(workoutTick);
+ clearInterval(restTick);
+ byId("liveOverlay")?.classList.remove("show");
+ byId("restOverlay")?.classList.remove("show");
+ byId("workoutRunning")?.classList.remove("show");
+ if(byId("liveClock"))byId("liveClock").textContent="00:00";
+ if(byId("runningTime"))byId("runningTime").textContent="00:00";
+
+ saveState();
+ showToday(day);
+ alert(t("workoutDeleted"));
+}
+
 function saveFinishedWorkout(){
  const w=state.activeWorkout;if(!w)return;
  const day=w.day,d=state.days[day],instances=activeInstances(day);
  instances.forEach(inst=>{
   const e=entry(day,inst.instanceId),m=metaFor(day,inst);let rec={date:d.date||today(),day,exerciseId:m.id,mode:m.mode,notes:e.notes||""};
-  if(m.mode==="cardio"){if(!e.minutes&&!e.speed)return;rec.minutes=e.minutes||"";rec.speed=e.speed||""}
+  if(m.mode==="cardio"){
+   if(!e.minutes)return;
+   rec.minutes=e.minutes||"";
+   rec.speed=m.id==="treadmill"?"":(e.speed||"");
+  }
   else{rec.sets=(e.sets||[]).slice(0,m.sets).filter(x=>x?._complete===true).map(({_complete,...set})=>set);if(!rec.sets.length)return}
   state.history[m.id]=state.history[m.id]||[];state.history[m.id].push(rec);
  });
@@ -2575,8 +4379,8 @@ function saveFinishedWorkout(){
  if(byId("liveClock"))byId("liveClock").textContent="00:00";
  if(byId("runningTime"))byId("runningTime").textContent="00:00";
  saveState();
- selectedTodayDay=nextStrengthDay();
- renderProgress();renderHistoryScreen();showToday(selectedTodayDay);
+ selectedTodayDay=nextStrengthDay();selectedWorkoutDate=today();localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
+ renderProgress();renderHistoryScreen();showToday(selectedTodayDay,selectedWorkoutDate);
  alert(t("workoutDone"));
 }
 function restoreActiveWorkout(){
@@ -2635,16 +4439,65 @@ function deleteProgress(date){state.progress=state.progress.filter(x=>x.date!==d
 function exportBackup(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}));a.download=`gym-tracker-${today()}.json`;a.click();URL.revokeObjectURL(a.href)}
 async function importBackup(file){if(!file)return;try{state=migrateState(JSON.parse(await file.text()));saveState();location.reload()}catch{alert("Invalid backup")}}
 
+
+function hasMeaningfulLocalData(){
+ if(state.activeWorkout)return true;
+ if((state.workouts||[]).length)return true;
+ if((state.progress||[]).length)return true;
+ if(Object.values(state.history||{}).some(items=>(items||[]).length))return true;
+ return DAYS.some(day=>{
+   const d=state.days?.[day];
+   if(!d)return false;
+   if(d.completed)return true;
+   return Object.values(d.entries||{}).some(e=>{
+     if(e?.done||e?.minutes||e?.speed)return true;
+     return (e?.sets||[]).some(set=>set?._complete===true||hasSetData("weight",set)||hasSetData("reps",set)||hasSetData("time",set)||hasSetData("sideweight",set)||hasSetData("sidetime",set));
+   });
+ });
+}
+
+function createLocalSafetyBackup(reason="manual"){
+ try{
+   localStorage.setItem("gymTrackerProV2SafetyBackup",JSON.stringify({
+     createdAt:new Date().toISOString(),
+     reason,
+     data:state
+   }));
+   return true;
+ }catch(error){
+   console.error("Safety backup failed",error);
+   return false;
+ }
+}
+
 function scheduleCloud(){if(!cloudUser||!supabaseClient||cloudLoading)return;clearTimeout(cloudTimer);cloudStatus.textContent=t("cloudSaving");cloudStatus.className="cloud-sync";cloudTimer=setTimeout(saveCloud,1100)}
 async function saveCloud(){
  if(!cloudUser||!supabaseClient)return;try{const {error}=await supabaseClient.from("gym_app_state").upsert({user_id:cloudUser.id,data:state,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error;cloudStatus.textContent=t("cloudSaved");cloudStatus.className="cloud-ok"}catch(e){console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error"}
 }
 async function loadCloud(force=false){
- if(!cloudUser||!supabaseClient)return;cloudLoading=true;
- try{const {data,error}=await supabaseClient.from("gym_app_state").select("data,updated_at").eq("user_id",cloudUser.id).maybeSingle();if(error)throw error;
-  if(data?.data&&(force||confirm(lang()==="cs"?"Načíst data z cloudu a nahradit data v tomto zařízení?":"Load cloud data and replace data on this device?"))){state=migrateState(data.data);localStorage.setItem(KEY,JSON.stringify(state));location.reload()}
-  else if(!data)await saveCloud();
- }catch(e){console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error"}finally{cloudLoading=false}
+ if(!cloudUser||!supabaseClient)return;
+ cloudLoading=true;
+ try{
+  const {data,error}=await supabaseClient.from("gym_app_state").select("data,updated_at").eq("user_id",cloudUser.id).maybeSingle();
+  if(error)throw error;
+
+  if(data?.data&&(force||confirm(lang()==="cs"
+    ?"Načíst data z cloudu? Současná data v tomto zařízení budou nejdřív bezpečně zálohována."
+    :"Load cloud data? Current device data will be safely backed up first."))){
+    createLocalSafetyBackup("before-cloud-load");
+    state=migrateState(data.data);
+    localStorage.setItem(KEY,JSON.stringify(state));
+    location.reload();
+  }else if(!data){
+    await saveCloud();
+  }
+ }catch(e){
+  console.error(e);
+  cloudStatus.textContent=t("cloudError");
+  cloudStatus.className="cloud-error";
+ }finally{
+  cloudLoading=false;
+ }
 }
 async function initCloud(){
  if(!supabaseClient){cloudStatus.textContent=t("cloudSignedOut");return}
@@ -2653,12 +4506,55 @@ async function initCloud(){
  window.addEventListener("online",()=>{if(cloudUser)saveCloud()});
 }
 function updateCloudUI(){
- if(cloudUser){cloudStatus.textContent=t("cloudConnected");cloudStatus.className="cloud-ok";cloudLoggedOut.style.display="none";cloudLoggedIn.style.display="block";cloudUserEmail.textContent=cloudUser.email||""}
- else{cloudStatus.textContent=t("cloudSignedOut");cloudStatus.className="";cloudLoggedOut.style.display="block";cloudLoggedIn.style.display="none"}
+ const signedIn=!!cloudUser;
+ if(signedIn){
+   cloudStatus.textContent=t("cloudConnected");
+   cloudStatus.className="cloud-ok";
+   cloudLoggedOut.style.display="none";
+   cloudLoggedIn.style.display="block";
+   cloudUserEmail.textContent=cloudUser.email||"";
+ }else{
+   cloudStatus.textContent=t("cloudSignedOut");
+   cloudStatus.className="cloud-warning-status";
+   cloudLoggedOut.style.display="block";
+   cloudLoggedIn.style.display="none";
+ }
+ document.querySelectorAll(".login-warning").forEach(box=>box.hidden=signedIn);
 }
 function openCloud(){updateCloudUI();cloudDialog.showModal()}
 async function cloudSignUp(){const email=cloudEmail.value.trim(),password=cloudPassword.value;if(!email||password.length<6)return alert("Email / password");const {data,error}=await supabaseClient.auth.signUp({email,password});if(error)return alert(error.message);cloudUser=data.user;updateCloudUI();if(data.session)await saveCloud();alert(t("accountCreated"))}
-async function cloudSignIn(){const email=cloudEmail.value.trim(),password=cloudPassword.value;if(!email||!password)return;const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)return alert(error.message);cloudUser=data.user;updateCloudUI();cloudDialog.close();const meaningful=state.workouts.length||state.progress.length||Object.values(state.history).some(a=>a.length);if(meaningful){if(confirm(lang()==="cs"?"Uložit nejdřív data z tohoto zařízení do cloudu?":"Save this device's data to the cloud first?"))await saveCloud();else await loadCloud(true)}else await loadCloud(true)}
+async function cloudSignIn(){
+ const email=cloudEmail.value.trim();
+ const password=cloudPassword.value;
+ if(!email||!password)return;
+
+ const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+ if(error)return alert(error.message);
+
+ cloudUser=data.user;
+ updateCloudUI();
+ cloudDialog.close();
+
+ if(hasMeaningfulLocalData()){
+   createLocalSafetyBackup("before-first-cloud-sync");
+   const uploadLocal=confirm(lang()==="cs"
+     ?"Na tomto zařízení jsou místní data nebo rozpracovaný trénink.\n\nOK = uložit tato data do cloudu.\nZrušit = ponechat je v zařízení a nyní cloud nenačítat."
+     :"This device contains local data or an active workout.\n\nOK = save this device data to the cloud.\nCancel = keep it on this device and do not load cloud data now.");
+
+   if(uploadLocal){
+     await saveCloud();
+     alert(lang()==="cs"
+       ?"Data z tohoto zařízení byla uložena do cloudu."
+       :"This device data was saved to the cloud.");
+   }else{
+     alert(lang()==="cs"
+       ?"Místní data zůstala zachována. Cloudová data nebyla načtena."
+       :"Local data was preserved. Cloud data was not loaded.");
+   }
+ }else{
+   await loadCloud(true);
+ }
+}
 async function cloudSignOut(){await supabaseClient.auth.signOut();cloudUser=null;updateCloudUI();cloudDialog.close()}
 async function syncNow(){await saveCloud();alert(t("syncDone"))}
 

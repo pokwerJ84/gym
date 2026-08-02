@@ -1,0 +1,20 @@
+GYM TRACKER v46 – TEST REPORT
+
+Nalezená příčina:
+- tlačítko Upravit používalo genericDialog,
+- žádný prvek s tímto ID v aplikaci neexistoval,
+- kliknutí proto nemohlo otevřít editor.
+
+Automatický test:
+PASS: completed set editor opens, saves and refreshes
+
+Ověřeno:
+- skutečný dialog editSetDialog existuje: OK
+- editor dokončené série se otevře: OK
+- pole KG a opakování se vytvoří: OK
+- hodnoty 2.5 kg / 10 lze změnit na 5 kg / 12: OK
+- změny se uloží do aktivního tréninku: OK
+- dialog se po uložení zavře: OK
+- obrazovka tréninku se obnoví: OK
+- značka dokončené série zůstane zachována: OK
+- JavaScript syntaxe: OK
