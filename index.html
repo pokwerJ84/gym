@@ -2836,6 +2836,66 @@ body.dark .image-storage-banner .storage-close{color:#ffe6a5;border-color:#78612
   .image-storage-banner div{padding-right:28px}
 }
 
+
+/* v59 – iPhone live stepper clipping fix */
+.modern-live-inputs,
+.modern-live-inputs .live-input-block,
+.modern-live-inputs .quick-stepper{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
+.modern-live-inputs .live-input-block{
+  overflow:visible;
+}
+.modern-live-inputs .quick-stepper{
+  display:grid;
+  grid-template-columns:minmax(52px,58px) minmax(0,1fr) minmax(52px,58px)!important;
+  gap:8px!important;
+  align-items:center;
+  overflow:visible;
+}
+.modern-live-inputs .quick-stepper button{
+  box-sizing:border-box;
+  width:100%!important;
+  min-width:0!important;
+  max-width:58px;
+  margin:0;
+  padding:0;
+  justify-self:stretch;
+}
+.modern-live-inputs .quick-stepper input{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  margin:0;
+}
+@media(max-width:390px){
+  .modern-live-inputs .live-input-block{
+    padding:10px;
+  }
+  .modern-live-inputs .quick-stepper{
+    grid-template-columns:52px minmax(0,1fr) 52px!important;
+    gap:7px!important;
+  }
+  .modern-live-inputs .quick-stepper button{
+    width:52px!important;
+    max-width:52px;
+    min-width:0!important;
+  }
+}
+@media(max-width:350px){
+  .modern-live-inputs .quick-stepper{
+    grid-template-columns:46px minmax(0,1fr) 46px!important;
+    gap:6px!important;
+  }
+  .modern-live-inputs .quick-stepper button{
+    width:46px!important;
+    max-width:46px;
+  }
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -2848,7 +2908,7 @@ body.dark .image-storage-banner .storage-close{color:#ffe6a5;border-color:#78612
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v58</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v59</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3039,7 +3099,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=58;
+const VERSION=59;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
