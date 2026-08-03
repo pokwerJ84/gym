@@ -1,23 +1,27 @@
 {
-  "name": "Gym Tracker Pro v56",
+  "name": "Gym Tracker Pro v58",
   "short_name": "Gym Tracker",
-  "start_url": "./",
+  "description": "Gym tracker with Supabase-hosted exercise guides, daily weight and weekly averages.",
+  "start_url": "./?v=58",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#F5F8FA",
-  "theme_color": "#123047",
+  "background_color": "#eef6f8",
+  "theme_color": "#143a52",
   "icons": [
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ],
-  "description": "Flexible gym tracker with progressive offline exercise images."
+  ]
 }
