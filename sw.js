@@ -1,7 +1,7 @@
-const VERSION="v64";
+const VERSION="v65";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
-const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
-const IMAGE_PREFIX="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/";
+const IMAGE_CACHE=`gym-tracker-exercise-images-${VERSION}`;
+const IMAGE_PREFIX="/assets/exercises/";
 const CORE_ASSETS=[
   "./",
   "./index.html",
@@ -32,7 +32,7 @@ self.addEventListener("activate",event=>{
 });
 
 function isExerciseImageUrl(url){
-  return String(url).startsWith(IMAGE_PREFIX);
+  try{return new URL(url).pathname.includes(IMAGE_PREFIX)}catch(_){return false}
 }
 
 async function cacheExerciseImage(requestOrUrl){
