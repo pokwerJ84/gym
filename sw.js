@@ -8,17 +8,7 @@ const CORE_ASSETS=[
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",
-  "./icon-512.png",
-  "./assets/categories/chest.webp",
-  "./assets/categories/back.webp",
-  "./assets/categories/shoulders.webp",
-  "./assets/categories/biceps.webp",
-  "./assets/categories/triceps.webp",
-  "./assets/categories/quads.webp",
-  "./assets/categories/hamstrings.webp",
-  "./assets/categories/calves.webp",
-  "./assets/categories/core.webp",
-  "./assets/categories/cardio.webp"
+  "./icon-512.png"
 ];
 
 self.addEventListener("install",event=>{

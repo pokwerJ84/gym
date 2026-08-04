@@ -1,7 +1,7 @@
 {
   "name": "Gym Tracker Pro v64",
   "short_name": "Gym Tracker",
-  "description": "Gym tracker with fixed history, toast feedback, partial workouts and clearer cardio metrics.",
+  "description": "Gym tracker with embedded muscle-group category images and fixed history/toasts.",
   "start_url": "./?v=64",
   "scope": "./",
   "display": "standalone",
