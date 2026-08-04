@@ -2221,6 +2221,9 @@ body.dark nav{
   border-radius:0;
   background:#fff;
 }
+.saved-set-actions{display:flex;gap:6px;align-items:center}
+.saved-set-actions .delete-set-btn{background:#FFF0F0;color:#B42318}
+body.dark .saved-set-actions .delete-set-btn{background:#3A1C1C;color:#FFB4AC}
 .modern-saved-sets .saved-set-row:last-child{border-bottom:0}
 .saved-set-number{
   display:grid;
@@ -3548,7 +3551,7 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v67</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v68</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3749,7 +3752,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=67;
+const VERSION=68;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -3791,7 +3794,7 @@ const UI={
   lowVolumeReason:"Za posledních 21 dní má tato svalová skupina méně přímých pracovních sérií",
   freshReason:"Tento cvik jsi v posledních trénincích nedělal.",
   plateauReason:"Poslední výkon v této svalové skupině se moc nezvyšoval, proto nabízím jinou variantu.",
-  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis",changeExercise:"Změnit cvik",replaceSub:"Vyber jiný cvik z databáze. Nejdřív vidíš stejnou svalovou skupinu, ale můžeš zvolit i Vše.",topPick:"TOP cvik",loginWarningTitle:"Nejsi přihlášený",loginWarningText:"Trénink se ukládá jen do tohoto zařízení. Přihlas se, aby se uložil také do cloudu.",loginNow:"Přihlásit",originalExercise:"Původní cvik",deleteWorkout:"Smazat trénink",deleteWorkoutConfirm:"Opravdu smazat celý rozpracovaný trénink? Zapsané série se neuloží.",workoutDeleted:"Trénink byl smazán."
+  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",deleteSet:"Smazat",deleteSetConfirm:"Opravdu smazat tuto sérii?",setDeleted:"Série byla smazána",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis",changeExercise:"Změnit cvik",replaceSub:"Vyber jiný cvik z databáze. Nejdřív vidíš stejnou svalovou skupinu, ale můžeš zvolit i Vše.",topPick:"TOP cvik",loginWarningTitle:"Nejsi přihlášený",loginWarningText:"Trénink se ukládá jen do tohoto zařízení. Přihlas se, aby se uložil také do cloudu.",loginNow:"Přihlásit",originalExercise:"Původní cvik",deleteWorkout:"Smazat trénink",deleteWorkoutConfirm:"Opravdu smazat celý rozpracovaný trénink? Zapsané série se neuloží.",workoutDeleted:"Trénink byl smazán."
  },
  en:{
   subtitle:"Simple training, clear progress.",todayNav:"Today",historyNav:"History",database:"Exercises",moreNav:"Settings",mon:"🏋️ Strength",wed:"🛡️ Stability",fri:"⚡ Control",progress:"Progress",
@@ -3824,7 +3827,7 @@ const UI={
   noRecommendation:"Today's base plan is already well balanced.",noDataReason:"There is not enough history yet, so the recommendation rotates by day and date.",
   lowVolumeReason:"Over the past 21 days, this muscle group has fewer direct working sets",
   freshReason:"You have not trained this exercise in your recent workouts.",plateauReason:"Recent performance in this muscle group has not increased much, so a different variation is suggested.",
-  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry",changeExercise:"Change exercise",replaceSub:"Choose another exercise from the database. The same muscle group is shown first, but you can select All.",topPick:"TOP exercise",loginWarningTitle:"You are not signed in",loginWarningText:"The workout is stored only on this device. Sign in to also save it to the cloud.",loginNow:"Sign in",originalExercise:"Original exercise",deleteWorkout:"Delete workout",deleteWorkoutConfirm:"Delete the entire active workout? Entered sets will not be saved.",workoutDeleted:"The workout was deleted."
+  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",deleteSet:"Delete",deleteSetConfirm:"Delete this set?",setDeleted:"Set deleted",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry",changeExercise:"Change exercise",replaceSub:"Choose another exercise from the database. The same muscle group is shown first, but you can select All.",topPick:"TOP exercise",loginWarningTitle:"You are not signed in",loginWarningText:"The workout is stored only on this device. Sign in to also save it to the cloud.",loginNow:"Sign in",originalExercise:"Original exercise",deleteWorkout:"Delete workout",deleteWorkoutConfirm:"Delete the entire active workout? Entered sets will not be saved.",workoutDeleted:"The workout was deleted."
  }
 };
 
@@ -4032,6 +4035,7 @@ function formatMondayDate(value){return formatMeasurementDate(value)}
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
 let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all";
 let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
+let audioContext=null,lastRestBeepSecond=null;
 
 
 function allLibrary(){return [...LIBRARY,...(state.customExercises||[])]}
@@ -5301,6 +5305,31 @@ function showUndoToast(){
  clearTimeout(undoTimer);undoToastText.textContent=t("setSaved");undoToastBtn.textContent=t("undo");
  undoToast.classList.add("show");undoTimer=setTimeout(()=>undoToast.classList.remove("show"),5500);
 }
+
+function prepareTimerAudio(){
+ try{
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass)return;
+  audioContext=audioContext||new AudioContextClass();
+  if(audioContext.state==="suspended")audioContext.resume().catch(()=>{});
+ }catch{}
+}
+function timerBeep(finalBeep=false){
+ try{
+  prepareTimerAudio();
+  if(!audioContext||audioContext.state!=="running")return;
+  const now=audioContext.currentTime;
+  const oscillator=audioContext.createOscillator();
+  const gain=audioContext.createGain();
+  oscillator.type="sine";
+  oscillator.frequency.setValueAtTime(finalBeep?1040:820,now);
+  gain.gain.setValueAtTime(0.0001,now);
+  gain.gain.exponentialRampToValueAtTime(0.18,now+0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001,now+(finalBeep?0.28:0.13));
+  oscillator.connect(gain);gain.connect(audioContext.destination);
+  oscillator.start(now);oscillator.stop(now+(finalBeep?0.3:0.15));
+ }catch{}
+}
 function undoLastSet(){
  if(!lastSetUndo)return;
  const {day,instanceId,index,previous,workoutPosition}=lastSetUndo;
@@ -5417,6 +5446,20 @@ function saveEditedSet(index){
  showToast(t("setUpdated"));
  renderLive();
 }
+function deleteSavedSet(index){
+ const inst=currentLive();
+ if(!inst||!state.activeWorkout)return;
+ const day=state.activeWorkout.day;
+ const e=entry(day,inst.instanceId);
+ if(!e.sets?.[index]?._complete)return;
+ if(!confirm(t("deleteSetConfirm")))return;
+ e.sets.splice(index,1);
+ e.done=false;
+ lastSetUndo=null;
+ saveState();
+ renderLive();
+ showToast(t("setDeleted"));
+}
 function renderLive(){
  if(!state.activeWorkout)return;
 
@@ -5510,7 +5553,10 @@ function renderLive(){
      ?`<div class="completed-set-table">${(e.sets||[]).map((set,i)=>set?._complete===true?`<div class="saved-set-row">
         <span class="saved-set-number">${i+1}</span>
         <strong>${savedSetSummary(m,set)}</strong>
-        <button type="button" onclick="editSavedSet(${i})">✎ ${t("edit")}</button>
+        <div class="saved-set-actions">
+          <button type="button" onclick="editSavedSet(${i})">✎ ${t("edit")}</button>
+          <button type="button" class="delete-set-btn" onclick="deleteSavedSet(${i})">✕ ${t("deleteSet")}</button>
+        </div>
       </div>`:"").join("")}</div>`
      :`<div class="saved-sets-empty">${t("noSavedSets")}</div>`}
  </div>`;
@@ -5518,6 +5564,7 @@ function renderLive(){
  updateWorkoutTimes();
 }
 function completeLiveSet(instanceId,index){
+ prepareTimerAudio();
  const day=state.activeWorkout.day,inst=activeInstances().find(x=>x.instanceId===instanceId),m=metaFor(day,inst),e=entry(day,instanceId),previousSet=structuredClone(e.sets?.[index]||{}),s={};
  if(m.mode==="weight"){s.kg=liveKg.value.trim();s.reps=liveReps.value.trim();if(!s.kg||!s.reps)return alert(t("enterBoth"))}
  if(m.mode==="reps"){s.reps=liveReps.value.trim();if(!s.reps)return alert(t("enterReps"))}
@@ -5540,12 +5587,14 @@ function advanceAfterExercise(){const arr=activeInstances(),w=state.activeWorkou
 function previousLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.max(0,state.activeWorkout.position-1);saveState();renderLive()}
 function nextLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.min(activeInstances().length-1,state.activeWorkout.position+1);saveState();renderLive()}
 function startRest(seconds,name,setNo){
- if(!seconds)return;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
+ if(!seconds)return;lastRestBeepSecond=null;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
  liveOverlay.classList.remove("show");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
 }
 function updateRest(){
  const w=state.activeWorkout;if(!w)return;const left=Math.max(0,w.restEndAt-Date.now());restTime.textContent=fmt(left);
- if(left<=0){clearInterval(restTick);navigator.vibrate?.([220,100,220]);w.restEndAt=0;saveState(false)}
+ const secondsLeft=Math.ceil(left/1000);
+ if(secondsLeft>=1&&secondsLeft<=5&&secondsLeft!==lastRestBeepSecond){lastRestBeepSecond=secondsLeft;timerBeep(false)}
+ if(left<=0){clearInterval(restTick);if(lastRestBeepSecond!==0){lastRestBeepSecond=0;timerBeep(true)}navigator.vibrate?.([220,100,220]);w.restEndAt=0;saveState(false)}
 }
 function returnFromRest(){restOverlay.classList.remove("show");liveOverlay.classList.add("show");renderLive()}
 function skipRest(){if(state.activeWorkout)state.activeWorkout.restEndAt=0;clearInterval(restTick);saveState(false);returnFromRest()}
