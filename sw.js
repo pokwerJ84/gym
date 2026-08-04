@@ -1,4 +1,4 @@
-const VERSION="v62";
+const VERSION="v64";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIX="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/";
@@ -8,7 +8,17 @@ const CORE_ASSETS=[
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",
-  "./icon-512.png"
+  "./icon-512.png",
+  "./assets/categories/chest.webp",
+  "./assets/categories/back.webp",
+  "./assets/categories/shoulders.webp",
+  "./assets/categories/biceps.webp",
+  "./assets/categories/triceps.webp",
+  "./assets/categories/quads.webp",
+  "./assets/categories/hamstrings.webp",
+  "./assets/categories/calves.webp",
+  "./assets/categories/core.webp",
+  "./assets/categories/cardio.webp"
 ];
 
 self.addEventListener("install",event=>{

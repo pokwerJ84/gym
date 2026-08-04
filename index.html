@@ -3195,7 +3195,7 @@ body.dark .measurement-waist-badge{
 }
 
 
-/* v62 – visual muscle-group category cards */
+/* v63 – visual muscle-group category cards */
 .visual-category-section{
   display:grid;
   gap:13px;
@@ -3414,6 +3414,172 @@ body.dark .selected-category-hero{
   }
 }
 
+/* v63 – improved category artwork and dark exercise list */
+.visual-category-card>img,
+.selected-category-hero>img{
+  right:0;
+  width:76%;
+  height:100%;
+  object-fit:contain;
+  object-position:right center;
+  filter:saturate(.98) contrast(1.03);
+}
+.visual-category-overlay{
+  background:
+    linear-gradient(90deg,rgba(4,39,55,.97) 0%,rgba(4,39,55,.92) 31%,rgba(4,39,55,.48) 66%,rgba(4,39,55,.10) 100%),
+    linear-gradient(0deg,rgba(4,39,55,.24),rgba(4,39,55,.04));
+}
+.selected-category-overlay{
+  background:linear-gradient(90deg,rgba(4,39,55,.97),rgba(4,39,55,.83) 48%,rgba(4,39,55,.16));
+}
+.visual-category-card.visual-category-back>img,
+.selected-category-back>img,
+.visual-category-card.visual-category-biceps>img,
+.selected-category-biceps>img,
+.visual-category-card.visual-category-triceps>img,
+.selected-category-triceps>img,
+.visual-category-card.visual-category-core>img,
+.selected-category-core>img,
+.visual-category-card.visual-category-cardio>img,
+.selected-category-cardio>img{
+  object-position:right center;
+}
+.visual-category-card.visual-category-shoulders>img,
+.selected-category-shoulders>img{
+  width:79%;
+  object-position:right center;
+}
+.visual-category-card.visual-category-quads>img,
+.selected-category-quads>img,
+.visual-category-card.visual-category-hamstrings>img,
+.selected-category-hamstrings>img{
+  width:74%;
+  object-position:right 60%;
+}
+.visual-category-card.visual-category-calves>img,
+.selected-category-calves>img{
+  width:72%;
+  object-position:right bottom;
+}
+.visual-results-group{
+  margin:0;
+  padding:14px;
+  border-radius:22px;
+  background:#082f42;
+  box-shadow:0 8px 20px rgba(7,44,61,.16);
+}
+.visual-results-group+.visual-results-group{
+  margin-top:2px;
+}
+.visual-results-group>h4{
+  margin:0 0 11px;
+  color:#b9d6df;
+}
+.visual-results-group .modern-database-item{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.12);
+}
+.visual-results-group .database-title-row h4{
+  color:#fff;
+}
+.visual-results-group .database-detail-row strong{
+  color:#73e0d5;
+}
+.visual-results-group .database-detail-row span{
+  border-left-color:rgba(255,255,255,.16);
+  color:#b9d6df;
+}
+.visual-results-group .database-guide-thumb,
+.visual-results-group .database-glyph{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.12);
+}
+.visual-results-group .database-glyph{
+  color:#fff;
+}
+.visual-results-group .video-row-btn{
+  background:rgba(255,255,255,.10);
+  border-color:rgba(255,255,255,.18);
+  color:#fff;
+}
+.visual-results-group .quality-tag{
+  background:rgba(32,184,176,.18);
+  color:#d5fffb;
+}
+.visual-results-group .custom-badge{
+  background:rgba(255,255,255,.12);
+  color:#fff;
+}
+body.dark .visual-results-group{
+  background:#082f42;
+}
+body.dark .visual-results-group .modern-database-item{
+  background:rgba(255,255,255,.07);
+}
+@media(max-width:430px){
+  .visual-category-card>img,
+  .selected-category-hero>img{
+    width:80%;
+  }
+  .visual-category-card.visual-category-calves>img,
+  .selected-category-calves>img{
+    width:76%;
+  }
+  .visual-results-group{
+    padding:12px;
+    border-radius:20px;
+  }
+}
+
+
+/* v64 – fixed history, toast, partial workouts and cardio */
+.app-toast{
+  position:fixed;
+  left:50%;
+  bottom:calc(88px + env(safe-area-inset-bottom));
+  z-index:240;
+  max-width:min(88vw,520px);
+  transform:translate(-50%,18px);
+  padding:11px 15px;
+  border-radius:14px;
+  background:#143a52;
+  color:#fff;
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
+  font-size:11px;
+  font-weight:900;
+  line-height:1.35;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;
+}
+.app-toast[hidden]{display:none}
+.app-toast.show{opacity:1;transform:translate(-50%,0)}
+.modern-week-day.partial-done i{color:#efb64f!important}
+.history-completion-badge{
+  display:inline-flex;
+  margin-left:6px;
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(32,184,176,.13);
+  color:var(--modern-teal-dark);
+  font-size:8px;
+  font-weight:950;
+  vertical-align:middle;
+}
+.history-completion-badge.partial{background:#fff1cf;color:#805d12}
+.finish-status{
+  margin:10px 0 0;
+  padding:10px;
+  border-radius:12px;
+  background:rgba(32,184,176,.10);
+  color:var(--modern-teal-dark);
+  font-size:10px;
+  line-height:1.45;
+}
+.finish-status.partial{background:#fff1cf;color:#805d12}
+body.dark .history-completion-badge.partial,
+body.dark .finish-status.partial{background:#4d3b16;color:#ffe3a0}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -3426,7 +3592,7 @@ body.dark .selected-category-hero{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v62</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v64</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3451,6 +3617,8 @@ body.dark .selected-category-hero{
   <button type="button" onclick="checkExerciseImageStorage(true)" id="imageStorageRetry">Zkusit znovu</button>
   <button type="button" class="storage-close" onclick="imageStorageBanner.hidden=true">✕</button>
 </div>
+
+<div class="app-toast" id="appToast" role="status" aria-live="polite" hidden></div>
 
 <main>
   <section class="screen active" id="monday"></section>
@@ -3617,7 +3785,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=62;
+const VERSION=64;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -3759,7 +3927,7 @@ if(window.supabase){
  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:window.localStorage,storageKey:"gym-tracker-supabase-auth-v2",flowType:"pkce"}});
 }
 const PLAN_ORDER=["monday","wednesday","friday"];
-function strengthWorkouts(){return (state.workouts||[]).filter(w=>w.type!=="cardio"&&PLAN_ORDER.includes(w.day))}
+function strengthWorkouts(){return (state.workouts||[]).filter(w=>w.type!=="cardio"&&w.completionStatus!=="partial"&&PLAN_ORDER.includes(w.day))}
 function lastStrengthWorkout(){return strengthWorkouts().at(-1)||null}
 function nextStrengthDay(){
  const last=lastStrengthWorkout();
@@ -3854,6 +4022,22 @@ function weeklyDraft(){
  };
 }
 function updateWeeklyMeasurement(){/* retained for backwards compatibility */}
+let toastTimer=null;
+function showToast(message,duration=2400){
+ const toast=document.getElementById("appToast");
+ if(!toast)return;
+ clearTimeout(toastTimer);
+ toast.textContent=String(message||"");
+ toast.hidden=false;
+ toast.classList.remove("show");
+ void toast.offsetWidth;
+ toast.classList.add("show");
+ toastTimer=setTimeout(()=>{
+   toast.classList.remove("show");
+   setTimeout(()=>{toast.hidden=true},180);
+ },Math.max(900,Number(duration)||2400));
+}
+
 function saveDailyWeight(day){
  const input=document.getElementById(`dailyWeight-${day}`);
  const value=validNumber(input?.value);
@@ -3956,6 +4140,18 @@ function deleteCustomExercise(id){
  });
  refreshExerciseIndex();saveState();renderDatabase();
 }
+const CATEGORY_VISUAL_IMAGES={
+ chest:"assets/categories/chest.webp",
+ back:"assets/categories/back.webp",
+ shoulders:"assets/categories/shoulders.webp",
+ biceps:"assets/categories/biceps.webp",
+ triceps:"assets/categories/triceps.webp",
+ quads:"assets/categories/quads.webp",
+ hamstrings:"assets/categories/hamstrings.webp",
+ calves:"assets/categories/calves.webp",
+ core:"assets/categories/core.webp",
+ cardio:"assets/categories/cardio.webp"
+};
 const CATEGORY_VISUAL_EXERCISES={
  chest:"machine_chest_press",
  back:"lat_pulldown",
@@ -3973,8 +4169,7 @@ function categoryVisualItem(category){
  return preferred||allLibrary().find(x=>x.category===category&&x.guideImage)||allLibrary().find(x=>x.category===category)||null;
 }
 function categoryVisualImage(category){
- const item=categoryVisualItem(category);
- return item?.guideImage||item?.guideThumb||"";
+ return CATEGORY_VISUAL_IMAGES[category]||"";
 }
 function categorySubtitle(category,count){
  const cs={
@@ -4060,7 +4255,7 @@ function renderDatabase(){
          </button>`;
        }).join("")}
      </div>
-   </section>`:`<section class="selected-category-hero ${cat==="all"?"search-mode":""}">
+   </section>`:`<section class="selected-category-hero selected-category-${cat} ${cat==="all"?"search-mode":""}">
      ${cat!=="all"&&categoryVisualImage(cat)?`<img src="${categoryVisualImage(cat)}" alt="" loading="lazy">`:""}
      <span class="selected-category-overlay"></span>
      <div>
@@ -4077,7 +4272,7 @@ function renderDatabase(){
    </div>
 
    <section class="library-results visual-library-results">
-     ${Object.keys(groups).length?Object.entries(groups).map(([category,items])=>`<div class="library-group modern-library-group">
+     ${Object.keys(groups).length?Object.entries(groups).map(([category,items])=>`<div class="library-group modern-library-group visual-results-group">
        ${cat==="all"||q?`<h4>${categoryName(category)} <span>${items.length}</span></h4>`:""}
        <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item ${x.topPick?"top-pick-item":""}">
          ${x.guideThumb
@@ -4300,7 +4495,7 @@ function estimateWorkoutMinutes(day,instances){
 function completedWorkoutsThisWeek(){
  const monday=weekStart(today());
  const sunday=uiAddDays(monday,6);
- return (state.workouts||[]).filter(w=>w.type!=="cardio"&&w.date>=monday&&w.date<=sunday).length;
+ return (state.workouts||[]).filter(w=>w.type!=="cardio"&&w.completionStatus!=="partial"&&w.date>=monday&&w.date<=sunday).length;
 }
 function localizedFullDate(iso){
  const d=uiDateFromIso(iso);
@@ -4311,7 +4506,8 @@ function localizedMonthRange(startIso,endIso){
  return `${f.format(uiDateFromIso(startIso))} – ${f.format(uiDateFromIso(endIso))}`;
 }
 function isPlannedStrengthDate(iso){return [1,3,5].includes(uiDateFromIso(iso).getDay())}
-function completedWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
+function completedWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.completionStatus!=="partial"&&w.date===iso)}
+function partialWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.completionStatus==="partial"&&w.date===iso)}
 function cardioWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type==="cardio"&&w.date===iso)}
 function activatePlanForDate(day,iso){
  const current=state.days[day]||defaultDay(iso);
@@ -4364,11 +4560,11 @@ function weekStripMarkup(selectedDay){
    <button type="button" onclick="changeScheduleWeek(1)" aria-label="${lang()==="cs"?"Další týden":"Next week"}">›</button>
  </div>
  <div class="modern-week-strip">${Array.from({length:7},(_,i)=>{
-   const iso=uiAddDays(monday,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
-   const marker=completed?"✓":cardio?"♥":planned?"•":"";
-   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')"><span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
+   const iso=uiAddDays(monday,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),partial=partialWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
+   const marker=completed?"✓":partial?"◐":cardio?"♥":planned?"•":"";
+   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${partial?"partial-done":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')"><span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
  }).join("")}</div>
- <div class="week-legend"><span>• ${lang()==="cs"?"doporučený silový den":"planned strength day"}</span><span>♥ ${lang()==="cs"?"kardio":"cardio"}</span><span>✓ ${lang()==="cs"?"hotovo":"completed"}</span></div>`;
+ <div class="week-legend"><span>• ${lang()==="cs"?"doporučený silový den":"planned strength day"}</span><span>♥ ${lang()==="cs"?"kardio":"cardio"}</span><span>◐ ${lang()==="cs"?"částečný":"partial"}</span><span>✓ ${lang()==="cs"?"hotovo":"completed"}</span></div>`;
 }
 function setDatabaseQuery(value){
  databaseQuery=String(value||"");
@@ -4661,19 +4857,42 @@ function replaceExercise(day,id,exerciseId){
 
 
 
+function cardioMetricDefinition(type){
+ const cs={
+  treadmill:{label:"Rychlost",unit:"km/h",placeholder:"5.5"},
+  walking:{label:"Rychlost",unit:"km/h",placeholder:"5.0"},
+  bike:{label:"Úroveň / odpor",unit:"level",placeholder:"6"},
+  elliptical:{label:"Úroveň / odpor",unit:"level",placeholder:"5"},
+  stair_climber:{label:"Úroveň",unit:"level",placeholder:"4"},
+  rowing_machine:{label:"Tempo / intenzita",unit:"level",placeholder:"6"},
+  other:{label:"Intenzita",unit:"level",placeholder:"5"}
+ };
+ const en={
+  treadmill:{label:"Speed",unit:"km/h",placeholder:"5.5"},
+  walking:{label:"Speed",unit:"km/h",placeholder:"5.0"},
+  bike:{label:"Level / resistance",unit:"level",placeholder:"6"},
+  elliptical:{label:"Level / resistance",unit:"level",placeholder:"5"},
+  stair_climber:{label:"Level",unit:"level",placeholder:"4"},
+  rowing_machine:{label:"Pace / intensity",unit:"level",placeholder:"6"},
+  other:{label:"Intensity",unit:"level",placeholder:"5"}
+ };
+ return (lang()==="cs"?cs:en)[type]||(lang()==="cs"?cs.other:en.other);
+}
 function openCardioDialog(){
  cardioDialogBody.innerHTML=`<h2 style="margin:3px 0 5px">${t("cardioTitle")}</h2><p class="subtitle">${t("cardioOnly")}</p>
  <label><span>${t("date")}</span><input id="cardioDate" type="date" value="${selectedWorkoutDate||today()}"></label>
  <label><span>${t("cardioType")}</span><select id="cardioType" onchange="toggleCardioFields()">
   <option value="treadmill">${t("treadmillCardio")}</option>
+  <option value="walking">${t("walkingCardio")}</option>
   <option value="bike">${t("bikeCardio")}</option>
   <option value="elliptical">${t("ellipticalCardio")}</option>
-  <option value="walking">${t("walkingCardio")}</option>
+  <option value="stair_climber">${lang()==="cs"?"Schodový trenažér":"Stair climber"}</option>
+  <option value="rowing_machine">${lang()==="cs"?"Veslovací trenažér":"Rowing machine"}</option>
   <option value="other">${t("otherCardio")}</option>
  </select></label>
  <div class="cardio-entry-grid">
   <label><span>${t("minutes")}</span><input id="cardioMinutes" inputmode="numeric" placeholder="30"></label>
-  <label id="cardioSpeedWrap"><span>${t("speed")}</span><input id="cardioSpeed" inputmode="decimal" placeholder="5.5"></label>
+  <label id="cardioSpeedWrap"><span id="cardioMetricLabel">${t("speed")}</span><div class="measurement-input-with-unit"><input id="cardioSpeed" inputmode="decimal" placeholder="5.5"><b id="cardioMetricUnit">km/h</b></div></label>
  </div>
  <label><span>${t("noteOptional")}</span><textarea id="cardioNote" rows="3"></textarea></label>
  <div class="actions"><button class="primary full" onclick="saveCardioWorkout()">${t("saveCardioWorkout")}</button></div>`;
@@ -4682,20 +4901,43 @@ function openCardioDialog(){
 }
 function toggleCardioFields(){
  const type=document.getElementById("cardioType")?.value||"treadmill";
- const speedWrap=document.getElementById("cardioSpeedWrap");
- if(speedWrap)speedWrap.hidden=type==="treadmill";
+ const metric=cardioMetricDefinition(type);
+ const label=document.getElementById("cardioMetricLabel");
+ const unit=document.getElementById("cardioMetricUnit");
+ const input=document.getElementById("cardioSpeed");
+ if(label)label.textContent=metric.label;
+ if(unit)unit.textContent=metric.unit;
+ if(input)input.placeholder=metric.placeholder;
 }
-function cardioTypeLabel(value){const map={treadmill:"treadmillCardio",bike:"bikeCardio",elliptical:"ellipticalCardio",walking:"walkingCardio",other:"otherCardio"};return t(map[value]||"otherCardio")}
+function cardioTypeLabel(value){
+ const fixed={
+  stair_climber:lang()==="cs"?"Schodový trenažér":"Stair climber",
+  rowing_machine:lang()==="cs"?"Veslovací trenažér":"Rowing machine"
+ };
+ if(fixed[value])return fixed[value];
+ const map={treadmill:"treadmillCardio",bike:"bikeCardio",elliptical:"ellipticalCardio",walking:"walkingCardio",other:"otherCardio"};
+ return t(map[value]||"otherCardio");
+}
 
 function saveCardioWorkout(){
  const date=document.getElementById("cardioDate")?.value||today();
  const cardioType=document.getElementById("cardioType")?.value||"other";
- const minutes=String(document.getElementById("cardioMinutes")?.value||"").trim();
- const speed=cardioType==="treadmill"?"":String(document.getElementById("cardioSpeed")?.value||"").trim();
+ const minutesValue=validNumber(document.getElementById("cardioMinutes")?.value);
+ const metricValue=String(document.getElementById("cardioSpeed")?.value||"").trim();
  const note=String(document.getElementById("cardioNote")?.value||"").trim();
- if(!minutes){alert(t("enterCardio"));return;}
- state.workouts.push({type:"cardio",date,cardioType,minutes:Number(minutes)||minutes,speed,note,savedAt:Date.now()});
- saveState();cardioDialog.close();renderHistoryScreen();renderProgress();showToday(recommendedDay());alert(t("cardioSaved"));
+ if(minutesValue===null||minutesValue<1||minutesValue>600){
+   alert(lang()==="cs"?"Zadej platný čas kardia v minutách.":"Enter a valid cardio duration in minutes.");
+   return;
+ }
+ const metric=cardioMetricDefinition(cardioType);
+ state.workouts.push({
+  type:"cardio",date,cardioType,minutes:minutesValue,
+  metricValue,metricLabel:metric.label,metricUnit:metric.unit,
+  speed:(cardioType==="treadmill"||cardioType==="walking")?metricValue:"",
+  note,savedAt:Date.now()
+ });
+ saveState();cardioDialog.close();renderHistoryScreen();renderProgress();showToday(recommendedDay());
+ showToast(t("cardioSaved"));
 }
 function showToday(day,date=selectedWorkoutDate||today()){
  if(state.activeWorkout){
@@ -4714,13 +4956,30 @@ function showToday(day,date=selectedWorkoutDate||today()){
  renderDay(selectedTodayDay);
  window.scrollTo({top:0,behavior:"smooth"});
 }
+function workoutCompletionLabel(workout){
+ if(workout.type==="cardio")return "";
+ if(workout.completionStatus==="partial"){
+   const done=Number(workout.doneSets||0),total=Number(workout.totalSets||0);
+   return lang()==="cs"
+     ?`Částečný${total?` · ${done}/${total} sérií`:""}`
+     :`Partial${total?` · ${done}/${total} sets`:""}`;
+ }
+ return lang()==="cs"?"Dokončeno":"Completed";
+}
 function renderHistoryScreen(){
+ const target=document.getElementById("history");
+ if(!target)return;
  const rows=[...(state.workouts||[])].sort((a,b)=>(b.savedAt||0)-(a.savedAt||0)||(b.date||"").localeCompare(a.date||""));
- history.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("historyTitle")}</h2><p>${rows.length} ${t("workouts").toLowerCase()}</p></div></div></div>`+(rows.length?`<div class="card"><div class="history-list">${rows.map(w=>{
+ target.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("historyTitle")}</h2><p>${rows.length} ${t("workouts").toLowerCase()}</p></div></div></div>`+(rows.length?`<div class="card"><div class="history-list">${rows.map(w=>{
    const isCardio=w.type==="cardio";
    const title=isCardio?`${t("cardioWorkout")} – ${cardioTypeLabel(w.cardioType)}`:(BASE_PLANS[w.day]?.["title_"+lang()]||BASE_PLANS[w.day]?.title_en||t("strengthWorkout"));
-   const detail=isCardio?`${w.minutes||"–"} min${w.speed?` • ${w.speed} km/h`:""}${w.note?` • ${esc(w.note)}`:""}`:`${w.minutes||"–"} min${w.note?` • ${esc(w.note)}`:""}`;
-   return `<div class="history-row"><div class="history-date">${esc(w.date||"")}</div><div><h4>${esc(title)}</h4><p>${detail}</p></div><span>${isCardio?"🏃":"🏋️"}</span></div>`;
+   const metricValue=w.metricValue||w.speed||"";
+   const metricUnit=w.metricUnit||(w.speed?"km/h":"");
+   const detail=isCardio
+     ?`${w.minutes||"–"} min${metricValue?` • ${esc(metricValue)} ${esc(metricUnit)}`:""}${w.note?` • ${esc(w.note)}`:""}`
+     :`${w.minutes||"–"} min${w.note?` • ${esc(w.note)}`:""}`;
+   const badge=isCardio?"":`<span class="history-completion-badge ${w.completionStatus==="partial"?"partial":""}">${workoutCompletionLabel(w)}</span>`;
+   return `<div class="history-row"><div class="history-date">${esc(w.date||"")}</div><div><h4>${esc(title)} ${badge}</h4><p>${detail}</p></div><span>${isCardio?"🏃":"🏋️"}</span></div>`;
  }).join("")}</div></div>`:`<div class="card empty">${t("historyEmpty")}</div>`);
 }
 function renderMore(){
@@ -4762,7 +5021,7 @@ function renderMore(){
    <button class="more-action" onclick="checkForAppUpdate(true)"><span>↻ ${lang()==="cs"?"Aktualizovat aplikaci":"Update app"}</span><span>v${VERSION}</span></button>
    <button class="more-action" onclick="checkExerciseImageStorage(true)"><span>▧ ${lang()==="cs"?"Test obrázků Supabase":"Test Supabase images"}</span><span>›</span></button>
  </div></div>
- <div class="app-build-note">Gym Tracker Pro v${VERSION} · ${lang()==="cs"?"Obrázky cviků se načítají ze Supabase Storage a po prvním otevření zůstávají offline.":"Exercise images load from Supabase Storage and remain available offline after the first load."}</div>`;
+ <div class="app-build-note">Gym Tracker Pro v${VERSION} · ${lang()==="cs"?"Nové vizuální karty svalových skupin a tmavý seznam cviků. Obrázky cviků se načítají ze Supabase Storage a po prvním otevření zůstávají offline.":"New visual muscle-group cards and a dark exercise list. Exercise images load from Supabase Storage and remain available offline after the first load."}</div>`;
 }
 function setLanguage(value){
  if(!["cs","en"].includes(value))return;
@@ -5408,23 +5667,45 @@ function updateRest(){
 }
 function returnFromRest(){restOverlay.classList.remove("show");liveOverlay.classList.add("show");renderLive()}
 function skipRest(){if(state.activeWorkout)state.activeWorkout.restEndAt=0;clearInterval(restTick);saveState(false);returnFromRest()}
+function activeWorkoutSetStats(){
+ if(!state.activeWorkout)return {doneSets:0,totalSets:0,complete:false};
+ const day=state.activeWorkout.day;
+ let doneSets=0,totalSets=0;
+ activeInstances(day).forEach(inst=>{
+   const e=entry(day,inst.instanceId),m=metaFor(day,inst);
+   if(m.mode==="cardio"){
+     totalSets+=1;
+     if(e.done||String(e.minutes||"").trim())doneSets+=1;
+     return;
+   }
+   const planned=Math.max(1,Number(m.sets||inst.sets||1));
+   totalSets+=planned;
+   doneSets+=(e.sets||[]).slice(0,planned).filter(x=>x?._complete===true).length;
+ });
+ return {doneSets,totalSets,complete:totalSets>0&&doneSets>=totalSets};
+}
+
 function askFinishWorkout(){
  if(!state.activeWorkout)return;
- if(!confirm(t("finishConfirm")))return;
  openFinishDialog();
 }
 function openFinishDialog(){
  const w=state.activeWorkout;if(!w)return;
- const day=w.day,instances=activeInstances(day);
- const done=instances.filter(x=>entry(day,x.instanceId).done).length;
+ const day=w.day,stats=activeWorkoutSetStats();
  const minutes=Math.max(1,Math.round(elapsedMs()/60000));
  byId("liveOverlay")?.classList.remove("show");
  byId("restOverlay")?.classList.remove("show");
  byId("workoutRunning")?.classList.remove("show");
  const summary=byId("finishSummary"),dialog=byId("finishDialog");
- if(summary)summary.innerHTML=`<p><b>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</b></p><p>${t("time")}: <b>${minutes} min</b><br>${t("completed")}: <b>${done}/${instances.length}</b></p>`;
+ const status=stats.complete
+   ?(lang()==="cs"?"Celý trénink je dokončený.":"The full workout is complete.")
+   :(lang()==="cs"
+      ?`Uloženo bude jako částečný trénink. Hotovo ${stats.doneSets}/${stats.totalSets} sérií a nebude se počítat do cíle 3/3.`
+      :`This will be saved as a partial workout. ${stats.doneSets}/${stats.totalSets} sets completed; it will not count toward the 3/3 goal.`);
+ if(summary)summary.innerHTML=`<p><b>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</b></p><p>${t("time")}: <b>${minutes} min</b><br>${lang()==="cs"?"Série":"Sets"}: <b>${stats.doneSets}/${stats.totalSets}</b></p><p class="finish-status ${stats.complete?"complete":"partial"}">${status}</p>`;
  if(!dialog)return;
  dialog.dataset.minutes=String(minutes);
+ dialog.dataset.completionStatus=stats.complete?"complete":"partial";
  if(!dialog.open)dialog.showModal();
  document.exitFullscreen?.().catch(()=>{});
 }
@@ -5469,21 +5750,42 @@ function deleteActiveWorkout(){
 
 function saveFinishedWorkout(){
  const w=state.activeWorkout;if(!w)return;
- const day=w.day,d=state.days[day],instances=activeInstances(day);
+ const day=w.day,d=state.days[day],instances=activeInstances(day),stats=activeWorkoutSetStats();
+ if(stats.doneSets===0){
+   alert(lang()==="cs"?"Nejdřív ulož alespoň jednu sérii.":"Save at least one set first.");
+   return;
+ }
+ const partial=!stats.complete;
+ const confirmation=partial
+   ?(lang()==="cs"
+      ?`Uložit částečný trénink (${stats.doneSets}/${stats.totalSets} sérií)? Nebude se počítat do cíle 3/3.`
+      :`Save a partial workout (${stats.doneSets}/${stats.totalSets} sets)? It will not count toward the 3/3 goal.`)
+   :(lang()==="cs"?"Uložit dokončený trénink?":"Save the completed workout?");
+ if(!confirm(confirmation))return;
+
  instances.forEach(inst=>{
-  const e=entry(day,inst.instanceId),m=metaFor(day,inst);let rec={date:d.date||today(),day,exerciseId:m.id,mode:m.mode,notes:e.notes||""};
+  const e=entry(day,inst.instanceId),m=metaFor(day,inst);let rec={date:d.date||today(),day,exerciseId:m.id,mode:m.mode,notes:e.notes||"",completionStatus:partial?"partial":"complete"};
   if(m.mode==="cardio"){
    if(!e.minutes)return;
    rec.minutes=e.minutes||"";
    rec.speed=m.id==="treadmill"?"":(e.speed||"");
+  }else{
+   rec.sets=(e.sets||[]).slice(0,m.sets).filter(x=>x?._complete===true).map(({_complete,...set})=>set);
+   if(!rec.sets.length)return;
   }
-  else{rec.sets=(e.sets||[]).slice(0,m.sets).filter(x=>x?._complete===true).map(({_complete,...set})=>set);if(!rec.sets.length)return}
-  state.history[m.id]=state.history[m.id]||[];state.history[m.id].push(rec);
+  state.history[m.id]=state.history[m.id]||[];
+  state.history[m.id].push(rec);
  });
+
  const dialog=byId("finishDialog"),note=byId("finishNote");
  const minutes=Number(dialog?.dataset.minutes)||Math.max(1,Math.round(elapsedMs()/60000));
- state.workouts.push({type:"strength",date:d.date||today(),day,minutes,note:note?.value||"",savedAt:Date.now()});
- d.completed=true;
+ const workoutDate=d.date||today();
+ state.workouts.push({
+   type:"strength",date:workoutDate,day,minutes,note:note?.value||"",
+   completionStatus:partial?"partial":"complete",
+   doneSets:stats.doneSets,totalSets:stats.totalSets,savedAt:Date.now()
+ });
+ d.completed=!partial;
  state.activeWorkout=null;
  if(dialog?.open)dialog.close();
  if(note)note.value="";
@@ -5493,12 +5795,21 @@ function saveFinishedWorkout(){
  byId("workoutRunning")?.classList.remove("show");
  if(byId("liveClock"))byId("liveClock").textContent="00:00";
  if(byId("runningTime"))byId("runningTime").textContent="00:00";
- saveState();
- selectedTodayDay=nextStrengthDay();
- selectedWorkoutDate=nextPlannedDateAfter(d.date||today());
+
+ const nextDate=nextPlannedDateAfter(workoutDate);
+ if(partial){
+   state.days[day]=defaultDay(nextDate);
+   selectedTodayDay=day;
+ }else{
+   selectedTodayDay=nextStrengthDay();
+ }
+ selectedWorkoutDate=nextDate;
  localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
+ saveState();
  renderProgress();renderHistoryScreen();showToday(selectedTodayDay,selectedWorkoutDate);
- alert(t("workoutDone"));
+ showToast(partial
+   ?(lang()==="cs"?"Částečný trénink byl uložen.":"Partial workout saved.")
+   :(lang()==="cs"?"Dokončený trénink byl uložen.":"Completed workout saved."));
 }
 function restoreActiveWorkout(){
  if(!state.activeWorkout)return;
