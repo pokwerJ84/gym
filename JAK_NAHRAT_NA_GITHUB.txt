@@ -1,0 +1,11 @@
+GYM TRACKER PRO v67 – VYVÁŽENÝ PLÁN – NAHRÁNÍ PŘES WEB GITHUBU
+
+1. Rozbal ZIP.
+2. Na GitHubu otevři repository gym.
+3. Klikni Add file > Upload files.
+4. Označ a přetáhni těchto 7 souborů najednou:
+   index.html, exercise-images.js, sw.js, manifest.webmanifest,
+   icon-180.png, icon-192.png, icon-512.png
+5. Dole klikni Commit changes.
+
+Žádné složky assets se nenahrávají. Soubor icon-pokorny.png je volitelný.
