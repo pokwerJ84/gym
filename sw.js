@@ -1,4 +1,4 @@
-const VERSION="v68";
+const VERSION="v72";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIX="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/";

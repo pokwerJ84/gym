@@ -150,7 +150,8 @@ dialog::backdrop{background:rgba(2,17,28,.66);backdrop-filter:blur(4px)}
 .chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 .library-group h4{margin:16px 0 7px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .library-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);margin:7px 0}
-.library-item-main{min-width:0;flex:1}.library-item-name{font-size:13px;font-weight:950}.library-item-meta{margin-top:3px;color:var(--muted);font-size:9px}
+.library-item-main{min-width:0;flex:1}.library-item-name{font-size:13px;font-weight:950}.library-item-meta{margin-top:3px;color:var(--muted);font-size:9px}.library-item-last{margin-top:4px;color:var(--primary);font-size:10px;font-weight:850}
+.replacement-history{margin:12px 0;padding:11px 12px;border-radius:13px;background:var(--surface3);color:var(--primary-dark);font-size:12px;font-weight:850}
 .library-recommend{padding:12px;border:1px solid color-mix(in srgb,var(--primary) 35%,var(--line));border-radius:16px;background:var(--surface3);margin:10px 0}
 .library-recommend h4{margin:3px 0 4px}.library-recommend p{margin:0;color:var(--muted);font-size:10px;line-height:1.4}
 .history-card{padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);margin:8px 0}
@@ -190,6 +191,10 @@ canvas{width:100%;height:180px;border:1px solid var(--line);border-radius:15px;b
 .live-nav button{min-height:49px;border:1px solid rgba(255,255,255,.23);border-radius:14px;background:rgba(255,255,255,.13);color:#fff;font-weight:950}.live-nav button:last-child{background:#fff;color:#075f96}
 .rest-shell{min-height:100%;display:flex;align-items:center;justify-content:center;padding:calc(18px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom));color:#fff;text-align:center}
 .rest-panel{width:min(520px,100%)}.rest-panel .kicker{color:rgba(255,255,255,.72)}.rest-time{font-size:76px;font-weight:950;font-variant-numeric:tabular-nums;margin:18px 0}.rest-panel h2{margin:0;font-size:22px}.rest-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.rest-actions button{min-height:52px;border:1px solid rgba(255,255,255,.24);border-radius:15px;background:rgba(255,255,255,.14);color:#fff;font-weight:950}.rest-actions button:last-child{background:#fff;color:#075f96}
+.rest-overlay.alarm-warning .rest-panel{animation:alarmPulse .42s ease-in-out infinite alternate}.rest-overlay.alarm-warning .rest-time{color:#ffe56b;text-shadow:0 0 26px rgba(255,229,107,.58)}
+.rest-overlay.alarm-finished .rest-panel{animation:alarmFinish .18s ease-in-out 4 alternate}.rest-overlay.alarm-finished .rest-time{color:#fff;background:#d83b3b;border-radius:20px}
+@keyframes alarmPulse{to{transform:scale(1.035);filter:brightness(1.22)}}
+@keyframes alarmFinish{to{transform:scale(1.06)}}
 @media(max-width:560px){
   .meta.monday,.progress-grid,.stat-grid{grid-template-columns:1fr}
   .day-tools{grid-template-columns:1fr 1fr}
@@ -2690,6 +2695,10 @@ body.dark .modern-live-guide{
 .collapsible-plan{padding:0!important;overflow:hidden}.collapsible-plan-summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:15px;cursor:pointer}.collapsible-plan-summary::-webkit-details-marker{display:none}.collapsible-plan-summary h3{margin:2px 0;font-size:16px}.collapsible-plan-summary small{color:var(--muted);font-size:10px}.plan-summary-chevron{font-size:28px;transition:transform .2s}.collapsible-plan[open] .plan-summary-chevron{transform:rotate(90deg)}.collapsible-plan-body{padding:0 15px 15px;border-top:1px solid var(--line)}
 .exercise-image-failed{cursor:pointer;object-fit:cover!important;background:#edf4f6!important}.exercise-image-retrying{opacity:.55;animation:imageRetryPulse .7s infinite alternate}@keyframes imageRetryPulse{to{opacity:1}}
 .app-build-note{text-align:center;color:var(--muted);font-size:9px;font-weight:800;padding:5px 0 18px}body.dark .app-version{color:#bfeceb}body.dark .hero-next-exercise{background:rgba(255,255,255,.07)}
+.plan-coach-card{display:grid;gap:8px;margin:2px 0 14px;padding:14px;border:1px solid rgba(32,184,176,.18);border-radius:16px;background:rgba(32,184,176,.07)}
+.plan-coach-card strong{font-size:13px;color:var(--text)}
+.plan-coach-card span{font-size:11px;line-height:1.55;color:var(--muted)}
+body.dark .plan-coach-card{background:rgba(32,184,176,.10);border-color:rgba(116,221,214,.20)}
 @media(max-width:520px){.app-update-banner{grid-template-columns:1fr auto}.app-update-banner .update-later{grid-column:1/-1}.hero-actions-three{grid-template-columns:1fr 1fr!important}.hero-actions-three .hero-start{grid-column:1/-1}.flex-day-card{grid-template-columns:42px 1fr}.flex-day-choice{grid-column:1/-1;text-align:center}}
 
 
@@ -3551,7 +3560,7 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v68</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v72</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3635,6 +3644,17 @@ body.dark .visual-results-group .modern-database-item{
   <input class="library-search" id="librarySearch" oninput="renderLibrary()" placeholder="">
   <div class="category-chips" id="categoryChips"></div>
   <div id="libraryList"></div>
+</div></dialog>
+
+<dialog id="replacementScopeDialog"><div class="modal">
+  <button class="iconbtn close" onclick="closeReplacementScope()">✕</button>
+  <h2 id="replacementScopeTitle" style="margin:3px 0 5px"></h2>
+  <p class="subtitle" id="replacementScopeText"></p>
+  <div class="replacement-history" id="replacementLastPerformance"></div>
+  <div class="actions" style="display:grid;grid-template-columns:1fr;gap:10px">
+    <button class="primary full" onclick="applyReplacementChoice('today')" id="replacementTodayBtn"></button>
+    <button class="secondary full" onclick="applyReplacementChoice('permanent')" id="replacementPermanentBtn"></button>
+  </div>
 </div></dialog>
 
 
@@ -3747,12 +3767,32 @@ for(const exercise of LIBRARY){
    exercise.guideExact=true;
  }
 }
-const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Celé tělo + triceps a břicho","sub_en":"Full body + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Celé tělo + biceps a stabilita středu","sub_en":"Full body + biceps and core stability","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Celé tělo + lýtka a spodní břicho","sub_en":"Full body + calves and lower abs","items":[{"id":"hack_squat","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
+const PLAN_EXERCISE_UPDATES={
+ bench_press:{
+  cs:"Bench press na Multipressu",en:"Smith Machine Bench Press",rest:150,
+  tips:{cs:["Lopatky stáhni dozadu a dolů","Nastav bezpečnostní dorazy","Spouštěj osu 2–3 sekundy"],en:["Pull your shoulder blades back and down","Set the safety stops","Lower the bar for 2–3 seconds"]},
+  mistakes:{cs:["Lokty příliš do stran","Odlepování hýždí od lavice","Cvičení do úplného selhání"],en:["Flaring the elbows too wide","Lifting your hips off the bench","Training to complete failure"]}
+ },
+ back_extension:{
+  range:"10–12",rest:90,
+  tips:{cs:["Začni pouze s vlastní vahou","Pohyb veď přes kyčle s rovnými zády","Nahoře skonči v rovině těla"],en:["Start with body weight only","Hinge at the hips with a neutral back","Stop when your body forms a straight line"]},
+  mistakes:{cs:["Zaklánění v horní poloze","Kulatá záda","Švihání trupem"],en:["Hyperextending at the top","Rounding the back","Swinging the torso"]}
+ },
+ treadmill:{
+  tips:{cs:["Začni 4,5–5,5 km/h a sklonem 3–6 %","Intenzitu drž podle testu mluvení","Na konci postupně zpomal"],en:["Start at 4.5–5.5 km/h and 3–6% incline","Use the talk test to control intensity","Slow down gradually at the end"]},
+  mistakes:{cs:["Držení madel","Sklon příliš vysoký na úkor postoje","Náhlé zastavení"],en:["Holding the rails","Using an incline that ruins posture","Stopping suddenly"]}
+ }
+};
+for(const [id,updates] of Object.entries(PLAN_EXERCISE_UPDATES)){
+ const exercise=LIBRARY.find(item=>item.id===id);
+ if(exercise)Object.assign(exercise,updates);
+}
+const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Základní síla + triceps a břicho","sub_en":"Base strength + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Kontrolované stroje + biceps a core","sub_en":"Controlled machines + biceps and core","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12 / strana"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Bezpečný zadní řetězec + lýtka a břicho","sub_en":"Safe posterior chain + calves and abs","items":[{"id":"back_extension","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=68;
+const VERSION=72;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -3794,7 +3834,7 @@ const UI={
   lowVolumeReason:"Za posledních 21 dní má tato svalová skupina méně přímých pracovních sérií",
   freshReason:"Tento cvik jsi v posledních trénincích nedělal.",
   plateauReason:"Poslední výkon v této svalové skupině se moc nezvyšoval, proto nabízím jinou variantu.",
-  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",deleteSet:"Smazat",deleteSetConfirm:"Opravdu smazat tuto sérii?",setDeleted:"Série byla smazána",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis",changeExercise:"Změnit cvik",replaceSub:"Vyber jiný cvik z databáze. Nejdřív vidíš stejnou svalovou skupinu, ale můžeš zvolit i Vše.",topPick:"TOP cvik",loginWarningTitle:"Nejsi přihlášený",loginWarningText:"Trénink se ukládá jen do tohoto zařízení. Přihlas se, aby se uložil také do cloudu.",loginNow:"Přihlásit",originalExercise:"Původní cvik",deleteWorkout:"Smazat trénink",deleteWorkoutConfirm:"Opravdu smazat celý rozpracovaný trénink? Zapsané série se neuloží.",workoutDeleted:"Trénink byl smazán."
+  language:"Jazyk",appearance:"Vzhled",light:"Světlý",dark:"Tmavý",account:"Účet",mondayRequired:"Nejdřív zadej váhu a obvod pasu. Potom se zpřístupní cviky.",edit:"Upravit",editMeasurement:"Opravit měření",saveCorrection:"Uložit opravu",selectedCalendar:"Vybráno podle dnešního kalendáře",manualWorkout:"Ručně vybraný trénink",nextStrength:"Další silový trénink",cardioOnly:"Jen kardio",chooseWorkout:"Můžeš ručně vybrat Sílu, Stabilitu nebo Kontrolu",cardioTitle:"Kardio trénink",cardioType:"Druh kardia",treadmillCardio:"Běžecký pás",bikeCardio:"Rotoped",ellipticalCardio:"Eliptický trenažér",walkingCardio:"Chůze",otherCardio:"Jiné",saveCardioWorkout:"Uložit kardio",cardioSaved:"Kardio bylo uloženo.",weeklyCheck:"Týdenní měření",weeklyCheckInfo:"Váhu a pas zapisuj jednou týdně k pondělnímu datu. Když v pondělí zapomeneš, můžeš je doplnit později.",recoveryWarning:"Poslední silový trénink byl včera. Dnes zvaž lehčí trénink nebo jen kardio.",recommendedPlan:"Doporučené pokračování",manualPlan:"Ručně vybraný plán",strengthWorkout:"Silový trénink",cardioWorkout:"Kardio",measurementNeeded:"Nejdřív zadej týdenní váhu a pas.",noteOptional:"Poznámka (volitelné)",planPreview:"Co tě dnes čeká",exercisesCount:"cviků",mondayCheckMissing:"Chybí pondělní měření",mondayCheckSaved:"Pondělní měření je uložené",saveMondayCheck:"Uložit pondělní měření",savedForMonday:"Uloženo k pondělí",editMondayCheck:"Opravit měření",previewLocked:"Cviky si můžeš prohlédnout. Silový trénink se odemkne po uložení měření.",editSet:"Upravit sérii",savedSets:"Dokončené série",saveChanges:"Uložit změny",cancelEdit:"Zrušit",setUpdated:"Série byla opravena",deleteSet:"Smazat",deleteSetConfirm:"Opravdu smazat tuto sérii?",setDeleted:"Série byla smazána",noSavedSets:"Zatím nejsou uložené žádné série.",showExercises:"Zobrazit cviky",workoutOptions:"Možnosti",clearToday:"Vymazat dnešní zápis",changeExercise:"Změnit cvik",replaceSub:"Vyber jiný cvik z databáze. Po výběru určíš, jestli změna platí jen dnes, nebo natrvalo.",topPick:"TOP cvik",loginWarningTitle:"Nejsi přihlášený",loginWarningText:"Trénink se ukládá jen do tohoto zařízení. Přihlas se, aby se uložil také do cloudu.",loginNow:"Přihlásit",originalExercise:"Původní cvik",replacementScopeTitle:"Jak dlouho chceš změnu ponechat?",replacementScopeText:"Vybraný cvik:",replaceToday:"Jen pro dnešní trénink",replacePermanent:"Natrvalo pro tento den",temporaryReplacement:"Jen dnes",permanentReplacement:"Natrvalo v plánu",restoreRecommended:"Vrátit doporučený cvik",restorePlanConfirm:"Vrátit původní doporučený cvik pro tento den? Dnešní rozepsané série se vymažou.",replacementSavedToday:"Cvik byl změněn jen pro dnešek.",replacementSavedPermanent:"Cvik zůstane v tomto dni plánu natrvalo.",deleteWorkout:"Smazat trénink",deleteWorkoutConfirm:"Opravdu smazat celý rozpracovaný trénink? Zapsané série se neuloží.",workoutDeleted:"Trénink byl smazán."
  },
  en:{
   subtitle:"Simple training, clear progress.",todayNav:"Today",historyNav:"History",database:"Exercises",moreNav:"Settings",mon:"🏋️ Strength",wed:"🛡️ Stability",fri:"⚡ Control",progress:"Progress",
@@ -3827,7 +3867,7 @@ const UI={
   noRecommendation:"Today's base plan is already well balanced.",noDataReason:"There is not enough history yet, so the recommendation rotates by day and date.",
   lowVolumeReason:"Over the past 21 days, this muscle group has fewer direct working sets",
   freshReason:"You have not trained this exercise in your recent workouts.",plateauReason:"Recent performance in this muscle group has not increased much, so a different variation is suggested.",
-  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",deleteSet:"Delete",deleteSetConfirm:"Delete this set?",setDeleted:"Set deleted",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry",changeExercise:"Change exercise",replaceSub:"Choose another exercise from the database. The same muscle group is shown first, but you can select All.",topPick:"TOP exercise",loginWarningTitle:"You are not signed in",loginWarningText:"The workout is stored only on this device. Sign in to also save it to the cloud.",loginNow:"Sign in",originalExercise:"Original exercise",deleteWorkout:"Delete workout",deleteWorkoutConfirm:"Delete the entire active workout? Entered sets will not be saved.",workoutDeleted:"The workout was deleted."
+  language:"Language",appearance:"Appearance",light:"Light",dark:"Dark",account:"Account",mondayRequired:"Enter your weight and waist measurement first. The exercises will then unlock.",edit:"Edit",editMeasurement:"Correct measurement",saveCorrection:"Save correction",selectedCalendar:"Selected from today’s calendar",manualWorkout:"Manually selected workout",nextStrength:"Next strength workout",cardioOnly:"Cardio only",chooseWorkout:"You can manually choose Strength, Stability or Control",cardioTitle:"Cardio workout",cardioType:"Cardio type",treadmillCardio:"Treadmill",bikeCardio:"Exercise bike",ellipticalCardio:"Elliptical",walkingCardio:"Walking",otherCardio:"Other",saveCardioWorkout:"Save cardio",cardioSaved:"Cardio workout saved.",weeklyCheck:"Weekly measurement",weeklyCheckInfo:"Record weight and waist once per week under Monday’s date. If you miss Monday, you can fill it in later.",recoveryWarning:"Your last strength workout was yesterday. Consider a lighter session or cardio today.",recommendedPlan:"Recommended next workout",manualPlan:"Manually selected plan",strengthWorkout:"Strength workout",cardioWorkout:"Cardio",measurementNeeded:"Enter this week’s weight and waist first.",noteOptional:"Note (optional)",planPreview:"Today’s plan",exercisesCount:"exercises",mondayCheckMissing:"Monday measurement is missing",mondayCheckSaved:"Monday measurement saved",saveMondayCheck:"Save Monday measurement",savedForMonday:"Saved for Monday",editMondayCheck:"Correct measurement",previewLocked:"You can review the exercises now. Strength training unlocks after the measurement is saved.",editSet:"Edit set",savedSets:"Completed sets",saveChanges:"Save changes",cancelEdit:"Cancel",setUpdated:"Set updated",deleteSet:"Delete",deleteSetConfirm:"Delete this set?",setDeleted:"Set deleted",noSavedSets:"No saved sets yet.",showExercises:"Show exercises",workoutOptions:"Options",clearToday:"Clear today’s entry",changeExercise:"Change exercise",replaceSub:"Choose another exercise. After selecting it, decide whether the change is for today only or permanent.",topPick:"TOP exercise",loginWarningTitle:"You are not signed in",loginWarningText:"The workout is stored only on this device. Sign in to also save it to the cloud.",loginNow:"Sign in",originalExercise:"Original exercise",replacementScopeTitle:"How long should this change stay?",replacementScopeText:"Selected exercise:",replaceToday:"Today’s workout only",replacePermanent:"Permanently for this day",temporaryReplacement:"Today only",permanentReplacement:"Permanent in plan",restoreRecommended:"Restore recommended exercise",restorePlanConfirm:"Restore the original recommended exercise for this day? Today’s entered sets will be cleared.",replacementSavedToday:"Exercise changed for today only.",replacementSavedPermanent:"Exercise saved permanently for this day.",deleteWorkout:"Delete workout",deleteWorkoutConfirm:"Delete the entire active workout? Entered sets will not be saved.",workoutDeleted:"The workout was deleted."
  }
 };
 
@@ -3845,12 +3885,25 @@ function findExerciseByName(name){
  return allLibrary().find(x=>normalizeName(x.cs)===n||normalizeName(x.en)===n||normalizeName(x.en).includes(n)||n.includes(normalizeName(x.en)))||null;
 }
 function defaultDay(date=today()){return {date,weight:"",waist:"",entries:{},extras:[],order:[],completed:false}}
-function defaultState(){return {version:VERSION,settings:{language:"cs",theme:"light",exerciseSteps:{}},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
+function defaultPlanReplacements(){return {monday:{},wednesday:{},friday:{}}}
+function defaultState(){return {version:VERSION,settings:{language:"cs",theme:"light",exerciseSteps:{}},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
+function applyPlanV71(s,fromVersion){
+ if(Number(fromVersion)>=71)return s;
+ DAYS.forEach(day=>{
+  const d=s.days?.[day];if(!d)return;
+  const baseOrder=BASE_PLANS[day].items.map(item=>`base:${day}:${item.id}`);
+  const extraIds=(d.extras||[]).map(item=>item.instanceId);
+  const savedExtras=(d.order||[]).filter(id=>extraIds.includes(id));
+  d.order=[...baseOrder,...savedExtras,...extraIds.filter(id=>!savedExtras.includes(id))];
+ });
+ return s;
+}
 function migrateState(raw){
  if(raw?.version>=18){
    const s={...defaultState(),...raw};s.settings={...defaultState().settings,...raw.settings};
    DAYS.forEach(d=>s.days[d]={...defaultDay(),...(raw.days?.[d]||{}),entries:raw.days?.[d]?.entries||{},extras:raw.days?.[d]?.extras||[],order:raw.days?.[d]?.order||[]});
-   s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];s.weeklyMeasurementDraft=s.weeklyMeasurementDraft||{week:"",date:today(),weight:"",waist:""};return s;
+   s.planReplacements={...defaultPlanReplacements(),...(raw.planReplacements||{})};DAYS.forEach(day=>s.planReplacements[day]={...(raw.planReplacements?.[day]||{})});
+   s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];s.weeklyMeasurementDraft=s.weeklyMeasurementDraft||{week:"",date:today(),weight:"",waist:""};return applyPlanV71(s,raw.version);
  }
  const s=defaultState();
  if(raw?.settings)s.settings={...s.settings,...raw.settings};
@@ -3872,7 +3925,7 @@ function migrateState(raw){
      s.history[item.id]=s.history[item.id]||[];s.history[item.id].push(rec);
    });
  });
- return s;
+ return applyPlanV71(s,raw?.version||0);
 }
 let state=migrateState(JSON.parse(localStorage.getItem(KEY)||"null"));
 if(state.activeWorkout){
@@ -4033,7 +4086,7 @@ function saveWeeklyMeasurement(rerender=true){
 function formatMondayDate(value){return formatMeasurementDate(value)}
 
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
-let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all";
+let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null;
 let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
 let audioContext=null,lastRestBeepSecond=null;
 
@@ -4260,7 +4313,12 @@ function prepareDay(day){
  ensureOrder(day);
 }
 function baseInstances(day){
- return BASE_PLANS[day].items.map(c=>({instanceId:`base:${day}:${c.id}`,exerciseId:c.id,sets:c.sets,range:c.range,added:false}));
+ const replacements=state.planReplacements?.[day]||{};
+ return BASE_PLANS[day].items.map(c=>{
+  const permanentId=EX[replacements[c.id]]?replacements[c.id]:"";
+  const current=EX[permanentId]||EX[c.id];
+  return {instanceId:`base:${day}:${c.id}`,exerciseId:permanentId||c.id,recommendedId:c.id,permanentReplacementId:permanentId,sets:permanentId?(current.sets||c.sets):c.sets,range:permanentId?(current.range||c.range):c.range,added:false};
+ });
 }
 function dayInstances(day){
  prepareDay(day);
@@ -4275,7 +4333,7 @@ function ensureOrder(day){const d=state.days[day];if(!d)return;const ids=[...bas
 function entry(day,id){const d=state.days[day];d.entries=d.entries||{};d.entries[id]=d.entries[id]||{sets:[],notes:"",done:false,replacementId:""};return d.entries[id]}
 function metaFor(day,inst){
  const e=entry(day,inst.instanceId),item=EX[e.replacementId]||EX[inst.exerciseId];
- return {...item,sets:e.replacementId?item.sets:(inst.sets||item.sets),range:e.replacementId?item.range:(inst.range||item.range),originalId:inst.exerciseId,replacementId:e.replacementId||""};
+ return {...item,sets:e.replacementId?item.sets:(inst.sets||item.sets),range:e.replacementId?item.range:(inst.range||item.range),originalId:inst.recommendedId||inst.exerciseId,replacementId:e.replacementId||"",permanentReplacementId:inst.permanentReplacementId||""};
 }
 function itemName(item){return item[lang()]||item.en||item.cs}
 function categoryName(cat){return CATEGORIES[cat]?.[lang()]||CATEGORIES[cat]?.en||cat}
@@ -4443,6 +4501,7 @@ function estimateWorkoutMinutes(day,instances){
  return Math.max(25,Math.round(seconds/300)*5);
 }
 function completedWorkoutsThisWeek(){
+ if(!cloudUser)return 0;
  const monday=weekStart(today());
  const sunday=uiAddDays(monday,6);
  return (state.workouts||[]).filter(w=>w.type!=="cardio"&&w.date>=monday&&w.date<=sunday).length;
@@ -4456,8 +4515,38 @@ function localizedMonthRange(startIso,endIso){
  return `${f.format(uiDateFromIso(startIso))} – ${f.format(uiDateFromIso(endIso))}`;
 }
 function isPlannedStrengthDate(iso){return [1,3,5].includes(uiDateFromIso(iso).getDay())}
-function completedWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
-function cardioWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type==="cardio"&&w.date===iso)}
+function completedWorkoutOnDate(iso){return !!cloudUser&&(state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
+function cardioWorkoutOnDate(iso){return !!cloudUser&&(state.workouts||[]).some(w=>w.type==="cardio"&&w.date===iso)}
+function undoCompletedWorkout(iso){
+ if(!cloudUser)return;
+ const matches=(state.workouts||[]).map((w,index)=>({w,index})).filter(x=>x.w.type!=="cardio"&&x.w.date===iso);
+ if(!matches.length)return;
+ const target=matches.sort((a,b)=>(b.w.savedAt||0)-(a.w.savedAt||0))[0];
+ const message=lang()==="cs"
+  ?`Opravdu zrušit zelenou fajfku a smazat omylem uložený trénink z ${localizedFullDate(iso)}? Váha a pas zůstanou zachované.`
+  :`Remove the green check and delete the accidentally saved workout from ${localizedFullDate(iso)}? Weight and waist measurements will be kept.`;
+ if(!confirm(message))return;
+ const workout=target.w;
+ state.workouts.splice(target.index,1);
+ Object.keys(state.history||{}).forEach(id=>{
+  const records=state.history[id]||[];
+  for(let i=records.length-1;i>=0;i--){
+   if(records[i].date===iso&&(!workout.day||records[i].day===workout.day)){
+    records.splice(i,1);
+    break;
+   }
+  }
+  if(!records.length)delete state.history[id];
+ });
+ if(workout.day&&state.days?.[workout.day]?.date===iso){
+  state.days[workout.day].completed=false;
+ }
+ saveState();
+ renderProgress();
+ renderHistoryScreen();
+ showToday(workout.day||selectedTodayDay||recommendedDay(),iso);
+ alert(lang()==="cs"?"Fajfka a omylem uložený trénink byly odstraněny.":"The check mark and accidentally saved workout were removed.");
+}
 function activatePlanForDate(day,iso){
  const current=state.days[day]||defaultDay(iso);
  if(current.completed&&current.date!==iso)state.days[day]=defaultDay(iso);
@@ -4663,6 +4752,15 @@ function renderDay(day){
 
    ${weekStripMarkup(day)}
 
+   ${completedWorkoutOnDate(selectedWorkoutDate)?`<section class="flex-day-card">
+     <div class="flex-day-icon">✓</div>
+     <div><span class="eyebrow">${lang()==="cs"?"ULOŽENÝ TRÉNINK":"SAVED WORKOUT"}</span>
+       <h3>${lang()==="cs"?"Tento den je označený jako hotový":"This day is marked complete"}</h3>
+       <p>${lang()==="cs"?"Pokud byla fajfka vytvořena omylem, můžeš ji bezpečně zrušit.":"If the check was added by mistake, you can safely remove it."}</p>
+     </div>
+     <button type="button" class="danger" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit fajfku":"Remove check"}</button>
+   </section>`:""}
+
    ${!isPlannedStrengthDate(selectedWorkoutDate)?`<section class="flex-day-card">
      <div class="flex-day-icon">↻</div>
      <div><span class="eyebrow">${lang()==="cs"?"FLEXIBILNÍ DEN":"FLEXIBLE DAY"}</span>
@@ -4721,6 +4819,12 @@ function renderDay(day){
    <summary class="collapsible-plan-summary"><div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Zobrazit cviky":"Show exercises"}</h3><small>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</small></div><span class="plan-summary-chevron">›</span></summary>
    <div class="collapsible-plan-body">
      <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"TRÉNINK":"WORKOUT"}</span><h3>${esc(planTitle)}</h3></div><button class="section-add" onclick="event.preventDefault();openLibrary('${day}','add')">＋ ${t("add")}</button></div>
+     <div class="plan-coach-card">
+       <strong>${lang()==="cs"?"Pravidlo pro každý pracovní set":"Rule for every working set"}</strong>
+       <span>${lang()==="cs"
+         ?"Nech si rezervu 2 opakování. Váhu spouštěj 2–3 sekundy. Až zvládneš horní hranici opakování ve všech sériích čistě, příště přidej nejmenší možnou váhu."
+         :"Keep about 2 reps in reserve. Lower the weight for 2–3 seconds. Once you reach the top of the rep range in every set with clean form, add the smallest available weight next time."}</span>
+     </div>
      
      <div class="plan-preview-list" id="todayPreviewList">`;
 
@@ -4746,6 +4850,7 @@ function renderDay(day){
        <div class="preview-card-main">
          <strong>${esc(itemName(m))}${m.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}${inst.added?` <span class="extra-badge">${t("extra")}</span>`:""}</strong>
          <small>${targetText(m)} · ${categoryName(m.category)}</small>
+         ${m.replacementId?`<span class="replacement-note">↪ ${t("temporaryReplacement")}</span>`:m.permanentReplacementId?`<span class="replacement-note">✓ ${t("permanentReplacement")}</span>`:""}
        </div>
        <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();openVideo('${m.id}')" aria-label="${t("video")}">▶ <span>Video</span></button>
        <span class="preview-card-chevron"></span>
@@ -4757,7 +4862,8 @@ function renderDay(day){
        <div class="preview-card-actions">
          <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
          <button class="smallbtn preview-change-button" type="button" onclick="openLibrary('${day}','replace','${inst.instanceId}')">↔ ${t("changeExercise")}</button>
-         ${m.replacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="resetReplacement('${day}','${inst.instanceId}')">${t("originalExercise")}</button>`:""}
+         ${m.replacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="resetReplacement('${day}','${inst.instanceId}')">${m.permanentReplacementId?t("permanentReplacement"):t("originalExercise")}</button>`:""}
+         ${!m.replacementId&&m.permanentReplacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="restoreRecommendedExercise('${day}','${inst.instanceId}')">${t("restoreRecommended")}</button>`:""}
        </div>
      </div>
    </details>`;
@@ -4797,11 +4903,45 @@ function addExercise(day,exerciseId){
  const x={instanceId:`extra:${uid()}`,exerciseId,sets:EX[exerciseId].sets,range:EX[exerciseId].range};
  state.days[day].extras.push(x);state.days[day].order.push(x.instanceId);saveState();if(libraryDialog.open)libraryDialog.close();renderDay(day);alert(t("added"));
 }
-function resetReplacement(day,id){const e=entry(day,id);e.replacementId="";e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false;saveState();renderDay(day)}
-function replaceExercise(day,id,exerciseId){
+function clearExerciseEntry(e){e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false}
+function resetReplacement(day,id){const e=entry(day,id);e.replacementId="";clearExerciseEntry(e);saveState();renderDay(day)}
+function replaceExercise(day,id,exerciseId){openReplacementScope(day,id,exerciseId)}
+function openReplacementScope(day,id,exerciseId){
+ const inst=dayInstances(day).find(x=>x.instanceId===id),next=EX[exerciseId];
+ if(!inst||!next)return;
  const e=entry(day,id),has=(e.sets||[]).some(s=>Object.values(s).some(Boolean))||e.minutes||e.speed;
  if(has&&!confirm(t("replaceDataConfirm")))return;
- e.replacementId=exerciseId;e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false;saveState();libraryDialog.close();renderDay(day);
+ pendingReplacement={day,id,exerciseId,allowPermanent:!inst.added,recommendedId:inst.recommendedId||inst.exerciseId};
+ if(libraryDialog.open)libraryDialog.close();
+ replacementScopeTitle.textContent=t("replacementScopeTitle");
+ replacementScopeText.textContent=`${t("replacementScopeText")} ${itemName(next)}`;
+ const last=lastRecord(exerciseId);
+ replacementLastPerformance.textContent=last?`${t("previous")}: ${formatRecord(last)}`:t("noHistory");
+ replacementTodayBtn.textContent=t("replaceToday");
+ replacementPermanentBtn.textContent=t("replacePermanent");
+ replacementPermanentBtn.hidden=!pendingReplacement.allowPermanent;
+ replacementScopeDialog.showModal();
+}
+function closeReplacementScope(){pendingReplacement=null;if(replacementScopeDialog.open)replacementScopeDialog.close()}
+function applyReplacementChoice(scope){
+ const choice=pendingReplacement;if(!choice)return;
+ const {day,id,exerciseId,recommendedId}=choice,e=entry(day,id);
+ clearExerciseEntry(e);
+ if(scope==="permanent"&&choice.allowPermanent){
+  state.planReplacements=state.planReplacements||defaultPlanReplacements();
+  state.planReplacements[day]=state.planReplacements[day]||{};
+  state.planReplacements[day][recommendedId]=exerciseId;
+  e.replacementId="";
+ }else e.replacementId=exerciseId;
+ closeReplacementScope();saveState();renderDay(day);
+ showToast(scope==="permanent"?t("replacementSavedPermanent"):t("replacementSavedToday"));
+}
+function restoreRecommendedExercise(day,id){
+ const inst=dayInstances(day).find(x=>x.instanceId===id);if(!inst||inst.added)return;
+ if(!confirm(t("restorePlanConfirm")))return;
+ const e=entry(day,id),recommendedId=inst.recommendedId||inst.exerciseId;
+ if(state.planReplacements?.[day])delete state.planReplacements[day][recommendedId];
+ e.replacementId="";clearExerciseEntry(e);saveState();renderDay(day);
 }
 
 
@@ -5037,8 +5177,9 @@ function renderLibrary(){
  list.forEach(x=>(groups[x.category]=groups[x.category]||[]).push(x));
 
  libraryList.innerHTML=Object.entries(groups).map(([cat,items])=>`<div class="library-group"><h4>${categoryName(cat)}</h4>${items.map(x=>{
-  const currentId=inst?metaFor(libraryDay,inst).id:null;
-  const disabled=used.has(x.id)&&x.id!==currentId;
+ const currentId=inst?metaFor(libraryDay,inst).id:null;
+ const disabled=used.has(x.id)&&x.id!==currentId;
+  const last=lastRecord(x.id);
   return `<div class="library-item ${x.topPick?"top-pick-item":""}">
     ${x.guideThumb
       ?`<img class="library-guide-thumb" src="${x.guideThumb}" alt="" loading="lazy">`
@@ -5046,6 +5187,7 @@ function renderLibrary(){
     <div class="library-item-main">
       <div class="library-item-name">${esc(itemName(x))}${x.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}</div>
       <div class="library-item-meta">${targetText(x)} • ${categoryName(x.category)}</div>
+      ${last?`<div class="library-item-last">${t("previous")}: ${esc(formatRecord(last))}</div>`:""}
     </div>
     <button class="${disabled?"secondary":"primary"}" ${disabled?"disabled":""} onclick="${libraryMode==="replace"?`replaceExercise('${libraryDay}','${libraryInstance}','${x.id}')`:`addExercise('${libraryDay}','${x.id}')`}">${libraryMode==="replace"?t("replace"):disabled?"✓":t("addToday")}</button>
   </div>`;
@@ -5314,20 +5456,27 @@ function prepareTimerAudio(){
   if(audioContext.state==="suspended")audioContext.resume().catch(()=>{});
  }catch{}
 }
-function timerBeep(finalBeep=false){
+function playAlarmTone(start,frequency,duration,type="square",volume=.3){
+ const oscillator=audioContext.createOscillator(),gain=audioContext.createGain();
+ oscillator.type=type;oscillator.frequency.setValueAtTime(frequency,start);
+ gain.gain.setValueAtTime(0.0001,start);
+ gain.gain.exponentialRampToValueAtTime(volume,start+.012);
+ gain.gain.exponentialRampToValueAtTime(0.0001,start+duration);
+ oscillator.connect(gain);gain.connect(audioContext.destination);
+ oscillator.start(start);oscillator.stop(start+duration+.02);
+}
+function timerBeep(finalBeep=false,secondsLeft=5){
  try{
   prepareTimerAudio();
   if(!audioContext||audioContext.state!=="running")return;
   const now=audioContext.currentTime;
-  const oscillator=audioContext.createOscillator();
-  const gain=audioContext.createGain();
-  oscillator.type="sine";
-  oscillator.frequency.setValueAtTime(finalBeep?1040:820,now);
-  gain.gain.setValueAtTime(0.0001,now);
-  gain.gain.exponentialRampToValueAtTime(0.18,now+0.01);
-  gain.gain.exponentialRampToValueAtTime(0.0001,now+(finalBeep?0.28:0.13));
-  oscillator.connect(gain);gain.connect(audioContext.destination);
-  oscillator.start(now);oscillator.stop(now+(finalBeep?0.3:0.15));
+  if(finalBeep){
+   [[0,980,.18],[.22,1280,.18],[.44,980,.36]].forEach(([delay,frequency,duration])=>playAlarmTone(now+delay,frequency,duration,"sawtooth",.42));
+  }else{
+   const frequency=880+(5-Math.max(1,Math.min(5,secondsLeft)))*90;
+   playAlarmTone(now,frequency,.105,"square",.34);
+   playAlarmTone(now+.145,frequency+120,.105,"square",.34);
+  }
  }catch{}
 }
 function undoLastSet(){
@@ -5588,15 +5737,16 @@ function previousLive(){if(!state.activeWorkout)return;state.activeWorkout.posit
 function nextLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.min(activeInstances().length-1,state.activeWorkout.position+1);saveState();renderLive()}
 function startRest(seconds,name,setNo){
  if(!seconds)return;lastRestBeepSecond=null;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
- liveOverlay.classList.remove("show");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
+ liveOverlay.classList.remove("show");restOverlay.classList.remove("alarm-warning","alarm-finished");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
 }
 function updateRest(){
  const w=state.activeWorkout;if(!w)return;const left=Math.max(0,w.restEndAt-Date.now());restTime.textContent=fmt(left);
  const secondsLeft=Math.ceil(left/1000);
- if(secondsLeft>=1&&secondsLeft<=5&&secondsLeft!==lastRestBeepSecond){lastRestBeepSecond=secondsLeft;timerBeep(false)}
- if(left<=0){clearInterval(restTick);if(lastRestBeepSecond!==0){lastRestBeepSecond=0;timerBeep(true)}navigator.vibrate?.([220,100,220]);w.restEndAt=0;saveState(false)}
+ restOverlay.classList.toggle("alarm-warning",secondsLeft>=1&&secondsLeft<=5);
+ if(secondsLeft>=1&&secondsLeft<=5&&secondsLeft!==lastRestBeepSecond){lastRestBeepSecond=secondsLeft;timerBeep(false,secondsLeft);navigator.vibrate?.(70)}
+ if(left<=0){clearInterval(restTick);restOverlay.classList.remove("alarm-warning");restOverlay.classList.add("alarm-finished");if(lastRestBeepSecond!==0){lastRestBeepSecond=0;timerBeep(true,0)}navigator.vibrate?.([320,100,320,100,520]);w.restEndAt=0;saveState(false)}
 }
-function returnFromRest(){restOverlay.classList.remove("show");liveOverlay.classList.add("show");renderLive()}
+function returnFromRest(){restOverlay.classList.remove("show","alarm-warning","alarm-finished");liveOverlay.classList.add("show");renderLive()}
 function skipRest(){if(state.activeWorkout)state.activeWorkout.restEndAt=0;clearInterval(restTick);saveState(false);returnFromRest()}
 function askFinishWorkout(){
  if(!state.activeWorkout)return;
@@ -5859,7 +6009,14 @@ function createLocalSafetyBackup(reason="manual"){
 
 function scheduleCloud(){if(!cloudUser||!supabaseClient||cloudLoading)return;clearTimeout(cloudTimer);cloudStatus.textContent=t("cloudSaving");cloudStatus.className="cloud-sync";cloudTimer=setTimeout(saveCloud,1100)}
 async function saveCloud(){
- if(!cloudUser||!supabaseClient)return;try{const {error}=await supabaseClient.from("gym_app_state").upsert({user_id:cloudUser.id,data:state,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error;cloudStatus.textContent=t("cloudSaved");cloudStatus.className="cloud-ok"}catch(e){console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error"}
+ if(!cloudUser||!supabaseClient)return false;
+ try{
+  const {error}=await supabaseClient.from("gym_app_state").upsert({user_id:cloudUser.id,data:state,updated_at:new Date().toISOString()},{onConflict:"user_id"});
+  if(error)throw error;
+  cloudStatus.textContent=t("cloudSaved");cloudStatus.className="cloud-ok";return true;
+ }catch(e){
+  console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error";return false;
+ }
 }
 async function loadCloud(force=false){
  if(!cloudUser||!supabaseClient)return;
@@ -5888,7 +6045,7 @@ async function loadCloud(force=false){
 }
 async function initCloud(){
  if(!supabaseClient){cloudStatus.textContent=t("cloudSignedOut");return}
- const {data:{session}}=await supabaseClient.auth.getSession();cloudUser=session?.user||null;updateCloudUI();
+ const {data:{session}}=await supabaseClient.auth.getSession();cloudUser=session?.user||null;updateCloudUI();showToday(selectedTodayDay,selectedWorkoutDate);
  supabaseClient.auth.onAuthStateChange((_event,session)=>{cloudUser=session?.user||null;updateCloudUI()});
  window.addEventListener("online",()=>{if(cloudUser)saveCloud()});
 }
@@ -5942,7 +6099,23 @@ async function cloudSignIn(){
    await loadCloud(true);
  }
 }
-async function cloudSignOut(){await supabaseClient.auth.signOut();cloudUser=null;updateCloudUI();cloudDialog.close()}
+async function cloudSignOut(){
+ clearTimeout(cloudTimer);
+ const saved=await saveCloud();
+ if(!saved){
+  alert(lang()==="cs"?"Data se nepodařilo uložit do cloudu. Odhlášení bylo zastaveno, aby se nic neztratilo.":"Cloud save failed. Sign-out was stopped so no data is lost.");
+  return;
+ }
+ const {error}=await supabaseClient.auth.signOut();
+ if(error){alert(error.message);return}
+ cloudUser=null;
+ state=defaultState();
+ localStorage.removeItem(KEY);
+ localStorage.removeItem("gymSelectedWorkoutDate");
+ localStorage.removeItem("gymTrackerProV2SafetyBackup");
+ if(cloudDialog.open)cloudDialog.close();
+ location.reload();
+}
 async function syncNow(){await saveCloud();alert(t("syncDone"))}
 
 let swRegistration=null,reloadingForUpdate=false;
