@@ -154,6 +154,16 @@ dialog::backdrop{background:rgba(2,17,28,.66);backdrop-filter:blur(4px)}
 .replacement-history{margin:12px 0;padding:11px 12px;border-radius:13px;background:var(--surface3);color:var(--primary-dark);font-size:12px;font-weight:850}
 .library-recommend{padding:12px;border:1px solid color-mix(in srgb,var(--primary) 35%,var(--line));border-radius:16px;background:var(--surface3);margin:10px 0}
 .library-recommend h4{margin:3px 0 4px}.library-recommend p{margin:0;color:var(--muted);font-size:10px;line-height:1.4}
+.replacement-recommendations{margin:12px 0 16px;padding:12px;border:1px solid color-mix(in srgb,var(--primary) 42%,var(--line));border-radius:18px;background:var(--surface3)}
+.replacement-recommendations-title{margin:0 0 3px;font-size:14px;font-weight:950;color:var(--primary-dark)}
+.replacement-recommendations-subtitle{margin:0 0 10px;color:var(--muted);font-size:10px;line-height:1.4}
+.replacement-recommendation{display:grid;grid-template-columns:62px minmax(0,1fr) auto;align-items:center;gap:10px;margin-top:8px;padding:9px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}
+.replacement-recommendation:first-of-type{border-color:color-mix(in srgb,var(--primary) 55%,var(--line));box-shadow:0 5px 15px rgba(17,148,151,.08)}
+.replacement-recommendation img,.replacement-recommendation-fallback{width:62px;height:68px;border-radius:12px;border:1px solid var(--line);background:#fff;object-fit:cover;object-position:50% 18%}
+.replacement-recommendation-fallback{display:grid;place-items:center;font-size:24px}
+.replacement-recommendation-main{min-width:0}.replacement-recommendation-name{font-size:12px;font-weight:950;line-height:1.25}.replacement-recommendation-reason{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.3}.replacement-recommendation-last{margin-top:4px;color:var(--primary);font-size:10px;font-weight:850}
+.replacement-other-title{margin:15px 0 3px;font-size:11px;font-weight:950;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+@media(max-width:420px){.replacement-recommendation{grid-template-columns:54px minmax(0,1fr)}.replacement-recommendation img,.replacement-recommendation-fallback{width:54px;height:62px}.replacement-recommendation button{grid-column:2;justify-self:start}}
 .history-card{padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);margin:8px 0}
 .history-card strong{font-size:12px}.history-card p{margin:5px 0 0;color:var(--muted);font-size:10px;line-height:1.45}
 .empty{text-align:center;padding:24px;color:var(--muted);font-size:12px}
@@ -3560,7 +3570,7 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v72</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v74</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3792,7 +3802,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=72;
+const VERSION=74;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -3810,7 +3820,7 @@ const UI={
   note:"Poznámka / RPE",video:"Video správné techniky",history:"Historie",replace:"Nahradit cvik",
   resetReplacement:"Vrátit původní",occupied:"Obsazeno → přesunout na konec",remove:"Odebrat",
   technique:"Technika a chyby",avoid:"Nedělej",library:"Přidat další cvik",librarySub:"Cvik se přidá pouze do tohoto tréninku. Příště dostaneš nové doporučení.",
-  replaceTitle:"Vybrat náhradní cvik",search:"Hledat cvik…",all:"Vše",noResults:"Žádné cviky nenalezeny.",
+  replaceTitle:"Vybrat náhradní cvik",search:"Hledat cvik…",all:"Vše",noResults:"Žádné cviky nenalezeny.",replacementRecommendedTitle:"3 doporučené náhrady",replacementRecommendedSub:"Nejpodobnější cviky pro stejnou partii a pohyb.",replacementFor:"Nahrazuješ",similarMovement:"Podobný pohyb a stejná svalová partie",sameMuscle:"Stejná svalová partie",otherExercises:"Další cviky",
   recommendationWhy:"Proč právě tento",workout:"PRÁVĚ CVIČÍM",finish:"Ukončit",exercise:"Cvik",
   doneRest:"Hotovo + pauza",saveCardio:"Uložit kardio",prevExercise:"← Předchozí",nextExercise:"Další cvik →",
   rest:"ODPOČINEK",backWorkout:"Zpět do tréninku",skipRest:"Ukončit pauzu",finishConfirm:"Opravdu ukončit trénink?",
@@ -3845,7 +3855,7 @@ const UI={
   note:"Note / RPE",video:"Proper form video",history:"History",replace:"Replace exercise",
   resetReplacement:"Use original exercise",occupied:"Busy → move to end",remove:"Remove",
   technique:"Technique and mistakes",avoid:"Avoid",library:"Add another exercise",librarySub:"The exercise is added only to this workout. You will receive a new recommendation next time.",
-  replaceTitle:"Choose a replacement exercise",search:"Search exercises…",all:"All",noResults:"No exercises found.",
+  replaceTitle:"Choose a replacement exercise",search:"Search exercises…",all:"All",noResults:"No exercises found.",replacementRecommendedTitle:"3 recommended replacements",replacementRecommendedSub:"The closest alternatives for the same muscle group and movement.",replacementFor:"Replacing",similarMovement:"Similar movement and the same muscle group",sameMuscle:"Same muscle group",otherExercises:"More exercises",
   recommendationWhy:"Why this exercise",workout:"WORKOUT IN PROGRESS",finish:"Finish",exercise:"Exercise",
   doneRest:"Done + rest",saveCardio:"Save cardio",prevExercise:"← Previous",nextExercise:"Next exercise →",
   rest:"REST",backWorkout:"Back to workout",skipRest:"End rest",finishConfirm:"Are you sure you want to finish the workout?",
@@ -4088,7 +4098,8 @@ function formatMondayDate(value){return formatMeasurementDate(value)}
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
 let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null;
 let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
-let audioContext=null,lastRestBeepSecond=null;
+let audioContext=null,lastRestBeepSecond=null,postRestAlarmTimeout=null,postRestAlarmBeepsRemaining=0;
+const activeAlarmOscillators=new Set();
 
 
 function allLibrary(){return [...LIBRARY,...(state.customExercises||[])]}
@@ -5135,6 +5146,41 @@ function recommendExercise(day){
  return {...best,reason};
 }
 
+const REPLACEMENT_GROUPS=[
+ ["machine_chest_press","converging_chest_press","bench_press","decline_chest_press_machine","push_up"],
+ ["incline_machine_press","smith_incline_press","incline_dumbbell_press","converging_chest_press"],
+ ["pec_deck","cable_fly"],
+ ["neutral_grip_lat_pulldown","lat_pulldown","assisted_pull_up","machine_high_row"],
+ ["chest_supported_row","plate_loaded_row","seated_row","low_row_machine","one_arm_cable_row","machine_high_row"],
+ ["machine_pullover","straight_arm_pulldown","neutral_grip_lat_pulldown"],
+ ["machine_shoulder_press","plate_loaded_shoulder_press","dumbbell_shoulder_press"],
+ ["machine_lateral_raise","cable_lateral_raise","lateral_raise"],
+ ["reverse_pec_deck","cable_rear_delt_fly","rear_delt_fly","face_pull"],
+ ["machine_preacher_curl","cable_curl","preacher_curl","ez_cable_curl","dumbbell_curl","barbell_curl","bayesian_cable_curl","hammer_curl"],
+ ["machine_triceps_extension","rope_pushdown","triceps_pushdown","single_arm_pushdown","close_grip_press_machine"],
+ ["cable_overhead_rope_extension","overhead_triceps_extension","machine_triceps_extension","dip_machine"],
+ ["pendulum_squat","belt_squat_machine","hack_squat","v_squat_machine","leg_press","horizontal_leg_press","smith_squat","bulgarian_split_squat"],
+ ["leg_extension","horizontal_leg_press","leg_press","hack_squat"],
+ ["single_leg_curl_machine","seated_leg_curl","lying_leg_curl","standing_leg_curl"],
+ ["glute_drive_machine","hip_thrust","cable_pull_through","romanian_deadlift","back_extension","cable_glute_kickback"],
+ ["calf_press_machine","leg_press_calf_raise","standing_calf_raise","seated_calf_raise"],
+ ["machine_crunch","cable_crunch","decline_crunch","reverse_crunch","hanging_knee_raise","lying_leg_raise"],
+ ["pallof_press","cable_woodchop","torso_rotation_machine","dead_bug","side_plank","plank","ab_wheel"],
+ ["elliptical","stationary_bike","treadmill","stair_climber","rowing_machine"]
+];
+function replacementRecommendations(day,inst){
+ const current=metaFor(day,inst),used=new Set(dayInstances(day).map(x=>metaFor(day,x).id));
+ const exactGroup=REPLACEMENT_GROUPS.find(group=>group.includes(current.id))||[];
+ const ordered=[...exactGroup,...allLibrary().filter(x=>x.category===current.category).sort((a,b)=>(Number(b.topPick===true)-Number(a.topPick===true))||Math.abs((a.rest||0)-(current.rest||0))-Math.abs((b.rest||0)-(current.rest||0))).map(x=>x.id)];
+ const seen=new Set(),result=[];
+ ordered.forEach(id=>{
+  const item=EX[id];
+  if(!item||id===current.id||used.has(id)||seen.has(id)||item.category!==current.category||result.length>=3)return;
+  seen.add(id);result.push({item,similar:exactGroup.includes(id)});
+ });
+ return result;
+}
+
 function openLibrary(day,mode="add",instanceId=null){
  libraryDay=day;
  libraryMode=mode;
@@ -5143,17 +5189,21 @@ function openLibrary(day,mode="add",instanceId=null){
  libraryCategory=mode==="replace"&&inst?metaFor(day,inst).category:"all";
  librarySearch.value="";
  libraryTitle.textContent=mode==="replace"?t("replaceTitle"):t("library");
- librarySubtitle.textContent=mode==="replace"?t("replaceSub"):t("librarySub");
+ const current=inst?metaFor(day,inst):null;
+ librarySubtitle.textContent=mode==="replace"&&current?`${t("replacementFor")}: ${itemName(current)}. ${t("replaceSub")}`:mode==="replace"?t("replaceSub"):t("librarySub");
  renderLibrary();
  libraryDialog.showModal();
 }
 function renderLibrary(){
  const q=normalizeName(librarySearch.value);
  const inst=libraryInstance?dayInstances(libraryDay).find(x=>x.instanceId===libraryInstance):null;
+ const replacementPicks=libraryMode==="replace"&&inst&&!q?replacementRecommendations(libraryDay,inst):[];
+ const replacementPickIds=new Set(replacementPicks.map(rec=>rec.item.id));
  let list=allLibrary();
 
  if(q)list=list.filter(x=>normalizeName(x.cs+" "+x.en).includes(q));
  if(libraryCategory!=="all")list=list.filter(x=>x.category===libraryCategory);
+ if(libraryMode==="replace"&&!q)list=list.filter(x=>!replacementPickIds.has(x.id));
 
  list.sort((a,b)=>(Number(b.topPick===true)-Number(a.topPick===true))||itemName(a).localeCompare(itemName(b),lang()));
 
@@ -5164,7 +5214,15 @@ function renderLibrary(){
  cats.map(c=>`<button class="chip ${libraryCategory===c?"active":""}" onclick="libraryCategory='${c}';renderLibrary()">${categoryName(c)}</button>`).join("");
 
  const rec=libraryMode==="add"?recommendExercise(libraryDay):null;
- libraryRecommendation.innerHTML=rec?`<div class="library-recommend">
+ libraryRecommendation.innerHTML=replacementPicks.length?`<div class="replacement-recommendations">
+ <div class="replacement-recommendations-title">${t("replacementRecommendedTitle")}</div>
+ <p class="replacement-recommendations-subtitle">${t("replacementRecommendedSub")}</p>
+ ${replacementPicks.map(({item,similar})=>{const last=lastRecord(item.id);return `<div class="replacement-recommendation">
+  ${item.guideThumb?`<img src="${item.guideThumb}" alt="" loading="lazy">`:`<span class="replacement-recommendation-fallback">${categoryGlyph(item.category)}</span>`}
+  <div class="replacement-recommendation-main"><div class="replacement-recommendation-name">${esc(itemName(item))}${item.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}</div><div class="replacement-recommendation-reason">${t(similar?"similarMovement":"sameMuscle")}</div>${last?`<div class="replacement-recommendation-last">${t("previous")}: ${esc(formatRecord(last))}</div>`:""}</div>
+  <button class="primary" onclick="replaceExercise('${libraryDay}','${libraryInstance}','${item.id}')">${t("replace")}</button>
+ </div>`}).join("")}
+ </div><div class="replacement-other-title">${t("otherExercises")}</div>`:rec?`<div class="library-recommend">
  ${rec.item.guideThumb?`<img class="library-recommend-thumb" src="${rec.item.guideThumb}" alt="" loading="lazy">`:""}
  <div class="recommend-label">${t("recommended")}</div><h4>${esc(itemName(rec.item))}${rec.item.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}</h4><p>${esc(rec.reason)}</p><div class="actions"><button class="primary" onclick="addExercise('${libraryDay}','${rec.item.id}')">${t("addToday")}</button></div></div>`:"";
 
@@ -5463,6 +5521,8 @@ function playAlarmTone(start,frequency,duration,type="square",volume=.3){
  gain.gain.exponentialRampToValueAtTime(volume,start+.012);
  gain.gain.exponentialRampToValueAtTime(0.0001,start+duration);
  oscillator.connect(gain);gain.connect(audioContext.destination);
+ activeAlarmOscillators.add(oscillator);
+ oscillator.addEventListener("ended",()=>activeAlarmOscillators.delete(oscillator),{once:true});
  oscillator.start(start);oscillator.stop(start+duration+.02);
 }
 function timerBeep(finalBeep=false,secondsLeft=5){
@@ -5478,6 +5538,19 @@ function timerBeep(finalBeep=false,secondsLeft=5){
    playAlarmTone(now+.145,frequency+120,.105,"square",.34);
   }
  }catch{}
+}
+function stopPostRestAlarm(){
+ clearTimeout(postRestAlarmTimeout);postRestAlarmTimeout=null;postRestAlarmBeepsRemaining=0;
+ activeAlarmOscillators.forEach(oscillator=>{try{oscillator.stop()}catch{}});activeAlarmOscillators.clear();
+}
+function startPostRestAlarm(){
+ stopPostRestAlarm();postRestAlarmBeepsRemaining=5;
+ const pulse=()=>{
+  if(postRestAlarmBeepsRemaining<=0){postRestAlarmTimeout=null;return}
+  timerBeep(true,0);navigator.vibrate?.([260,80,260]);postRestAlarmBeepsRemaining--;
+  postRestAlarmTimeout=postRestAlarmBeepsRemaining>0?setTimeout(pulse,1000):null;
+ };
+ pulse();
 }
 function undoLastSet(){
  if(!lastSetUndo)return;
@@ -5736,7 +5809,7 @@ function advanceAfterExercise(){const arr=activeInstances(),w=state.activeWorkou
 function previousLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.max(0,state.activeWorkout.position-1);saveState();renderLive()}
 function nextLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.min(activeInstances().length-1,state.activeWorkout.position+1);saveState();renderLive()}
 function startRest(seconds,name,setNo){
- if(!seconds)return;lastRestBeepSecond=null;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
+ if(!seconds)return;stopPostRestAlarm();lastRestBeepSecond=null;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
  liveOverlay.classList.remove("show");restOverlay.classList.remove("alarm-warning","alarm-finished");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
 }
 function updateRest(){
@@ -5744,10 +5817,10 @@ function updateRest(){
  const secondsLeft=Math.ceil(left/1000);
  restOverlay.classList.toggle("alarm-warning",secondsLeft>=1&&secondsLeft<=5);
  if(secondsLeft>=1&&secondsLeft<=5&&secondsLeft!==lastRestBeepSecond){lastRestBeepSecond=secondsLeft;timerBeep(false,secondsLeft);navigator.vibrate?.(70)}
- if(left<=0){clearInterval(restTick);restOverlay.classList.remove("alarm-warning");restOverlay.classList.add("alarm-finished");if(lastRestBeepSecond!==0){lastRestBeepSecond=0;timerBeep(true,0)}navigator.vibrate?.([320,100,320,100,520]);w.restEndAt=0;saveState(false)}
+ if(left<=0){clearInterval(restTick);restOverlay.classList.remove("alarm-warning");restOverlay.classList.add("alarm-finished");if(lastRestBeepSecond!==0){lastRestBeepSecond=0;startPostRestAlarm()}w.restEndAt=0;saveState(false)}
 }
-function returnFromRest(){restOverlay.classList.remove("show","alarm-warning","alarm-finished");liveOverlay.classList.add("show");renderLive()}
-function skipRest(){if(state.activeWorkout)state.activeWorkout.restEndAt=0;clearInterval(restTick);saveState(false);returnFromRest()}
+function returnFromRest(){stopPostRestAlarm();restOverlay.classList.remove("show","alarm-warning","alarm-finished");liveOverlay.classList.add("show");renderLive()}
+function skipRest(){if(state.activeWorkout)state.activeWorkout.restEndAt=0;clearInterval(restTick);stopPostRestAlarm();saveState(false);returnFromRest()}
 function askFinishWorkout(){
  if(!state.activeWorkout)return;
  if(!confirm(t("finishConfirm")))return;
@@ -5796,6 +5869,7 @@ function deleteActiveWorkout(){
 
  clearInterval(workoutTick);
  clearInterval(restTick);
+ stopPostRestAlarm();
  byId("liveOverlay")?.classList.remove("show");
  byId("restOverlay")?.classList.remove("show");
  byId("workoutRunning")?.classList.remove("show");
@@ -5827,7 +5901,7 @@ function saveFinishedWorkout(){
  state.activeWorkout=null;
  if(dialog?.open)dialog.close();
  if(note)note.value="";
- clearInterval(workoutTick);clearInterval(restTick);
+ clearInterval(workoutTick);clearInterval(restTick);stopPostRestAlarm();
  byId("liveOverlay")?.classList.remove("show");
  byId("restOverlay")?.classList.remove("show");
  byId("workoutRunning")?.classList.remove("show");
