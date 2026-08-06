@@ -3570,7 +3570,7 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v74</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v75</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3802,7 +3802,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=74;
+const VERSION=75;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -3896,7 +3896,7 @@ function findExerciseByName(name){
 }
 function defaultDay(date=today()){return {date,weight:"",waist:"",entries:{},extras:[],order:[],completed:false}}
 function defaultPlanReplacements(){return {monday:{},wednesday:{},friday:{}}}
-function defaultState(){return {version:VERSION,settings:{language:"cs",theme:"light",exerciseSteps:{}},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
+function defaultState(){return {version:VERSION,meta:{modifiedAt:0,cloudUserId:""},settings:{language:"cs",theme:"light",exerciseSteps:{}},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
 function applyPlanV71(s,fromVersion){
  if(Number(fromVersion)>=71)return s;
  DAYS.forEach(day=>{
@@ -3910,7 +3910,7 @@ function applyPlanV71(s,fromVersion){
 }
 function migrateState(raw){
  if(raw?.version>=18){
-   const s={...defaultState(),...raw};s.settings={...defaultState().settings,...raw.settings};
+   const s={...defaultState(),...raw};s.meta={...defaultState().meta,...(raw.meta||{})};s.settings={...defaultState().settings,...raw.settings};
    DAYS.forEach(d=>s.days[d]={...defaultDay(),...(raw.days?.[d]||{}),entries:raw.days?.[d]?.entries||{},extras:raw.days?.[d]?.extras||[],order:raw.days?.[d]?.order||[]});
    s.planReplacements={...defaultPlanReplacements(),...(raw.planReplacements||{})};DAYS.forEach(day=>s.planReplacements[day]={...(raw.planReplacements?.[day]||{})});
    s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];s.weeklyMeasurementDraft=s.weeklyMeasurementDraft||{week:"",date:today(),weight:"",waist:""};return applyPlanV71(s,raw.version);
@@ -3952,7 +3952,7 @@ state.version=VERSION;
 localStorage.setItem(KEY,JSON.stringify(state));
 refreshExerciseIndex();
 
-let supabaseClient=null,cloudUser=null,cloudTimer=null,cloudLoading=false;
+let supabaseClient=null,cloudUser=null,cloudTimer=null,cloudLoading=false,cloudSavePromise=null,cloudDirty=false;
 if(window.supabase){
  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:window.localStorage,storageKey:"gym-tracker-supabase-auth-v2",flowType:"pkce"}});
 }
@@ -4315,7 +4315,9 @@ function showToast(message){
  showToast._timer=setTimeout(()=>toast.classList.remove("show"),2200);
 }
 function saveState(sync=true){
- state.version=VERSION;localStorage.setItem(KEY,JSON.stringify(state));
+ state.version=VERSION;
+ state.meta={...(state.meta||{}),modifiedAt:Date.now(),cloudUserId:cloudUser?.id||state.meta?.cloudUserId||""};
+ persistCurrentState();
  if(sync)scheduleCloud();
 }
 function prepareDay(day){
@@ -5881,7 +5883,7 @@ function deleteActiveWorkout(){
  alert(t("workoutDeleted"));
 }
 
-function saveFinishedWorkout(){
+async function saveFinishedWorkout(){
  const w=state.activeWorkout;if(!w)return;
  const day=w.day,d=state.days[day],instances=activeInstances(day);
  instances.forEach(inst=>{
@@ -5908,11 +5910,14 @@ function saveFinishedWorkout(){
  if(byId("liveClock"))byId("liveClock").textContent="00:00";
  if(byId("runningTime"))byId("runningTime").textContent="00:00";
  saveState();
+ clearTimeout(cloudTimer);
+ const cloudSaved=!cloudUser||await saveCloud();
  selectedTodayDay=nextStrengthDay();
  selectedWorkoutDate=nextPlannedDateAfter(d.date||today());
  localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
  renderProgress();renderHistoryScreen();showToday(selectedTodayDay,selectedWorkoutDate);
- alert(t("workoutDone"));
+ alert(cloudSaved?t("workoutDone"):(lang()==="cs"?"Trénink je uložený v telefonu, ale cloudové uložení se nezdařilo. Až bude internet fungovat, stiskni Synchronizovat.":"The workout is saved on this device, but cloud saving failed. When the connection works, tap Sync now."));
+ if(swRegistration?.waiting)showUpdateBanner();
 }
 function restoreActiveWorkout(){
  if(!state.activeWorkout)return;
@@ -6081,45 +6086,102 @@ function createLocalSafetyBackup(reason="manual"){
  }
 }
 
-function scheduleCloud(){if(!cloudUser||!supabaseClient||cloudLoading)return;clearTimeout(cloudTimer);cloudStatus.textContent=t("cloudSaving");cloudStatus.className="cloud-sync";cloudTimer=setTimeout(saveCloud,1100)}
+function accountStateKey(userId){return `${KEY}:user:${userId}`}
+function persistCurrentState(){
+ const key=cloudUser?.id?accountStateKey(cloudUser.id):KEY;
+ localStorage.setItem(key,JSON.stringify(state));
+}
+function parsedStateFromStorage(key){
+ try{const raw=JSON.parse(localStorage.getItem(key)||"null");return raw?migrateState(raw):null}catch(error){console.error("Stored state is invalid",error);return null}
+}
+function cloneState(value){return JSON.parse(JSON.stringify(value))}
+function stateActivityTimestamp(value){
+ const metaTime=Number(value?.meta?.modifiedAt)||0;
+ const workoutTime=Math.max(0,...(value?.workouts||[]).map(item=>Number(item?.savedAt)||0));
+ return Math.max(metaTime,workoutTime);
+}
+function uniqueRecords(first=[],second=[],keyFn){
+ const result=[],seen=new Set();
+ [...first,...second].forEach(item=>{const key=keyFn(item);if(seen.has(key))return;seen.add(key);result.push(cloneState(item))});
+ return result;
+}
+function mergeStates(localValue,remoteValue){
+ const local=migrateState(localValue||defaultState()),remote=migrateState(remoteValue||defaultState());
+ const localNewer=stateActivityTimestamp(local)>=stateActivityTimestamp(remote);
+ const newer=localNewer?local:remote,older=localNewer?remote:local;
+ const merged=migrateState(cloneState(newer));
+ merged.workouts=uniqueRecords(newer.workouts,older.workouts,item=>item?.savedAt?`saved:${item.savedAt}`:`${item?.type||"strength"}|${item?.date||""}|${item?.day||""}|${item?.minutes||""}|${item?.cardioType||""}`);
+ const progress=new Map();
+ [...(older.progress||[]),...(newer.progress||[])].forEach(item=>{const previous=progress.get(item.date)||{};progress.set(item.date,{...previous,...cloneState(item),weight:item.weight||previous.weight||"",waist:item.waist||previous.waist||""})});
+ merged.progress=[...progress.values()].sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+ merged.history={};
+ new Set([...Object.keys(older.history||{}),...Object.keys(newer.history||{})]).forEach(id=>{
+   merged.history[id]=uniqueRecords(newer.history?.[id],older.history?.[id],item=>`${item?.date||""}|${item?.day||""}|${item?.mode||""}|${JSON.stringify(item?.sets||[])}|${item?.minutes||""}|${item?.speed||""}`);
+ });
+ merged.customExercises=uniqueRecords(newer.customExercises,older.customExercises,item=>item?.id||`${item?.cs||""}|${item?.en||""}`);
+ if(local.activeWorkout){merged.activeWorkout=cloneState(local.activeWorkout);merged.days=cloneState(local.days)}
+ merged.meta={...(merged.meta||{}),modifiedAt:Math.max(stateActivityTimestamp(local),stateActivityTimestamp(remote)),cloudUserId:cloudUser?.id||""};
+ merged.version=VERSION;
+ return merged;
+}
+function scheduleCloud(){
+ if(!cloudUser||!supabaseClient||cloudLoading)return;
+ clearTimeout(cloudTimer);cloudStatus.textContent=t("cloudSaving");cloudStatus.className="cloud-sync";
+ cloudTimer=setTimeout(()=>saveCloud(),700);
+}
 async function saveCloud(){
  if(!cloudUser||!supabaseClient)return false;
- try{
-  const {error}=await supabaseClient.from("gym_app_state").upsert({user_id:cloudUser.id,data:state,updated_at:new Date().toISOString()},{onConflict:"user_id"});
-  if(error)throw error;
-  cloudStatus.textContent=t("cloudSaved");cloudStatus.className="cloud-ok";return true;
- }catch(e){
-  console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error";return false;
- }
+ if(cloudSavePromise){cloudDirty=true;return cloudSavePromise}
+ const userId=cloudUser.id;
+ const snapshot=cloneState(state);
+ snapshot.meta={...(snapshot.meta||{}),cloudUserId:userId,modifiedAt:Number(snapshot.meta?.modifiedAt)||Date.now()};
+ cloudDirty=false;
+ cloudSavePromise=(async()=>{
+   try{
+    const {error}=await supabaseClient.from("gym_app_state").upsert({user_id:userId,data:snapshot,updated_at:new Date(snapshot.meta.modifiedAt).toISOString()},{onConflict:"user_id"});
+    if(error)throw error;
+    cloudStatus.textContent=t("cloudSaved");cloudStatus.className="cloud-ok";return true;
+   }catch(e){
+    console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error";return false;
+   }finally{cloudSavePromise=null}
+ })();
+ const saved=await cloudSavePromise;
+ if(cloudDirty&&cloudUser?.id===userId)return saveCloud();
+ return saved;
 }
-async function loadCloud(force=false){
- if(!cloudUser||!supabaseClient)return;
- cloudLoading=true;
- try{
-  const {data,error}=await supabaseClient.from("gym_app_state").select("data,updated_at").eq("user_id",cloudUser.id).maybeSingle();
-  if(error)throw error;
-
-  if(data?.data&&(force||confirm(lang()==="cs"
-    ?"Načíst data z cloudu? Současná data v tomto zařízení budou nejdřív bezpečně zálohována."
-    :"Load cloud data? Current device data will be safely backed up first."))){
-    createLocalSafetyBackup("before-cloud-load");
-    state=migrateState(data.data);
-    localStorage.setItem(KEY,JSON.stringify(state));
-    location.reload();
-  }else if(!data){
-    await saveCloud();
-  }
- }catch(e){
-  console.error(e);
-  cloudStatus.textContent=t("cloudError");
-  cloudStatus.className="cloud-error";
- }finally{
-  cloudLoading=false;
- }
+async function fetchCloudState(){
+ const {data,error}=await supabaseClient.from("gym_app_state").select("data,updated_at").eq("user_id",cloudUser.id).maybeSingle();
+ if(error)throw error;
+ if(!data?.data)return null;
+ const remote=migrateState(data.data);
+ remote.meta={...(remote.meta||{}),modifiedAt:Math.max(Number(remote.meta?.modifiedAt)||0,Date.parse(data.updated_at)||0),cloudUserId:cloudUser.id};
+ return remote;
 }
+async function reconcileCloud(includeCurrentLocal=true){
+ if(!cloudUser||!supabaseClient)return false;
+ cloudLoading=true;cloudStatus.textContent=t("cloudSaving");cloudStatus.className="cloud-sync";
+ try{
+   const stored=parsedStateFromStorage(accountStateKey(cloudUser.id));
+   let local=stored||defaultState();
+   if(includeCurrentLocal&&hasMeaningfulLocalData())local=mergeStates(state,local);
+   const remote=await fetchCloudState();
+   state=remote?mergeStates(local,remote):migrateState(local);
+   state.meta={...(state.meta||{}),modifiedAt:Math.max(stateActivityTimestamp(state),Date.now()),cloudUserId:cloudUser.id};
+   persistCurrentState();
+   localStorage.removeItem(KEY);
+   cloudLoading=false;
+   const saved=await saveCloud();
+   applyTheme();applyLanguage();showToday(selectedTodayDay,selectedWorkoutDate);renderProgress();renderHistoryScreen();restoreActiveWorkout();
+   return saved;
+ }catch(e){
+   console.error(e);cloudStatus.textContent=t("cloudError");cloudStatus.className="cloud-error";return false;
+ }finally{cloudLoading=false}
+}
+async function loadCloud(){return reconcileCloud(false)}
 async function initCloud(){
  if(!supabaseClient){cloudStatus.textContent=t("cloudSignedOut");return}
- const {data:{session}}=await supabaseClient.auth.getSession();cloudUser=session?.user||null;updateCloudUI();showToday(selectedTodayDay,selectedWorkoutDate);
+ const {data:{session}}=await supabaseClient.auth.getSession();cloudUser=session?.user||null;updateCloudUI();
+ if(cloudUser)await reconcileCloud(true);else showToday(selectedTodayDay,selectedWorkoutDate);
  supabaseClient.auth.onAuthStateChange((_event,session)=>{cloudUser=session?.user||null;updateCloudUI()});
  window.addEventListener("online",()=>{if(cloudUser)saveCloud()});
 }
@@ -6140,7 +6202,7 @@ function updateCloudUI(){
  document.querySelectorAll(".login-warning").forEach(box=>box.hidden=signedIn);
 }
 function openCloud(){updateCloudUI();cloudDialog.showModal()}
-async function cloudSignUp(){const email=cloudEmail.value.trim(),password=cloudPassword.value;if(!email||password.length<6)return alert("Email / password");const {data,error}=await supabaseClient.auth.signUp({email,password});if(error)return alert(error.message);cloudUser=data.user;updateCloudUI();if(data.session)await saveCloud();alert(t("accountCreated"))}
+async function cloudSignUp(){const email=cloudEmail.value.trim(),password=cloudPassword.value;if(!email||password.length<6)return alert("Email / password");const {data,error}=await supabaseClient.auth.signUp({email,password});if(error)return alert(error.message);cloudUser=data.user;updateCloudUI();if(data.session)await reconcileCloud(true);alert(t("accountCreated"))}
 async function cloudSignIn(){
  const email=cloudEmail.value.trim();
  const password=cloudPassword.value;
@@ -6156,21 +6218,17 @@ async function cloudSignIn(){
  if(hasMeaningfulLocalData()){
    createLocalSafetyBackup("before-first-cloud-sync");
    const uploadLocal=confirm(lang()==="cs"
-     ?"Na tomto zařízení jsou místní data nebo rozpracovaný trénink.\n\nOK = uložit tato data do cloudu.\nZrušit = ponechat je v zařízení a nyní cloud nenačítat."
-     :"This device contains local data or an active workout.\n\nOK = save this device data to the cloud.\nCancel = keep it on this device and do not load cloud data now.");
+     ?"Na tomto zařízení jsou místní data nebo rozpracovaný trénink.\n\nOK = bezpečně je sloučit s daty tohoto účtu.\nZrušit = načíst pouze data účtu; místní kopie zůstane v bezpečnostní záloze."
+     :"This device contains local data or an active workout.\n\nOK = safely merge it with this account.\nCancel = load only the account data; the local copy stays in a safety backup.");
 
    if(uploadLocal){
-     await saveCloud();
-     alert(lang()==="cs"
-       ?"Data z tohoto zařízení byla uložena do cloudu."
-       :"This device data was saved to the cloud.");
+     const saved=await reconcileCloud(true);
+     alert(saved?(lang()==="cs"?"Data zařízení a účtu byla bezpečně sloučena a uložena.":"Device and account data were safely merged and saved."):(lang()==="cs"?"Sloučená data zůstala v telefonu, ale cloudové uložení se nezdařilo.":"Merged data remains on this device, but cloud saving failed."));
    }else{
-     alert(lang()==="cs"
-       ?"Místní data zůstala zachována. Cloudová data nebyla načtena."
-       :"Local data was preserved. Cloud data was not loaded.");
+     await reconcileCloud(false);
    }
  }else{
-   await loadCloud(true);
+   await loadCloud();
  }
 }
 async function cloudSignOut(){
@@ -6186,27 +6244,42 @@ async function cloudSignOut(){
  state=defaultState();
  localStorage.removeItem(KEY);
  localStorage.removeItem("gymSelectedWorkoutDate");
- localStorage.removeItem("gymTrackerProV2SafetyBackup");
  if(cloudDialog.open)cloudDialog.close();
  location.reload();
 }
-async function syncNow(){await saveCloud();alert(t("syncDone"))}
+async function syncNow(){
+ clearTimeout(cloudTimer);
+ if(!cloudUser)return openCloud();
+ const saved=await saveCloud();
+ alert(saved?t("syncDone"):(lang()==="cs"?"Synchronizace se nezdařila. Data zůstávají bezpečně uložená v tomto zařízení.":"Sync failed. Your data remains safely stored on this device."));
+}
 
-let swRegistration=null,reloadingForUpdate=false;
+let swRegistration=null,reloadingForUpdate=false,updateAutoTimer=null;
 function showUpdateBanner(){
  const banner=document.getElementById("appUpdateBanner");if(!banner)return;
  appUpdateTitle.textContent=lang()==="cs"?"Je dostupná nová verze":"A new version is available";
- appUpdateText.textContent=lang()==="cs"?"Aktualizace opravuje načítání obrázků a offline režim.":"The update improves image loading and offline mode.";
+ const deferred=!!state.activeWorkout;
+ appUpdateText.textContent=deferred
+   ?(lang()==="cs"?"Aktualizace počká na dokončení tréninku.":"The update will wait until the workout is finished.")
+   :(lang()==="cs"?"Aplikace se bezpečně aktualizuje během několika sekund.":"The app will update safely in a few seconds.");
  appUpdateApply.textContent=lang()==="cs"?"Aktualizovat":"Update";
+ appUpdateApply.disabled=deferred;
  banner.hidden=false;
+ clearTimeout(updateAutoTimer);
+ if(!deferred)updateAutoTimer=setTimeout(()=>applyAppUpdate(),3500);
 }
-function hideUpdateBanner(){document.getElementById("appUpdateBanner").hidden=true}
-function applyAppUpdate(){if(swRegistration?.waiting)swRegistration.waiting.postMessage({type:"SKIP_WAITING"});else location.reload()}
+function hideUpdateBanner(){clearTimeout(updateAutoTimer);document.getElementById("appUpdateBanner").hidden=true}
+function applyAppUpdate(){
+ clearTimeout(updateAutoTimer);
+ if(state.activeWorkout)return showUpdateBanner();
+ if(swRegistration?.waiting)swRegistration.waiting.postMessage({type:"SKIP_WAITING"});
+ else location.reload();
+}
 async function checkForAppUpdate(manual=false){
  if(!("serviceWorker" in navigator)){if(manual)alert(lang()==="cs"?"Tento prohlížeč nepodporuje offline aktualizace.":"This browser does not support offline updates.");return}
  try{
    swRegistration=swRegistration||await navigator.serviceWorker.getRegistration();
-   if(!swRegistration)swRegistration=await navigator.serviceWorker.register("./sw.js");
+   if(!swRegistration)swRegistration=await navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"});
    await swRegistration.update();
    if(swRegistration.waiting)showUpdateBanner();
    else if(manual)alert(lang()==="cs"?`Používáš aktuální verzi v${VERSION}.`:`You are using the current version v${VERSION}.`);
@@ -6215,10 +6288,11 @@ async function checkForAppUpdate(manual=false){
 async function registerAppServiceWorker(){
  if(!("serviceWorker" in navigator))return;
  try{
-   swRegistration=await navigator.serviceWorker.register("./sw.js");
+   swRegistration=await navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"});
    if(swRegistration.waiting)showUpdateBanner();
    swRegistration.addEventListener("updatefound",()=>{const worker=swRegistration.installing;if(!worker)return;worker.addEventListener("statechange",()=>{if(worker.state==="installed"&&navigator.serviceWorker.controller)showUpdateBanner()})});
    navigator.serviceWorker.addEventListener("controllerchange",()=>{if(reloadingForUpdate)return;reloadingForUpdate=true;location.reload()});
+   await swRegistration.update();
  }catch(error){console.error("Service worker registration failed",error)}
 }
 
@@ -6227,7 +6301,7 @@ function init(){
  applyTheme();applyLanguage();showToday(selectedTodayDay,selectedWorkoutDate);restoreActiveWorkout();initCloud();
  registerAppServiceWorker();
  setTimeout(()=>checkExerciseImageStorage(false),1600);
- document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest()}});
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();checkForAppUpdate(false)}});
 }
 init();
 </script>

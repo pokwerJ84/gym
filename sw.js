@@ -1,4 +1,4 @@
-const VERSION="v74";
+const VERSION="v75";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIX="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/";
@@ -19,7 +19,6 @@ self.addEventListener("install",event=>{
       const response=await fetch(asset,{cache:"reload"});
       if(response.ok)await cache.put(asset,response);
     }));
-    await self.skipWaiting();
   })());
 });
 
