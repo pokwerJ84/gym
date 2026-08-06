@@ -3570,12 +3570,12 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v75</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v76</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
 
-<div class="app-update-banner" id="appUpdateBanner" hidden>
+<div class="app-update-banner" id="appUpdateBanner" role="status" aria-live="polite" hidden>
   <div><b id="appUpdateTitle">Je dostupná nová verze</b><span id="appUpdateText">Aktualizace opravuje načítání obrázků a offline režim.</span></div>
   <button type="button" onclick="applyAppUpdate()" id="appUpdateApply">Aktualizovat</button>
   <button type="button" class="update-later" onclick="hideUpdateBanner()">Později</button>
@@ -3802,7 +3802,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=75;
+const VERSION=76;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -6254,23 +6254,32 @@ async function syncNow(){
  alert(saved?t("syncDone"):(lang()==="cs"?"Synchronizace se nezdařila. Data zůstávají bezpečně uložená v tomto zařízení.":"Sync failed. Your data remains safely stored on this device."));
 }
 
-let swRegistration=null,reloadingForUpdate=false,updateAutoTimer=null;
-function showUpdateBanner(){
+let swRegistration=null,reloadingForUpdate=false,pendingUpdateVersion="";
+function getWaitingWorkerVersion(){
+ return new Promise(resolve=>{
+   const worker=swRegistration?.waiting;
+   if(!worker)return resolve("");
+   const channel=new MessageChannel();
+   const timeout=setTimeout(()=>resolve(""),1200);
+   channel.port1.onmessage=event=>{clearTimeout(timeout);resolve(String(event.data?.version||""))};
+   worker.postMessage({type:"GET_VERSION"},[channel.port2]);
+ });
+}
+async function showUpdateBanner(){
  const banner=document.getElementById("appUpdateBanner");if(!banner)return;
- appUpdateTitle.textContent=lang()==="cs"?"Je dostupná nová verze":"A new version is available";
+ pendingUpdateVersion=await getWaitingWorkerVersion();
+ const versionLabel=pendingUpdateVersion?` ${pendingUpdateVersion}`:"";
+ appUpdateTitle.textContent=lang()==="cs"?`Je dostupná nová verze${versionLabel}`:`A new version${versionLabel} is available`;
  const deferred=!!state.activeWorkout;
  appUpdateText.textContent=deferred
-   ?(lang()==="cs"?"Aktualizace počká na dokončení tréninku.":"The update will wait until the workout is finished.")
-   :(lang()==="cs"?"Aplikace se bezpečně aktualizuje během několika sekund.":"The app will update safely in a few seconds.");
- appUpdateApply.textContent=lang()==="cs"?"Aktualizovat":"Update";
+   ?(lang()==="cs"?"Dokonči trénink. Potom můžeš aktualizaci bezpečně nainstalovat.":"Finish the workout first. You can then install the update safely.")
+   :(lang()==="cs"?"Klepni na Aktualizovat nyní. Data i přihlášení zůstanou zachované.":"Tap Update now. Your data and sign-in will remain saved.");
+ appUpdateApply.textContent=lang()==="cs"?"Aktualizovat nyní":"Update now";
  appUpdateApply.disabled=deferred;
  banner.hidden=false;
- clearTimeout(updateAutoTimer);
- if(!deferred)updateAutoTimer=setTimeout(()=>applyAppUpdate(),3500);
 }
-function hideUpdateBanner(){clearTimeout(updateAutoTimer);document.getElementById("appUpdateBanner").hidden=true}
+function hideUpdateBanner(){document.getElementById("appUpdateBanner").hidden=true}
 function applyAppUpdate(){
- clearTimeout(updateAutoTimer);
  if(state.activeWorkout)return showUpdateBanner();
  if(swRegistration?.waiting)swRegistration.waiting.postMessage({type:"SKIP_WAITING"});
  else location.reload();

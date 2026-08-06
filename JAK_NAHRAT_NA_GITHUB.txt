@@ -1,13 +1,13 @@
-GYM TRACKER PRO v75 – AUTOMATICKÉ AKTUALIZACE A BEZPEČNÁ SYNCHRONIZACE
+GYM TRACKER PRO v76 – UPOZORNĚNÍ NA NOVOU VERZI
 
 1. Rozbal ZIP.
 2. Zkopíruj všechny soubory do kořenové složky repository gym.
 3. Potvrď nahrazení souborů.
 4. V GitHub Desktopu zvol Commit to main a potom Push origin.
 
-Po prvním nahrání v75 se další nové verze při otevření aplikace samy zkontrolují.
-Pokud neprobíhá trénink, aktualizace se automaticky použije během několika sekund.
-Pokud trénink probíhá, aktualizace počká na jeho dokončení.
+Po prvním nahrání v76 se další nové verze při otevření aplikace samy zkontrolují.
+Aplikace zobrazí upozornění s číslem nové verze a tlačítkem Aktualizovat nyní.
+Pokud trénink probíhá, instalace zůstane zablokovaná až do jeho dokončení.
 
 Tréninková data jsou nově oddělená podle přihlášeného účtu. Při synchronizaci se
 lokální a cloudová historie bezpečně sloučí. Po odhlášení se data účtu na obrazovce
