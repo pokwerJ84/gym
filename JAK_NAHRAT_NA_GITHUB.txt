@@ -1,11 +1,11 @@
-GYM TRACKER PRO v76 – UPOZORNĚNÍ NA NOVOU VERZI
+GYM TRACKER PRO v78 – VĚTŠÍ OBRÁZKY CVIKŮ V CELÉ APLIKACI
 
 1. Rozbal ZIP.
 2. Zkopíruj všechny soubory do kořenové složky repository gym.
 3. Potvrď nahrazení souborů.
 4. V GitHub Desktopu zvol Commit to main a potom Push origin.
 
-Po prvním nahrání v76 se další nové verze při otevření aplikace samy zkontrolují.
+Po nahrání v78 se další nové verze při otevření aplikace samy zkontrolují.
 Aplikace zobrazí upozornění s číslem nové verze a tlačítkem Aktualizovat nyní.
 Pokud trénink probíhá, instalace zůstane zablokovaná až do jeho dokončení.
 

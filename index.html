@@ -3558,6 +3558,196 @@ body.dark .visual-results-group .modern-database-item{
 .app-generic-toast{pointer-events:none;justify-content:center;min-width:180px;max-width:min(88vw,430px)}
 .visual-category-card>img,.selected-category-hero>img{display:block}
 
+/* v77 – larger, uncropped images in "Show exercises" */
+.modern-exercise-card summary{
+  grid-template-columns:31px 64px minmax(0,1fr) auto 13px;
+  min-height:94px;
+  gap:9px;
+}
+.modern-exercise-card .exercise-guide-thumb{
+  width:64px;
+  height:72px;
+  padding:2px;
+  border-radius:14px;
+  object-fit:contain;
+  object-position:center;
+}
+.modern-exercise-card .exercise-category-icon{
+  width:64px;
+  height:64px;
+  border-radius:14px;
+  font-size:26px;
+}
+@media(max-width:430px){
+  .modern-exercise-card summary{
+    grid-template-columns:27px 76px minmax(0,1fr) 44px 11px;
+    min-height:108px;
+    gap:7px;
+    padding:10px 8px;
+  }
+  .modern-exercise-card .exercise-guide-thumb{
+    width:76px;
+    height:84px;
+    padding:2px;
+    border-radius:15px;
+  }
+  .modern-exercise-card .exercise-category-icon{
+    width:76px;
+    height:76px;
+    border-radius:15px;
+    font-size:30px;
+  }
+  .modern-exercise-card .preview-video-button{
+    min-width:44px;
+    width:44px;
+  }
+}
+@media(max-width:360px){
+  .modern-exercise-card summary{
+    grid-template-columns:25px 68px minmax(0,1fr) 40px 10px;
+    gap:6px;
+    padding:9px 7px;
+  }
+  .modern-exercise-card .exercise-guide-thumb{
+    width:68px;
+    height:78px;
+  }
+  .modern-exercise-card .exercise-category-icon{
+    width:68px;
+    height:68px;
+  }
+  .modern-exercise-card .preview-video-button{
+    min-width:40px;
+    width:40px;
+  }
+}
+
+/* v78 – larger, uncropped exercise images throughout the app */
+.replacement-recommendation{
+  grid-template-columns:86px minmax(0,1fr) auto;
+  min-height:106px;
+}
+.replacement-recommendation img,
+.replacement-recommendation-fallback{
+  width:86px;
+  height:94px;
+  padding:2px;
+  object-fit:contain;
+  object-position:center;
+}
+.library-item{
+  min-height:96px;
+  gap:11px;
+}
+.library-guide-thumb,
+.library-guide-fallback{
+  width:78px;
+  height:86px;
+  padding:2px;
+  border-radius:15px;
+}
+.library-guide-thumb{
+  object-fit:contain;
+  object-position:center;
+}
+.library-recommend-thumb{
+  width:88px;
+  height:98px;
+  padding:2px;
+  object-fit:contain;
+  object-position:center;
+}
+.modern-database-item{
+  grid-template-columns:82px minmax(0,1fr) 50px;
+  min-height:108px;
+}
+.modern-database-item .database-guide-thumb,
+.modern-database-item .database-glyph{
+  width:82px;
+  height:90px;
+}
+.modern-database-item .database-guide-thumb{
+  padding:2px;
+  object-fit:contain;
+  object-position:center;
+}
+.hero-next-exercise{
+  grid-template-columns:76px 1fr;
+}
+.hero-next-exercise img,
+.hero-next-exercise>span{
+  width:76px;
+  height:76px;
+}
+.hero-next-exercise img{
+  padding:2px;
+  object-fit:contain;
+  object-position:center;
+}
+@media(max-width:430px){
+  .replacement-recommendation{
+    grid-template-columns:82px minmax(0,1fr);
+    min-height:108px;
+  }
+  .replacement-recommendation img,
+  .replacement-recommendation-fallback{
+    width:82px;
+    height:92px;
+  }
+  .replacement-recommendation button{
+    grid-column:2;
+    justify-self:start;
+  }
+  .library-item{
+    display:grid;
+    grid-template-columns:76px minmax(0,1fr);
+  }
+  .library-guide-thumb,
+  .library-guide-fallback{
+    width:76px;
+    height:86px;
+  }
+  .library-item>button{
+    grid-column:2;
+    justify-self:start;
+  }
+  .modern-database-item{
+    grid-template-columns:78px minmax(0,1fr) 46px;
+    min-height:106px;
+  }
+  .modern-database-item .database-guide-thumb,
+  .modern-database-item .database-glyph{
+    width:78px;
+    height:88px;
+  }
+}
+@media(max-width:360px){
+  .replacement-recommendation{
+    grid-template-columns:74px minmax(0,1fr);
+  }
+  .replacement-recommendation img,
+  .replacement-recommendation-fallback{
+    width:74px;
+    height:84px;
+  }
+  .library-item{
+    grid-template-columns:70px minmax(0,1fr);
+  }
+  .library-guide-thumb,
+  .library-guide-fallback{
+    width:70px;
+    height:80px;
+  }
+  .modern-database-item{
+    grid-template-columns:70px minmax(0,1fr) 42px;
+  }
+  .modern-database-item .database-guide-thumb,
+  .modern-database-item .database-glyph{
+    width:70px;
+    height:80px;
+  }
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -3570,7 +3760,7 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v76</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v78</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -3802,7 +3992,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=76;
+const VERSION=78;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
