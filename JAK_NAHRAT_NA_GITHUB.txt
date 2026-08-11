@@ -1,19 +1,25 @@
-GYM TRACKER PRO v80 – SPUŠTĚNÍ CVIKU PŘÍMO Z KARTY
+GYM TRACKER PRO v82 – USER-FRIENDLY CLEANUP
 
-NOVINKY VE v80
-- Tlačítko Zobrazit cviky a začít otevře přehled dnešního plánu.
-- Každý cvik lze spustit přímo z jeho rozbalené karty.
-- U cviků je vidět průběh 0/3, 1/3, 2/3 nebo Hotovo.
-- Cviky lze cvičit v libovolném pořadí.
-- Po poslední sérii lze pokračovat dalším cvikem, vybrat jiný nebo se vrátit do seznamu.
-- Hotové série lze stále zkontrolovat, opravit nebo smazat.
+NOVINKY VE v82
+- Historie má přehledné záložky Tréninky a Měření.
+- Uložený trénink lze přímo upravit nebo smazat.
+- Váha a pas se zapisují pouze jednou týdně v pondělí.
+- Graf ukazuje posledních 8 pondělních měření a jejich změnu.
+- Průměrná váha se počítá z posledních 4 měření.
+- Hlavní stránka je kratší a při jiném datu jasně ukáže vybraný den.
+- Po poslední sérii se pauza nespustí automaticky; zůstává volitelná.
+- Stav cloudu ukazuje ukládání, chybu, opakování a čas posledního uložení.
+- Export, import, aktualizace a test obrázků jsou schované pod Pokročilé.
+- Před importem vznikne místní bezpečnostní kopie.
+- V Cviky je nová 10minutová denní sestava na záda a držení těla se 7 videi.
+- Spodní navigace má větší a čitelnější popisky.
 
 1. Rozbal ZIP.
 2. Zkopíruj všechny soubory do kořenové složky repository gym.
 3. Potvrď nahrazení souborů.
 4. V GitHub Desktopu zvol Commit to main a potom Push origin.
 
-Po nahrání v80 se další nové verze při otevření aplikace samy zkontrolují.
+Po nahrání v82 se další nové verze při otevření aplikace samy zkontrolují.
 Aplikace zobrazí upozornění s číslem nové verze a tlačítkem Aktualizovat nyní.
 Pokud trénink probíhá, instalace zůstane zablokovaná až do jeho dokončení.
 
