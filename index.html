@@ -3766,6 +3766,109 @@ body.dark .visual-results-group .modern-database-item{
   object-fit:contain!important;
   object-position:center!important;
 }
+
+/* v80 – the exercise list is now the main workout launcher */
+.exercise-set-status{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin-top:6px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:var(--surface2);
+  color:var(--muted);
+  font-size:10px;
+  font-weight:950;
+}
+.modern-exercise-card.exercise-in-progress{
+  border-color:rgba(32,184,176,.48);
+  background:rgba(32,184,176,.045);
+}
+.modern-exercise-card.exercise-in-progress .exercise-set-status{
+  background:rgba(32,184,176,.15);
+  color:var(--modern-teal-dark);
+}
+.modern-exercise-card.exercise-done .exercise-set-status{
+  background:rgba(43,174,114,.15);
+  color:var(--good);
+}
+.preview-start-exercise{
+  flex:1 1 100%!important;
+  min-height:50px!important;
+  border:0!important;
+  background:linear-gradient(135deg,var(--modern-teal-dark),#126b85)!important;
+  color:#fff!important;
+  font-size:14px!important;
+  font-weight:950!important;
+}
+.exercise-list-coach{
+  margin:0 0 12px;
+  padding:11px 13px;
+  border-radius:14px;
+  background:rgba(32,184,176,.10);
+  color:var(--text);
+  font-size:12px;
+  line-height:1.45;
+  font-weight:800;
+}
+.exercise-complete-panel{
+  display:grid;
+  gap:14px;
+  padding:20px;
+  border:1px solid rgba(43,174,114,.35);
+  border-radius:20px;
+  background:rgba(43,174,114,.07);
+  text-align:center;
+}
+.exercise-complete-mark{
+  display:grid;
+  place-items:center;
+  width:58px;
+  height:58px;
+  margin:0 auto;
+  border-radius:50%;
+  background:var(--good);
+  color:#fff;
+  font-size:28px;
+  font-weight:950;
+}
+.exercise-complete-panel h3{margin:0;font-size:23px}
+.exercise-complete-panel p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
+.exercise-complete-actions{display:grid;gap:9px}
+.exercise-complete-actions>button,
+.live-exercise-picker summary{
+  width:100%;
+  min-height:49px;
+  border-radius:14px;
+  font-weight:950;
+}
+.live-exercise-picker{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+  overflow:hidden;
+}
+.live-exercise-picker summary{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px;
+  cursor:pointer;
+  list-style:none;
+}
+.live-exercise-picker summary::-webkit-details-marker{display:none}
+.live-exercise-options{display:grid;gap:7px;padding:0 9px 9px}
+.live-exercise-options button{
+  min-height:46px;
+  padding:9px 11px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--surface2);
+  color:var(--text);
+  text-align:left;
+  font-weight:900;
+}
+.live-exercise-options button small{display:block;margin-top:3px;color:var(--muted);font-weight:800}
 .modern-exercise-card summary{
   grid-template-columns:31px 80px minmax(0,1fr) auto 13px;
   min-height:104px;
@@ -3899,7 +4002,7 @@ body.dark .visual-results-group .modern-database-item{
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v79</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v80</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4131,7 +4234,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=79;
+const VERSION=80;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -5141,7 +5244,7 @@ function renderDay(day){
      })():""}
 
      <div class="hero-actions hero-actions-three">
-       <button class="primary hero-start" onclick="startWorkout('${day}')">▶ ${state.activeWorkout?.day===day?t("resume"):t("start")}</button>
+       <button class="primary hero-start" onclick="primaryDayAction('${day}')">▶ ${state.activeWorkout?.day===day?(lang()==="cs"?"Pokračovat v rozpracovaném cviku":"Resume current exercise"):(lang()==="cs"?"Zobrazit cviky a začít":"Show exercises and start")}</button>
        <button class="hero-cardio" onclick="openCardioDialog()">♡ ${t("cardioOnly")}</button>
        <button class="hero-date-button" onclick="openDateDialog()">▣ ${lang()==="cs"?"Změnit datum":"Change date"}</button>
      </div>
@@ -5157,7 +5260,7 @@ function renderDay(day){
    html+=measurementCardMarkup(day,"top");
  }
 
- html+=`<details class="modern-plan-section collapsible-plan">
+ html+=`<details class="modern-plan-section collapsible-plan" id="exercisePlan-${day}">
    <summary class="collapsible-plan-summary"><div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Zobrazit cviky":"Show exercises"}</h3><small>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</small></div><span class="plan-summary-chevron">›</span></summary>
    <div class="collapsible-plan-body">
      <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"TRÉNINK":"WORKOUT"}</span><h3>${esc(planTitle)}</h3></div><button class="section-add" onclick="event.preventDefault();openLibrary('${day}','add')">＋ ${t("add")}</button></div>
@@ -5167,6 +5270,7 @@ function renderDay(day){
          ?"Nech si rezervu 2 opakování. Váhu spouštěj 2–3 sekundy. Až zvládneš horní hranici opakování ve všech sériích čistě, příště přidej nejmenší možnou váhu."
          :"Keep about 2 reps in reserve. Lower the weight for 2–3 seconds. Once you reach the top of the rep range in every set with clean form, add the smallest available weight next time."}</span>
      </div>
+     <div class="exercise-list-coach">${lang()==="cs"?"Rozbal libovolný cvik a stiskni Začít tento cvik. Můžeš cvičit v jakémkoli pořadí.":"Expand any exercise and tap Start this exercise. You can train in any order."}</div>
      
      <div class="plan-preview-list" id="todayPreviewList">`;
 
@@ -5181,9 +5285,16 @@ function renderDay(day){
    const last=lastRecord(m.id);
    const tips=m.tips?.[lang()]||m.tips?.en||[];
    const mistakes=m.mistakes?.[lang()]||m.mistakes?.en||[];
-   const done=entry(day,inst.instanceId).done;
+   const exerciseEntry=entry(day,inst.instanceId);
+   const done=exerciseEntry.done;
+   const targetSets=m.mode==="cardio"?1:Number(m.sets)||1;
+   const completedSets=m.mode==="cardio"?(done?1:0):(exerciseEntry.sets||[]).filter(set=>set?._complete===true).length;
+   const inProgress=!done&&completedSets>0;
+   const statusText=done
+     ?(lang()==="cs"?"✓ Hotovo":"✓ Complete")
+     :`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
 
-   html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":""}">
+   html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":inProgress?"exercise-in-progress":""}">
      <summary>
        <span class="preview-card-number">${done?"✓":index+1}</span>
        ${m.guideThumb
@@ -5192,6 +5303,7 @@ function renderDay(day){
        <div class="preview-card-main">
          <strong>${esc(itemName(m))}${m.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}${inst.added?` <span class="extra-badge">${t("extra")}</span>`:""}</strong>
          <small>${targetText(m)} · ${categoryName(m.category)}</small>
+         <span class="exercise-set-status">${statusText}</span>
          ${m.replacementId?`<span class="replacement-note">↪ ${t("temporaryReplacement")}</span>`:m.permanentReplacementId?`<span class="replacement-note">✓ ${t("permanentReplacement")}</span>`:""}
        </div>
        <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();openVideo('${m.id}')" aria-label="${t("video")}">▶ <span>Video</span></button>
@@ -5202,6 +5314,7 @@ function renderDay(day){
        ${tips.length?`<div class="preview-info"><b>${t("tips")}:</b> ${tips.slice(0,2).map(esc).join(" • ")}</div>`:""}
        ${mistakes.length?`<div class="preview-info warning"><b>${t("avoid")}:</b> ${mistakes.slice(0,2).map(esc).join(" • ")}</div>`:""}
        <div class="preview-card-actions">
+         <button class="preview-start-exercise" type="button" onclick="startExercise('${day}','${inst.instanceId}')">▶ ${done?(lang()==="cs"?"Otevřít hotový cvik":"Open completed exercise"):inProgress?(lang()==="cs"?"Pokračovat v tomto cviku":"Continue this exercise"):(lang()==="cs"?"Začít tento cvik":"Start this exercise")}</button>
          <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
          <button class="smallbtn preview-change-button" type="button" onclick="openLibrary('${day}','replace','${inst.instanceId}')">↔ ${t("changeExercise")}</button>
          ${m.replacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="resetReplacement('${day}','${inst.instanceId}')">${m.permanentReplacementId?t("permanentReplacement"):t("originalExercise")}</button>`:""}
@@ -5776,6 +5889,39 @@ function activeInstances(day=state.activeWorkout?.day||selectedTodayDay){
  ];
 }
 function fmt(ms){const sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+function primaryDayAction(day){
+ if(state.activeWorkout?.day===day){openLiveWorkout();return}
+ if(state.activeWorkout&&state.activeWorkout.day!==day){
+  alert(`${t("workout")}: ${BASE_PLANS[state.activeWorkout.day]["title_"+lang()]}`);
+  return;
+ }
+ openExercisePlan(day);
+}
+function openExercisePlan(day){
+ const plan=document.getElementById(`exercisePlan-${day}`);
+ if(!plan)return;
+ plan.open=true;
+ requestAnimationFrame(()=>plan.scrollIntoView({behavior:"smooth",block:"start"}));
+}
+function startExercise(day,instanceId){
+ if(state.activeWorkout&&state.activeWorkout.day!==day){
+  alert(`${t("workout")}: ${BASE_PLANS[state.activeWorkout.day]["title_"+lang()]}`);
+  return;
+ }
+ if(!state.activeWorkout)activatePlanForDate(day,selectedWorkoutDate||today());
+ const arr=activeInstances(day);
+ const position=arr.findIndex(item=>item.instanceId===instanceId);
+ if(position<0)return;
+ if(!state.activeWorkout){
+  state.days[day].date=selectedWorkoutDate||today();
+  state.activeWorkout={day,date:state.days[day].date,startedAt:Date.now(),elapsed:0,paused:false,position,restEndAt:0,restExercise:""};
+ }else{
+  state.activeWorkout.position=position;
+ }
+ saveState();
+ openLiveWorkout();
+ startWorkoutTicker();
+}
 function startWorkout(day){
  if(state.activeWorkout){
   if(state.activeWorkout.day!==day)return alert(`${t("workout")}: ${BASE_PLANS[state.activeWorkout.day]["title_"+lang()]}`);
@@ -5785,6 +5931,34 @@ function startWorkout(day){
  state.days[day].date=selectedWorkoutDate||today();
  const instances=dayInstances(day),first=Math.max(0,instances.findIndex(x=>!entry(day,x.instanceId).done));
  state.activeWorkout={day,date:state.days[day].date,startedAt:Date.now(),elapsed:0,paused:false,position:first<0?0:first,restEndAt:0,restExercise:""};saveState();openLiveWorkout();startWorkoutTicker();
+}
+function jumpToExercise(instanceId){
+ if(!state.activeWorkout)return;
+ const position=activeInstances().findIndex(item=>item.instanceId===instanceId);
+ if(position<0)return;
+ state.activeWorkout.position=position;
+ saveState();
+ renderLive();
+}
+function continueNextIncompleteExercise(){
+ if(!state.activeWorkout)return;
+ const arr=activeInstances();
+ const current=Math.max(0,state.activeWorkout.position||0);
+ const order=[...arr.slice(current+1),...arr.slice(0,current)];
+ const next=order.find(item=>!entry(state.activeWorkout.day,item.instanceId).done);
+ if(!next){openFinishDialog();return}
+ jumpToExercise(next.instanceId);
+}
+function backToExerciseList(message=false){
+ if(!state.activeWorkout)return;
+ const day=state.activeWorkout.day;
+ const date=state.activeWorkout.date||selectedWorkoutDate||today();
+ minimizeLive();
+ showToday(day,date);
+ setTimeout(()=>{
+  openExercisePlan(day);
+  if(message)showToast(lang()==="cs"?"Vyber další cvik ze seznamu.":"Choose another exercise from the list.");
+ },80);
 }
 function startWorkoutTicker(){clearInterval(workoutTick);workoutTick=setInterval(updateWorkoutTimes,500);updateWorkoutTimes()}
 function updateWorkoutTimes(){
@@ -6025,15 +6199,41 @@ function renderLive(){
  const m=metaFor(day,inst);
  const step=exerciseStep(m.id);
  const idx=firstIncompleteSet(m,e);
-
- ensurePrefill(day,inst,m,e,idx);
-
  const last=lastRecord(m.id);
  const completedSets=(e.sets||[]).filter(set=>set?._complete===true).length;
  const restLabel=m.mode==="cardio"?"—":`${Number(m.rest)||0}s`;
 
  liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;
  liveProgressText.textContent=`${state.activeWorkout.position+1} / ${arr.length} · ${categoryName(m.category)}`;
+
+ if(e.done){
+  const remaining=arr.filter(item=>item.instanceId!==inst.instanceId&&!entry(day,item.instanceId).done);
+  liveContent.innerHTML=`<div class="modern-live-hero">
+    <div class="modern-live-glyph">${categoryGlyph(m.category)}</div>
+    <div class="modern-live-title"><span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p></div>
+    <button class="compact-video-btn modern-video-btn" onclick="openVideo('${m.id}')">▶ Video</button>
+   </div>
+   <div class="exercise-complete-panel">
+    <span class="exercise-complete-mark">✓</span>
+    <h3>${lang()==="cs"?"Cvik je hotový":"Exercise complete"}</h3>
+    <p>${lang()==="cs"?`${completedSets||1} z ${m.mode==="cardio"?1:m.sets} sérií dokončeno. Vyber, jak chceš pokračovat.`:`${completedSets||1} of ${m.mode==="cardio"?1:m.sets} sets complete. Choose what to do next.`}</p>
+    <div class="exercise-complete-actions">
+      <button class="primary" type="button" onclick="continueNextIncompleteExercise()">▶ ${remaining.length?(lang()==="cs"?"Pokračovat na další cvik":"Continue to next exercise"):(lang()==="cs"?"Dokončit celý trénink":"Finish workout")}</button>
+      ${remaining.length?`<details class="live-exercise-picker"><summary>▦ ${lang()==="cs"?"Vybrat jiný cvik":"Choose another exercise"}</summary><div class="live-exercise-options">${remaining.map(item=>{const option=metaFor(day,item),optionEntry=entry(day,item.instanceId),count=(optionEntry.sets||[]).filter(set=>set?._complete===true).length,target=option.mode==="cardio"?1:option.sets;return `<button type="button" onclick="jumpToExercise('${item.instanceId}')">${esc(itemName(option))}<small>${Math.min(count,target)}/${target} ${lang()==="cs"?"sérií":"sets"}</small></button>`}).join("")}</div></details>`:""}
+      <button class="secondary" type="button" onclick="backToExerciseList()">‹ ${lang()==="cs"?"Zpět na seznam cviků":"Back to exercise list"}</button>
+    </div>
+   </div>
+   <div class="saved-sets-panel modern-saved-sets">
+    <div class="saved-sets-title"><span>${t("savedSets")}</span><small>${completedSets||1}</small></div>
+    ${m.mode==="cardio"
+      ?`<div class="completed-set-table"><div class="saved-set-row"><span class="saved-set-number">✓</span><strong>${esc(`${e.minutes||"–"} min${e.speed?` · ${e.speed} km/h`:""}`)}</strong></div></div>`
+      :`<div class="completed-set-table">${(e.sets||[]).map((set,i)=>set?._complete===true?`<div class="saved-set-row"><span class="saved-set-number">${i+1}</span><strong>${savedSetSummary(m,set)}</strong><div class="saved-set-actions"><button type="button" onclick="editSavedSet(${i})">✎ ${t("edit")}</button><button type="button" class="delete-set-btn" onclick="deleteSavedSet(${i})">✕ ${t("deleteSet")}</button></div></div>`:"").join("")}</div>`}
+   </div>`;
+  updateWorkoutTimes();
+  return;
+ }
+
+ ensurePrefill(day,inst,m,e,idx);
 
  let inputs="";
  const s=e.sets?.[idx]||{};
@@ -6129,11 +6329,11 @@ function completeLiveSet(instanceId,index){
   e.speed=m.id==="treadmill"?"":(document.getElementById("liveSpeed")?.value||"").trim();
   e.incline="";
   if(!e.minutes)return alert(t("enterCardio"));
-  e.done=true;advanceAfterExercise();saveState();renderLive();return;
+  e.done=true;saveState();renderLive();return;
  }
  e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;
  const complete=e.sets.slice(0,m.sets).filter(x=>x?._complete===true).length>=m.sets;
- if(complete){e.done=true;advanceAfterExercise()}
+ if(complete)e.done=true;
  saveState();renderLive();showUndoToast();startRest(m.rest,itemName(m),index+1);
 }
 function advanceAfterExercise(){const arr=activeInstances(),w=state.activeWorkout;if(w.position<arr.length-1)w.position++}

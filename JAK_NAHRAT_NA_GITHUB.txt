@@ -1,11 +1,19 @@
-GYM TRACKER PRO v79 – VĚTŠÍ OBRÁZKY BEZ BÍLÝCH RÁMEČKŮ
+GYM TRACKER PRO v80 – SPUŠTĚNÍ CVIKU PŘÍMO Z KARTY
+
+NOVINKY VE v80
+- Tlačítko Zobrazit cviky a začít otevře přehled dnešního plánu.
+- Každý cvik lze spustit přímo z jeho rozbalené karty.
+- U cviků je vidět průběh 0/3, 1/3, 2/3 nebo Hotovo.
+- Cviky lze cvičit v libovolném pořadí.
+- Po poslední sérii lze pokračovat dalším cvikem, vybrat jiný nebo se vrátit do seznamu.
+- Hotové série lze stále zkontrolovat, opravit nebo smazat.
 
 1. Rozbal ZIP.
 2. Zkopíruj všechny soubory do kořenové složky repository gym.
 3. Potvrď nahrazení souborů.
 4. V GitHub Desktopu zvol Commit to main a potom Push origin.
 
-Po nahrání v79 se další nové verze při otevření aplikace samy zkontrolují.
+Po nahrání v80 se další nové verze při otevření aplikace samy zkontrolují.
 Aplikace zobrazí upozornění s číslem nové verze a tlačítkem Aktualizovat nyní.
 Pokud trénink probíhá, instalace zůstane zablokovaná až do jeho dokončení.
 
