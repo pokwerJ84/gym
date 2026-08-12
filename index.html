@@ -4152,7 +4152,7 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v83</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v84</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4381,8 +4381,8 @@ const POSTURE_IMAGES={
 LIBRARY.filter(item=>item.dailyRoutine).forEach(item=>{
  const file=POSTURE_IMAGES[item.id];
  if(file){
-  item.guideImage=`posture-images/${file}`;
-  item.guideThumb=`posture-images/${file}`;
+  item.guideImage=file;
+  item.guideThumb=file;
   item.guideExact=true;
  }
 });
@@ -4412,7 +4412,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=83;
+const VERSION=84;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -7226,7 +7226,7 @@ drawChart=function(id,key){drawRecentMondayChart(id,key)};
 const renderDatabaseV81=renderDatabase;
 function dailyRoutineMarkup(){
  const routine=LIBRARY.filter(item=>item.dailyRoutine);
- return `<details class="daily-routine-card"><summary><img class="daily-routine-cover" src="posture-images/back-posture-routine.webp" alt=""><span class="daily-routine-title"><small>${lang()==="cs"?"DENNĚ · CCA 10 MINUT":"DAILY · ABOUT 10 MINUTES"}</small><strong>${lang()==="cs"?"Záda a držení těla":"Back and posture routine"}</strong><span>${lang()==="cs"?"7 cviků ve správném pořadí s videi":"7 exercises in order with videos"}</span></span><span class="daily-routine-chevron">›</span></summary><div class="daily-routine-list">${routine.map((item,index)=>`<div class="daily-routine-row"><b>${index+1}</b><img class="daily-routine-thumb" src="${item.guideThumb}" alt="" loading="lazy"><span><strong>${esc(itemName(item))}</strong><small>${esc(item["routineDose_"+lang()]||item.routineDose_en||item.range)}</small></span><button type="button" onclick="openVideo('${item.id}')" aria-label="Video">▶</button></div>`).join("")}</div></details>`;
+ return `<details class="daily-routine-card"><summary><img class="daily-routine-cover" src="back-posture-routine.webp" alt=""><span class="daily-routine-title"><small>${lang()==="cs"?"DENNĚ · CCA 10 MINUT":"DAILY · ABOUT 10 MINUTES"}</small><strong>${lang()==="cs"?"Záda a držení těla":"Back and posture routine"}</strong><span>${lang()==="cs"?"7 cviků ve správném pořadí s videi":"7 exercises in order with videos"}</span></span><span class="daily-routine-chevron">›</span></summary><div class="daily-routine-list">${routine.map((item,index)=>`<div class="daily-routine-row"><b>${index+1}</b><img class="daily-routine-thumb" src="${item.guideThumb}" alt="" loading="lazy"><span><strong>${esc(itemName(item))}</strong><small>${esc(item["routineDose_"+lang()]||item.routineDose_en||item.range)}</small></span><button type="button" onclick="openVideo('${item.id}')" aria-label="Video">▶</button></div>`).join("")}</div></details>`;
 }
 renderDatabase=function(){
  renderDatabaseV81();

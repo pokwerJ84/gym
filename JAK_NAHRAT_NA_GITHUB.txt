@@ -1,35 +1,20 @@
-GYM TRACKER PRO v83 – ROUTINE IMAGES & CENTERED CATEGORIES
+GYM TRACKER PRO v84 – NAHRÁNÍ Z TELEFONU
 
-NOVINKY VE v83
-- Hlavní karta sestavy Záda a držení těla má nový schválený obrázek.
-- Všech 7 cviků denní sestavy má vlastní obrázek přímo v kartě.
-- Doorway Chest Stretch je zobrazený s oběma rukama na rámu.
-- Na kartách svalových skupin je velký název nahoře a informační text pod ním.
-- Název i informační text jsou vycentrované.
+Tato verze nemá žádné podsložky. Všechny soubory i všech 8 nových obrázků jsou
+v jedné úrovni, aby šly z telefonu označit a nahrát přímo do repository gym.
 
-ZACHOVÁNO Z v82
-- Historie má přehledné záložky Tréninky a Měření.
-- Uložený trénink lze přímo upravit nebo smazat.
-- Váha a pas se zapisují pouze jednou týdně v pondělí.
-- Graf ukazuje posledních 8 pondělních měření a jejich změnu.
-- Průměrná váha se počítá z posledních 4 měření.
-- Hlavní stránka je kratší a při jiném datu jasně ukáže vybraný den.
-- Po poslední sérii se pauza nespustí automaticky; zůstává volitelná.
-- Stav cloudu ukazuje ukládání, chybu, opakování a čas posledního uložení.
-- Export, import, aktualizace a test obrázků jsou schované pod Pokročilé.
-- Před importem vznikne místní bezpečnostní kopie.
-- V Cviky je nová 10minutová denní sestava na záda a držení těla se 7 videi.
-- Spodní navigace má větší a čitelnější popisky.
+POSTUP V APLIKACI GITHUB / V PROHLÍŽEČI
+1. Rozbal ZIP v telefonu.
+2. Otevři rozbalenou složku Gym_Tracker_Pro_v84_Phone_Upload_Flat.
+3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
+4. Nahraj je přímo do hlavní (kořenové) části repository gym.
+5. Potvrď přepsání starých souborů a commitni změny.
 
-1. Rozbal ZIP.
-2. Zkopíruj všechny soubory do kořenové složky repository gym.
-3. Potvrď nahrazení souborů.
-4. V GitHub Desktopu zvol Commit to main a potom Push origin.
+DŮLEŽITÉ
+- V ZIPu není složka posture-images.
+- Obrázky .webp musí být na GitHubu vedle index.html.
+- Názvy obrázků neměň.
+- Starou složku posture-images můžeš v repository ponechat; v84 ji už nepoužívá.
 
-Po nahrání v83 se další nové verze při otevření aplikace samy zkontrolují.
-Aplikace zobrazí upozornění s číslem nové verze a tlačítkem Aktualizovat nyní.
-Pokud trénink probíhá, instalace zůstane zablokovaná až do jeho dokončení.
-
-Tréninková data jsou nově oddělená podle přihlášeného účtu. Při synchronizaci se
-lokální a cloudová historie bezpečně sloučí. Po odhlášení se data účtu na obrazovce
-nezobrazují, ale zůstávají uložená v cloudu a v oddělené místní kopii účtu.
+v84 zachovává všechny funkce v83. Změněné jsou pouze cesty k osmi obrázkům,
+offline cache a číslo verze.
