@@ -1,6 +1,13 @@
-GYM TRACKER PRO v82 – USER-FRIENDLY CLEANUP
+GYM TRACKER PRO v83 – ROUTINE IMAGES & CENTERED CATEGORIES
 
-NOVINKY VE v82
+NOVINKY VE v83
+- Hlavní karta sestavy Záda a držení těla má nový schválený obrázek.
+- Všech 7 cviků denní sestavy má vlastní obrázek přímo v kartě.
+- Doorway Chest Stretch je zobrazený s oběma rukama na rámu.
+- Na kartách svalových skupin je velký název nahoře a informační text pod ním.
+- Název i informační text jsou vycentrované.
+
+ZACHOVÁNO Z v82
 - Historie má přehledné záložky Tréninky a Měření.
 - Uložený trénink lze přímo upravit nebo smazat.
 - Váha a pas se zapisují pouze jednou týdně v pondělí.
@@ -19,7 +26,7 @@ NOVINKY VE v82
 3. Potvrď nahrazení souborů.
 4. V GitHub Desktopu zvol Commit to main a potom Push origin.
 
-Po nahrání v82 se další nové verze při otevření aplikace samy zkontrolují.
+Po nahrání v83 se další nové verze při otevření aplikace samy zkontrolují.
 Aplikace zobrazí upozornění s číslem nové verze a tlačítkem Aktualizovat nyní.
 Pokud trénink probíhá, instalace zůstane zablokovaná až do jeho dokončení.
 

@@ -1,4 +1,4 @@
-const VERSION="v82";
+const VERSION="v83";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIX="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/";
@@ -10,6 +10,14 @@ const CORE_ASSETS=[
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png"
+  ,"./posture-images/back-posture-routine.webp"
+  ,"./posture-images/cat-cow.webp"
+  ,"./posture-images/thoracic-rotation.webp"
+  ,"./posture-images/wall-angels.webp"
+  ,"./posture-images/scapular-squeeze.webp"
+  ,"./posture-images/wall-push-up-plus.webp"
+  ,"./posture-images/bird-dog.webp"
+  ,"./posture-images/doorway-chest-stretch.webp"
 ];
 
 self.addEventListener("install",event=>{
