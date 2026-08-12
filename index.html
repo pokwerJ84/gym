@@ -3281,13 +3281,14 @@ body.dark .measurement-waist-badge{
   position:absolute;
   z-index:3;
   left:16px;
-  top:22px;
+  top:50%;
+  transform:translateY(-50%);
   display:grid;
   gap:6px;
   width:56%;
   color:#fff;
-  text-align:center;
-  justify-items:center;
+  text-align:left;
+  justify-items:start;
 }
 .visual-category-copy strong{
   font-size:25px;
@@ -3304,9 +3305,9 @@ body.dark .measurement-waist-badge{
   white-space:nowrap;
 }
 
-/* v83 – title first, centered category copy */
+/* v87 – title first, friendly left-aligned category copy */
 .visual-category-copy strong{order:1}
-.visual-category-copy small{order:2;width:100%}
+.visual-category-copy small{order:2;width:100%;text-align:left}
 .visual-category-arrow{
   position:absolute;
   z-index:3;
@@ -3417,10 +3418,10 @@ body.dark .selected-category-hero{
   }
   .visual-category-copy{
     left:17px;
-    top:20px;
+    top:50%;
     bottom:auto;
-    width:58%;
-    max-width:61%;
+    width:54%;
+    max-width:54%;
   }
   .visual-category-copy strong{
     font-size:22px;
@@ -4125,20 +4126,20 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
 .daily-routine-title small{display:block;color:var(--modern-teal-dark);font-size:8px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
 .daily-routine-title strong{display:block;margin-top:2px;font-size:14px}.daily-routine-title span{display:block;margin-top:3px;color:var(--muted);font-size:9px}
 .daily-routine-chevron{font-size:24px;color:var(--muted);transition:transform .2s ease}.daily-routine-card[open] .daily-routine-chevron{transform:rotate(90deg)}
-.daily-routine-list{display:grid;gap:7px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
-.daily-routine-row{display:grid;grid-template-columns:26px 64px minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px;border-radius:12px;background:var(--surface)}
-.daily-routine-row>b{display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:rgba(32,184,176,.14);color:var(--modern-teal-dark);font-size:10px}
-.daily-routine-thumb{width:64px;height:58px;border-radius:10px;object-fit:cover;object-position:center;background:#061e2b}
-.daily-routine-row strong{display:block;font-size:11px}.daily-routine-row small{display:block;margin-top:2px;color:var(--muted);font-size:8px}
-.daily-routine-row button{width:38px;height:36px;border:0;border-radius:10px;background:var(--surface3);color:var(--primary-dark);font-weight:950}
+.daily-routine-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.daily-routine-row{position:relative;display:flex;min-width:0;flex-direction:column;align-items:stretch;padding:7px;border:1px solid var(--line);border-radius:15px;background:var(--surface);overflow:hidden}
+.daily-routine-row>b{position:absolute;z-index:2;top:12px;left:12px;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:rgba(5,30,43,.82);color:#fff;font-size:11px;box-shadow:0 3px 10px rgba(0,0,0,.22)}
+.daily-routine-thumb{display:block;width:100%;height:auto;aspect-ratio:4/3;border-radius:11px;object-fit:cover;object-position:center;background:#061e2b}
+.daily-routine-row>span{display:flex;min-height:61px;flex-direction:column;padding:8px 3px 6px;text-align:center}
+.daily-routine-row strong{display:block;font-size:11px;line-height:1.22}.daily-routine-row small{display:block;margin-top:4px;color:var(--muted);font-size:8.5px;line-height:1.25}
+.daily-routine-row button{width:100%;min-height:37px;border:0;border-radius:10px;background:var(--surface3);color:var(--primary-dark);font-weight:950}
 .navbtn{font-size:11.5px;min-height:55px}.nav-glyph{font-size:20px}.navbtn b{font-size:11px}
 .compact-hero .hero-meta{margin-top:9px}.compact-hero .workout-hero-top p{display:none}.compact-hero .hero-actions{margin-top:11px}
 @media(max-width:390px){
   .history-workout-card summary{grid-template-columns:74px minmax(0,1fr) auto;padding:11px}
-  .daily-routine-row{grid-template-columns:24px 58px minmax(0,1fr) 36px}
-  .daily-routine-thumb{width:58px;height:54px}
   .history-workout-actions{grid-template-columns:1fr}
 }
+@media(min-width:700px){.daily-routine-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 </style>
 
@@ -4152,7 +4153,7 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v84</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v87</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4412,7 +4413,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=84;
+const VERSION=87;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -5201,7 +5202,27 @@ function activatePlanForDate(day,iso){
  const current=state.days[day]||defaultDay(iso);
  if(current.completed&&current.date!==iso)state.days[day]=defaultDay(iso);
  else state.days[day]={...defaultDay(iso),...current,date:iso};
+ restoreCompletedPlanForDate(day,iso);
  ensureOrder(day);
+}
+function restoreCompletedPlanForDate(day,iso){
+ const workout=(state.workouts||[]).find(item=>item.type!=="cardio"&&item.day===day&&item.date===iso);
+ if(!workout)return;
+ const d=state.days[day];
+ d.completed=true;
+ const records=historyRecordsForWorkout(workout);
+ const instances=[...baseInstances(day),...(d.extras||[])];
+ records.forEach(record=>{
+  const inst=instances.find(item=>item.exerciseId===record.exerciseId||item.recommendedId===record.exerciseId);
+  if(!inst)return;
+  const e=entry(day,inst.instanceId);
+  e.done=true;
+  if(Array.isArray(record.sets))e.sets=record.sets.map(set=>({...set,_complete:true}));
+  if(record.mode==="cardio"){
+   e.minutes=record.minutes||"";
+   e.speed=record.speed||"";
+  }
+ });
 }
 function activeWorkoutDate(){
  if(!state.activeWorkout)return "";
@@ -5498,7 +5519,7 @@ function renderDay(day){
          ?"Nech si rezervu 2 opakování. Váhu spouštěj 2–3 sekundy. Až zvládneš horní hranici opakování ve všech sériích čistě, příště přidej nejmenší možnou váhu."
          :"Keep about 2 reps in reserve. Lower the weight for 2–3 seconds. Once you reach the top of the rep range in every set with clean form, add the smallest available weight next time."}</span>
      </div>
-     <div class="exercise-list-coach">${lang()==="cs"?"Rozbal libovolný cvik a stiskni Začít tento cvik. Můžeš cvičit v jakémkoli pořadí.":"Expand any exercise and tap Start this exercise. You can train in any order."}</div>
+     <div class="exercise-list-coach">${lang()==="cs"?"Klepni na obrázek pro detail, nebo na ▶ Start vpravo pro okamžité spuštění cviku.":"Tap the image for details, or ▶ Start on the right to begin immediately."}</div>
      
      <div class="plan-preview-list" id="todayPreviewList">`;
 
@@ -5534,7 +5555,7 @@ function renderDay(day){
          <span class="exercise-set-status">${statusText}</span>
          ${m.replacementId?`<span class="replacement-note">↪ ${t("temporaryReplacement")}</span>`:m.permanentReplacementId?`<span class="replacement-note">✓ ${t("permanentReplacement")}</span>`:""}
        </div>
-       <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();openVideo('${m.id}')" aria-label="${t("video")}">▶ <span>Video</span></button>
+       <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();startExercise('${day}','${inst.instanceId}')" aria-label="${lang()==="cs"?"Začít cvik":"Start exercise"}">▶ <span>${lang()==="cs"?"Start":"Start"}</span></button>
        <span class="preview-card-chevron"></span>
      </summary>
      <div class="preview-card-body">
@@ -5543,6 +5564,7 @@ function renderDay(day){
        ${mistakes.length?`<div class="preview-info warning"><b>${t("avoid")}:</b> ${mistakes.slice(0,2).map(esc).join(" • ")}</div>`:""}
        <div class="preview-card-actions">
          <button class="preview-start-exercise" type="button" onclick="startExercise('${day}','${inst.instanceId}')">▶ ${done?(lang()==="cs"?"Otevřít hotový cvik":"Open completed exercise"):inProgress?(lang()==="cs"?"Pokračovat v tomto cviku":"Continue this exercise"):(lang()==="cs"?"Začít tento cvik":"Start this exercise")}</button>
+         <button class="smallbtn preview-video-detail-button" type="button" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
          <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
          <button class="smallbtn preview-change-button" type="button" onclick="openLibrary('${day}','replace','${inst.instanceId}')">↔ ${t("changeExercise")}</button>
          ${m.replacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="resetReplacement('${day}','${inst.instanceId}')">${m.permanentReplacementId?t("permanentReplacement"):t("originalExercise")}</button>`:""}

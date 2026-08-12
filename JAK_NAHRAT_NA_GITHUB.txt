@@ -1,11 +1,11 @@
-GYM TRACKER PRO v84 – NAHRÁNÍ Z TELEFONU
+GYM TRACKER PRO v85 – NAHRÁNÍ Z TELEFONU
 
 Tato verze nemá žádné podsložky. Všechny soubory i všech 8 nových obrázků jsou
 v jedné úrovni, aby šly z telefonu označit a nahrát přímo do repository gym.
 
 POSTUP V APLIKACI GITHUB / V PROHLÍŽEČI
 1. Rozbal ZIP v telefonu.
-2. Otevři rozbalenou složku Gym_Tracker_Pro_v84_Phone_Upload_Flat.
+2. Otevři rozbalenou složku Gym_Tracker_Pro_v85_Direct_Start_Date_Checks.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
 4. Nahraj je přímo do hlavní (kořenové) části repository gym.
 5. Potvrď přepsání starých souborů a commitni změny.
@@ -14,7 +14,8 @@ DŮLEŽITÉ
 - V ZIPu není složka posture-images.
 - Obrázky .webp musí být na GitHubu vedle index.html.
 - Názvy obrázků neměň.
-- Starou složku posture-images můžeš v repository ponechat; v84 ji už nepoužívá.
+- Starou složku posture-images můžeš v repository ponechat; v86 ji nepoužívá.
 
-v84 zachovává všechny funkce v83. Změněné jsou pouze cesty k osmi obrázkům,
+v85 zachovává všechny funkce v84. Pravé tlačítko u cviku nyní cvik rovnou spustí,
+kliknutí na obrázek rozbalí detail a zelené fajfky se obnoví podle uloženého data.
 offline cache a číslo verze.
