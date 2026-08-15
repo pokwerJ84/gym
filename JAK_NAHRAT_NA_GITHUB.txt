@@ -14,7 +14,7 @@ DŮLEŽITÉ
 - V ZIPu není složka posture-images.
 - Obrázky .webp musí být na GitHubu vedle index.html.
 - Názvy obrázků neměň.
-- Starou složku posture-images můžeš v repository ponechat; v86 ji nepoužívá.
+- Starou složku posture-images můžeš v repository ponechat; v88 ji nepoužívá.
 
 v85 zachovává všechny funkce v84. Pravé tlačítko u cviku nyní cvik rovnou spustí,
 kliknutí na obrázek rozbalí detail a zelené fajfky se obnoví podle uloženého data.

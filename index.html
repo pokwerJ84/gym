@@ -17,10 +17,12 @@
   --muted:#5F7A8A;
   --line:#CFE0E6;
   --primary:#20B8B0;
+  --primary2:#087F7A;
   --primary-dark:#123047;
   --good:#2BAE72;
   --warn:#E89B3C;
   --danger:#D55454;
+  --bad:#D55454;
   --shadow:0 10px 30px rgba(18,48,71,.10);
 }
 body.dark{
@@ -32,10 +34,12 @@ body.dark{
   --muted:#9DB8C5;
   --line:#234757;
   --primary:#20B8B0;
+  --primary2:#087F7A;
   --primary-dark:#EAF7FA;
   --good:#31C07C;
   --warn:#F2AA49;
   --danger:#F06A6A;
+  --bad:#F06A6A;
   --shadow:0 12px 34px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
@@ -1497,6 +1501,13 @@ body.dark .top-pick-badge{
   background:#123047!important;
   color:#fff!important;
 }
+/* v88 – card tap opens a focused detail; no inline expansion */
+.exercise-detail-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.exercise-detail-actions .detail-start{grid-column:1/-1;min-height:58px;background:var(--modern-teal);color:#fff;border:0;font-size:17px;font-weight:950}
+.exercise-detail-actions .detail-video,.exercise-detail-actions .detail-history,.exercise-detail-actions .detail-change{display:grid;place-items:center;min-height:50px;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);color:var(--text);text-align:center;text-decoration:none;font-weight:900}
+.exercise-detail-actions .detail-change{grid-column:1/-1}
+.modern-exercise-card .preview-card-chevron{transform:rotate(-45deg);margin:0}
+@media(max-width:390px){.exercise-detail-actions{grid-template-columns:1fr}.exercise-detail-actions .detail-start,.exercise-detail-actions .detail-change{grid-column:auto}}
 .preview-reset-button{
   background:transparent!important;
 }
@@ -1949,13 +1960,18 @@ body.dark nav{
   font-size:17px;
 }
 .modern-exercise-card.exercise-done{
-  border-color:rgba(43,174,114,.38);
-  background:rgba(43,174,114,.04);
+  border-color:#2BAE72;
+  background:linear-gradient(135deg,rgba(43,174,114,.24),rgba(43,174,114,.11));
+  box-shadow:0 8px 22px rgba(43,174,114,.13);
 }
 .modern-exercise-card.exercise-done .preview-card-number{
   background:var(--good);
   color:#fff;
 }
+.modern-exercise-card.exercise-done summary{background:transparent}
+.modern-exercise-card.exercise-done .preview-card-main>strong{color:#17653f}
+body.dark .modern-exercise-card.exercise-done{border-color:#3FD18C;background:linear-gradient(135deg,rgba(43,174,114,.35),rgba(43,174,114,.16))}
+body.dark .modern-exercise-card.exercise-done .preview-card-main>strong{color:#C9F7DF}
 .preview-video-button{
   min-width:66px;
   width:auto;
@@ -2132,32 +2148,21 @@ body.dark nav{
   background:#F1F6F8;
 }
 .modern-set-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
+  display:block;
+  text-align:center;
   margin-bottom:10px;
 }
 .modern-set-heading span{
   color:#0B8E88;
-  font-size:9px;
+  font-size:18px;
   font-weight:950;
   text-transform:uppercase;
 }
 .modern-set-heading h3{
-  margin:2px 0 0;
+  margin:5px 0 0;
   color:#173E58;
-  font-size:16px;
-}
-.set-progress-pill{
-  display:grid;
-  place-items:center;
-  min-width:44px;
-  height:34px;
-  padding:0 9px;
-  border-radius:999px;
-  background:#173E58;
-  color:#fff!important;
+  font-size:17px;
+  text-align:center;
 }
 .modern-live-inputs{
   gap:9px;
@@ -2256,6 +2261,8 @@ body.dark .saved-set-actions .delete-set-btn{background:#3A1C1C;color:#FFB4AC}
   border-radius:22px;
   background:rgba(7,25,35,.96);
 }
+.live-nav .live-change-exercise{grid-column:1 / -1;min-height:42px;border:1px solid rgba(32,184,176,.5);background:#12384b;color:#fff}
+.remove-check-button{justify-self:start;width:auto!important;min-height:30px!important;padding:5px 11px!important;border-color:rgba(11,142,136,.28)!important;background:transparent!important;color:var(--muted)!important;font-size:9px!important;opacity:.72}
 
 /* LIBRARY */
 .modern-library{display:grid;gap:14px}
@@ -4141,6 +4148,24 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
 }
 @media(min-width:700px){.daily-routine-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
+/* v90 – reliability, accessibility and calmer workout UI */
+.primary{background:#087F7A;color:#fff;border-color:#087F7A}
+.modern-complete-set,.hero-start{background:#20B8B0!important;color:#102F46!important}
+.live-shell{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+.live-nav{grid-template-columns:1fr 1fr;padding:7px}
+.modern-live-change{display:inline-flex;align-items:center;width:auto;margin-top:7px;padding:6px 9px;border:1px solid #B8D9DD;border-radius:10px;background:#EFF7F7;color:#102F46;font-size:11px;font-weight:900}
+body.dark .modern-live-change{border-color:#35505d;background:#123047;color:#EAF7FA}
+.live-round-metrics{grid-template-columns:1fr 1fr}
+.live-round-metrics div:nth-child(3){display:none}
+.modern-live-title span,.live-round-metrics span,.live-input-label{font-size:11px}
+.modern-live-title p,.modern-previous,.exercise-set-status,.preview-card-main small{font-size:12px}
+.saved-sets-empty,.modern-saved-sets .saved-set-row button{font-size:11px}
+.modern-recommendation p,.daily-routine-title span,.daily-routine-row small{font-size:10px}
+.modern-live-set{border:0;box-shadow:none}
+.modern-saved-sets{border-color:color-mix(in srgb,var(--line) 72%,transparent)}
+.app-generic-toast{font-size:13px;font-weight:900}
+@media(max-width:430px){.modern-live-hero{grid-template-columns:48px minmax(0,1fr) auto}.modern-live-title h2{font-size:21px}.live-nav button{min-height:50px}}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4153,7 +4178,7 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v87</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v90</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4230,7 +4255,7 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
 </div>
 
 <dialog id="libraryDialog"><div class="modal wide">
-  <button class="iconbtn close" onclick="libraryDialog.close()">✕</button>
+  <button class="iconbtn close" onclick="closeLibraryDialog()">✕</button>
   <h2 id="libraryTitle" style="margin:3px 0 0"></h2>
   <p class="subtitle" id="librarySubtitle"></p>
   <div id="libraryRecommendation"></div>
@@ -4282,7 +4307,7 @@ body.dark .live-round-metrics div+div{border-left-color:#35505d}
     <p id="videoGuideHint"></p>
   </div>
   <div id="videoTips"></div>
-  <p class="video-external-action"><a id="videoLink" class="primary" target="_blank" rel="noopener"></a></p>
+  <div id="exerciseDetailActions" class="exercise-detail-actions"></div>
 </div></dialog>
 
 <dialog id="historyDialog"><div class="modal">
@@ -4388,6 +4413,10 @@ LIBRARY.filter(item=>item.dailyRoutine).forEach(item=>{
  }
 });
 
+const ORIGINAL_GUIDE_VARIANTS={
+ leg_press:{...LIBRARY.find(item=>item.id==="leg_press"),id:"leg_press_illustrated",cs:"Leg press – ilustrovaný",en:"Leg Press – Illustrated",topPick:false},
+ torso_rotation_machine:{...LIBRARY.find(item=>item.id==="torso_rotation_machine"),id:"torso_rotation_illustrated",cs:"Rotace trupu – ilustrovaná varianta",en:"Torso Rotation – Illustrated",topPick:false}
+};
 const PLAN_EXERCISE_UPDATES={
  bench_press:{
   cs:"Bench press na Multipressu",en:"Smith Machine Bench Press",rest:150,
@@ -4402,18 +4431,31 @@ const PLAN_EXERCISE_UPDATES={
  treadmill:{
   tips:{cs:["Začni 4,5–5,5 km/h a sklonem 3–6 %","Intenzitu drž podle testu mluvení","Na konci postupně zpomal"],en:["Start at 4.5–5.5 km/h and 3–6% incline","Use the talk test to control intensity","Slow down gradually at the end"]},
   mistakes:{cs:["Držení madel","Sklon příliš vysoký na úkor postoje","Náhlé zastavení"],en:["Holding the rails","Using an incline that ruins posture","Stopping suddenly"]}
+ },
+ leg_press:{
+  cs:"Nautilus Hack Squat",en:"Nautilus Hack Squat",category:"quads",mode:"weight",sets:3,range:"8–12",rest:120,topPick:true,
+  guideImage:"nautilus-hack-squat.webp",guideThumb:"nautilus-hack-squat.webp",guideExact:true,
+  tips:{cs:["Ramena a záda opři pevně o podložky","Chodidla polož celou plochou na platformu","Spouštěj saně kontrolovaně a kolena veď ve směru špiček"],en:["Keep your shoulders and back firmly against the pads","Place your whole feet on the platform","Lower under control and track the knees over the toes"]},
+  mistakes:{cs:["Odlepování pat od platformy","Propnutí kolen do zámku","Příliš hluboký pohyb se zvedáním pánve"],en:["Lifting the heels","Locking out the knees","Going so deep that the hips lift"]}
+ },
+ torso_rotation_machine:{
+  cs:"Nautilus Nitro EVO Rotary Torso",en:"Nautilus Nitro EVO Rotary Torso",category:"core",mode:"sideweight",sets:3,range:"10–15 / strana",rest:60,topPick:true,
+  guideImage:"nautilus-rotary-torso.webp",guideThumb:"nautilus-rotary-torso.webp",guideExact:true,
+  tips:{cs:["Sedni bokem a opři hrudník o horní podložku","Pánev drž pevně mezi sedákem a spodní opěrkou","Rotuj trup plynule a návrat brzdi"],en:["Sit sideways with your chest against the upper pad","Keep the pelvis fixed between the seat and lower pad","Rotate smoothly and control the return"]},
+  mistakes:{cs:["Otáčení pánve spolu s trupem","Švihání do krajní polohy","Příliš těžká váha a zkrácený rozsah"],en:["Turning the pelvis with the torso","Swinging into the end position","Using too much weight and shortening the range"]}
  }
 };
 for(const [id,updates] of Object.entries(PLAN_EXERCISE_UPDATES)){
  const exercise=LIBRARY.find(item=>item.id===id);
  if(exercise)Object.assign(exercise,updates);
 }
+LIBRARY.push(ORIGINAL_GUIDE_VARIANTS.leg_press,ORIGINAL_GUIDE_VARIANTS.torso_rotation_machine);
 const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Základní síla + triceps a břicho","sub_en":"Base strength + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Kontrolované stroje + biceps a core","sub_en":"Controlled machines + biceps and core","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12 / strana"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Bezpečný zadní řetězec + lýtka a břicho","sub_en":"Safe posterior chain + calves and abs","items":[{"id":"back_extension","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=87;
+const VERSION=90;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -4734,7 +4776,7 @@ function saveMondayMeasurement(day){
 function formatMondayDate(value){return formatMeasurementDate(value)}
 
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
-let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null;
+let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null,returnToLiveAfterLibrary=false,completingLiveSet=false;
 let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
 let audioContext=null,lastRestBeepSecond=null,postRestAlarmTimeout=null,postRestAlarmBeepsRemaining=0;
 const activeAlarmOscillators=new Set();
@@ -5152,7 +5194,6 @@ function estimateWorkoutMinutes(day,instances){
  return Math.max(25,Math.round(seconds/300)*5);
 }
 function completedWorkoutsThisWeek(){
- if(!cloudUser)return 0;
  const monday=weekStart(today());
  const sunday=uiAddDays(monday,6);
  return (state.workouts||[]).filter(w=>w.type!=="cardio"&&w.date>=monday&&w.date<=sunday).length;
@@ -5166,10 +5207,9 @@ function localizedMonthRange(startIso,endIso){
  return `${f.format(uiDateFromIso(startIso))} – ${f.format(uiDateFromIso(endIso))}`;
 }
 function isPlannedStrengthDate(iso){return [1,3,5].includes(uiDateFromIso(iso).getDay())}
-function completedWorkoutOnDate(iso){return !!cloudUser&&(state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
-function cardioWorkoutOnDate(iso){return !!cloudUser&&(state.workouts||[]).some(w=>w.type==="cardio"&&w.date===iso)}
+function completedWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type!=="cardio"&&w.date===iso)}
+function cardioWorkoutOnDate(iso){return (state.workouts||[]).some(w=>w.type==="cardio"&&w.date===iso)}
 function undoCompletedWorkout(iso){
- if(!cloudUser)return;
  const matches=(state.workouts||[]).map((w,index)=>({w,index})).filter(x=>x.w.type!=="cardio"&&x.w.date===iso);
  if(!matches.length)return;
  const target=matches.sort((a,b)=>(b.w.savedAt||0)-(a.w.savedAt||0))[0];
@@ -5462,7 +5502,7 @@ function renderDay(day){
        <h3>${lang()==="cs"?"Tento den je označený jako hotový":"This day is marked complete"}</h3>
        <p>${lang()==="cs"?"Pokud byla fajfka vytvořena omylem, můžeš ji bezpečně zrušit.":"If the check was added by mistake, you can safely remove it."}</p>
      </div>
-     <button type="button" class="danger" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit fajfku":"Remove check"}</button>
+     <button type="button" class="danger remove-check-button" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit fajfku":"Remove check"}</button>
    </section>`:""}
 
    ${!isPlannedStrengthDate(selectedWorkoutDate)?`<section class="flex-day-card">
@@ -5535,16 +5575,17 @@ function renderDay(day){
    const tips=m.tips?.[lang()]||m.tips?.en||[];
    const mistakes=m.mistakes?.[lang()]||m.mistakes?.en||[];
    const exerciseEntry=entry(day,inst.instanceId);
-   const done=exerciseEntry.done;
    const targetSets=m.mode==="cardio"?1:Number(m.sets)||1;
-   const completedSets=m.mode==="cardio"?(done?1:0):(exerciseEntry.sets||[]).filter(set=>set?._complete===true).length;
+   const completedSets=m.mode==="cardio"?(exerciseEntry.done?1:0):(exerciseEntry.sets||[]).slice(0,targetSets).filter(set=>set?._complete===true).length;
+   const done=exerciseEntry.done||completedSets>=targetSets;
+   if(done&&!exerciseEntry.done)exerciseEntry.done=true;
    const inProgress=!done&&completedSets>0;
    const statusText=done
      ?(lang()==="cs"?"✓ Hotovo":"✓ Complete")
      :`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
 
    html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":inProgress?"exercise-in-progress":""}">
-     <summary>
+     <summary onclick="event.preventDefault();openExerciseDetail('${day}','${inst.instanceId}')">
        <span class="preview-card-number">${done?"✓":index+1}</span>
        ${m.guideThumb
   ?`<img class="exercise-guide-thumb" src="${m.guideThumb}" alt="" loading="lazy">`
@@ -5558,19 +5599,6 @@ function renderDay(day){
        <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();startExercise('${day}','${inst.instanceId}')" aria-label="${lang()==="cs"?"Začít cvik":"Start exercise"}">▶ <span>${lang()==="cs"?"Start":"Start"}</span></button>
        <span class="preview-card-chevron"></span>
      </summary>
-     <div class="preview-card-body">
-       ${last?`<div class="preview-last"><b>${t("previous")}:</b> ${esc(formatRecord(last))}</div>`:""}
-       ${tips.length?`<div class="preview-info"><b>${t("tips")}:</b> ${tips.slice(0,2).map(esc).join(" • ")}</div>`:""}
-       ${mistakes.length?`<div class="preview-info warning"><b>${t("avoid")}:</b> ${mistakes.slice(0,2).map(esc).join(" • ")}</div>`:""}
-       <div class="preview-card-actions">
-         <button class="preview-start-exercise" type="button" onclick="startExercise('${day}','${inst.instanceId}')">▶ ${done?(lang()==="cs"?"Otevřít hotový cvik":"Open completed exercise"):inProgress?(lang()==="cs"?"Pokračovat v tomto cviku":"Continue this exercise"):(lang()==="cs"?"Začít tento cvik":"Start this exercise")}</button>
-         <button class="smallbtn preview-video-detail-button" type="button" onclick="openVideo('${m.id}')">▶ ${t("video")}</button>
-         <button class="smallbtn preview-history-button" type="button" onclick="openHistory('${m.id}')">${t("history")}</button>
-         <button class="smallbtn preview-change-button" type="button" onclick="openLibrary('${day}','replace','${inst.instanceId}')">↔ ${t("changeExercise")}</button>
-         ${m.replacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="resetReplacement('${day}','${inst.instanceId}')">${m.permanentReplacementId?t("permanentReplacement"):t("originalExercise")}</button>`:""}
-         ${!m.replacementId&&m.permanentReplacementId?`<button class="smallbtn preview-reset-button" type="button" onclick="restoreRecommendedExercise('${day}','${inst.instanceId}')">${t("restoreRecommended")}</button>`:""}
-       </div>
-     </div>
    </details>`;
  });
 
@@ -5611,8 +5639,13 @@ function openReplacementScope(day,id,exerciseId){
  const inst=dayInstances(day).find(x=>x.instanceId===id),next=EX[exerciseId];
  if(!inst||!next)return;
  const e=entry(day,id),has=(e.sets||[]).some(s=>Object.values(s).some(Boolean))||e.minutes||e.speed;
- if(has&&!confirm(t("replaceDataConfirm")))return;
- pendingReplacement={day,id,exerciseId,allowPermanent:!inst.added,recommendedId:inst.recommendedId||inst.exerciseId};
+ const current=metaFor(day,inst),compatible=current.mode===next.mode;
+ let preserveData=false;
+ if(has&&compatible){
+  preserveData=confirm(lang()==="cs"?"U tohoto cviku už máš zapsaná data.\n\nOK = zachovat kompatibilní série\nZrušit = vybrat možnost jejich smazání":"This exercise already has entered data.\n\nOK = keep compatible sets\nCancel = choose whether to delete them");
+  if(!preserveData&&!confirm(t("replaceDataConfirm")))return;
+ }else if(has&&!confirm(t("replaceDataConfirm")))return;
+ pendingReplacement={day,id,exerciseId,allowPermanent:!inst.added,recommendedId:inst.recommendedId||inst.exerciseId,preserveData};
  if(libraryDialog.open)libraryDialog.close();
  replacementScopeTitle.textContent=t("replacementScopeTitle");
  replacementScopeText.textContent=`${t("replacementScopeText")} ${itemName(next)}`;
@@ -5623,19 +5656,22 @@ function openReplacementScope(day,id,exerciseId){
  replacementPermanentBtn.hidden=!pendingReplacement.allowPermanent;
  replacementScopeDialog.showModal();
 }
-function closeReplacementScope(){pendingReplacement=null;if(replacementScopeDialog.open)replacementScopeDialog.close()}
+function closeReplacementScope(){pendingReplacement=null;if(replacementScopeDialog.open)replacementScopeDialog.close();resumeLiveAfterReplacement()}
 function applyReplacementChoice(scope){
  const choice=pendingReplacement;if(!choice)return;
  const {day,id,exerciseId,recommendedId}=choice,e=entry(day,id);
- clearExerciseEntry(e);
+ if(!choice.preserveData)clearExerciseEntry(e);
  if(scope==="permanent"&&choice.allowPermanent){
   state.planReplacements=state.planReplacements||defaultPlanReplacements();
   state.planReplacements[day]=state.planReplacements[day]||{};
   state.planReplacements[day][recommendedId]=exerciseId;
   e.replacementId="";
  }else e.replacementId=exerciseId;
- closeReplacementScope();saveState();renderDay(day);
+ pendingReplacement=null;if(replacementScopeDialog.open)replacementScopeDialog.close();
+ if(choice.preserveData){const next=EX[exerciseId];e.done=next.mode==="cardio"?!!e.minutes:(e.sets||[]).slice(0,Number(next.sets)||1).filter(set=>set?._complete===true).length>=(Number(next.sets)||1)}
+ saveState();renderDay(day);
  showToast(scope==="permanent"?t("replacementSavedPermanent"):t("replacementSavedToday"));
+ resumeLiveAfterReplacement();
 }
 function restoreRecommendedExercise(day,id){
  const inst=dayInstances(day).find(x=>x.instanceId===id);if(!inst||inst.added)return;
@@ -5808,7 +5844,7 @@ function applyLanguage(){
  navToday.textContent=t("todayNav");navHistory.textContent=t("historyNav");navDatabase.textContent=t("database");navMore.textContent=t("moreNav");
  resumeBtn.textContent=t("resume");liveLabel.textContent=t("workout");liveFinishBtn.textContent=t("finish");prevBtn.textContent=t("prevExercise");nextBtn.textContent=t("nextExercise");
  restLabel.textContent=t("rest");restReturnBtn.textContent=t("backWorkout");restSkipBtn.textContent=t("skipRest");
- librarySearch.placeholder=t("search");videoLink.textContent=t("videoOpen");
+ librarySearch.placeholder=t("search");
  finishTitle.textContent=t("workoutDone");finishNoteLabel.textContent=t("workoutNote");finishSaveBtn.textContent=t("saveFinish");finishDeleteBtn.textContent=t("deleteWorkout");
  cloudTitle.textContent=t("cloud");cloudIntro.textContent=t("cloudIntro");passwordLabel.textContent=t("password");signInBtn.textContent=t("signIn");signUpBtn.textContent=t("signUp");signedAsLabel.textContent=t("signedAs");syncBtn.textContent=t("sync");signOutBtn.textContent=t("signOut");
  retroSaveBtn.textContent=t("saveSet");updateCloudUI();
@@ -5918,6 +5954,15 @@ function openLibrary(day,mode="add",instanceId=null){
  librarySubtitle.textContent=mode==="replace"&&current?`${t("replacementFor")}: ${itemName(current)}. ${t("replaceSub")}`:mode==="replace"?t("replaceSub"):t("librarySub");
  renderLibrary();
  libraryDialog.showModal();
+}
+function closeLibraryDialog(){
+ if(libraryDialog.open)libraryDialog.close();
+ if(returnToLiveAfterLibrary)resumeLiveAfterReplacement();
+}
+function resumeLiveAfterReplacement(){
+ if(!returnToLiveAfterLibrary||!state.activeWorkout)return;
+ returnToLiveAfterLibrary=false;
+ setTimeout(()=>{openLiveWorkout();renderLive();startWorkoutTicker()},80);
 }
 function renderLibrary(){
  const q=normalizeName(librarySearch.value);
@@ -6064,7 +6109,26 @@ function prefetchPlanImages(day,instances){
  }
 }
 
-function openVideo(exerciseId){
+function renderExerciseDetailActions(exerciseId,day="",instanceId=""){
+ const x=EX[exerciseId];
+ const wrap=document.getElementById("exerciseDetailActions");
+ if(!x||!wrap)return;
+ const videoUrl=x.videoUrl||("https://www.youtube.com/results?search_query="+encodeURIComponent(x.en+" proper form tutorial"));
+ if(day&&instanceId){
+   wrap.innerHTML=`<button class="detail-start" type="button" onclick="videoDialog.close();startExercise('${day}','${instanceId}')">▶ ${lang()==="cs"?"Začít cvik":"Start workout"}</button>
+     <a class="detail-video" href="${esc(videoUrl)}" target="_blank" rel="noopener">▶ ${lang()==="cs"?"Zobrazit video":"See video"}</a>
+     <button class="detail-history" type="button" onclick="videoDialog.close();openHistory('${exerciseId}')">${t("history")}</button>
+     <button class="detail-change" type="button" onclick="videoDialog.close();openLibrary('${day}','replace','${instanceId}')">↔ ${t("changeExercise")}</button>`;
+ }else{
+   wrap.innerHTML=`<a class="detail-video" style="grid-column:1/-1" href="${esc(videoUrl)}" target="_blank" rel="noopener">▶ ${x.guideImage?(lang()==="cs"?"Najít také video":"Find a video too"):t("videoOpen")}</a>`;
+ }
+}
+function openExerciseDetail(day,instanceId){
+ const inst=instances(day).find(item=>item.instanceId===instanceId);
+ if(!inst)return;
+ openVideo(metaFor(day,inst).id,day,instanceId);
+}
+function openVideo(exerciseId,day="",instanceId=""){
  const x=EX[exerciseId];
  if(!x)return;
 
@@ -6101,10 +6165,7 @@ function openVideo(exerciseId){
    guideWrap.classList.remove("expanded");
  }
 
- videoLink.href=x.videoUrl||("https://www.youtube.com/results?search_query="+encodeURIComponent(x.en+" proper form tutorial"));
- videoLink.textContent=x.guideImage
-   ?(lang()==="cs"?"Najít také video":"Find a video too")
-   :t("videoOpen");
+ renderExerciseDetailActions(exerciseId,day,instanceId);
 
  videoDialog.showModal();
 }
@@ -6240,6 +6301,14 @@ function backToExerciseList(message=false){
   openExercisePlan(day);
   if(message)showToast(lang()==="cs"?"Vyber další cvik ze seznamu.":"Choose another exercise from the list.");
  },80);
+}
+function changeCurrentLiveExercise(){
+ if(!state.activeWorkout)return;
+ const inst=currentLive();
+ if(!inst)return;
+ returnToLiveAfterLibrary=true;
+ minimizeLive();
+ openLibrary(state.activeWorkout.day,"replace",inst.instanceId);
 }
 function startWorkoutTicker(){clearInterval(workoutTick);workoutTick=setInterval(updateWorkoutTimes,500);updateWorkoutTimes()}
 function updateWorkoutTimes(){
@@ -6492,7 +6561,7 @@ function renderLive(){
   const remaining=arr.filter(item=>item.instanceId!==inst.instanceId&&!entry(day,item.instanceId).done);
   liveContent.innerHTML=`<div class="modern-live-hero">
     <div class="modern-live-glyph">${categoryGlyph(m.category)}</div>
-    <div class="modern-live-title"><span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p></div>
+    <div class="modern-live-title"><span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p><button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button></div>
     <button class="compact-video-btn modern-video-btn" onclick="openVideo('${m.id}')">▶ Video</button>
    </div>
    <div class="exercise-complete-panel">
@@ -6556,6 +6625,7 @@ function renderLive(){
      <span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span>
      <h2>${esc(itemName(m))}</h2>
      <p>${targetText(m)}</p>
+     <button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button>
    </div>
    <button class="compact-video-btn modern-video-btn" onclick="openVideo('${m.id}')">▶ Video</button>
  </div>
@@ -6577,7 +6647,6 @@ function renderLive(){
  <div class="modern-live-set">
    <div class="modern-set-heading">
      <div><span>${m.mode==="cardio"?t("cardioWorkout"):`${t("set")} ${idx+1}`}</span><h3>${lang()==="cs"?"Zapiš výkon":"Log your performance"}</h3></div>
-     <span class="set-progress-pill">${completedSets}/${m.mode==="cardio"?1:m.sets}</span>
    </div>
    ${inputs}
    <button class="live-done modern-complete-set" onclick="completeLiveSet('${inst.instanceId}',${idx})">✓ ${m.mode==="cardio"?t("saveCardio"):isFinalSet?(lang()==="cs"?"Dokončit cvik":"Finish exercise"):t("doneRest")}</button>
@@ -6600,24 +6669,27 @@ function renderLive(){
  updateWorkoutTimes();
 }
 function completeLiveSet(instanceId,index){
+ if(completingLiveSet)return;
+ completingLiveSet=true;
  prepareTimerAudio();
  const day=state.activeWorkout.day,inst=activeInstances().find(x=>x.instanceId===instanceId),m=metaFor(day,inst),e=entry(day,instanceId),previousSet=structuredClone(e.sets?.[index]||{}),s={};
- if(m.mode==="weight"){s.kg=liveKg.value.trim();s.reps=liveReps.value.trim();if(!s.kg||!s.reps)return alert(t("enterBoth"))}
- if(m.mode==="reps"){s.reps=liveReps.value.trim();if(!s.reps)return alert(t("enterReps"))}
- if(m.mode==="time"){s.seconds=liveSeconds.value.trim();if(!s.seconds)return alert(t("enterSeconds"))}
- if(m.mode==="sideweight"){s.kg=liveKg.value.trim();s.left=liveLeft.value.trim();s.right=liveRight.value.trim();if(!s.kg||!s.left||!s.right)return alert(t("enterSides"))}
- if(m.mode==="sidetime"){s.leftSeconds=liveLeftSeconds.value.trim();s.rightSeconds=liveRightSeconds.value.trim();if(!s.leftSeconds||!s.rightSeconds)return alert(t("enterSides"))}
+ const invalid=message=>{completingLiveSet=false;alert(message);return false};
+ if(m.mode==="weight"){s.kg=liveKg.value.trim();s.reps=liveReps.value.trim();if(!s.kg||!s.reps)return invalid(t("enterBoth"))}
+ if(m.mode==="reps"){s.reps=liveReps.value.trim();if(!s.reps)return invalid(t("enterReps"))}
+ if(m.mode==="time"){s.seconds=liveSeconds.value.trim();if(!s.seconds)return invalid(t("enterSeconds"))}
+ if(m.mode==="sideweight"){s.kg=liveKg.value.trim();s.left=liveLeft.value.trim();s.right=liveRight.value.trim();if(!s.kg||!s.left||!s.right)return invalid(t("enterSides"))}
+ if(m.mode==="sidetime"){s.leftSeconds=liveLeftSeconds.value.trim();s.rightSeconds=liveRightSeconds.value.trim();if(!s.leftSeconds||!s.rightSeconds)return invalid(t("enterSides"))}
  if(m.mode==="cardio"){
   e.minutes=liveMinutes.value.trim();
   e.speed=m.id==="treadmill"?"":(document.getElementById("liveSpeed")?.value||"").trim();
   e.incline="";
-  if(!e.minutes)return alert(t("enterCardio"));
-  e.done=true;saveState();renderLive();return;
+  if(!e.minutes)return invalid(t("enterCardio"));
+  e.done=true;saveState();createLocalSafetyBackup("cardio-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Kardio uloženo ✓":"Cardio saved ✓");completingLiveSet=false;renderLive();return;
  }
  e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;
  const complete=e.sets.slice(0,m.sets).filter(x=>x?._complete===true).length>=m.sets;
  if(complete)e.done=true;
- saveState();renderLive();showUndoToast();
+ saveState();createLocalSafetyBackup("set-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Série uložena ✓":"Set saved ✓");completingLiveSet=false;renderLive();showUndoToast();
  if(!complete)startRest(m.rest,itemName(m),index+1);
 }
 function advanceAfterExercise(){const arr=activeInstances(),w=state.activeWorkout;if(w.position<arr.length-1)w.position++}

@@ -1,4 +1,4 @@
-const VERSION="v87";
+const VERSION="v90";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIX="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/";
@@ -18,6 +18,8 @@ const CORE_ASSETS=[
   ,"./wall-push-up-plus.webp"
   ,"./bird-dog.webp"
   ,"./doorway-chest-stretch.webp"
+  ,"./nautilus-hack-squat.webp"
+  ,"./nautilus-rotary-torso.webp"
 ];
 
 self.addEventListener("install",event=>{
