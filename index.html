@@ -4166,6 +4166,38 @@ body.dark .modern-live-change{border-color:#35505d;background:#123047;color:#EAF
 .app-generic-toast{font-size:13px;font-weight:900}
 @media(max-width:430px){.modern-live-hero{grid-template-columns:48px minmax(0,1fr) auto}.modern-live-title h2{font-size:21px}.live-nav button{min-height:50px}}
 
+/* v91 – date swiping and clearer workout controls */
+.modern-week-strip{touch-action:pan-y;will-change:transform,opacity}
+.modern-week-strip.schedule-swipe-next{animation:scheduleSwipeNext .18s ease-out both}
+.modern-week-strip.schedule-swipe-previous{animation:scheduleSwipePrevious .18s ease-out both}
+@keyframes scheduleSwipeNext{to{transform:translateX(-18px);opacity:.28}}
+@keyframes scheduleSwipePrevious{to{transform:translateX(18px);opacity:.28}}
+.rest-actions{grid-template-columns:1fr}
+.rest-actions button:first-child,.rest-actions button:last-child{background:#fff;color:#075f96}
+.modern-live-hero{grid-template-columns:58px minmax(0,1fr)}
+.modern-live-title{min-width:0}
+.modern-saved-sets .saved-set-number{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+  text-align:center!important;
+  line-height:1!important;
+  font-variant-numeric:tabular-nums;
+}
+@media(max-width:430px){.modern-live-hero{grid-template-columns:48px minmax(0,1fr)}}
+
+/* v92 – exercise details open from the whole card */
+.modern-exercise-card summary{grid-template-columns:31px 64px minmax(0,1fr) 13px}
+.clickable-exercise-card,.daily-routine-row{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.clickable-exercise-card:focus-visible,.daily-routine-row:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.clickable-exercise-card:hover,.daily-routine-row:hover{border-color:var(--primary);transform:translateY(-1px)}
+.clickable-exercise-card,.daily-routine-row{transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+.history-exercise-guide{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-height:38px;margin-top:10px;padding:8px 10px;border:1px solid var(--line);border-radius:11px;background:var(--surface3);color:var(--primary-dark);font-size:10px;font-weight:950}
+body.dark .history-exercise-guide{color:var(--text)}
+@media(max-width:430px){.modern-exercise-card summary{grid-template-columns:27px 76px minmax(0,1fr) 11px}}
+@media(max-width:360px){.modern-exercise-card summary{grid-template-columns:25px 68px minmax(0,1fr) 10px}}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4178,7 +4210,7 @@ body.dark .modern-live-change{border-color:#35505d;background:#123047;color:#EAF
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v90</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v92</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4248,8 +4280,7 @@ body.dark .modern-live-change{border-color:#35505d;background:#123047;color:#EAF
     <h2 id="restExercise"></h2>
     <div class="rest-time" id="restTime">01:30</div>
     <div class="rest-actions">
-      <button onclick="returnFromRest()" id="restReturnBtn"></button>
-      <button onclick="skipRest()" id="restSkipBtn"></button>
+      <button onclick="skipRest()" id="restReturnBtn"></button>
     </div>
   </div></div>
 </div>
@@ -4455,7 +4486,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=90;
+const VERSION=92;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v58";
@@ -4959,7 +4990,7 @@ function renderDatabase(){
    <section class="library-results visual-library-results">
      ${Object.keys(groups).length?Object.entries(groups).map(([category,items])=>`<div class="library-group modern-library-group visual-results-group">
        ${cat==="all"||q?`<h4>${categoryName(category)} <span>${items.length}</span></h4>`:""}
-       <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item ${x.topPick?"top-pick-item":""}">
+       <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item clickable-exercise-card ${x.topPick?"top-pick-item":""}" role="button" tabindex="0" onclick="openVideo('${x.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${x.id}')}">
          ${x.guideThumb
   ?`<img class="database-guide-thumb" src="${x.guideThumb}" alt="" loading="lazy">`
   :`<div class="database-glyph">${categoryGlyph(x.category)}</div>`}
@@ -4976,10 +5007,7 @@ function renderDatabase(){
              <span>${categoryName(x.category)}</span>
            </div>
          </div>
-         <div class="database-actions">
-           <button class="video-row-btn" onclick="openVideo('${x.id}')" aria-label="${lang()==="cs"?"Otevřít návod":"Open guide"}">▶</button>
-           ${x.custom?`<button class="danger" onclick="deleteCustomExercise('${x.id}')">✕</button>`:""}
-         </div>
+         ${x.custom?`<div class="database-actions"><button class="danger" onclick="event.stopPropagation();deleteCustomExercise('${x.id}')" aria-label="${lang()==="cs"?"Smazat vlastní cvik":"Delete custom exercise"}">✕</button></div>`:""}
        </article>`).join("")}</div>
      </div>`).join(""):`<div class="card empty">${t("noResults")}</div>`}
    </section>`}
@@ -5180,6 +5208,10 @@ function categoryGlyph(category){
  };
  return map[category]||"•";
 }
+function livePlanLabel(day){
+ const title=BASE_PLANS[day]?.["title_"+lang()]||BASE_PLANS[day]?.title_en||"";
+ return String(title).replace(/^[^\p{L}\p{N}]+/u,"").trim();
+}
 function estimateWorkoutMinutes(day,instances){
  let seconds=0;
  instances.forEach(inst=>{
@@ -5280,10 +5312,40 @@ function selectScheduleDate(iso){
  }
  selectedWorkoutDate=iso;
  localStorage.setItem("gymSelectedWorkoutDate",iso);
- showToday(state.activeWorkout?.day||recommendedDay(),iso);
+ showToday(state.activeWorkout?.day||trainingDayForIso(iso)||recommendedDay(),iso);
 }
 function changeScheduleWeek(offset){selectScheduleDate(uiAddDays(selectedWorkoutDate||today(),offset*7))}
 function goToTodayDate(){selectScheduleDate(today())}
+let scheduleSwipeStartX=0,scheduleSwipeStartY=0,scheduleSwipeInProgress=false,suppressScheduleClickUntil=0;
+function beginScheduleSwipe(event){
+ const touch=event.touches?.[0];
+ if(!touch||event.touches.length!==1)return;
+ scheduleSwipeStartX=touch.clientX;
+ scheduleSwipeStartY=touch.clientY;
+ scheduleSwipeInProgress=true;
+}
+function cancelScheduleSwipe(){scheduleSwipeInProgress=false}
+function consumeScheduleSwipeClick(event){
+ if(Date.now()>=suppressScheduleClickUntil)return false;
+ event?.preventDefault?.();
+ event?.stopPropagation?.();
+ return true;
+}
+function finishScheduleSwipe(event){
+ if(!scheduleSwipeInProgress)return;
+ scheduleSwipeInProgress=false;
+ const touch=event.changedTouches?.[0];
+ if(!touch)return;
+ const dx=touch.clientX-scheduleSwipeStartX;
+ const dy=touch.clientY-scheduleSwipeStartY;
+ if(Math.abs(dx)<48||Math.abs(dx)<=Math.abs(dy)*1.15)return;
+ const direction=dx<0?1:-1;
+ const strip=event.currentTarget;
+ suppressScheduleClickUntil=Date.now()+450;
+ strip?.classList.add(direction>0?"schedule-swipe-next":"schedule-swipe-previous");
+ navigator.vibrate?.(10);
+ setTimeout(()=>selectScheduleDate(uiAddDays(selectedWorkoutDate||today(),direction)),180);
+}
 function openDateDialog(){
  quickWorkoutDate.value=selectedWorkoutDate||today();
  dateDialogTitle.textContent=lang()==="cs"?"Změnit datum":"Change date";
@@ -5308,10 +5370,10 @@ function weekStripMarkup(selectedDay){
    <div><strong>${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div>
    <button type="button" onclick="changeScheduleWeek(1)" aria-label="${lang()==="cs"?"Další týden":"Next week"}">›</button>
  </div>
- <div class="modern-week-strip">${Array.from({length:7},(_,i)=>{
+ <div class="modern-week-strip" ontouchstart="beginScheduleSwipe(event)" ontouchend="finishScheduleSwipe(event)" ontouchcancel="cancelScheduleSwipe()">${Array.from({length:7},(_,i)=>{
    const iso=uiAddDays(monday,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
    const marker=completed?"✓":cardio?"♥":planned?"•":"";
-   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')"><span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
+   return `<button type="button" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="if(!consumeScheduleSwipeClick(event))selectScheduleDate('${iso}')"><span>${dayNames[i]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
  }).join("")}</div>
  <div class="week-legend"><span>• ${lang()==="cs"?"doporučený silový den":"planned strength day"}</span><span>♥ ${lang()==="cs"?"kardio":"cardio"}</span><span>✓ ${lang()==="cs"?"hotovo":"completed"}</span></div>`;
 }
@@ -5474,6 +5536,10 @@ function renderDay(day){
  const planIndex=DAYS.indexOf(day)+1;
  const planTitle=plan["title_"+lang()]||plan.title_en;
  const planSub=plan["sub_"+lang()]||plan.sub_en;
+ const isTodaysPlannedWorkout=selectedWorkoutDate===today()&&isPlannedStrengthDate(selectedWorkoutDate);
+ const heroKicker=isTodaysPlannedWorkout
+   ?(lang()==="cs"?"DNEŠNÍ TRÉNINK":"TODAY'S WORKOUT")
+   :(lang()==="cs"?"DALŠÍ TRÉNINK":"NEXT WORKOUT");
  const previewItems=orderedInstances.slice(0,3);
 
  let html=`<div class="modern-today">
@@ -5524,7 +5590,7 @@ function renderDay(day){
    <section class="workout-hero compact-hero">
      <div class="workout-hero-top">
        <div>
-         <span class="hero-kicker">${lang()==="cs"?"DNEŠNÍ TRÉNINK":"TODAY'S WORKOUT"}</span>
+         <span class="hero-kicker">${heroKicker}</span>
          <h2>${esc(planTitle)}</h2>
          <p>${esc(planSub)}</p>
        </div>
@@ -5559,7 +5625,7 @@ function renderDay(day){
          ?"Nech si rezervu 2 opakování. Váhu spouštěj 2–3 sekundy. Až zvládneš horní hranici opakování ve všech sériích čistě, příště přidej nejmenší možnou váhu."
          :"Keep about 2 reps in reserve. Lower the weight for 2–3 seconds. Once you reach the top of the rep range in every set with clean form, add the smallest available weight next time."}</span>
      </div>
-     <div class="exercise-list-coach">${lang()==="cs"?"Klepni na obrázek pro detail, nebo na ▶ Start vpravo pro okamžité spuštění cviku.":"Tap the image for details, or ▶ Start on the right to begin immediately."}</div>
+     <div class="exercise-list-coach">${lang()==="cs"?"Klepni kamkoliv na kartu pro obrázek, informace a možnost začít cvik.":"Tap anywhere on a card for the image, details and the option to start."}</div>
      
      <div class="plan-preview-list" id="todayPreviewList">`;
 
@@ -5596,7 +5662,6 @@ function renderDay(day){
          <span class="exercise-set-status">${statusText}</span>
          ${m.replacementId?`<span class="replacement-note">↪ ${t("temporaryReplacement")}</span>`:m.permanentReplacementId?`<span class="replacement-note">✓ ${t("permanentReplacement")}</span>`:""}
        </div>
-       <button class="preview-video-button" type="button" onclick="event.preventDefault();event.stopPropagation();startExercise('${day}','${inst.instanceId}')" aria-label="${lang()==="cs"?"Začít cvik":"Start exercise"}">▶ <span>${lang()==="cs"?"Start":"Start"}</span></button>
        <span class="preview-card-chevron"></span>
      </summary>
    </details>`;
@@ -5760,6 +5825,7 @@ function historyExerciseMarkup(record){
    <div class="history-exercise-head"><strong>${esc(itemName(meta))}</strong><span>${sets.length||1} ${lang()==="cs"?"sérií":"sets"}</span></div>
    <div class="history-set-list">${lines.join("")||`<div class="history-empty-detail">${t("noHistory")}</div>`}</div>
    ${record.notes?`<p class="subtitle">${esc(record.notes)}</p>`:""}
+   <button type="button" class="history-exercise-guide" onclick="openVideo('${record.exerciseId}')">▧ ${lang()==="cs"?"Obrázek a info":"Image & info"}</button>
  </div>`;
 }
 function renderHistoryScreen(){
@@ -5843,7 +5909,7 @@ function applyLanguage(){
  document.documentElement.lang=lang();appSubtitle.textContent=t("subtitle");
  navToday.textContent=t("todayNav");navHistory.textContent=t("historyNav");navDatabase.textContent=t("database");navMore.textContent=t("moreNav");
  resumeBtn.textContent=t("resume");liveLabel.textContent=t("workout");liveFinishBtn.textContent=t("finish");prevBtn.textContent=t("prevExercise");nextBtn.textContent=t("nextExercise");
- restLabel.textContent=t("rest");restReturnBtn.textContent=t("backWorkout");restSkipBtn.textContent=t("skipRest");
+ restLabel.textContent=t("rest");restReturnBtn.textContent=t("backWorkout");
  librarySearch.placeholder=t("search");
  finishTitle.textContent=t("workoutDone");finishNoteLabel.textContent=t("workoutNote");finishSaveBtn.textContent=t("saveFinish");finishDeleteBtn.textContent=t("deleteWorkout");
  cloudTitle.textContent=t("cloud");cloudIntro.textContent=t("cloudIntro");passwordLabel.textContent=t("password");signInBtn.textContent=t("signIn");signUpBtn.textContent=t("signUp");signedAsLabel.textContent=t("signedAs");syncBtn.textContent=t("sync");signOutBtn.textContent=t("signOut");
@@ -6116,11 +6182,11 @@ function renderExerciseDetailActions(exerciseId,day="",instanceId=""){
  const videoUrl=x.videoUrl||("https://www.youtube.com/results?search_query="+encodeURIComponent(x.en+" proper form tutorial"));
  if(day&&instanceId){
    wrap.innerHTML=`<button class="detail-start" type="button" onclick="videoDialog.close();startExercise('${day}','${instanceId}')">▶ ${lang()==="cs"?"Začít cvik":"Start workout"}</button>
-     <a class="detail-video" href="${esc(videoUrl)}" target="_blank" rel="noopener">▶ ${lang()==="cs"?"Zobrazit video":"See video"}</a>
+     <a class="detail-video" href="${esc(videoUrl)}" target="_blank" rel="noopener">▶ Video</a>
      <button class="detail-history" type="button" onclick="videoDialog.close();openHistory('${exerciseId}')">${t("history")}</button>
      <button class="detail-change" type="button" onclick="videoDialog.close();openLibrary('${day}','replace','${instanceId}')">↔ ${t("changeExercise")}</button>`;
  }else{
-   wrap.innerHTML=`<a class="detail-video" style="grid-column:1/-1" href="${esc(videoUrl)}" target="_blank" rel="noopener">▶ ${x.guideImage?(lang()==="cs"?"Najít také video":"Find a video too"):t("videoOpen")}</a>`;
+   wrap.innerHTML=`<a class="detail-video" style="grid-column:1/-1" href="${esc(videoUrl)}" target="_blank" rel="noopener">▶ Video</a>`;
  }
 }
 function openExerciseDetail(day,instanceId){
@@ -6561,8 +6627,7 @@ function renderLive(){
   const remaining=arr.filter(item=>item.instanceId!==inst.instanceId&&!entry(day,item.instanceId).done);
   liveContent.innerHTML=`<div class="modern-live-hero">
     <div class="modern-live-glyph">${categoryGlyph(m.category)}</div>
-    <div class="modern-live-title"><span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p><button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button></div>
-    <button class="compact-video-btn modern-video-btn" onclick="openVideo('${m.id}')">▶ Video</button>
+    <div class="modern-live-title"><span>${esc(livePlanLabel(day))}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p><button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button></div>
    </div>
    <div class="exercise-complete-panel">
     <span class="exercise-complete-mark">✓</span>
@@ -6622,12 +6687,11 @@ function renderLive(){
  liveContent.innerHTML=`<div class="modern-live-hero">
    <div class="modern-live-glyph">${categoryGlyph(m.category)}</div>
    <div class="modern-live-title">
-     <span>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</span>
+     <span>${esc(livePlanLabel(day))}</span>
      <h2>${esc(itemName(m))}</h2>
      <p>${targetText(m)}</p>
      <button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button>
    </div>
-   <button class="compact-video-btn modern-video-btn" onclick="openVideo('${m.id}')">▶ Video</button>
  </div>
 
  ${m.guideImage?`<button class="modern-live-guide" type="button" onclick="openVideo('${m.id}')">
@@ -7320,7 +7384,7 @@ drawChart=function(id,key){drawRecentMondayChart(id,key)};
 const renderDatabaseV81=renderDatabase;
 function dailyRoutineMarkup(){
  const routine=LIBRARY.filter(item=>item.dailyRoutine);
- return `<details class="daily-routine-card"><summary><img class="daily-routine-cover" src="back-posture-routine.webp" alt=""><span class="daily-routine-title"><small>${lang()==="cs"?"DENNĚ · CCA 10 MINUT":"DAILY · ABOUT 10 MINUTES"}</small><strong>${lang()==="cs"?"Záda a držení těla":"Back and posture routine"}</strong><span>${lang()==="cs"?"7 cviků ve správném pořadí s videi":"7 exercises in order with videos"}</span></span><span class="daily-routine-chevron">›</span></summary><div class="daily-routine-list">${routine.map((item,index)=>`<div class="daily-routine-row"><b>${index+1}</b><img class="daily-routine-thumb" src="${item.guideThumb}" alt="" loading="lazy"><span><strong>${esc(itemName(item))}</strong><small>${esc(item["routineDose_"+lang()]||item.routineDose_en||item.range)}</small></span><button type="button" onclick="openVideo('${item.id}')" aria-label="Video">▶</button></div>`).join("")}</div></details>`;
+ return `<details class="daily-routine-card"><summary><img class="daily-routine-cover" src="back-posture-routine.webp" alt=""><span class="daily-routine-title"><small>${lang()==="cs"?"DENNĚ · CCA 10 MINUT":"DAILY · ABOUT 10 MINUTES"}</small><strong>${lang()==="cs"?"Záda a držení těla":"Back and posture routine"}</strong><span>${lang()==="cs"?"7 cviků ve správném pořadí s videi":"7 exercises in order with videos"}</span></span><span class="daily-routine-chevron">›</span></summary><div class="daily-routine-list">${routine.map((item,index)=>`<div class="daily-routine-row" role="button" tabindex="0" onclick="openVideo('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${item.id}')}"><b>${index+1}</b><img class="daily-routine-thumb" src="${item.guideThumb}" alt="" loading="lazy"><span><strong>${esc(itemName(item))}</strong><small>${esc(item["routineDose_"+lang()]||item.routineDose_en||item.range)}</small></span></div>`).join("")}</div></details>`;
 }
 renderDatabase=function(){
  renderDatabaseV81();
