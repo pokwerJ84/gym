@@ -4456,6 +4456,63 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .modern-exercise-card .preview-card-main>strong{font-size:14px}
 }
 
+/* v102 – stronger calendar and 1.5× exercise cards */
+.week-navigation{margin-bottom:7px}
+.week-navigation>button{
+  width:40px!important;
+  min-width:40px!important;
+  height:40px!important;
+  min-height:40px!important;
+  border-color:color-mix(in srgb,var(--v95-teal) 38%,var(--line));
+}
+.week-navigation>div strong{font-size:14px}
+.calendar-drag-viewport{height:72px;min-height:72px;padding:2px 0 4px}
+.calendar-drag-viewport .modern-week-day{
+  flex:0 0 58px!important;
+  width:58px!important;
+  min-width:58px!important;
+  height:66px!important;
+  min-height:66px!important;
+  padding:6px 2px!important;
+  border-radius:14px!important;
+}
+.calendar-drag-viewport .modern-week-day span{font-size:10px!important}
+.calendar-drag-viewport .modern-week-day strong{margin-top:3px;font-size:18px!important}
+.calendar-drag-viewport .modern-week-day i{min-height:10px!important;margin-top:2px;font-size:10px!important}
+.calendar-drag-viewport .modern-week-day.selected{
+  border-width:2px;
+  box-shadow:0 5px 16px rgba(35,195,184,.32)!important;
+}
+.plan-preview-list{gap:12px}
+.modern-exercise-card{
+  border-color:color-mix(in srgb,var(--v95-teal) 28%,var(--line));
+  box-shadow:0 8px 20px rgba(0,10,18,.13);
+}
+.modern-exercise-card summary{
+  grid-template-columns:34px 118px minmax(0,1fr) 13px!important;
+  gap:11px!important;
+  min-height:148px!important;
+  padding:12px!important;
+}
+.modern-exercise-card .exercise-guide-thumb{
+  width:118px!important;
+  height:122px!important;
+  border-radius:10px;
+}
+.modern-exercise-card .preview-card-number{width:34px;height:34px;font-size:15px}
+.modern-exercise-card .preview-card-main>strong{font-size:17px;line-height:1.18}
+.modern-exercise-card .preview-card-main small{margin-top:6px;font-size:12px;line-height:1.3}
+.modern-exercise-card .exercise-set-status{margin-top:7px;font-size:11px}
+.modern-exercise-card .top-pick-badge,.modern-exercise-card .extra-badge{font-size:10px!important}
+.modern-exercise-card .preview-card-chevron{font-size:28px}
+@media(max-width:360px){
+  .modern-exercise-card summary{grid-template-columns:29px 104px minmax(0,1fr) 10px!important;gap:8px!important;min-height:136px!important;padding:10px!important}
+  .modern-exercise-card .exercise-guide-thumb{width:104px!important;height:112px!important}
+  .modern-exercise-card .preview-card-number{width:29px;height:29px;font-size:13px}
+  .modern-exercise-card .preview-card-main>strong{font-size:15px}
+  .modern-exercise-card .preview-card-main small{font-size:11px}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4468,7 +4525,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v101</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v102</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4735,7 +4792,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=101;
+const VERSION=102;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v97";

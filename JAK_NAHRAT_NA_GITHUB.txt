@@ -1,7 +1,7 @@
-GYM TRACKER PRO v101 – NAHRÁNÍ NA GITHUB
+GYM TRACKER PRO v102 – NAHRÁNÍ NA GITHUB
 
 1. Rozbal ZIP.
-2. Otevři složku Gym_Tracker_Pro_v101_Original_Cards_New_Details.
+2. Otevři složku Gym_Tracker_Pro_v102_Larger_Cards_Calendar.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
 4. Nahraj soubory přímo do hlavní části repository gym.
 5. Potvrď přepsání starých souborů a commitni změny.
@@ -16,13 +16,17 @@ DŮLEŽITÉ
 - Po nahrání otevři aplikaci a použij Nastavení > Aktualizovat aplikaci.
 - Pokud iPhone stále ukazuje starou verzi, aplikaci úplně zavři a znovu otevři.
 
-CO JE NOVÉ VE v101
+CO JE NOVÉ VE v102
+- Karty cviků jsou přibližně o polovinu větší a mají obrázek 118 × 122 px.
+- Text na kartě má jasnější čtyřřádkovou hierarchii.
+- Rámeček karet, číslo a šipka jsou výraznější.
+- Kalendář je mírně větší a vybraný den má výraznější zvýraznění.
 - Karty cviků používají původní tmavě modré obrázky s jednou polohou.
 - Po rozkliknutí se zobrazí nové vícekrokové obrázky ze Supabase v97.
 - Dokončení cviků se nepřenáší do jiného dne.
 - Kalendář je 35denní nativní vodorovný pás pro iOS; neblokuje svislé posouvání stránky.
 - Kalendář lze ovládat prstem, šipkami i přes tlačítko Změnit datum.
-- Nová cache v101 přinutí telefon převzít opravenou verzi.
+- Nová cache v102 přinutí telefon převzít opravenou verzi.
 - Klepnutí na datum přepne správný plán a trénink se uloží k vybranému datu.
 - Při změně data rozpracovaného tréninku se aplikace nejdřív zeptá.
 - Původní sada v58 je zachována jako lokální i vzdálená záloha.
