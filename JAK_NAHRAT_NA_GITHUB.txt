@@ -1,26 +1,27 @@
-GYM TRACKER PRO v98 – NAHRÁNÍ NA GITHUB
+GYM TRACKER PRO v99 – NAHRÁNÍ NA GITHUB
 
 1. Rozbal ZIP.
-2. Otevři složku Gym_Tracker_Pro_v98_Supabase_Images_Fixed.
+2. Otevři složku Gym_Tracker_Pro_v99_Legacy_Cards_Calendar_Fixed.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
 4. Nahraj soubory přímo do hlavní části repository gym.
 5. Potvrď přepsání starých souborů a commitni změny.
 
 DŮLEŽITÉ
-- Nové obrázky se načítají přímo ze Supabase z exercise-guides/v97.
+- Malé obrázky na kartách se načítají ze Supabase z původní sady exercise-guides/v58.
+- Nové obrázky po rozkliknutí se načítají ze Supabase z exercise-guides/v97.
 - Lokální exercise-guides/v97/guides a thumbs zůstávají v balíčku jako záloha.
 - Názvy ani umístění souborů .webp neměň.
-- Složka legacy-images-v58 je záloha původní sady a aplikace ji nenačítá.
+- Složka legacy-images-v58 zůstává jako lokální záloha původní sady.
 - Původní sada v Supabase exercise-guides/v58 zůstává beze změny.
 - Po nahrání otevři aplikaci a použij Nastavení > Aktualizovat aplikaci.
 - Pokud iPhone stále ukazuje starou verzi, aplikaci úplně zavři a znovu otevři.
 
-CO JE NOVÉ VE v98
-- Opravené načítání všech obrázků z veřejného Supabase Storage.
-- Nová cache v98 přinutí telefon převzít opravené cesty.
-- Všech 88 nových schválených obrázků cviků ve WebP.
-- Samostatné malé náhledy a detailní obrázky.
-- Výrazně menší pevný sedmidenní kalendář.
+CO JE NOVÉ VE v99
+- Karty cviků používají původní malé obrázky z legacy v58.
+- Po rozkliknutí se zobrazí nové vícekrokové obrázky ze Supabase v97.
+- Dokončení cviků se nepřenáší do jiného dne.
+- Kalendář je 21denní vodorovný pás a na telefonu se posouvá prstem.
+- Nová cache v99 přinutí telefon převzít opravenou verzi.
 - Klepnutí na datum přepne správný plán a trénink se uloží k vybranému datu.
 - Při změně data rozpracovaného tréninku se aplikace nejdřív zeptá.
 - Původní sada v58 je zachována jako lokální i vzdálená záloha.
