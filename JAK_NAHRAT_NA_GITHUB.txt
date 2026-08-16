@@ -1,20 +1,23 @@
-GYM TRACKER PRO v97 – NAHRÁNÍ NA GITHUB
+GYM TRACKER PRO v98 – NAHRÁNÍ NA GITHUB
 
 1. Rozbal ZIP.
-2. Otevři složku Gym_Tracker_Pro_v97_Images_Calendar_Fixed.
+2. Otevři složku Gym_Tracker_Pro_v98_Supabase_Images_Fixed.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
 4. Nahraj soubory přímo do hlavní části repository gym.
 5. Potvrď přepsání starých souborů a commitni změny.
 
 DŮLEŽITÉ
-- Zachovej celou strukturu složek, zejména exercise-guides/v97/guides a thumbs.
+- Nové obrázky se načítají přímo ze Supabase z exercise-guides/v97.
+- Lokální exercise-guides/v97/guides a thumbs zůstávají v balíčku jako záloha.
 - Názvy ani umístění souborů .webp neměň.
 - Složka legacy-images-v58 je záloha původní sady a aplikace ji nenačítá.
 - Původní sada v Supabase exercise-guides/v58 zůstává beze změny.
 - Po nahrání otevři aplikaci a použij Nastavení > Aktualizovat aplikaci.
 - Pokud iPhone stále ukazuje starou verzi, aplikaci úplně zavři a znovu otevři.
 
-CO JE NOVÉ VE v97
+CO JE NOVÉ VE v98
+- Opravené načítání všech obrázků z veřejného Supabase Storage.
+- Nová cache v98 přinutí telefon převzít opravené cesty.
 - Všech 88 nových schválených obrázků cviků ve WebP.
 - Samostatné malé náhledy a detailní obrázky.
 - Výrazně menší pevný sedmidenní kalendář.
