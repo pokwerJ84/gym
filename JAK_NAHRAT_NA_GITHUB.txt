@@ -1,21 +1,23 @@
-GYM TRACKER PRO v85 – NAHRÁNÍ Z TELEFONU
+GYM TRACKER PRO v97 – NAHRÁNÍ NA GITHUB
 
-Tato verze nemá žádné podsložky. Všechny soubory i všech 8 nových obrázků jsou
-v jedné úrovni, aby šly z telefonu označit a nahrát přímo do repository gym.
-
-POSTUP V APLIKACI GITHUB / V PROHLÍŽEČI
-1. Rozbal ZIP v telefonu.
-2. Otevři rozbalenou složku Gym_Tracker_Pro_v85_Direct_Start_Date_Checks.
+1. Rozbal ZIP.
+2. Otevři složku Gym_Tracker_Pro_v97_Images_Calendar_Fixed.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
-4. Nahraj je přímo do hlavní (kořenové) části repository gym.
+4. Nahraj soubory přímo do hlavní části repository gym.
 5. Potvrď přepsání starých souborů a commitni změny.
 
 DŮLEŽITÉ
-- V ZIPu není složka posture-images.
-- Obrázky .webp musí být na GitHubu vedle index.html.
-- Názvy obrázků neměň.
-- Starou složku posture-images můžeš v repository ponechat; v88 ji nepoužívá.
+- Zachovej celou strukturu složek, zejména exercise-guides/v97/guides a thumbs.
+- Názvy ani umístění souborů .webp neměň.
+- Složka legacy-images-v58 je záloha původní sady a aplikace ji nenačítá.
+- Původní sada v Supabase exercise-guides/v58 zůstává beze změny.
+- Po nahrání otevři aplikaci a použij Nastavení > Aktualizovat aplikaci.
+- Pokud iPhone stále ukazuje starou verzi, aplikaci úplně zavři a znovu otevři.
 
-v85 zachovává všechny funkce v84. Pravé tlačítko u cviku nyní cvik rovnou spustí,
-kliknutí na obrázek rozbalí detail a zelené fajfky se obnoví podle uloženého data.
-offline cache a číslo verze.
+CO JE NOVÉ VE v97
+- Všech 88 nových schválených obrázků cviků ve WebP.
+- Samostatné malé náhledy a detailní obrázky.
+- Výrazně menší pevný sedmidenní kalendář.
+- Klepnutí na datum přepne správný plán a trénink se uloží k vybranému datu.
+- Při změně data rozpracovaného tréninku se aplikace nejdřív zeptá.
+- Původní sada v58 je zachována jako lokální i vzdálená záloha.
