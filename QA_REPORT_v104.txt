@@ -1,0 +1,27 @@
+GYM TRACKER PRO v104 – QA REPORT
+
+ZMĚNY VE v104
+- Add exercise bylo odstraněno z hlavičky denního plánu a zachováno v patičce pod seznamem cviků.
+- Karty v databázi mají na iPhonu dvě hlavní části a nerezervují prázdný prostor pro ovládání.
+- Názvy se zalamují pouze mezi slovy; dlouhé názvy se nerozpadají po jednotlivých písmenech.
+- Detail používá velký obrázek guideImage z v97/guides s režimem contain.
+- Doporučené náhrady i další karty ve výběru lze otevřít pro velký návod; tlačítko Replace exercise neotevírá detail a provede pouze náhradu.
+
+ZMĚNY VZHLEDU
+- Výška běžné karty: 148 px.
+- Původní jednopolohový obrázek na kartě: 118 × 122 px.
+- Na velmi úzkém telefonu: karta 136 px, obrázek 104 × 112 px.
+- Karty mají výraznější rámeček, jemný stín, větší číslo a šipku.
+- Kalendářní den: 58 × 66 px, větší datum a výraznější vybraný den.
+
+ZACHOVANÉ FUNKCE
+- Původní tmavé obrázky z legacy-card-thumbs zůstávají na kartách.
+- Nové obrázky ze Supabase zůstávají pouze v detailu po rozkliknutí.
+- Kalendář zachovává nativní vodorovné posouvání a neblokuje svislý pohyb stránky.
+- Dokončení cviků zůstává oddělené podle data.
+
+KONTROLY
+- 88/88 původních kartových obrázků je přítomno.
+- 88/88 mapování karet odpovídá lokálním souborům.
+- 88 unikátních detailních obrázků zůstává namapováno.
+- JavaScript, service worker a manifest prošly kontrolou syntaxe.

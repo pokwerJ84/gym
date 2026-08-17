@@ -4513,6 +4513,34 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .modern-exercise-card .preview-card-main small{font-size:11px}
 }
 
+/* v104 – cleaner workout plan, readable exercise library and large guides */
+.modern-database-item{grid-template-columns:118px minmax(0,1fr)!important;grid-template-areas:"thumb copy"!important;align-items:center!important;gap:14px!important;min-height:148px!important;padding:12px!important}
+.modern-database-item.has-actions{grid-template-columns:118px minmax(0,1fr) 46px!important;grid-template-areas:"thumb copy actions"!important}
+.modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:118px!important;height:122px!important;border-radius:12px!important}
+.modern-database-item .database-guide-thumb{object-fit:contain!important}
+.database-title-row{display:block!important}
+.database-title-row h4{font-size:17px!important;line-height:1.18!important;overflow-wrap:normal!important;word-break:normal!important;hyphens:auto}
+.database-title-badges{margin-top:6px;flex-wrap:wrap}
+.modern-database-item .quality-tag,.modern-database-item .custom-badge{font-size:9px!important}
+.database-detail-row{margin-top:1px}.database-detail-row strong{font-size:12px!important}.database-detail-row span{font-size:11px!important}
+.guide-modal{width:min(96vw,760px)!important;max-height:94dvh!important;padding-top:16px!important}
+.video-guide-wrap{margin:12px -2px 16px;padding:6px;border-radius:18px}
+.video-guide-wrap img{width:100%!important;max-height:72dvh!important;min-height:min(54vw,360px);object-fit:contain!important;border-radius:14px}
+.video-guide-wrap.expanded img{max-height:none!important;min-height:0}
+@media(max-width:430px){
+  .modern-database-item{grid-template-columns:104px minmax(0,1fr)!important;gap:11px!important;min-height:136px!important;padding:10px!important}
+  .modern-database-item.has-actions{grid-template-columns:104px minmax(0,1fr) 42px!important}
+  .modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:104px!important;height:112px!important}
+  .database-title-row h4{font-size:15px!important;line-height:1.2!important}
+  .video-guide-wrap img{max-height:68dvh!important;min-height:58vw}
+}
+@media(max-width:360px){
+  .modern-database-item{grid-template-columns:92px minmax(0,1fr)!important;gap:9px!important}
+  .modern-database-item.has-actions{grid-template-columns:92px minmax(0,1fr) 40px!important}
+  .modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:92px!important;height:102px!important}
+  .database-title-row h4{font-size:14px!important}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4525,7 +4553,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v102</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v104</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4792,7 +4820,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=102;
+const VERSION=104;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v97";
@@ -5295,7 +5323,7 @@ function renderDatabase(){
    <section class="library-results visual-library-results">
      ${Object.keys(groups).length?Object.entries(groups).map(([category,items])=>`<div class="library-group modern-library-group visual-results-group">
        ${cat==="all"||q?`<h4>${categoryName(category)} <span>${items.length}</span></h4>`:""}
-       <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item clickable-exercise-card ${x.topPick?"top-pick-item":""}" role="button" tabindex="0" onclick="openVideo('${x.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${x.id}')}">
+       <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item clickable-exercise-card ${x.topPick?"top-pick-item":""} ${x.custom?"has-actions":""}" role="button" tabindex="0" onclick="openVideo('${x.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${x.id}')}">
          ${x.guideThumb
   ?`<img class="database-guide-thumb" src="${x.guideThumb}" alt="" loading="lazy">`
   :`<div class="database-glyph">${categoryGlyph(x.category)}</div>`}
@@ -5973,7 +6001,7 @@ function renderDay(day){
  html+=`<details class="modern-plan-section collapsible-plan" id="exercisePlan-${day}">
    <summary class="collapsible-plan-summary"><div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Zobrazit cviky":"Show exercises"}</h3><small>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</small></div><span class="plan-summary-chevron">›</span></summary>
    <div class="collapsible-plan-body">
-     <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"TRÉNINK":"WORKOUT"}</span><h3>${esc(planTitle)}</h3></div><button class="section-add" onclick="event.preventDefault();openLibrary('${day}','add')">＋ ${t("add")}</button></div>
+     <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"TRÉNINK":"WORKOUT"}</span><h3>${esc(planTitle)}</h3></div></div>
      <div class="plan-coach-card">
        <strong>${lang()==="cs"?"Pravidlo pro každý pracovní set":"Rule for every working set"}</strong>
        <span>${lang()==="cs"
@@ -6406,10 +6434,10 @@ function renderLibrary(){
  libraryRecommendation.innerHTML=replacementPicks.length?`<div class="replacement-recommendations">
  <div class="replacement-recommendations-title">${t("replacementRecommendedTitle")}</div>
  <p class="replacement-recommendations-subtitle">${t("replacementRecommendedSub")}</p>
- ${replacementPicks.map(({item,similar})=>{const last=lastRecord(item.id);return `<div class="replacement-recommendation">
+ ${replacementPicks.map(({item,similar})=>{const last=lastRecord(item.id);return `<div class="replacement-recommendation clickable-exercise-card" role="button" tabindex="0" onclick="openVideo('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${item.id}')}">
   ${item.guideThumb?`<img src="${item.guideThumb}" alt="" loading="lazy">`:`<span class="replacement-recommendation-fallback">${categoryGlyph(item.category)}</span>`}
   <div class="replacement-recommendation-main"><div class="replacement-recommendation-name">${esc(itemName(item))}${item.topPick?` <span class="top-pick-badge">${t("topPick")}</span>`:""}</div><div class="replacement-recommendation-reason">${t(similar?"similarMovement":"sameMuscle")}</div>${last?`<div class="replacement-recommendation-last">${t("previous")}: ${esc(formatRecord(last))}</div>`:""}</div>
-  <button class="primary" onclick="replaceExercise('${libraryDay}','${libraryInstance}','${item.id}')">${t("replace")}</button>
+  <button class="primary" onclick="event.stopPropagation();replaceExercise('${libraryDay}','${libraryInstance}','${item.id}')">${t("replace")}</button>
  </div>`}).join("")}
  </div><div class="replacement-other-title">${t("otherExercises")}</div>`:rec?`<div class="library-recommend">
  ${rec.item.guideThumb?`<img class="library-recommend-thumb" src="${rec.item.guideThumb}" alt="" loading="lazy">`:""}
@@ -6427,7 +6455,7 @@ function renderLibrary(){
  const currentId=inst?metaFor(libraryDay,inst).id:null;
  const disabled=used.has(x.id)&&x.id!==currentId;
   const last=lastRecord(x.id);
-  return `<div class="library-item ${x.topPick?"top-pick-item":""}">
+  return `<div class="library-item clickable-exercise-card ${x.topPick?"top-pick-item":""}" role="button" tabindex="0" onclick="openVideo('${x.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${x.id}')}">
     ${x.guideThumb
       ?`<img class="library-guide-thumb" src="${x.guideThumb}" alt="" loading="lazy">`
       :`<span class="library-guide-fallback">${categoryGlyph(x.category)}</span>`}
@@ -6436,7 +6464,7 @@ function renderLibrary(){
       <div class="library-item-meta">${targetText(x)} • ${categoryName(x.category)}</div>
       ${last?`<div class="library-item-last">${t("previous")}: ${esc(formatRecord(last))}</div>`:""}
     </div>
-    <button class="${disabled?"secondary":"primary"}" ${disabled?"disabled":""} onclick="${libraryMode==="replace"?`replaceExercise('${libraryDay}','${libraryInstance}','${x.id}')`:`addExercise('${libraryDay}','${x.id}')`}">${libraryMode==="replace"?t("replace"):disabled?"✓":t("addToday")}</button>
+    <button class="${disabled?"secondary":"primary"}" ${disabled?"disabled":""} onclick="event.stopPropagation();${libraryMode==="replace"?`replaceExercise('${libraryDay}','${libraryInstance}','${x.id}')`:`addExercise('${libraryDay}','${x.id}')`}">${libraryMode==="replace"?t("replace"):disabled?"✓":t("addToday")}</button>
   </div>`;
  }).join("")}</div>`).join("");
 }
