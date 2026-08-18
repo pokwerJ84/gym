@@ -4513,7 +4513,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .modern-exercise-card .preview-card-main small{font-size:11px}
 }
 
-/* v110 – complete local gym-machine image set */
+/* v111 – force fresh colour exercise images on cards and in exercise detail */
 .modern-database-item{grid-template-columns:118px minmax(0,1fr)!important;grid-template-areas:"thumb copy"!important;align-items:center!important;gap:14px!important;min-height:148px!important;padding:12px!important}
 .modern-database-item.has-actions{grid-template-columns:118px minmax(0,1fr) 46px!important;grid-template-areas:"thumb copy actions"!important}
 .modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:118px!important;height:122px!important;border-radius:12px!important}
@@ -4553,7 +4553,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v110</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v111</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4841,12 +4841,29 @@ LIBRARY.push({
 });
 const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
 if(cableLateralRaise)cableLateralRaise.mode="sideweight";
+
+// Every card uses the coloured, natural-skin illustration.  The dedicated
+// v111 URL is intentional: it prevents iOS from reusing a previously cached
+// grey thumbnail with the same file name.  The detail view uses the same
+// coloured illustration from the local large-guide folder.
+const COLOUR_IMAGE_REVISION="111";
+const COLOUR_GUIDE_DIRECTORY="./exercise-guides/v111/guides/";
+const DEDICATED_GYM_GUIDES=new Set(["back_extension","machine_crunch","smith_machine_bench_press"]);
+LIBRARY.forEach(item=>{
+ if(!String(item.guideThumb||"").startsWith("./legacy-card-thumbs/"))return;
+ const filename=item.guideThumb.split("/").pop().split("?")[0];
+ item.guideThumb=`./legacy-card-thumbs/${filename}?v=${COLOUR_IMAGE_REVISION}`;
+ if(!DEDICATED_GYM_GUIDES.has(item.id)){
+   item.guideImage=`${COLOUR_GUIDE_DIRECTORY}${filename}?v=${COLOUR_IMAGE_REVISION}`;
+   item.guideExact=true;
+ }
+});
 const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Základní síla + triceps a břicho","sub_en":"Base strength + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Kontrolované stroje + biceps a core","sub_en":"Controlled machines + biceps and core","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12 / strana"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Bezpečný zadní řetězec + lýtka a břicho","sub_en":"Safe posterior chain + calves and abs","items":[{"id":"back_extension","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=110;
+const VERSION=111;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v97";

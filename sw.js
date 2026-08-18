@@ -1,4 +1,4 @@
-const VERSION="v110";
+const VERSION="v111";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
@@ -44,7 +44,11 @@ self.addEventListener("activate",event=>{
 });
 
 function isExerciseImageUrl(url){
-  return IMAGE_PREFIXES.some(prefix=>String(url).startsWith(prefix));
+  const value=String(url);
+  return IMAGE_PREFIXES.some(prefix=>value.startsWith(prefix))
+    ||value.includes("/legacy-card-thumbs/")
+    ||value.includes("/exercise-guides/v111/guides/")
+    ||value.includes("/exercise-guides/v108/guides/");
 }
 
 async function cacheExerciseImage(requestOrUrl){
