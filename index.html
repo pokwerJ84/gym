@@ -4513,7 +4513,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .modern-exercise-card .preview-card-main small{font-size:11px}
 }
 
-/* v104 – cleaner workout plan, readable exercise library and large guides */
+/* v110 – complete local gym-machine image set */
 .modern-database-item{grid-template-columns:118px minmax(0,1fr)!important;grid-template-areas:"thumb copy"!important;align-items:center!important;gap:14px!important;min-height:148px!important;padding:12px!important}
 .modern-database-item.has-actions{grid-template-columns:118px minmax(0,1fr) 46px!important;grid-template-areas:"thumb copy actions"!important}
 .modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:118px!important;height:122px!important;border-radius:12px!important}
@@ -4553,7 +4553,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 <div class="app">
 <header>
   <div class="toprow">
-    <div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v104</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v110</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4815,12 +4815,38 @@ for(const [id,updates] of Object.entries(PLAN_EXERCISE_UPDATES)){
  if(exercise)Object.assign(exercise,updates);
 }
 LIBRARY.push(ORIGINAL_GUIDE_VARIANTS.leg_press,ORIGINAL_GUIDE_VARIANTS.torso_rotation_machine);
+const GYM_MACHINE_UPDATES={
+ back_extension:{
+  cs:"Lower Back na stroji",en:"Lower Back Machine",category:"back",mode:"weight",sets:3,range:"10–15",rest:75,
+  guideImage:"./exercise-guides/v108/guides/lower_back_machine.webp",guideThumb:"./legacy-card-thumbs/back_extension.webp",guideExact:true,
+  tips:{cs:["Nastav sedák tak, aby osa stroje byla v úrovni pupku","Chodidla opři o platformu a boky drž u opěrky","Záda tlač do pohybové podložky plynule, bez švihu"],en:["Set the seat so the machine axis is level with your navel","Brace your feet and keep your hips against the pad","Press the movement pad back smoothly without swinging"]},
+  mistakes:{cs:["Příliš velký záklon","Odlepování boků od sedáku","Příliš těžká váha"],en:["Overextending the low back","Lifting the hips off the seat","Using too much weight"]}
+ },
+ machine_crunch:{
+  cs:"Abdominal Crunch na stroji",en:"Abdominal Crunch Machine",category:"core",mode:"weight",sets:3,range:"10–15",rest:75,
+  guideImage:"./exercise-guides/v108/guides/abdominal_crunch_machine.webp",guideThumb:"./legacy-card-thumbs/machine_crunch.webp",guideExact:true,
+  tips:{cs:["Nastav sedák, aby osa stroje byla v úrovni pupku","Lokty opři o podložky, madla netahej rukama","Stáhni žebra k pánvi a návrat brzdi"],en:["Set the seat so the axis is level with your navel","Rest your elbows on the pads and do not pull the handles","Curl the ribs toward the pelvis and control the return"]},
+  mistakes:{cs:["Tahání rukama","Zvedání ramen k uším","Příliš velký záklon při návratu"],en:["Pulling with the arms","Shrugging the shoulders","Overextending on the return"]}
+ }
+};
+for(const [id,updates] of Object.entries(GYM_MACHINE_UPDATES)){
+ const exercise=LIBRARY.find(item=>item.id===id);
+ if(exercise)Object.assign(exercise,updates);
+}
+LIBRARY.push({
+ id:"smith_machine_bench_press",cs:"Bench press ve Smith stroji",en:"Smith Machine Bench Press",category:"chest",mode:"weight",sets:3,range:"8–12",rest:120,topPick:true,
+ guideImage:"./exercise-guides/v108/guides/smith_machine_bench_press.webp",guideThumb:"./legacy-card-thumbs/smith_machine_bench_press.webp",guideExact:true,
+ tips:{cs:["Lavici nastav doprostřed pod vedenou osu","Lopatky drž opřené a chodidla pevně na zemi","Osa klesá kontrolovaně ke středu hrudníku a tlač ji zpět bez propnutí loktů"],en:["Center the bench under the guided bar","Keep the shoulder blades set and feet planted","Lower the bar to mid chest under control and press back without locking the elbows"]},
+ mistakes:{cs:["Lavice příliš daleko od osy","Odlepování zad od lavice","Narážení osy do dorazů"],en:["Placing the bench too far from the bar","Lifting the back off the bench","Slamming the bar into the stops"]}
+});
+const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
+if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Základní síla + triceps a břicho","sub_en":"Base strength + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Kontrolované stroje + biceps a core","sub_en":"Controlled machines + biceps and core","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12 / strana"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Bezpečný zadní řetězec + lýtka a břicho","sub_en":"Safe posterior chain + calves and abs","items":[{"id":"back_extension","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=104;
+const VERSION=110;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v97";
@@ -5503,9 +5529,26 @@ function setupExclusivePreviewCards(){
 }
 
 function collapseTodayCards(){
- document.querySelectorAll("#todayPreviewList details.preview-accordion").forEach(card=>{
-   card.open=false;
- });
+  document.querySelectorAll("#todayPreviewList details.preview-accordion").forEach(card=>{
+    card.open=false;
+  });
+}
+function refreshTodayPreviewStatus(day,instanceId){
+ const card=[...document.querySelectorAll("#todayPreviewList details[data-instance-id]")].find(node=>node.dataset.instanceId===String(instanceId));
+ if(!card)return;
+ const inst=activeInstances(day).find(item=>item.instanceId===instanceId);
+ if(!inst)return;
+ const m=metaFor(day,inst),exerciseEntry=entry(day,instanceId);
+ const targetSets=m.mode==="cardio"?1:Number(m.sets)||1;
+ const completedSets=m.mode==="cardio"?(exerciseEntry.done?1:0):(exerciseEntry.sets||[]).slice(0,targetSets).filter(set=>set?._complete===true).length;
+ const done=exerciseEntry.done||completedSets>=targetSets;
+ const inProgress=!done&&completedSets>0;
+ card.classList.toggle("exercise-done",done);
+ card.classList.toggle("exercise-in-progress",inProgress);
+ const number=card.querySelector(".preview-card-number");
+ if(number)number.textContent=done?"✓":card.dataset.cardNumber;
+ const status=card.querySelector(".exercise-set-status");
+ if(status)status.textContent=done?(lang()==="cs"?"✓ Hotovo":"✓ Complete"):`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
 }
 document.addEventListener("click",event=>{
  document.querySelectorAll(".today-options.open").forEach(menu=>{
@@ -6032,7 +6075,7 @@ function renderDay(day){
      ?(lang()==="cs"?"✓ Hotovo":"✓ Complete")
      :`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
 
-   html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":inProgress?"exercise-in-progress":""}">
+   html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":inProgress?"exercise-in-progress":""}" data-instance-id="${inst.instanceId}" data-card-number="${index+1}">
      <summary onclick="event.preventDefault();openExerciseDetail('${day}','${inst.instanceId}')">
        <span class="preview-card-number">${done?"✓":index+1}</span>
        ${m.guideThumb
@@ -6860,7 +6903,7 @@ function undoLastSet(){
  const {day,instanceId,index,previous,workoutPosition}=lastSetUndo;
  const e=entry(day,instanceId);e.sets=e.sets||[];e.sets[index]=previous||{};
  e.done=false;if(state.activeWorkout)state.activeWorkout.position=workoutPosition;
- lastSetUndo=null;undoToast.classList.remove("show");saveState();renderLive();
+ lastSetUndo=null;undoToast.classList.remove("show");saveState();refreshTodayPreviewStatus(day,instanceId);renderLive();
 }
 
 
@@ -6982,6 +7025,7 @@ function deleteSavedSet(index){
  e.done=false;
  lastSetUndo=null;
  saveState();
+ refreshTodayPreviewStatus(day,inst.instanceId);
  renderLive();
  showToast(t("setDeleted"));
 }
@@ -7130,12 +7174,12 @@ function completeLiveSet(instanceId,index){
   e.speed=m.id==="treadmill"?"":(document.getElementById("liveSpeed")?.value||"").trim();
   e.incline="";
   if(!e.minutes)return invalid(t("enterCardio"));
-  e.done=true;saveState();createLocalSafetyBackup("cardio-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Kardio uloženo ✓":"Cardio saved ✓");completingLiveSet=false;renderLive();return;
+  e.done=true;saveState();refreshTodayPreviewStatus(day,instanceId);createLocalSafetyBackup("cardio-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Kardio uloženo ✓":"Cardio saved ✓");completingLiveSet=false;renderLive();return;
  }
  e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;
  const complete=e.sets.slice(0,m.sets).filter(x=>x?._complete===true).length>=m.sets;
  if(complete)e.done=true;
- saveState();createLocalSafetyBackup("set-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Série uložena ✓":"Set saved ✓");completingLiveSet=false;renderLive();showUndoToast();
+ saveState();refreshTodayPreviewStatus(day,instanceId);createLocalSafetyBackup("set-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Série uložena ✓":"Set saved ✓");completingLiveSet=false;renderLive();showUndoToast();
  if(!complete)startRest(m.rest,itemName(m),index+1);
 }
 function advanceAfterExercise(){const arr=activeInstances(),w=state.activeWorkout;if(w.position<arr.length-1)w.position++}

@@ -1,0 +1,23 @@
+Gym Tracker Pro v106 — QA report
+
+Scope
+- All 88 small card thumbnails were replaced with the completed natural-skin image set.
+- The large, multi-step exercise guides remain the separate v97/guides set.
+- v97/thumbs and v58 images are not used for the small exercise cards.
+
+Checks passed
+- index.html JavaScript syntax: passed.
+- sw.js JavaScript syntax: passed.
+- manifest.webmanifest JSON: passed.
+- Version is v106 in index.html, sw.js and manifest.webmanifest.
+- legacy-card-thumbs: 88/88 WebP files, exact expected filenames, 420 x 420 px.
+- exercise-guides/v97/guides: 88/88 detailed images retained.
+- legacy-images-v58: retained as backup.
+- Calendar implementation and daily completion-state logic: unchanged from v104.
+- Service-worker cache version updated to v106.
+- ZIP integrity: passed.
+
+Visual asset standard
+- Natural colour skin; red/orange-red highlighted working muscles.
+- Dark navy/electric-blue gym setting; black shorts/shoes.
+- One exercise pose per card thumbnail; no text, watermark or split layout.
