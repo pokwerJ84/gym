@@ -4513,7 +4513,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .modern-exercise-card .preview-card-main small{font-size:11px}
 }
 
-/* v114 – corrected leg press calf raise ankle movement guide */
+/* v115 – Supabase image path repair with local corrected-guide overrides */
 .modern-database-item{grid-template-columns:118px minmax(0,1fr)!important;grid-template-areas:"thumb copy"!important;align-items:center!important;gap:14px!important;min-height:148px!important;padding:12px!important}
 .modern-database-item.has-actions{grid-template-columns:118px minmax(0,1fr) 46px!important;grid-template-areas:"thumb copy actions"!important}
 .modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:118px!important;height:122px!important;border-radius:12px!important}
@@ -4541,7 +4541,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .database-title-row h4{font-size:14px!important}
 }
 
-/* v114 – compact rest dock, smarter workout completion and corrected guides */
+/* v115 – compact rest dock, smarter workout completion and reliable guides */
 .workout-running.awaiting-finish{background:rgba(18,116,78,.97);border-color:#45dea0;box-shadow:0 12px 38px rgba(16,160,96,.35)}
 .workout-running.awaiting-finish #runningTime{display:none}
 .workout-running.awaiting-finish #runningFinishBtn{min-width:72px;background:#fff;color:#126f4d;border-color:#fff}
@@ -4574,7 +4574,7 @@ body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#ea
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v114</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v115</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4866,16 +4866,21 @@ if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 
 // Cards deliberately keep the original single-pose dark-blue thumbnails.
 // The detail modal uses the new two-phase natural-skin guides from Supabase.
-const COLOUR_IMAGE_REVISION="114";
-const COLOUR_GUIDE_DIRECTORY="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v114/guides/";
+const COLOUR_IMAGE_REVISION="115";
+// Supabase currently contains the complete verified 88-image set in v112.
+const COLOUR_GUIDE_DIRECTORY="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v112/guides/";
 const LOCAL_COLOUR_GUIDE_DIRECTORY="./exercise-guides/v114/guides/";
+const LOCAL_CORRECTED_GUIDES={
+ seated_leg_curl:"./guide-seated-leg-curl-v115.webp",
+ leg_press_calf_raise:"./guide-leg-press-calf-raise-v115.webp"
+};
 const DEDICATED_GYM_GUIDES=new Set(["back_extension","machine_crunch","smith_machine_bench_press"]);
 LIBRARY.forEach(item=>{
  if(!String(item.guideThumb||"").startsWith("./legacy-card-thumbs/"))return;
  const filename=item.guideThumb.split("/").pop().split("?")[0];
  item.guideThumb=`./legacy-card-thumbs/${filename}?v=${COLOUR_IMAGE_REVISION}`;
  if(!DEDICATED_GYM_GUIDES.has(item.id)){
-   item.guideImage=`${COLOUR_GUIDE_DIRECTORY}${filename}?v=${COLOUR_IMAGE_REVISION}`;
+   item.guideImage=LOCAL_CORRECTED_GUIDES[item.id]||`${COLOUR_GUIDE_DIRECTORY}${filename}?v=${COLOUR_IMAGE_REVISION}`;
    item.guideExact=true;
  }
 });
@@ -4884,10 +4889,10 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=114;
+const VERSION=115;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
-const EXERCISE_IMAGE_VERSION="v114";
+const EXERCISE_IMAGE_VERSION="v112";
 const EXERCISE_IMAGE_PUBLIC_BASE=`${SUPABASE_URL}/storage/v1/object/public/${EXERCISE_IMAGE_BUCKET}/${EXERCISE_IMAGE_VERSION}`;
 
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
@@ -6552,12 +6557,12 @@ function renderLibrary(){
 const EXERCISE_IMAGE_PLACEHOLDER=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360"><rect width="520" height="360" rx="26" fill="#edf4f6"/><g fill="none" stroke="#1d8f92" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><rect x="125" y="70" width="270" height="200" rx="22"/><circle cx="205" cy="145" r="28"/><path d="M155 235l70-65 55 48 38-35 47 52"/></g><text x="260" y="315" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#173743">Tap to reload image</text></svg>`)}`;
 function isExerciseImage(img){
  const source=String(img?.getAttribute?.("src")||img?.dataset?.originalSrc||"");
- return img instanceof HTMLImageElement&&(source.includes(`/exercise-guides/${EXERCISE_IMAGE_VERSION}/`)||source.includes("/exercise-guides/v58/")||source.includes("/legacy-card-thumbs/")||source.startsWith("./legacy-card-thumbs/"));
+ return img instanceof HTMLImageElement&&(source.includes(`/exercise-guides/${EXERCISE_IMAGE_VERSION}/`)||source.includes("/exercise-guides/v58/")||source.includes("/legacy-card-thumbs/")||source.startsWith("./legacy-card-thumbs/")||source.includes("guide-seated-leg-curl-v115.webp")||source.includes("guide-leg-press-calf-raise-v115.webp"));
 }
 function handleExerciseImageFailure(img){
  if(!isExerciseImage(img)||img.dataset.failed==="1")return;
  const failedSrc=img.getAttribute("src")||"";
- if(failedSrc.includes("/exercise-guides/v114/guides/")&&img.dataset.localFallback!=="1"){
+ if(failedSrc.includes("/exercise-guides/v112/guides/")&&img.dataset.localFallback!=="1"){
    const filename=failedSrc.split("/").pop().split("?")[0];
    img.dataset.localFallback="1";
    img.setAttribute("src",`${LOCAL_COLOUR_GUIDE_DIRECTORY}${filename}?v=${COLOUR_IMAGE_REVISION}`);

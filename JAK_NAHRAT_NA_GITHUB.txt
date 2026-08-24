@@ -1,16 +1,16 @@
-GYM TRACKER PRO v114 – NAHRÁNÍ NA GITHUB
+GYM TRACKER PRO v115 – NAHRÁNÍ NA GITHUB
 
 1. Rozbal ZIP.
-2. Otevři složku Gym_Tracker_Pro_v114_Corrected_Calf_Raise.
+2. Otevři složku Gym_Tracker_Pro_v115_Supabase_Image_Fix.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
 4. Nahraj soubory přímo do hlavní části repository pokwerJ84/gym.
 5. Potvrď přepsání souborů v GitHubu a commitni změny.
 6. V aplikaci použij Nastavení → Aktualizovat aplikaci.
-7. Aplikaci na iPhonu úplně zavři a znovu otevři. V záhlaví musí být v114.
+7. Aplikaci na iPhonu úplně zavři a znovu otevři. V záhlaví musí být v115.
 
 OMEZENÍ GITHUB DRAG & DROP
 - Do jednoho ručního uploadu dávej vždy méně než 100 souborů.
-- Použij ZIP Gym_Tracker_Pro_v114_GitHub_Drag_Drop.zip.
+- Použij ZIP Gym_Tracker_Pro_v115_GitHub_Drag_Drop.zip.
 - Nejprve nahraj kořenové soubory přímo do pokwerJ84/gym.
 - Potom můžeš samostatně přetáhnout všechny tři složky: legacy-card-thumbs, legacy-images-v58 a exercise-guides.
 - V tomto pomocném balíčku má každá ze tří složek méně než 100 souborů.
@@ -18,12 +18,21 @@ OMEZENÍ GITHUB DRAG & DROP
 
 DŮLEŽITÉ
 - Malé kartové obrázky zůstávají v legacy-card-thumbs a mají jednopolohovou kompozici.
-- Velké dvoufázové obrázky v detailu používají exercise-guides/v114/guides; pokud nejsou na Supabase, automaticky se načtou lokálně z GitHubu.
+- Velké dvoufázové obrázky v detailu používají kompletní dostupnou sadu Supabase v112.
+- Opravené Seated Leg Curl a Leg Press Calf Raise jsou navíc uložené jako dva kořenové soubory, aby se při GitHub drag & drop nemohly ztratit.
+- Pokud Supabase obrázek selže, aplikace jej automaticky zkusí načíst z lokální zálohy exercise-guides/v114/guides.
 - Tři nové stroje (Lower Back, Abdominal Crunch a Smith Bench Press) používají přesné lokální návody z v108.
 - Složky legacy-images-v58 a exercise-guides nemaž; jsou součástí zálohy.
 - Názvy ani umístění souborů .webp neměň.
 
-CO JE NOVÉ VE v114
+CO JE NOVÉ VE v115
+- Opravena neexistující Supabase cesta v114/guides, která způsobovala „Tap to reload image“.
+- Všech 88 detailů nyní používá ověřenou existující složku Supabase v112/guides.
+- 86 obrázků v Supabase je shodných s lokální sadou v114.
+- Dva novější opravené obrázky jsou bezpečně načítané z kořene GitHubu.
+- Nová cache v115 odstraní uložené chybné adresy z předchozí verze.
+
+ZACHOVÁNO Z v114
 - Leg Press Calf Raise má nový detailní návod z bočního pohledu.
 - Vlevo je pata jasně spuštěná pod špičku; vpravo je pata jasně zvednutá.
 - Špička zůstává v obou fázích na stejné hraně a pohyb probíhá pouze v kotníku.

@@ -1,10 +1,10 @@
-const VERSION="v114";
+const VERSION="v115";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
   "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/",
   "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v97/",
-  "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v114/"
+  "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v112/"
 ];
 const CORE_ASSETS=[
   "./",
@@ -23,6 +23,8 @@ const CORE_ASSETS=[
   ,"./doorway-chest-stretch.webp"
   ,"./nautilus-hack-squat.webp"
   ,"./nautilus-rotary-torso.webp"
+  ,"./guide-seated-leg-curl-v115.webp"
+  ,"./guide-leg-press-calf-raise-v115.webp"
 ];
 
 self.addEventListener("install",event=>{
@@ -147,6 +149,6 @@ self.addEventListener("notificationclick",event=>{
   event.waitUntil((async()=>{
     const clientsList=await clients.matchAll({type:"window",includeUncontrolled:true});
     if(clientsList.length){await clientsList[0].focus();return}
-    await clients.openWindow("./?v=114&finishWorkout=1");
+    await clients.openWindow("./?v=115&finishWorkout=1");
   })());
 });

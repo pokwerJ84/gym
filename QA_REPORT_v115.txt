@@ -1,0 +1,25 @@
+GYM TRACKER PRO v115 – QA REPORT
+Datum kontroly: 2026-08-24
+
+VÝSLEDEK: PASS
+
+HLAVNÍ OPRAVA
+- Aplikace v114 požadovala Supabase složku v114/guides, která v bucketu neexistovala.
+- Supabase obsahuje kompletní veřejnou sadu 88 obrázků v112/guides.
+- v115 používá existující Supabase v112/guides a při síťové chybě lokální v114 zálohu.
+- Seated Leg Curl a Leg Press Calf Raise používají novější opravené soubory přímo z kořene aplikace.
+
+KONTROLA
+- Projekt Supabase wknfwqjuatnozjksqutf: ACTIVE_HEALTHY.
+- Bucket exercise-guides: public.
+- Supabase v112/guides: 88/88 objektů PASS.
+- Porovnání MD5: 86/88 je shodných s lokální sadou v114.
+- Dvě rozdílné novější opravy: Seated Leg Curl a Leg Press Calf Raise – kořenové lokální soubory PASS.
+- index.html JavaScript: PASS.
+- sw.js syntaxe: PASS.
+- manifest.webmanifest: PASS.
+- Verze aplikace, cache a manifestu: v115 PASS.
+- Původní kartové náhledy: 88/88 PASS.
+- Detailní lokální záloha v114: 88/88 PASS.
+- Karty nepoužívají v97/thumbs ani bílou sadu v58 PASS.
+- ZIP integrity: Final PASS, GitHub_Drag_Drop PASS.
