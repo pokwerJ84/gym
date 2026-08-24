@@ -1,0 +1,17 @@
+Gym Tracker Pro v107 — QA report
+
+Changes
+- A completed exercise card updates immediately to its green completed state.
+- Undoing or deleting a completed set immediately updates the card back to its current state.
+- Cable Lateral Raise now logs one weight plus separate left and right repetitions.
+- The complete v106 natural-skin card-image set is included unchanged: 88/88 local thumbnails.
+- The separate v97 large exercise guides are preserved unchanged: 88/88 guides.
+
+Checks passed
+- index.html inline JavaScript syntax.
+- sw.js JavaScript syntax.
+- manifest.webmanifest JSON syntax.
+- Version v107 in index.html, sw.js and manifest.webmanifest.
+- Exact 88/88 local card-thumbnail filenames and 420 x 420 px WebP size.
+- ZIP integrity.
+- Calendar and per-date completion logic unchanged from v106.
