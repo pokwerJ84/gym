@@ -1,37 +1,31 @@
-GYM TRACKER PRO v104 – NAHRÁNÍ NA GITHUB
+GYM TRACKER PRO v112 – NAHRÁNÍ NA GITHUB
 
 1. Rozbal ZIP.
-2. Otevři složku Gym_Tracker_Pro_v104_Bottom_Add_Exercise.
+2. Otevři složku Gym_Tracker_Pro_v112_Smart_Workout_Flow.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
-4. Nahraj soubory přímo do hlavní části repository gym.
-5. Potvrď přepsání starých souborů a commitni změny.
+4. Nahraj soubory přímo do hlavní části repository pokwerJ84/gym.
+5. Potvrď přepsání souborů v GitHubu a commitni změny.
+6. V aplikaci použij Nastavení → Aktualizovat aplikaci.
+7. Aplikaci na iPhonu úplně zavři a znovu otevři. V záhlaví musí být v112.
+
+OMEZENÍ GITHUB DRAG & DROP
+- Do jednoho ručního uploadu dávej vždy méně než 100 souborů.
+- Celou složku exercise-guides nenahrávej najednou; její podsložky nahrávej samostatně.
+- Pro pohodlné ruční nahrání použij samostatný balíček Gym_Tracker_Pro_v112_GitHub_Drag_Drop.
 
 DŮLEŽITÉ
-- Malé obrázky na kartách jsou původní jednopolohové obrázky ze složky legacy-card-thumbs.
-- Nové obrázky po rozkliknutí se načítají ze Supabase z exercise-guides/v97.
-- Lokální exercise-guides/v97/guides a thumbs zůstávají v balíčku jako záloha.
+- Malé kartové obrázky zůstávají v legacy-card-thumbs a mají jednopolohovou kompozici.
+- Velké dvoufázové obrázky v detailu se načítají ze Supabase exercise-guides/v112/guides.
+- Tři nové stroje (Lower Back, Abdominal Crunch a Smith Bench Press) používají přesné lokální návody z v108.
+- Složky legacy-images-v58 a exercise-guides nemaž; jsou součástí zálohy.
 - Názvy ani umístění souborů .webp neměň.
-- Složka legacy-images-v58 zůstává jako lokální záloha původní sady.
-- Původní sada v Supabase exercise-guides/v58 zůstává beze změny.
-- Po nahrání otevři aplikaci a použij Nastavení > Aktualizovat aplikaci.
-- Pokud iPhone stále ukazuje starou verzi, aplikaci úplně zavři a znovu otevři.
 
-CO JE NOVÉ VE v104
-- Tlačítko Add exercise bylo odstraněno z horní části denního plánu, ale zůstává dole pod seznamem cviků.
-- Názvy cviků v databázi mají dostatečně široký prostor a už se nelámou po jednotlivých písmenech.
-- Databázové karty používají přehledné dvousloupcové rozložení: obrázek a text.
-- Po klepnutí na kartu se velký detailní obrázek z v97/guides zobrazí přes téměř celou šířku telefonu.
-- Také karty doporučených náhrad lze klepnutím otevřít a nejdřív si prohlédnout velký návod; tlačítko Replace exercise zůstává samostatné.
-- Karty cviků jsou přibližně o polovinu větší a mají obrázek 118 × 122 px.
-- Text na kartě má jasnější čtyřřádkovou hierarchii.
-- Rámeček karet, číslo a šipka jsou výraznější.
-- Kalendář je mírně větší a vybraný den má výraznější zvýraznění.
-- Karty cviků používají původní tmavě modré obrázky s jednou polohou.
-- Po rozkliknutí se zobrazí nové vícekrokové obrázky ze Supabase v97.
-- Dokončení cviků se nepřenáší do jiného dne.
-- Kalendář je 35denní nativní vodorovný pás pro iOS; neblokuje svislé posouvání stránky.
-- Kalendář lze ovládat prstem, šipkami i přes tlačítko Změnit datum.
-- Nová cache v104 přinutí telefon převzít opravenou verzi.
-- Klepnutí na datum přepne správný plán a trénink se uloží k vybranému datu.
-- Při změně data rozpracovaného tréninku se aplikace nejdřív zeptá.
-- Původní sada v58 je zachována jako lokální i vzdálená záloha.
+CO JE NOVÉ VE v112
+- Po dokončení všech cviků se ihned otevře souhrn pro ukončení celého workoutu.
+- Pokud workout neukončíš, aplikace jej zvýrazní jako stále běžící a připomene jej znovu.
+- Odpočinek po sérii je kompaktní panel dole; tréninková karta zůstává viditelná.
+- V odpočinku lze přidat 30 sekund nebo pauzu přeskočit.
+- Po dokončení plánovaných sérií lze jedním tlačítkem přidat další sérii.
+- Change exercise je přesunuté pod hlavní tlačítko dokončení série.
+- Detail cviku používá nové barevné dvoufázové obrázky ze Supabase v112.
+- Dokončená karta se zeleně aktualizuje ihned bez restartu aplikace.

@@ -1,9 +1,10 @@
-const VERSION="v111";
+const VERSION="v112";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
   "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v58/",
-  "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v97/"
+  "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v97/",
+  "https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v112/"
 ];
 const CORE_ASSETS=[
   "./",
@@ -47,6 +48,7 @@ function isExerciseImageUrl(url){
   const value=String(url);
   return IMAGE_PREFIXES.some(prefix=>value.startsWith(prefix))
     ||value.includes("/legacy-card-thumbs/")
+    ||value.includes("/exercise-guides/v112/guides/")
     ||value.includes("/exercise-guides/v111/guides/")
     ||value.includes("/exercise-guides/v108/guides/");
 }
@@ -136,4 +138,13 @@ self.addEventListener("message",event=>{
       data.urls.filter(isExerciseImageUrl).map(url=>cacheExerciseImage(url))
     ));
   }
+});
+
+self.addEventListener("notificationclick",event=>{
+  event.notification.close();
+  event.waitUntil((async()=>{
+    const clientsList=await clients.matchAll({type:"window",includeUncontrolled:true});
+    if(clientsList.length){await clientsList[0].focus();return}
+    await clients.openWindow("./?v=112&finishWorkout=1");
+  })());
 });

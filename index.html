@@ -4513,7 +4513,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .modern-exercise-card .preview-card-main small{font-size:11px}
 }
 
-/* v111 – force fresh colour exercise images on cards and in exercise detail */
+/* v112 – fresh coloured card assets plus two-phase Supabase detail guides */
 .modern-database-item{grid-template-columns:118px minmax(0,1fr)!important;grid-template-areas:"thumb copy"!important;align-items:center!important;gap:14px!important;min-height:148px!important;padding:12px!important}
 .modern-database-item.has-actions{grid-template-columns:118px minmax(0,1fr) 46px!important;grid-template-areas:"thumb copy actions"!important}
 .modern-database-item .database-guide-thumb,.modern-database-item .database-glyph{width:118px!important;height:122px!important;border-radius:12px!important}
@@ -4541,6 +4541,27 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
   .database-title-row h4{font-size:14px!important}
 }
 
+/* v112 – compact rest dock and smarter workout completion */
+.workout-running.awaiting-finish{background:rgba(18,116,78,.97);border-color:#45dea0;box-shadow:0 12px 38px rgba(16,160,96,.35)}
+.workout-running.awaiting-finish #runningTime{display:none}
+.workout-running.awaiting-finish #runningFinishBtn{min-width:72px;background:#fff;color:#126f4d;border-color:#fff}
+.rest-overlay{inset:auto 0 0;overflow:visible;background:transparent;pointer-events:none;z-index:78}
+.rest-overlay.show{display:block}
+.rest-shell{min-height:0;width:100%;padding:10px 12px calc(76px + env(safe-area-inset-bottom));color:#fff;text-align:left;pointer-events:none}
+.rest-panel{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px;width:min(736px,100%);margin:auto;padding:11px 12px;border:1px solid rgba(255,255,255,.25);border-radius:18px;background:rgba(7,43,64,.97);box-shadow:0 14px 44px rgba(0,0,0,.38);backdrop-filter:blur(14px);pointer-events:auto}
+.rest-panel .kicker{grid-column:1;color:#8cded8;font-size:9px}.rest-panel h2{grid-column:1;margin:0;font-size:13px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rest-time{grid-column:2;grid-row:1/3;min-width:84px;margin:0;font-size:32px;text-align:center}
+.rest-actions{grid-column:3;grid-row:1/3;display:flex;gap:7px}.rest-actions button{min-height:43px;padding:8px 11px;border-radius:12px;white-space:nowrap}
+.rest-actions button:last-child{background:#fff;color:#075f96}
+.rest-overlay.alarm-finished .rest-time{padding:4px 7px;border-radius:11px}
+.modern-change-below{width:100%;min-height:46px;margin-top:9px;border:1px solid #b8d9dd;border-radius:13px;background:#eff7f7;color:#102f46;font-weight:950}
+.extra-set-button{border-color:#20b8b0!important;background:rgba(32,184,176,.10)!important;color:#087f7a!important}
+.exercise-complete-panel{gap:10px;padding:15px;text-align:left}
+.exercise-complete-head{display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;align-items:center}
+.exercise-complete-mark{width:42px;height:42px;margin:0;font-size:22px}
+.exercise-complete-panel h3{font-size:19px}.exercise-complete-panel p{font-size:11px}
+@media(max-width:460px){.rest-panel{grid-template-columns:minmax(0,1fr) auto}.rest-time{grid-column:2}.rest-actions{grid-column:1/3;grid-row:3}.rest-actions button{flex:1}.rest-shell{padding-bottom:calc(74px + env(safe-area-inset-bottom))}}
+body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#eaf7fa}
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4553,7 +4574,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v111</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v112</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4567,7 +4588,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 <div class="workout-running" id="workoutRunning">
   <span id="runningDay"></span><strong id="runningTime">00:00</strong>
   <button class="smallbtn" onclick="openLiveWorkout()" id="resumeBtn"></button>
-  <button class="danger" onclick="askFinishWorkout()">✕</button>
+  <button class="danger" onclick="askFinishWorkout()" id="runningFinishBtn">✕</button>
 </div>
 
 <div class="image-storage-banner" id="imageStorageBanner" hidden>
@@ -4623,6 +4644,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
     <h2 id="restExercise"></h2>
     <div class="rest-time" id="restTime">01:30</div>
     <div class="rest-actions">
+      <button onclick="extendRest(30)">+30 s</button>
       <button onclick="skipRest()" id="restReturnBtn"></button>
     </div>
   </div></div>
@@ -4842,12 +4864,10 @@ LIBRARY.push({
 const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
 if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 
-// Every card uses the coloured, natural-skin illustration.  The dedicated
-// v111 URL is intentional: it prevents iOS from reusing a previously cached
-// grey thumbnail with the same file name.  The detail view uses the same
-// coloured illustration from the local large-guide folder.
-const COLOUR_IMAGE_REVISION="111";
-const COLOUR_GUIDE_DIRECTORY="./exercise-guides/v111/guides/";
+// Cards deliberately keep the original single-pose dark-blue thumbnails.
+// The detail modal uses the new two-phase natural-skin guides from Supabase.
+const COLOUR_IMAGE_REVISION="112";
+const COLOUR_GUIDE_DIRECTORY="https://wknfwqjuatnozjksqutf.supabase.co/storage/v1/object/public/exercise-guides/v112/guides/";
 const DEDICATED_GYM_GUIDES=new Set(["back_extension","machine_crunch","smith_machine_bench_press"]);
 LIBRARY.forEach(item=>{
  if(!String(item.guideThumb||"").startsWith("./legacy-card-thumbs/"))return;
@@ -4863,10 +4883,10 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=111;
+const VERSION=112;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
-const EXERCISE_IMAGE_VERSION="v97";
+const EXERCISE_IMAGE_VERSION="v112";
 const EXERCISE_IMAGE_PUBLIC_BASE=`${SUPABASE_URL}/storage/v1/object/public/${EXERCISE_IMAGE_BUCKET}/${EXERCISE_IMAGE_VERSION}`;
 
 const SUPABASE_KEY="sb_publishable__4n5rCP8tAHnOc106Uq5BA_fXuky3qk";
@@ -5185,7 +5205,7 @@ function formatMondayDate(value){return formatMeasurementDate(value)}
 
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
 let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null,returnToLiveAfterLibrary=false,completingLiveSet=false;
-let workoutTick=null,restTick=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
+let workoutTick=null,restTick=null,workoutReminderTimer=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
 let audioContext=null,lastRestBeepSecond=null,postRestAlarmTimeout=null,postRestAlarmBeepsRemaining=0;
 const activeAlarmOscillators=new Set();
 
@@ -5556,7 +5576,7 @@ function refreshTodayPreviewStatus(day,instanceId){
  const inst=activeInstances(day).find(item=>item.instanceId===instanceId);
  if(!inst)return;
  const m=metaFor(day,inst),exerciseEntry=entry(day,instanceId);
- const targetSets=m.mode==="cardio"?1:Number(m.sets)||1;
+ const targetSets=targetSetCount(m,exerciseEntry);
  const completedSets=m.mode==="cardio"?(exerciseEntry.done?1:0):(exerciseEntry.sets||[]).slice(0,targetSets).filter(set=>set?._complete===true).length;
  const done=exerciseEntry.done||completedSets>=targetSets;
  const inProgress=!done&&completedSets>0;
@@ -6355,7 +6375,7 @@ function applyLanguage(){
  finishTitle.textContent=t("workoutDone");finishNoteLabel.textContent=t("workoutNote");finishSaveBtn.textContent=t("saveFinish");finishDeleteBtn.textContent=t("deleteWorkout");
  cloudTitle.textContent=t("cloud");cloudIntro.textContent=t("cloudIntro");passwordLabel.textContent=t("password");signInBtn.textContent=t("signIn");signUpBtn.textContent=t("signUp");signedAsLabel.textContent=t("signedAs");syncBtn.textContent=t("sync");signOutBtn.textContent=t("signOut");
  retroSaveBtn.textContent=t("saveSet");updateCloudUI();
- DAYS.forEach(renderDay);renderProgress();renderHistoryScreen();renderMore();if(state.activeWorkout)renderLive();
+ DAYS.forEach(renderDay);renderProgress();renderHistoryScreen();renderMore();if(state.activeWorkout){renderLive();updateRunningWorkoutBanner()}
 }
 function toggleLanguage(){const order=["cs","en"],i=order.indexOf(lang());setLanguage(order[(i+1)%order.length])}
 function toggleTheme(){state.settings.theme=state.settings.theme==="dark"?"light":"dark";saveState();applyTheme()}
@@ -6828,6 +6848,7 @@ function updateWorkoutTimes(){
 }
 function openLiveWorkout(){
  if(!state.activeWorkout)return;
+ if(state.activeWorkout.awaitingFinish&&allWorkoutExercisesDone()){openFinishDialog();return}
  byId("liveOverlay")?.classList.add("show");
  byId("workoutRunning")?.classList.remove("show");
  renderLive();startWorkoutTicker();
@@ -6837,8 +6858,7 @@ function minimizeLive(){
  if(!state.activeWorkout)return;
  byId("liveOverlay")?.classList.remove("show");
  byId("workoutRunning")?.classList.add("show");
- const label=byId("runningDay");
- if(label)label.textContent=BASE_PLANS[state.activeWorkout.day]["title_"+lang()]||BASE_PLANS[state.activeWorkout.day].title_en;
+ updateRunningWorkoutBanner();
  document.exitFullscreen?.().catch(()=>{});
 }
 function currentLive(){
@@ -6846,10 +6866,15 @@ function currentLive(){
 }
 function firstIncompleteSet(m,e){
  if(m.mode==="cardio")return 0;
- for(let i=0;i<m.sets;i++){
+ const target=targetSetCount(m,e);
+ for(let i=0;i<target;i++){
    if(!e.sets?.[i]?._complete)return i;
  }
- return Math.max(0,m.sets-1);
+ return Math.max(0,target-1);
+}
+function targetSetCount(m,e){
+ if(m.mode==="cardio")return 1;
+ return Math.max(Number(m.sets)||1,Number(e?.extraTargetSets)||0);
 }
 
 
@@ -6919,7 +6944,7 @@ function undoLastSet(){
  if(!lastSetUndo)return;
  const {day,instanceId,index,previous,workoutPosition}=lastSetUndo;
  const e=entry(day,instanceId);e.sets=e.sets||[];e.sets[index]=previous||{};
- e.done=false;if(state.activeWorkout)state.activeWorkout.position=workoutPosition;
+ e.done=false;if(state.activeWorkout){state.activeWorkout.position=workoutPosition;state.activeWorkout.awaitingFinish=false;state.activeWorkout.workoutReminderAt=0}clearWorkoutReminder();
  lastSetUndo=null;undoToast.classList.remove("show");saveState();refreshTodayPreviewStatus(day,instanceId);renderLive();
 }
 
@@ -7039,7 +7064,10 @@ function deleteSavedSet(index){
  if(!e.sets?.[index]?._complete)return;
  if(!confirm(t("deleteSetConfirm")))return;
  e.sets.splice(index,1);
- e.done=false;
+ const meta=metaFor(day,inst);
+ e.extraTargetSets=Math.max(Number(meta.sets)||1,(e.sets||[]).length);
+ e.done=(e.sets||[]).slice(0,targetSetCount(meta,e)).filter(set=>set?._complete===true).length>=targetSetCount(meta,e);
+ if(state.activeWorkout){state.activeWorkout.awaitingFinish=false;state.activeWorkout.workoutReminderAt=0}clearWorkoutReminder();
  lastSetUndo=null;
  saveState();
  refreshTodayPreviewStatus(day,inst.instanceId);
@@ -7060,7 +7088,8 @@ function renderLive(){
  const idx=firstIncompleteSet(m,e);
  const last=lastRecord(m.id);
  const completedSets=(e.sets||[]).filter(set=>set?._complete===true).length;
- const isFinalSet=m.mode!=="cardio"&&idx>=Math.max(0,(Number(m.sets)||1)-1);
+ const setTarget=targetSetCount(m,e);
+ const isFinalSet=m.mode!=="cardio"&&idx>=Math.max(0,setTarget-1);
  const restLabel=m.mode==="cardio"?"—":`${Number(m.rest)||0}s`;
 
  liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;
@@ -7070,17 +7099,17 @@ function renderLive(){
   const remaining=arr.filter(item=>item.instanceId!==inst.instanceId&&!entry(day,item.instanceId).done);
   liveContent.innerHTML=`<div class="modern-live-hero">
     <div class="modern-live-glyph">${categoryGlyph(m.category)}</div>
-    <div class="modern-live-title"><span>${esc(livePlanLabel(day))}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p><button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button></div>
+    <div class="modern-live-title"><span>${esc(livePlanLabel(day))}</span><h2>${esc(itemName(m))}</h2><p>${targetText(m)}</p></div>
    </div>
    <div class="exercise-complete-panel">
-    <span class="exercise-complete-mark">✓</span>
-    <h3>${lang()==="cs"?"Cvik je hotový":"Exercise complete"}</h3>
-    <p>${lang()==="cs"?`${completedSets||1} z ${m.mode==="cardio"?1:m.sets} sérií dokončeno. Vyber, jak chceš pokračovat.`:`${completedSets||1} of ${m.mode==="cardio"?1:m.sets} sets complete. Choose what to do next.`}</p>
+    <div class="exercise-complete-head"><span class="exercise-complete-mark">✓</span><div><h3>${lang()==="cs"?"Cvik je hotový":"Exercise complete"}</h3>
+    <p>${lang()==="cs"?`${completedSets||1} z ${m.mode==="cardio"?1:setTarget} sérií dokončeno.`:`${completedSets||1} of ${m.mode==="cardio"?1:setTarget} sets complete.`}</p></div></div>
     <div class="exercise-complete-actions">
       <button class="primary" type="button" onclick="continueNextIncompleteExercise()">▶ ${remaining.length?(lang()==="cs"?"Pokračovat na další cvik":"Continue to next exercise"):(lang()==="cs"?"Dokončit celý trénink":"Finish workout")}</button>
+      ${m.mode!=="cardio"?`<button class="secondary extra-set-button" type="button" onclick="addExtraSetCurrent()">＋ ${lang()==="cs"?"Přidat další sérii":"Add another set"}</button>`:""}
       ${m.rest?`<button class="secondary" type="button" onclick="startOptionalRestForCurrent()">◷ ${lang()==="cs"?`Volitelná pauza ${m.rest} s`:`Optional rest ${m.rest}s`}</button>`:""}
-      ${remaining.length?`<details class="live-exercise-picker"><summary>▦ ${lang()==="cs"?"Vybrat jiný cvik":"Choose another exercise"}</summary><div class="live-exercise-options">${remaining.map(item=>{const option=metaFor(day,item),optionEntry=entry(day,item.instanceId),count=(optionEntry.sets||[]).filter(set=>set?._complete===true).length,target=option.mode==="cardio"?1:option.sets;return `<button type="button" onclick="jumpToExercise('${item.instanceId}')">${esc(itemName(option))}<small>${Math.min(count,target)}/${target} ${lang()==="cs"?"sérií":"sets"}</small></button>`}).join("")}</div></details>`:""}
       <button class="secondary" type="button" onclick="backToExerciseList()">‹ ${lang()==="cs"?"Zpět na seznam cviků":"Back to exercise list"}</button>
+      <button class="secondary" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button>
     </div>
    </div>
    <div class="saved-sets-panel modern-saved-sets">
@@ -7133,7 +7162,6 @@ function renderLive(){
      <span>${esc(livePlanLabel(day))}</span>
      <h2>${esc(itemName(m))}</h2>
      <p>${targetText(m)}</p>
-     <button class="modern-live-change" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button>
    </div>
  </div>
 
@@ -7148,7 +7176,7 @@ function renderLive(){
  <div class="live-round-metrics">
    <div><strong>${m.mode==="cardio"?targetText(m):m.range}</strong><span>${m.mode==="cardio"?t("time"):t("reps")}</span></div>
    <div><strong>${restLabel}</strong><span>${t("rest")}</span></div>
-   <div><strong>${m.mode==="cardio"?"1/1":`${Math.min(idx+1,m.sets)}/${m.sets}`}</strong><span>${t("set")}</span></div>
+   <div><strong>${m.mode==="cardio"?"1/1":`${Math.min(idx+1,setTarget)}/${setTarget}`}</strong><span>${t("set")}</span></div>
  </div>
 
  <div class="modern-live-set">
@@ -7157,6 +7185,7 @@ function renderLive(){
    </div>
    ${inputs}
    <button class="live-done modern-complete-set" onclick="completeLiveSet('${inst.instanceId}',${idx})">✓ ${m.mode==="cardio"?t("saveCardio"):isFinalSet?(lang()==="cs"?"Dokončit cvik":"Finish exercise"):t("doneRest")}</button>
+   <button class="modern-change-below" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button>
  </div>
 
  <div class="saved-sets-panel modern-saved-sets">
@@ -7191,13 +7220,27 @@ function completeLiveSet(instanceId,index){
   e.speed=m.id==="treadmill"?"":(document.getElementById("liveSpeed")?.value||"").trim();
   e.incline="";
   if(!e.minutes)return invalid(t("enterCardio"));
-  e.done=true;saveState();refreshTodayPreviewStatus(day,instanceId);createLocalSafetyBackup("cardio-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Kardio uloženo ✓":"Cardio saved ✓");completingLiveSet=false;renderLive();return;
+  e.done=true;saveState();refreshTodayPreviewStatus(day,instanceId);createLocalSafetyBackup("cardio-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Kardio uloženo ✓":"Cardio saved ✓");completingLiveSet=false;renderLive();setTimeout(maybePromptFinishWorkout,80);return;
  }
  e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous:previousSet,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;
- const complete=e.sets.slice(0,m.sets).filter(x=>x?._complete===true).length>=m.sets;
+ const setTarget=targetSetCount(m,e);
+ const complete=e.sets.slice(0,setTarget).filter(x=>x?._complete===true).length>=setTarget;
  if(complete)e.done=true;
  saveState();refreshTodayPreviewStatus(day,instanceId);createLocalSafetyBackup("set-completed");navigator.vibrate?.(35);showToast(lang()==="cs"?"Série uložena ✓":"Set saved ✓");completingLiveSet=false;renderLive();showUndoToast();
  if(!complete)startRest(m.rest,itemName(m),index+1);
+ else setTimeout(maybePromptFinishWorkout,80);
+}
+function addExtraSetCurrent(){
+ const inst=currentLive();if(!inst||!state.activeWorkout)return;
+ const day=state.activeWorkout.day,m=metaFor(day,inst),e=entry(day,inst.instanceId);
+ if(m.mode==="cardio")return;
+ const nextIndex=Math.max(Number(m.sets)||1,(e.sets||[]).length,targetSetCount(m,e));
+ const previous=[...(e.sets||[])].reverse().find(set=>set?._complete===true)||{};
+ const next={...previous};delete next._complete;
+ e.sets=e.sets||[];e.sets[nextIndex]=next;e.extraTargetSets=nextIndex+1;e.done=false;
+ if(state.activeWorkout){state.activeWorkout.awaitingFinish=false;state.activeWorkout.workoutReminderAt=0}
+ clearWorkoutReminder();saveState();refreshTodayPreviewStatus(day,inst.instanceId);renderLive();
+ showToast(lang()==="cs"?`Přidána série ${nextIndex+1}.`:`Set ${nextIndex+1} added.`);
 }
 function advanceAfterExercise(){const arr=activeInstances(),w=state.activeWorkout;if(w.position<arr.length-1)w.position++}
 function startOptionalRestForCurrent(){
@@ -7210,7 +7253,13 @@ function previousLive(){if(!state.activeWorkout)return;state.activeWorkout.posit
 function nextLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.min(activeInstances().length-1,state.activeWorkout.position+1);saveState();renderLive()}
 function startRest(seconds,name,setNo){
  if(!seconds)return;stopPostRestAlarm();lastRestBeepSecond=null;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
- liveOverlay.classList.remove("show");restOverlay.classList.remove("alarm-warning","alarm-finished");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
+ liveOverlay.classList.add("show");restOverlay.classList.remove("alarm-warning","alarm-finished");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
+}
+function extendRest(seconds=30){
+ const w=state.activeWorkout;if(!w)return;
+ stopPostRestAlarm();restOverlay.classList.remove("alarm-finished");
+ w.restEndAt=Math.max(Date.now(),Number(w.restEndAt)||0)+seconds*1000;saveState(false);updateRest();
+ clearInterval(restTick);restTick=setInterval(updateRest,500);
 }
 function updateRest(){
  const w=state.activeWorkout;if(!w)return;const left=Math.max(0,w.restEndAt-Date.now());restTime.textContent=fmt(left);
@@ -7221,6 +7270,41 @@ function updateRest(){
 }
 function returnFromRest(){stopPostRestAlarm();restOverlay.classList.remove("show","alarm-warning","alarm-finished");liveOverlay.classList.add("show");renderLive()}
 function skipRest(){if(state.activeWorkout)state.activeWorkout.restEndAt=0;clearInterval(restTick);stopPostRestAlarm();saveState(false);returnFromRest()}
+function allWorkoutExercisesDone(){
+ if(!state.activeWorkout)return false;
+ const arr=activeInstances(state.activeWorkout.day);
+ return arr.length>0&&arr.every(item=>entry(state.activeWorkout.day,item.instanceId).done);
+}
+function clearWorkoutReminder(){clearTimeout(workoutReminderTimer);workoutReminderTimer=null;const cleared=navigator.clearAppBadge?.();cleared?.catch?.(()=>{})}
+function scheduleWorkoutReminder(){
+ clearTimeout(workoutReminderTimer);
+ const w=state.activeWorkout;if(!w||!w.awaitingFinish)return;
+ w.workoutReminderAt=Number(w.workoutReminderAt)||Date.now()+10*60*1000;saveState(false);
+ workoutReminderTimer=setTimeout(showWorkoutStillRunningReminder,Math.max(250,w.workoutReminderAt-Date.now()));
+ const badged=navigator.setAppBadge?.(1);badged?.catch?.(()=>{});
+}
+async function showWorkoutStillRunningReminder(){
+ const w=state.activeWorkout;if(!w||!w.awaitingFinish)return;
+ const title=lang()==="cs"?"Dnešní trénink stále běží":"Today's workout is still running";
+ const body=lang()==="cs"?"Všechny cviky jsou hotové. Klepni a ukonči celý workout.":"All exercises are complete. Tap to finish the workout.";
+ byId("workoutRunning")?.classList.add("show","awaiting-finish");
+ updateRunningWorkoutBanner();showToast(body);
+ try{const registration=swRegistration||await navigator.serviceWorker?.getRegistration?.();if(Notification.permission==="granted"&&registration?.showNotification)await registration.showNotification(title,{body,tag:"gym-workout-finish",renotify:true,icon:"./icon-192.png",badge:"./icon-192.png",data:{action:"finish-workout"}})}catch{}
+ w.workoutReminderAt=Date.now()+10*60*1000;saveState(false);scheduleWorkoutReminder();
+}
+function updateRunningWorkoutBanner(){
+ const w=state.activeWorkout,banner=byId("workoutRunning"),label=byId("runningDay"),finish=byId("runningFinishBtn"),resume=byId("resumeBtn");
+ if(!w||!banner)return;
+ const awaiting=!!w.awaitingFinish;banner.classList.toggle("awaiting-finish",awaiting);
+ if(label)label.textContent=awaiting?(lang()==="cs"?"✓ Vše hotovo – ukonči workout":"✓ All done – finish workout"):(BASE_PLANS[w.day]["title_"+lang()]||BASE_PLANS[w.day].title_en);
+ if(finish)finish.textContent=awaiting?(lang()==="cs"?"Ukončit":"Finish"):"✕";
+ if(resume)resume.textContent=awaiting?(lang()==="cs"?"Souhrn":"Summary"):t("resume");
+}
+function maybePromptFinishWorkout(){
+ const w=state.activeWorkout;if(!w||!allWorkoutExercisesDone())return false;
+ w.awaitingFinish=true;w.allDoneAt=Number(w.allDoneAt)||Date.now();w.workoutReminderAt=Date.now()+10*60*1000;saveState(false);
+ scheduleWorkoutReminder();navigator.vibrate?.([100,60,100]);openFinishDialog();return true;
+}
 function askFinishWorkout(){
  if(!state.activeWorkout)return;
  if(!confirm(t("finishConfirm")))return;
@@ -7244,10 +7328,11 @@ function openFinishDialog(){
 function cancelFinish(){
  const dialog=byId("finishDialog");if(dialog?.open)dialog.close();
  if(state.activeWorkout){
-   byId("workoutRunning")?.classList.add("show");
-   const label=byId("runningDay");
-   if(label)label.textContent=BASE_PLANS[state.activeWorkout.day]["title_"+lang()]||BASE_PLANS[state.activeWorkout.day].title_en;
-   startWorkoutTicker();
+   if(allWorkoutExercisesDone()){state.activeWorkout.awaitingFinish=true;scheduleWorkoutReminder()}
+   byId("workoutRunning")?.classList.remove("show");
+   byId("liveOverlay")?.classList.add("show");
+   updateRunningWorkoutBanner();
+   renderLive();startWorkoutTicker();
  }
 }
 function deleteActiveWorkout(){
@@ -7269,6 +7354,7 @@ function deleteActiveWorkout(){
 
  clearInterval(workoutTick);
  clearInterval(restTick);
+ clearWorkoutReminder();
  stopPostRestAlarm();
  byId("liveOverlay")?.classList.remove("show");
  byId("restOverlay")?.classList.remove("show");
@@ -7291,7 +7377,7 @@ async function saveFinishedWorkout(){
    rec.minutes=e.minutes||"";
    rec.speed=m.id==="treadmill"?"":(e.speed||"");
   }
-  else{rec.sets=(e.sets||[]).slice(0,m.sets).filter(x=>x?._complete===true).map(({_complete,...set})=>set);if(!rec.sets.length)return}
+  else{rec.sets=(e.sets||[]).slice(0,targetSetCount(m,e)).filter(x=>x?._complete===true).map(({_complete,...set})=>set);if(!rec.sets.length)return}
   state.history[m.id]=state.history[m.id]||[];state.history[m.id].push(rec);
  });
  const dialog=byId("finishDialog"),note=byId("finishNote");
@@ -7301,7 +7387,7 @@ async function saveFinishedWorkout(){
  state.activeWorkout=null;
  if(dialog?.open)dialog.close();
  if(note)note.value="";
- clearInterval(workoutTick);clearInterval(restTick);stopPostRestAlarm();
+ clearInterval(workoutTick);clearInterval(restTick);clearWorkoutReminder();stopPostRestAlarm();
  byId("liveOverlay")?.classList.remove("show");
  byId("restOverlay")?.classList.remove("show");
  byId("workoutRunning")?.classList.remove("show");
@@ -7320,13 +7406,15 @@ async function saveFinishedWorkout(){
 function restoreActiveWorkout(){
  if(!state.activeWorkout)return;
  byId("workoutRunning")?.classList.add("show");
- const label=byId("runningDay");if(label)label.textContent=BASE_PLANS[state.activeWorkout.day]["title_"+lang()]||BASE_PLANS[state.activeWorkout.day].title_en;
+ if(allWorkoutExercisesDone())state.activeWorkout.awaitingFinish=true;
+ updateRunningWorkoutBanner();
  startWorkoutTicker();
+ if(state.activeWorkout.awaitingFinish)scheduleWorkoutReminder();
  if(state.activeWorkout.restEndAt>Date.now()){
    const restName=byId("restExercise");if(restName)restName.textContent=state.activeWorkout.restExercise||"";
    byId("restOverlay")?.classList.add("show");updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
  }else if(state.activeWorkout.restEndAt){state.activeWorkout.restEndAt=0;saveState(false)}
- setTimeout(()=>{if(state.activeWorkout&&!byId("restOverlay")?.classList.contains("show"))openLiveWorkout()},450);
+ setTimeout(()=>{if(!state.activeWorkout)return;if(state.activeWorkout.awaitingFinish)openFinishDialog();else openLiveWorkout()},450);
 }
 
 function upsertProgress(date,weight,waist){
@@ -7889,7 +7977,7 @@ function init(){
  registerAppServiceWorker();
  scheduleMeasurementReminder();
  setTimeout(()=>checkExerciseImageStorage(false),1600);
- document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 init();
 </script>
