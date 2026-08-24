@@ -1,0 +1,24 @@
+GYM TRACKER PRO v114 – QA REPORT
+Datum kontroly: 2026-08-24
+
+VÝSLEDEK: PASS
+
+HLAVNÍ OPRAVA
+- Leg Press Calf Raise používá nový dvoufázový detailní obrázek.
+- Výchozí fáze: špička na hraně, pata jasně spuštěná dolů.
+- Konečná fáze: špička zůstává na stejné hraně, pata je jasně zvednutá nahoru.
+- Poloha kolena ani saní se nemění; pohyb je znázorněný pouze v kotníku.
+
+KONTROLA
+- index.html JavaScript: PASS.
+- sw.js syntaxe: PASS.
+- manifest.webmanifest: PASS.
+- Verze aplikace, cache a manifestu: v114 PASS.
+- Původní kartové náhledy: 88/88 PASS.
+- Samostatný Smith Machine Bench Press náhled: 1/1 PASS.
+- Detailní návody v114: 88/88 PASS.
+- Všechny WebP soubory lze dekódovat: PASS.
+- Karty nadále používají legacy-card-thumbs; v97/thumbs ani v58 nejsou použity na kartách.
+- Lokální fallback pro detailní v114 obrázky: PASS.
+- ZIP integrity: Final PASS, GitHub_Drag_Drop PASS.
+- GitHub_Drag_Drop počty: legacy-card-thumbs 89, legacy-images-v58 2, exercise-guides 91; všechny tři složky jsou pod limitem 100 souborů PASS.

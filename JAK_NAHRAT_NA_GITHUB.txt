@@ -1,26 +1,48 @@
-GYM TRACKER PRO v112 – NAHRÁNÍ NA GITHUB
+GYM TRACKER PRO v114 – NAHRÁNÍ NA GITHUB
 
 1. Rozbal ZIP.
-2. Otevři složku Gym_Tracker_Pro_v112_Smart_Workout_Flow.
+2. Otevři složku Gym_Tracker_Pro_v114_Corrected_Calf_Raise.
 3. Označ všechny soubory uvnitř. Nenahrávej samotnou obalovou složku.
 4. Nahraj soubory přímo do hlavní části repository pokwerJ84/gym.
 5. Potvrď přepsání souborů v GitHubu a commitni změny.
 6. V aplikaci použij Nastavení → Aktualizovat aplikaci.
-7. Aplikaci na iPhonu úplně zavři a znovu otevři. V záhlaví musí být v112.
+7. Aplikaci na iPhonu úplně zavři a znovu otevři. V záhlaví musí být v114.
+
+OMEZENÍ GITHUB DRAG & DROP
+- Do jednoho ručního uploadu dávej vždy méně než 100 souborů.
+- Použij ZIP Gym_Tracker_Pro_v114_GitHub_Drag_Drop.zip.
+- Nejprve nahraj kořenové soubory přímo do pokwerJ84/gym.
+- Potom můžeš samostatně přetáhnout všechny tři složky: legacy-card-thumbs, legacy-images-v58 a exercise-guides.
+- V tomto pomocném balíčku má každá ze tří složek méně než 100 souborů.
+- Plný archiv Final obsahuje také starší zálohy; ten je určený pro bezpečné archivování, ne pro jeden GitHub drag & drop.
 
 DŮLEŽITÉ
 - Malé kartové obrázky zůstávají v legacy-card-thumbs a mají jednopolohovou kompozici.
-- Velké dvoufázové obrázky v detailu se načítají ze Supabase exercise-guides/v112/guides.
+- Velké dvoufázové obrázky v detailu používají exercise-guides/v114/guides; pokud nejsou na Supabase, automaticky se načtou lokálně z GitHubu.
 - Tři nové stroje (Lower Back, Abdominal Crunch a Smith Bench Press) používají přesné lokální návody z v108.
 - Složky legacy-images-v58 a exercise-guides nemaž; jsou součástí zálohy.
 - Názvy ani umístění souborů .webp neměň.
 
-CO JE NOVÉ VE v112
+CO JE NOVÉ VE v114
+- Leg Press Calf Raise má nový detailní návod z bočního pohledu.
+- Vlevo je pata jasně spuštěná pod špičku; vpravo je pata jasně zvednutá.
+- Špička zůstává v obou fázích na stejné hraně a pohyb probíhá pouze v kotníku.
+- Nová cache v114 zabrání zobrazení starého chybného obrázku.
+
+ZACHOVÁNO Z v113
+- Opravená přirozená barva kůže u Nautilus Hack Squat.
+- Opravený náhled i dvoufázový detail Seated Leg Curl se dvěma celými nohami.
+- Scapular Squeeze má jasně odlišenou výchozí a sevřenou polohu lopatek.
+- Leg Press Calf Raise má zřetelně odlišené dvě polohy kotníků.
+- Opravená přirozená barva kůže u Nautilus Nitro EVO Rotary Torso.
+- Ostatní opravy barevných obrázků z v113 zůstávají zachované.
+
+ZACHOVÁNO Z v112
 - Po dokončení všech cviků se ihned otevře souhrn pro ukončení celého workoutu.
 - Pokud workout neukončíš, aplikace jej zvýrazní jako stále běžící a připomene jej znovu.
 - Odpočinek po sérii je kompaktní panel dole; tréninková karta zůstává viditelná.
 - V odpočinku lze přidat 30 sekund nebo pauzu přeskočit.
 - Po dokončení plánovaných sérií lze jedním tlačítkem přidat další sérii.
 - Change exercise je přesunuté pod hlavní tlačítko dokončení série.
-- Detail cviku používá nové barevné dvoufázové obrázky ze Supabase v112.
+- Funkce chytrého dokončení workoutu, kompaktního odpočinku a přidání další série zůstávají zachované.
 - Dokončená karta se zeleně aktualizuje ihned bez restartu aplikace.

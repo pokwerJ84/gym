@@ -1,0 +1,43 @@
+GYM TRACKER PRO v113 – QA REPORT
+Datum kontroly: 2026-08-24
+
+VÝSLEDEK: PASS
+
+OPRAVENÉ OBRÁZKY
+- Nautilus Hack Squat: přirozená barva kůže, červeně zvýrazněné kvadricepsy.
+- Seated Leg Curl: nový kartový náhled se dvěma celými nohami.
+- Seated Leg Curl: nový detail se dvěma jasně odlišenými fázemi pohybu.
+- Scapular Squeeze: dvě jasně odlišené fáze lopatek.
+- Leg Press Calf Raise: dvě jasně odlišené polohy kotníků.
+- Nautilus Nitro EVO Rotary Torso: přirozená barva kůže, červeně zvýrazněné šikmé břišní svaly.
+
+KONTROLA SOUBORŮ
+- index.html: syntaxe jediného inline JavaScriptu PASS.
+- sw.js: node --check PASS.
+- manifest.webmanifest: validní JSON PASS.
+- Verze aplikace, cache a manifestu: v113 PASS.
+- Původní kartové náhledy: 88/88 WebP PASS.
+- Samostatný kartový náhled Smith Machine Bench Press: 1/1 WebP PASS.
+- Barevné detailní návody v113: 88/88 WebP PASS.
+- Tři přesné lokální návody v108 zachovány: 3/3 PASS.
+- legacy-images-v58 zachována jako záloha PASS.
+
+ODDĚLENÍ OBRÁZKŮ
+- Karty 88 základních cviků používají pouze legacy-card-thumbs.
+- Detail 88 základních cviků používá exercise-guides/v113/guides.
+- Bílé obrázky v58 ani v97/thumbs nejsou použity na kartách.
+- Pokud ještě není v113 na Supabase dostupná, detail automaticky použije stejný lokální soubor v balíčku; obrázek proto nezmizí.
+
+FUNKČNÍ REGRESE
+- Dokončení série ukládá stav, okamžitě obnoví kartu a nastaví done po dosažení cílového počtu sérií.
+- Cviky sideweight obsahují samostatná pole left a right.
+- Po poslední plánované sérii je dostupné přidání další série.
+- Change exercise zůstává pod hlavním tlačítkem dokončení.
+- Po dokončení všech cviků se otevře výzva k ukončení workoutu.
+- Kompaktní odpočinkový panel zůstává zachovaný.
+- Kalendář používá vodorovný overflow a touch-action umožňující vodorovný i svislý dotykový pohyb.
+
+BALÍČEK
+- Každá obrazová podsložka obsahuje méně než 100 souborů pro GitHub drag & drop.
+- ZIP integrity test: Final PASS, GitHub_Drag_Drop PASS.
+- GitHub_Drag_Drop počty: legacy-card-thumbs 89, legacy-images-v58 2, exercise-guides 91; všechny tři složky jsou pod limitem 100 souborů PASS.
