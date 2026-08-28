@@ -4674,19 +4674,77 @@ main{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
  .unified-workout-card .modern-exercise-card .preview-card-main>strong{font-size:15px!important}
 }
 
+/* v121 – stable Today navigation and iOS viewport containment */
+html{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  background:#f8fbfc;
+  overscroll-behavior-y:none;
+}
+html.dark{background:#07161e}
+body{
+  width:100%;
+  min-height:100dvh;
+  overflow-x:hidden;
+  overscroll-behavior-x:none;
+  overscroll-behavior-y:none;
+}
+.app{width:100%;overflow-x:clip}
+.completed-day-strip{
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  padding:10px 11px;
+  border:1px solid rgba(53,201,130,.55);
+  border-radius:15px;
+  background:rgba(53,201,130,.12);
+}
+.completed-day-strip>span{
+  display:grid;
+  place-items:center;
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  background:var(--v95-green);
+  color:#062630;
+  font-size:18px;
+  font-weight:950;
+}
+.completed-day-strip b,.completed-day-strip small{display:block}
+.completed-day-strip b{font-size:13px;line-height:1.2}
+.completed-day-strip small{margin-top:2px;color:var(--muted);font-size:10px;line-height:1.25}
+.completed-day-strip button{
+  min-height:38px;
+  padding:7px 10px;
+  border:1px solid rgba(239,102,114,.48);
+  border-radius:11px;
+  background:rgba(239,102,114,.10);
+  color:var(--danger);
+  font-size:10px;
+  font-weight:950;
+  white-space:nowrap;
+}
+@media(max-width:380px){
+  .completed-day-strip{grid-template-columns:32px minmax(0,1fr);gap:8px}
+  .completed-day-strip>span{width:32px;height:32px}
+  .completed-day-strip button{grid-column:1/-1;width:100%}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v120</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v121</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5892,10 +5950,17 @@ function changeScheduleWeek(offset){
 function goToTodayDate(){
  const iso=today();
  if(state.activeWorkout&&activeWorkoutDate()!==iso){returnToTodayAfterActiveWorkout=true;selectScheduleDate(iso);return}
+ const targetDay=state.activeWorkout?.day||trainingDayForIso(iso)||recommendedDay();
+ if(currentScreen==="today"&&selectedWorkoutDate===iso&&selectedTodayDay===targetDay){
+   document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
+   navTodayBtn.classList.add("active");
+   return;
+ }
  selectedWorkoutDate=iso;
  calendarViewDate=iso;
  localStorage.setItem("gymSelectedWorkoutDate",iso);
- showToday(state.activeWorkout?.day||trainingDayForIso(iso)||recommendedDay(),iso);
+ showToday(targetDay,iso);
+ window.scrollTo({top:0,left:0,behavior:"auto"});
 }
 let calendarViewDate=selectedWorkoutDate||today();
 function openDateDialog(){
@@ -6110,6 +6175,12 @@ function renderDay(day){
 
    ${weekStripMarkup(day)}
 
+   ${completedWorkoutOnDate(selectedWorkoutDate)?`<section class="completed-day-strip" role="status">
+     <span>✓</span>
+     <div><b>${selectedWorkoutDate===today()?(lang()==="cs"?"Dnešní workout je označený jako hotový":"Today's workout is marked complete"):(lang()==="cs"?"Tento workout je označený jako hotový":"This workout is marked complete")}</b><small>${lang()==="cs"?"Pokud je to omyl, vrať cviky do nedokončeného stavu.":"If this is a mistake, restore the exercises to unfinished."}</small></div>
+     <button type="button" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit dokončení":"Undo completion"}</button>
+   </section>`:""}
+
    ${selectedIsMonday?measurementCardMarkup(day,"top"):""}
 
    <div class="login-warning modern-login-warning" ${cloudUser?"hidden":""}>
@@ -6204,10 +6275,7 @@ function renderDay(day){
    </section>`;
  }
 
- html+=`${completedWorkoutOnDate(selectedWorkoutDate)?`<section class="flex-day-card saved-workout-bottom">
-   <div class="flex-day-icon">✓</div><div><span class="eyebrow">${lang()==="cs"?"WORKOUT HOTOVÝ":"WORKOUT COMPLETE"}</span><h3>${lang()==="cs"?"Tento den je označený jako hotový":"This day is marked complete"}</h3><p>${lang()==="cs"?"Pokud byla fajfka vytvořena omylem, můžeš ji bezpečně zrušit.":"If the check was added by mistake, you can safely remove it."}</p></div>
-   <button type="button" class="danger remove-check-button" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit fajfku":"Remove check"}</button>
- </section>`:""}<details class="plans-saved-footer">
+ html+=`<details class="plans-saved-footer">
    <summary><span>▦</span><div><b>${lang()==="cs"?"Plány a uložené workouty":"Plans & saved workouts"}</b><small>${lang()==="cs"?"Nastavení plánu a historie jsou schované dole":"Plan settings and history are kept out of the way"}</small></div><i>›</i></summary>
    <div><button class="secondary" type="button" onclick="openWorkoutPlanSettings()">⚙ ${lang()==="cs"?"Nastavit tréninkový plán":"Set workout plan"}</button><button class="secondary" type="button" onclick="showScreen('history',document.querySelector('[data-screen=history]'))">◔ ${lang()==="cs"?"Uložené workouty":"Saved workouts"}</button></div>
  </details>`;
@@ -6352,7 +6420,6 @@ function showToday(day,date=selectedWorkoutDate||today()){
  document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
  navTodayBtn.classList.add("active");
  renderDay(selectedTodayDay);
- window.scrollTo({top:0,behavior:"smooth"});
 }
 function historyRecordsForWorkout(workout){
  if(workout.type==="cardio")return [];
@@ -6503,7 +6570,12 @@ function applyLanguage(){
 }
 function toggleLanguage(){const order=["cs","en"],i=order.indexOf(lang());setLanguage(order[(i+1)%order.length])}
 function toggleTheme(){state.settings.theme=state.settings.theme==="dark"?"light":"dark";saveState();applyTheme()}
-function applyTheme(){document.body.classList.toggle("dark",state.settings.theme==="dark")}
+function applyTheme(){
+ const dark=state.settings.theme==="dark";
+ document.body.classList.toggle("dark",dark);
+ document.documentElement.classList.toggle("dark",dark);
+ document.querySelector('meta[name="theme-color"]')?.setAttribute("content",dark?"#07161e":"#f8fbfc");
+}
 
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return Math.abs(h)}
 function recordSets(rec){if(rec.mode==="cardio")return 1;return nonemptySets(rec).length}

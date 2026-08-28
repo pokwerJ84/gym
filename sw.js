@@ -1,4 +1,4 @@
-const VERSION="v120";
+const VERSION="v121";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[

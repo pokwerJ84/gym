@@ -1,0 +1,35 @@
+Gym Tracker Pro v121 — LOCAL REVIEW BUILD
+Date: 2026-08-28
+
+STATUS
+- Prepared locally only.
+- Not uploaded to GitHub.
+- Supabase content was not changed.
+
+TODAY BUTTON
+- Repeated tapping on Today while already viewing the current date is idempotent.
+- The no-op path does not call renderDay(), activatePlanForDate() or scrollTo().
+- Returning from another screen or another date still selects the device-local current date.
+- The remaining navigation reset uses an instant scroll instead of smooth animation.
+
+COMPLETED WORKOUT STATE
+- Legitimately completed exercises remain green.
+- A completed date now shows a compact status directly below the calendar.
+- The status includes an explicit Undo completion action with confirmation.
+- The previous duplicate completion card at the bottom of the workout was removed.
+
+IOS VIEWPORT
+- html, body and the app root are constrained to the viewport width.
+- Horizontal overflow and overscroll are disabled.
+- The html root has an explicit light/dark background, so iOS rubber-band does not expose white.
+- Standalone status bar and launch background use the dark application color.
+
+CHECKS PASSED
+- Inline JavaScript syntax: PASS
+- Service worker JavaScript syntax: PASS
+- Manifest JSON parsing: PASS
+- Release labels and cache version v121: PASS
+- Today idempotency guard present: PASS
+- Today render path contains no smooth scroll: PASS
+- Seven-day calendar generation unchanged: PASS
+- Git diff whitespace validation: PASS
