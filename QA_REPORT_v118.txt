@@ -1,0 +1,36 @@
+Gym Tracker Pro v118 — DEEP REGRESSION TEST
+Date: 2026-08-28
+
+REPRODUCED FROM USER SCREEN RECORDING
+- Header/current workout date is Friday 28 Aug 2026.
+- Calendar strip can remain visually around 10–15 Aug instead of centering 28 Aug.
+- Exercise cards in the unified workout section are visually too compressed.
+
+ROOT CAUSE / FIX
+- Today state itself was already changed to the local current date.
+- Calendar centering relied on offsetLeft and short delayed retries; on iOS the horizontal overflow position can be restored later.
+- v118 centers from real rendered bounding rectangles, retries through 900 ms, and protects the programmatic target through the iOS restoration window.
+- A real touch/swipe cancels auto-centering immediately so manual calendar navigation remains responsive.
+- Exercise list now has a consistent 12 px vertical gap and roomier section/coach spacing.
+
+REGRESSION CHECKS
+- Bottom Today button routes to goToTodayDate: PASS
+- Today resets selectedWorkoutDate: PASS
+- Today resets calendarViewDate: PASS
+- Active workout date guard preserved: PASS
+- Rendered-geometry calendar centering: PASS
+- Delayed iOS re-centering: PASS
+- Manual swipe cancels delayed centering: PASS
+- Exercise card spacing override: PASS
+- History navigation present: PASS
+- Exercise database navigation present: PASS
+- Exercise start flow present: PASS
+- Workout finish flow present: PASS
+- Local persistence path present: PASS
+- Manifest JSON parse: PASS
+- Service-worker navigation remains network-first: PASS
+- Visible/internal/manifest/service-worker versions aligned to v118: PASS
+
+DATA SAFETY
+- gymTrackerProV2 storage key unchanged.
+- Workout history, measurements, custom exercises, settings and Supabase image paths unchanged.

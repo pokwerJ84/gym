@@ -4586,6 +4586,13 @@ body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#ea
 .saved-workout-bottom{margin-top:14px}.plan-style-preview{display:grid;gap:7px;margin-top:12px}.plan-style-preview>div{display:flex;justify-content:space-between;gap:12px;padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:var(--surface2)}.plan-style-preview b{font-size:12px}.plan-style-preview span{color:var(--muted);font-size:11px}
 @media(max-width:460px){.plans-saved-footer>div{grid-template-columns:1fr}.rest-panel{padding-left:40px}.rest-drag-handle{left:6px;width:27px;min-width:27px}}
 body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}body.dark .modern-skip-below{color:#ff9ca6}
+
+/* v118 – regression hotfix: reliable calendar centering + comfortable exercise spacing */
+.unified-workout-card .unified-exercise-list{margin-top:18px!important;padding-top:18px!important}
+.unified-workout-card .plan-preview-list{display:grid!important;gap:12px!important}
+.unified-workout-card .modern-exercise-card{margin:0!important}
+.unified-workout-card .compact-coach-tip{margin:12px 0 13px!important}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4598,7 +4605,7 @@ body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}b
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v117</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v118</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4937,7 +4944,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=117;
+const VERSION=118;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -5811,6 +5818,10 @@ let calendarViewDate=selectedWorkoutDate||today(),scheduleSwipeStartX=0,schedule
 function beginScheduleSwipe(event){
  const touch=event.touches?.[0];
  if(!touch||event.touches.length!==1)return;
+ // A real user swipe always wins over delayed iOS programmatic centering.
+ calendarCenterToken++;
+ calendarCenteringUntil=0;
+ cancelAnimationFrame(calendarScrollFrame);
  scheduleSwipeStartX=touch.clientX;
  scheduleSwipeStartY=touch.clientY;
  scheduleSwipeStartLeft=event.currentTarget?.scrollLeft||0;
@@ -5882,23 +5893,25 @@ function updateCalendarViewFromScroll(viewport){
 }
 function centerCalendarOn(iso,behavior="auto"){
  const token=++calendarCenterToken;
- calendarCenteringUntil=Date.now()+360;
+ // iOS may restore an old horizontal overflow position after first paint.
+ // Keep the programmatic target authoritative briefly, unless the user touches the strip.
+ calendarCenteringUntil=Date.now()+1250;
  const apply=()=>{
    if(token!==calendarCenterToken)return;
    const viewport=document.getElementById("calendarDragViewport");
    const target=viewport?.querySelector(`[data-date="${iso}"]`);
    if(!viewport||!target)return;
-   const left=Math.max(0,target.offsetLeft-(viewport.clientWidth-target.offsetWidth)/2);
+   const viewportRect=viewport.getBoundingClientRect();
+   const targetRect=target.getBoundingClientRect();
+   const delta=(targetRect.left+targetRect.width/2)-(viewportRect.left+viewportRect.width/2);
+   const left=Math.max(0,viewport.scrollLeft+delta);
    if(behavior==="smooth"&&typeof viewport.scrollTo==="function")viewport.scrollTo({left,behavior:"smooth"});
    else viewport.scrollLeft=left;
    calendarViewDate=iso;
    updateCalendarRangeLabel(iso);
  };
  requestAnimationFrame(()=>{apply();requestAnimationFrame(apply)});
- // iOS can restore an overflow position after the first paint. Re-apply after
- // layout and scroll restoration have settled.
- setTimeout(apply,90);
- setTimeout(apply,260);
+ [70,180,420,900].forEach(delay=>setTimeout(apply,delay));
 }
 function shiftScheduleViewport(days){
  const target=uiAddDays(calendarViewDate||selectedWorkoutDate||today(),days);
