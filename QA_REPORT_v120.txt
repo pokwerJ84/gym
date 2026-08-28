@@ -1,10 +1,9 @@
-Gym Tracker Pro v120 — LOCAL REVIEW BUILD
+Gym Tracker Pro v120 — RELEASE BUILD
 Date: 2026-08-28
 
 STATUS
-- Local proposal only.
-- Nothing was pushed to GitHub.
-- GitHub main and the live GitHub Pages application remain unchanged.
+- Released to GitHub main.
+- Release commit: ca37eb9a1b9b4fb5788b673e44db6297bb481b51.
 
 TODAY SCREEN REBUILD
 - Removed the 35-day horizontally scrolling calendar from the rendered UI.
@@ -38,7 +37,6 @@ CHECKS PASSED
 - Today routes directly through today(): PASS
 - Git diff whitespace validation: PASS
 
-NOT DEPLOYED
-- No commit was pushed.
-- No GitHub branch was updated.
+RELEASE SCOPE
+- GitHub main contains the v120 application files and this QA report.
 - No Supabase content was changed.
