@@ -4562,6 +4562,30 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 .exercise-complete-panel h3{font-size:19px}.exercise-complete-panel p{font-size:11px}
 @media(max-width:460px){.rest-panel{grid-template-columns:minmax(0,1fr) auto}.rest-time{grid-column:2}.rest-actions{grid-column:1/3;grid-row:3}.rest-actions button{flex:1}.rest-shell{padding-bottom:calc(74px + env(safe-area-inset-bottom))}}
 body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#eaf7fa}
+
+/* v116 – one-tap workout home, optional in-workout help and draggable rest dock */
+.unified-workout-card{overflow:hidden}
+.unified-workout-card .unified-exercise-list{margin:14px -4px 0;padding:14px 4px 2px;border:0;border-top:1px solid rgba(255,255,255,.16);border-radius:0;background:transparent;box-shadow:none}
+.unified-workout-actions{grid-template-columns:1fr 1fr!important}
+.compact-coach-tip{display:block;margin:9px 0 10px;padding:10px 12px;border:1px solid rgba(35,195,184,.28);border-radius:13px;background:rgba(35,195,184,.08)}
+.compact-coach-tip summary{cursor:pointer;font-size:12px;font-weight:950;list-style:none}.compact-coach-tip summary::-webkit-details-marker{display:none}
+.compact-coach-tip strong,.compact-coach-tip span{display:block;margin-top:8px;font-size:11px;line-height:1.45}
+.modern-exercise-card.exercise-skipped{border-color:#8b9aa2!important;background:rgba(120,135,145,.13)!important;box-shadow:none;filter:saturate(.3)}
+.modern-exercise-card.exercise-skipped summary{opacity:.74}.modern-exercise-card.exercise-skipped .preview-card-number{background:#778891;color:#fff}.modern-exercise-card.exercise-skipped .exercise-set-status{color:#7a8b94}
+.live-exercise-info{margin:12px 0;border:1px solid var(--line);border-radius:15px;background:var(--surface2);overflow:hidden}
+.live-exercise-info>summary{display:grid;grid-template-columns:30px minmax(0,1fr) 18px;align-items:center;gap:8px;min-height:48px;padding:9px 12px;cursor:pointer;list-style:none}.live-exercise-info>summary::-webkit-details-marker{display:none}
+.live-exercise-info>summary>span{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(35,195,184,.14);color:var(--primary)}
+.live-exercise-info>summary>b{font-size:13px}.live-exercise-info>summary>i{font-size:22px;font-style:normal;transition:transform .16s}.live-exercise-info[open]>summary>i{transform:rotate(90deg)}
+.live-exercise-info-body{padding:11px 12px 13px;border-top:1px solid var(--line)}
+.live-info-guide{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:10px;width:100%;min-height:78px;padding:6px;border:0;border-radius:12px;background:var(--surface3);color:var(--text);text-align:left}.live-info-guide img{width:72px;height:66px;object-fit:contain;border-radius:9px;background:#061e2b}.live-info-guide b,.live-info-guide small{display:block}.live-info-guide small{margin-top:3px;color:var(--muted);font-size:10px}
+.live-exercise-info-body ul{margin:10px 0;padding-left:20px;font-size:12px;line-height:1.45}.live-info-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.live-info-actions a,.live-info-actions button{display:flex;align-items:center;justify-content:center;min-height:42px;border:1px solid var(--line);border-radius:11px;background:var(--surface3);color:var(--text);font-size:12px;font-weight:900;text-decoration:none}
+.modern-skip-below{width:100%;min-height:44px;margin-top:7px;border:1px solid rgba(239,102,114,.42);border-radius:13px;background:rgba(239,102,114,.08);color:#c63f4d;font-weight:950}
+.rest-panel{position:relative;padding-left:43px}.rest-drag-handle{position:absolute;left:7px;top:50%;width:29px;min-width:29px;min-height:48px;padding:0;transform:translateY(-50%);border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.08);color:#b9e7e4;font-size:17px;line-height:1;touch-action:none;cursor:grab}.rest-panel.dragging{transition:none!important}.rest-panel.dragging .rest-drag-handle{cursor:grabbing;background:rgba(35,195,184,.28)}
+.rest-overlay.dock-top{top:0;bottom:auto}.rest-overlay.dock-top .rest-shell{padding:calc(70px + env(safe-area-inset-top)) 12px 10px}
+.plans-saved-footer{margin-top:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface2);overflow:hidden}.plans-saved-footer>summary{display:grid;grid-template-columns:36px minmax(0,1fr) 18px;align-items:center;gap:10px;min-height:60px;padding:10px 12px;cursor:pointer;list-style:none}.plans-saved-footer>summary::-webkit-details-marker{display:none}.plans-saved-footer>summary>span{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:rgba(35,195,184,.12)}.plans-saved-footer b,.plans-saved-footer small{display:block}.plans-saved-footer small{margin-top:3px;color:var(--muted);font-size:10px}.plans-saved-footer>summary>i{font-size:23px;font-style:normal;transition:transform .16s}.plans-saved-footer[open]>summary>i{transform:rotate(90deg)}.plans-saved-footer>div{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px 12px;border-top:1px solid var(--line)}
+.saved-workout-bottom{margin-top:14px}.plan-style-preview{display:grid;gap:7px;margin-top:12px}.plan-style-preview>div{display:flex;justify-content:space-between;gap:12px;padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:var(--surface2)}.plan-style-preview b{font-size:12px}.plan-style-preview span{color:var(--muted);font-size:11px}
+@media(max-width:460px){.plans-saved-footer>div{grid-template-columns:1fr}.rest-panel{padding-left:40px}.rest-drag-handle{left:6px;width:27px;min-width:27px}}
+body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}body.dark .modern-skip-below{color:#ff9ca6}
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4574,7 +4598,7 @@ body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#ea
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v115</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v116</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4612,7 +4636,7 @@ body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#ea
 </div>
 
 <nav><div class="navinner">
-  <button class="navbtn active" data-screen="today" id="navTodayBtn" onclick="showToday(recommendedDay())"><span class="nav-glyph">⌂</span><b id="navToday"></b></button>
+  <button class="navbtn active" data-screen="today" id="navTodayBtn" onclick="goToTodayDate()"><span class="nav-glyph">⌂</span><b id="navToday"></b></button>
   <button class="navbtn" data-screen="history" onclick="showScreen('history',this)"><span class="nav-glyph">◔</span><b id="navHistory"></b></button>
   <button class="navbtn" data-screen="database" onclick="showScreen('database',this)"><span class="nav-glyph">▦</span><b id="navDatabase"></b></button>
   <button class="navbtn" data-screen="more" onclick="showScreen('more',this)"><span class="nav-glyph">•••</span><b id="navMore"></b></button>
@@ -4640,6 +4664,7 @@ body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#ea
 
 <div class="rest-overlay" id="restOverlay">
   <div class="rest-shell"><div class="rest-panel">
+    <button class="rest-drag-handle" id="restDragHandle" type="button" aria-label="Move rest timer" onpointerdown="beginRestDrag(event)">⋮⋮</button>
     <div class="kicker" id="restLabel"></div>
     <h2 id="restExercise"></h2>
     <div class="rest-time" id="restTime">01:30</div>
@@ -4884,12 +4909,35 @@ LIBRARY.forEach(item=>{
    item.guideExact=true;
  }
 });
-const BASE_PLANS={"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Základní síla + triceps a břicho","sub_en":"Base strength + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Kontrolované stroje + biceps a core","sub_en":"Controlled machines + biceps and core","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12 / strana"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Bezpečný zadní řetězec + lýtka a břicho","sub_en":"Safe posterior chain + calves and abs","items":[{"id":"back_extension","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}};
+const PLAN_PRESETS={
+ balanced:{name_cs:"Vyvážený plán",name_en:"Balanced plan",plans:{"monday":{"title_cs":"🏋️ Síla","title_en":"🏋️ Strength","sub_cs":"Základní síla + triceps a břicho","sub_en":"Base strength + triceps and abs","items":[{"id":"hack_squat","sets":3,"range":"8–10"},{"id":"bench_press","sets":3,"range":"6–10"},{"id":"lat_pulldown","sets":3,"range":"8–12"},{"id":"hip_thrust","sets":3,"range":"8–12"},{"id":"lateral_raise","sets":2,"range":"12–15"},{"id":"triceps_pushdown","sets":3,"range":"10–15"},{"id":"cable_crunch","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"wednesday":{"title_cs":"🛡️ Stabilita","title_en":"🛡️ Stability","sub_cs":"Kontrolované stroje + biceps a core","sub_en":"Controlled machines + biceps and core","items":[{"id":"leg_press","sets":3,"range":"10–12"},{"id":"incline_dumbbell_press","sets":3,"range":"8–10"},{"id":"seated_row","sets":3,"range":"8–12"},{"id":"seated_leg_curl","sets":3,"range":"10–15"},{"id":"machine_shoulder_press","sets":2,"range":"8–12"},{"id":"dumbbell_curl","sets":3,"range":"8–12"},{"id":"pallof_press","sets":3,"range":"10–12 / strana"},{"id":"treadmill","sets":1,"range":"10–15 min"}]},"friday":{"title_cs":"⚡ Kontrola","title_en":"⚡ Control","sub_cs":"Bezpečný zadní řetězec + lýtka a břicho","sub_en":"Safe posterior chain + calves and abs","items":[{"id":"back_extension","sets":3,"range":"10–12"},{"id":"machine_chest_press","sets":2,"range":"10–12"},{"id":"chest_supported_row","sets":3,"range":"8–12"},{"id":"lying_leg_curl","sets":3,"range":"10–15"},{"id":"face_pull","sets":2,"range":"12–15"},{"id":"hanging_knee_raise","sets":3,"range":"8–15"},{"id":"standing_calf_raise","sets":3,"range":"10–15"},{"id":"treadmill","sets":1,"range":"10–15 min"}]}}},
+ full_body:{name_cs:"Celé tělo – 3 dny",name_en:"Full Body – 3 Days",plans:{
+  monday:{title_cs:"Celé tělo A",title_en:"Full Body A",sub_cs:"Nohy, tlak, tah a core",sub_en:"Legs, push, pull and core",items:[{id:"leg_press",sets:3,range:"8–12"},{id:"machine_chest_press",sets:3,range:"8–12"},{id:"lat_pulldown",sets:3,range:"8–12"},{id:"seated_leg_curl",sets:3,range:"10–15"},{id:"machine_shoulder_press",sets:2,range:"8–12"},{id:"cable_crunch",sets:3,range:"10–15"},{id:"treadmill",sets:1,range:"10–15 min"}]},
+  wednesday:{title_cs:"Celé tělo B",title_en:"Full Body B",sub_cs:"Jiné varianty pro celé tělo",sub_en:"Alternative full-body movements",items:[{id:"hack_squat",sets:3,range:"8–10"},{id:"incline_dumbbell_press",sets:3,range:"8–10"},{id:"seated_row",sets:3,range:"8–12"},{id:"hip_thrust",sets:3,range:"8–12"},{id:"lateral_raise",sets:2,range:"12–15"},{id:"pallof_press",sets:3,range:"10–12 / strana"},{id:"treadmill",sets:1,range:"10–15 min"}]},
+  friday:{title_cs:"Celé tělo C",title_en:"Full Body C",sub_cs:"Kontrolovaný závěr týdne",sub_en:"Controlled end of the week",items:[{id:"back_extension",sets:3,range:"10–12"},{id:"bench_press",sets:3,range:"6–10"},{id:"chest_supported_row",sets:3,range:"8–12"},{id:"lying_leg_curl",sets:3,range:"10–15"},{id:"face_pull",sets:2,range:"12–15"},{id:"standing_calf_raise",sets:3,range:"10–15"},{id:"treadmill",sets:1,range:"10–15 min"}]}
+ }},
+ hypertrophy:{name_cs:"Objem – Push / Pull / Legs",name_en:"Muscle Gain – Push / Pull / Legs",plans:{
+  monday:{title_cs:"Objem – Push",title_en:"Muscle Gain – Push",sub_cs:"Hrudník, ramena a triceps",sub_en:"Chest, shoulders and triceps",items:[{id:"machine_chest_press",sets:4,range:"8–12"},{id:"incline_dumbbell_press",sets:3,range:"8–12"},{id:"machine_shoulder_press",sets:3,range:"8–12"},{id:"lateral_raise",sets:3,range:"12–15"},{id:"triceps_pushdown",sets:3,range:"10–15"},{id:"cable_crunch",sets:3,range:"10–15"}]},
+  wednesday:{title_cs:"Objem – Pull",title_en:"Muscle Gain – Pull",sub_cs:"Záda, zadní ramena a biceps",sub_en:"Back, rear delts and biceps",items:[{id:"lat_pulldown",sets:4,range:"8–12"},{id:"seated_row",sets:3,range:"8–12"},{id:"chest_supported_row",sets:3,range:"8–12"},{id:"face_pull",sets:3,range:"12–15"},{id:"dumbbell_curl",sets:3,range:"8–12"},{id:"back_extension",sets:3,range:"10–15"}]},
+  friday:{title_cs:"Objem – Legs",title_en:"Muscle Gain – Legs",sub_cs:"Stehna, hýždě a lýtka",sub_en:"Quads, glutes and calves",items:[{id:"hack_squat",sets:4,range:"8–10"},{id:"leg_press",sets:3,range:"10–12"},{id:"seated_leg_curl",sets:3,range:"10–15"},{id:"hip_thrust",sets:3,range:"8–12"},{id:"standing_calf_raise",sets:4,range:"10–15"},{id:"pallof_press",sets:3,range:"10–12 / strana"}]}
+ }},
+ machines:{name_cs:"Pouze stroje",name_en:"Machines Only",plans:{
+  monday:{title_cs:"Stroje A",title_en:"Machines A",sub_cs:"Celé tělo bez volných vah",sub_en:"Full body without free weights",items:[{id:"leg_press",sets:3,range:"10–12"},{id:"machine_chest_press",sets:3,range:"8–12"},{id:"lat_pulldown",sets:3,range:"8–12"},{id:"seated_leg_curl",sets:3,range:"10–15"},{id:"machine_shoulder_press",sets:2,range:"8–12"},{id:"machine_crunch",sets:3,range:"10–15"}]},
+  wednesday:{title_cs:"Stroje B",title_en:"Machines B",sub_cs:"Druhá varianta celého těla",sub_en:"Second full-body variation",items:[{id:"hack_squat",sets:3,range:"8–10"},{id:"pec_deck",sets:3,range:"10–15"},{id:"seated_row",sets:3,range:"8–12"},{id:"lying_leg_curl",sets:3,range:"10–15"},{id:"machine_lateral_raise",sets:3,range:"12–15"},{id:"back_extension",sets:3,range:"10–15"}]},
+  friday:{title_cs:"Stroje C",title_en:"Machines C",sub_cs:"Bezpečný strojový trénink",sub_en:"Controlled machine workout",items:[{id:"leg_press",sets:3,range:"10–12"},{id:"machine_chest_press",sets:3,range:"10–12"},{id:"chest_supported_row",sets:3,range:"8–12"},{id:"seated_leg_curl",sets:3,range:"10–15"},{id:"machine_shoulder_press",sets:2,range:"8–12"},{id:"standing_calf_raise",sets:3,range:"10–15"}]}
+ }},
+ quick:{name_cs:"Rychlý trénink – 30 min",name_en:"Quick Workout – 30 min",plans:{
+  monday:{title_cs:"Rychlé A",title_en:"Quick A",sub_cs:"Pět hlavních cviků",sub_en:"Five key exercises",items:[{id:"leg_press",sets:3,range:"8–12"},{id:"machine_chest_press",sets:3,range:"8–12"},{id:"lat_pulldown",sets:3,range:"8–12"},{id:"seated_leg_curl",sets:2,range:"10–15"},{id:"cable_crunch",sets:2,range:"10–15"}]},
+  wednesday:{title_cs:"Rychlé B",title_en:"Quick B",sub_cs:"Krátký trénink celého těla",sub_en:"Short full-body workout",items:[{id:"hack_squat",sets:3,range:"8–10"},{id:"incline_dumbbell_press",sets:3,range:"8–10"},{id:"seated_row",sets:3,range:"8–12"},{id:"hip_thrust",sets:2,range:"8–12"},{id:"pallof_press",sets:2,range:"10–12 / strana"}]},
+  friday:{title_cs:"Rychlé C",title_en:"Quick C",sub_cs:"Rychlé zakončení týdne",sub_en:"Quick end of the week",items:[{id:"back_extension",sets:3,range:"10–12"},{id:"bench_press",sets:3,range:"6–10"},{id:"chest_supported_row",sets:3,range:"8–12"},{id:"lying_leg_curl",sets:2,range:"10–15"},{id:"standing_calf_raise",sets:2,range:"10–15"}]}
+ }}
+};
+let BASE_PLANS=PLAN_PRESETS.balanced.plans;
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=115;
+const VERSION=116;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -4983,7 +5031,7 @@ function findExerciseByName(name){
 }
 function defaultDay(date=today()){return {date,weight:"",waist:"",entries:{},extras:[],order:[],completed:false}}
 function defaultPlanReplacements(){return {monday:{},wednesday:{},friday:{}}}
-function defaultState(){return {version:VERSION,meta:{modifiedAt:0,cloudUserId:""},settings:{language:"cs",theme:"light",exerciseSteps:{}},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
+function defaultState(){return {version:VERSION,meta:{modifiedAt:0,cloudUserId:""},settings:{language:"cs",theme:"light",exerciseSteps:{},workoutStyle:"balanced",restDock:"bottom"},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
 function applyPlanV71(s,fromVersion){
  if(Number(fromVersion)>=71)return s;
  DAYS.forEach(day=>{
@@ -5025,6 +5073,8 @@ function migrateState(raw){
  return applyPlanV71(s,raw?.version||0);
 }
 let state=migrateState(JSON.parse(localStorage.getItem(KEY)||"null"));
+if(!PLAN_PRESETS[state.settings.workoutStyle])state.settings.workoutStyle="balanced";
+BASE_PLANS=PLAN_PRESETS[state.settings.workoutStyle].plans;
 if(state.activeWorkout){
  const activeDay=state.activeWorkout.day;
  const activeEntries=state.days?.[activeDay]?.entries||{};
@@ -5584,14 +5634,16 @@ function refreshTodayPreviewStatus(day,instanceId){
  const m=metaFor(day,inst),exerciseEntry=entry(day,instanceId);
  const targetSets=targetSetCount(m,exerciseEntry);
  const completedSets=m.mode==="cardio"?(exerciseEntry.done?1:0):(exerciseEntry.sets||[]).slice(0,targetSets).filter(set=>set?._complete===true).length;
- const done=exerciseEntry.done||completedSets>=targetSets;
- const inProgress=!done&&completedSets>0;
+ const skipped=!!exerciseEntry.skipped;
+ const done=!skipped&&(exerciseEntry.done||completedSets>=targetSets);
+ const inProgress=!done&&!skipped&&completedSets>0;
+ card.classList.toggle("exercise-skipped",skipped);
  card.classList.toggle("exercise-done",done);
  card.classList.toggle("exercise-in-progress",inProgress);
  const number=card.querySelector(".preview-card-number");
- if(number)number.textContent=done?"✓":card.dataset.cardNumber;
+ if(number)number.textContent=skipped?"–":done?"✓":card.dataset.cardNumber;
  const status=card.querySelector(".exercise-set-status");
- if(status)status.textContent=done?(lang()==="cs"?"✓ Hotovo":"✓ Complete"):`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
+ if(status)status.textContent=skipped?(lang()==="cs"?"Přeskočeno dnes · Klepni pro obnovení":"Skipped today · Tap to restore"):done?(lang()==="cs"?"✓ Hotovo":"✓ Complete"):`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
 }
 document.addEventListener("click",event=>{
  document.querySelectorAll(".today-options.open").forEach(menu=>{
@@ -6018,7 +6070,7 @@ function renderDay(day){
  let html=`<div class="modern-today">
    <section class="modern-today-head">
      <div>
-       <span class="eyebrow">${selectedWorkoutDate===today()?(lang()==="cs"?"DNEŠNÍ PLÁN":"TODAY'S PLAN"):(lang()==="cs"?"VYBRANÝ DEN":"SELECTED DAY")}</span>
+       <span class="eyebrow">${selectedWorkoutDate===today()?(lang()==="cs"?"DNES":"TODAY"):(lang()==="cs"?"VYBRANÝ DEN":"SELECTED DAY")}</span>
        <p class="selected-workout-date">${esc(localizedFullDate(selectedWorkoutDate))}</p>
      </div>
      <div class="today-options" id="todayOptions-${day}">
@@ -6035,15 +6087,6 @@ function renderDay(day){
 
    ${selectedIsMonday?measurementCardMarkup(day,"top"):""}
 
-   ${completedWorkoutOnDate(selectedWorkoutDate)?`<section class="flex-day-card">
-     <div class="flex-day-icon">✓</div>
-     <div><span class="eyebrow">${lang()==="cs"?"ULOŽENÝ TRÉNINK":"SAVED WORKOUT"}</span>
-       <h3>${lang()==="cs"?"Tento den je označený jako hotový":"This day is marked complete"}</h3>
-       <p>${lang()==="cs"?"Pokud byla fajfka vytvořena omylem, můžeš ji bezpečně zrušit.":"If the check was added by mistake, you can safely remove it."}</p>
-     </div>
-     <button type="button" class="danger remove-check-button" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit fajfku":"Remove check"}</button>
-   </section>`:""}
-
    ${!isPlannedStrengthDate(today())?`<details class="flex-day-card compact-flex-info">
      <summary><span class="flex-day-icon">↻</span><span><b>${lang()==="cs"?"Dnes je flexibilní den":"Today is a flexible day"}</b><small>${lang()==="cs"?"Další trénink je zobrazený níže":"Your next workout is shown below"}</small></span><i>›</i></summary>
      <p>${lang()==="cs"?`Můžeš odjet ${esc(planTitle)} nebo zvolit lehké kardio.`:`You can do ${esc(planTitle)} or choose light cardio.`}</p>
@@ -6056,7 +6099,7 @@ function renderDay(day){
 
    ${recoveryWarningNeeded()?`<div class="recovery-warning compact-warning">⚠️ ${t("recoveryWarning")}</div>`:""}
 
-   <section class="workout-hero compact-hero">
+   <section class="workout-hero compact-hero unified-workout-card">
      <div class="workout-hero-top">
        <div>
          <span class="hero-kicker">${heroKicker}</span>
@@ -6071,12 +6114,10 @@ function renderDay(day){
        <span>▦ ${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</span>
      </div>
 
-     <div class="hero-actions hero-actions-three">
-       <button class="primary hero-start" onclick="primaryDayAction('${day}')">▶ ${state.activeWorkout?.day===day?(lang()==="cs"?"Pokračovat v rozpracovaném cviku":"Resume current exercise"):(lang()==="cs"?"Zobrazit cviky a začít":"Show exercises and start")}</button>
+     <div class="hero-actions unified-workout-actions">
        <button class="hero-cardio" onclick="openCardioDialog()">♡ ${t("cardioOnly")}</button>
        <button class="hero-date-button" onclick="openDateDialog()">▣ ${lang()==="cs"?"Změnit datum":"Change date"}</button>
      </div>
-   </section>
 
    <div class="modern-day-tabs rotation-tabs">
      <button class="${day==="monday"?"active":""}" onclick="showToday('monday',selectedWorkoutDate)"><b>1</b><span>${lang()==="cs"?"Síla":"Strength"}</span></button>
@@ -6084,17 +6125,16 @@ function renderDay(day){
      <button class="${day==="friday"?"active":""}" onclick="showToday('friday',selectedWorkoutDate)"><b>3</b><span>${lang()==="cs"?"Kontrola":"Control"}</span></button>
    </div>`;
 
- html+=`<details class="modern-plan-section collapsible-plan" id="exercisePlan-${day}">
-   <summary class="collapsible-plan-summary"><div><span class="eyebrow">${lang()==="cs"?"PLÁN":"PLAN"}</span><h3>${lang()==="cs"?"Zobrazit cviky":"Show exercises"}</h3><small>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</small></div><span class="plan-summary-chevron">›</span></summary>
-   <div class="collapsible-plan-body">
-     <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"TRÉNINK":"WORKOUT"}</span><h3>${esc(planTitle)}</h3></div></div>
-     <div class="plan-coach-card">
+ html+=`<div class="modern-plan-section unified-exercise-list" id="exercisePlan-${day}">
+     <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"DNEŠNÍ CVIKY":"TODAY'S EXERCISES"}</span><h3>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</h3></div></div>
+     <details class="plan-coach-card compact-coach-tip">
+       <summary>${lang()==="cs"?"Jak cvičit pracovní série":"How to perform working sets"}</summary>
        <strong>${lang()==="cs"?"Pravidlo pro každý pracovní set":"Rule for every working set"}</strong>
        <span>${lang()==="cs"
          ?"Nech si rezervu 2 opakování. Váhu spouštěj 2–3 sekundy. Až zvládneš horní hranici opakování ve všech sériích čistě, příště přidej nejmenší možnou váhu."
          :"Keep about 2 reps in reserve. Lower the weight for 2–3 seconds. Once you reach the top of the rep range in every set with clean form, add the smallest available weight next time."}</span>
-     </div>
-     <div class="exercise-list-coach">${lang()==="cs"?"Klepni kamkoliv na kartu pro obrázek, informace a možnost začít cvik.":"Tap anywhere on a card for the image, details and the option to start."}</div>
+     </details>
+     <div class="exercise-list-coach">${lang()==="cs"?"Klepni na cvik a rovnou začni zapisovat série.":"Tap an exercise to start logging sets immediately."}</div>
      
      <div class="plan-preview-list" id="todayPreviewList">`;
 
@@ -6112,15 +6152,18 @@ function renderDay(day){
    const exerciseEntry=entry(day,inst.instanceId);
    const targetSets=m.mode==="cardio"?1:Number(m.sets)||1;
    const completedSets=m.mode==="cardio"?(exerciseEntry.done?1:0):(exerciseEntry.sets||[]).slice(0,targetSets).filter(set=>set?._complete===true).length;
-   const done=exerciseEntry.done||completedSets>=targetSets;
-   const inProgress=!done&&completedSets>0;
-   const statusText=done
+   const skipped=!!exerciseEntry.skipped;
+   const done=!skipped&&(exerciseEntry.done||completedSets>=targetSets);
+   const inProgress=!done&&!skipped&&completedSets>0;
+   const statusText=skipped
+     ?(lang()==="cs"?"Přeskočeno dnes · Klepni pro obnovení":"Skipped today · Tap to restore")
+     :done
      ?(lang()==="cs"?"✓ Hotovo":"✓ Complete")
      :`${Math.min(completedSets,targetSets)}/${targetSets} ${lang()==="cs"?"sérií":"sets"}`;
 
-   html+=`<details class="preview-accordion modern-exercise-card ${done?"exercise-done":inProgress?"exercise-in-progress":""}" data-instance-id="${inst.instanceId}" data-card-number="${index+1}">
-     <summary onclick="event.preventDefault();openExerciseDetail('${day}','${inst.instanceId}')">
-       <span class="preview-card-number">${done?"✓":index+1}</span>
+   html+=`<details class="preview-accordion modern-exercise-card ${skipped?"exercise-skipped":done?"exercise-done":inProgress?"exercise-in-progress":""}" data-instance-id="${inst.instanceId}" data-card-number="${index+1}">
+     <summary onclick="event.preventDefault();${skipped?`restoreSkippedExercise('${day}','${inst.instanceId}')`:`startExercise('${day}','${inst.instanceId}')`}">
+       <span class="preview-card-number">${skipped?"–":done?"✓":index+1}</span>
        ${m.guideThumb
   ?`<img class="exercise-guide-thumb" src="${m.guideThumb}" alt="" loading="lazy">`
   :`<span class="exercise-category-icon">${categoryGlyph(m.category)}</span>`}
@@ -6130,15 +6173,15 @@ function renderDay(day){
          <span class="exercise-set-status">${statusText}</span>
          ${m.replacementId?`<span class="replacement-note">↪ ${t("temporaryReplacement")}</span>`:m.permanentReplacementId?`<span class="replacement-note">✓ ${t("permanentReplacement")}</span>`:""}
        </div>
-       <span class="preview-card-chevron"></span>
+       <span class="preview-card-chevron">${skipped?"↺":"›"}</span>
      </summary>
    </details>`;
  });
 
  html+=`</div>
-     <div class="modern-plan-footer"><button class="secondary" onclick="collapseTodayCards()">${t("collapse")}</button><button class="secondary" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button></div>
-   </div>
- </details>`;
+     <div class="modern-plan-footer"><button class="secondary full" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button></div>
+ </div>
+ </section>`;
 
  if(rec){
    html+=`<section class="modern-recommendation">
@@ -6147,6 +6190,14 @@ function renderDay(day){
      <button onclick="addExercise('${day}','${rec.item.id}')">＋</button>
    </section>`;
  }
+
+ html+=`${completedWorkoutOnDate(selectedWorkoutDate)?`<section class="flex-day-card saved-workout-bottom">
+   <div class="flex-day-icon">✓</div><div><span class="eyebrow">${lang()==="cs"?"WORKOUT HOTOVÝ":"WORKOUT COMPLETE"}</span><h3>${lang()==="cs"?"Tento den je označený jako hotový":"This day is marked complete"}</h3><p>${lang()==="cs"?"Pokud byla fajfka vytvořena omylem, můžeš ji bezpečně zrušit.":"If the check was added by mistake, you can safely remove it."}</p></div>
+   <button type="button" class="danger remove-check-button" onclick="undoCompletedWorkout('${selectedWorkoutDate}')">${lang()==="cs"?"Zrušit fajfku":"Remove check"}</button>
+ </section>`:""}<details class="plans-saved-footer">
+   <summary><span>▦</span><div><b>${lang()==="cs"?"Plány a uložené workouty":"Plans & saved workouts"}</b><small>${lang()==="cs"?"Nastavení plánu a historie jsou schované dole":"Plan settings and history are kept out of the way"}</small></div><i>›</i></summary>
+   <div><button class="secondary" type="button" onclick="openWorkoutPlanSettings()">⚙ ${lang()==="cs"?"Nastavit tréninkový plán":"Set workout plan"}</button><button class="secondary" type="button" onclick="showScreen('history',document.querySelector('[data-screen=history]'))">◔ ${lang()==="cs"?"Uložené workouty":"Saved workouts"}</button></div>
+ </details>`;
 
  html+=`</div>`;
  document.getElementById(day).innerHTML=html;
@@ -6166,7 +6217,30 @@ function addExercise(day,exerciseId){
  const x={instanceId:`extra:${uid()}`,exerciseId,sets:EX[exerciseId].sets,range:EX[exerciseId].range};
  state.days[day].extras.push(x);state.days[day].order.push(x.instanceId);saveState();if(libraryDialog.open)libraryDialog.close();renderDay(day);alert(t("added"));
 }
-function clearExerciseEntry(e){e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false}
+function clearExerciseEntry(e){e.sets=[];e.minutes="";e.speed="";e.incline="";e.done=false;e.skipped=false;e.extraTargetSets=0}
+function skipCurrentExercise(){
+ if(!state.activeWorkout)return;
+ const day=state.activeWorkout.day,inst=currentLive();
+ if(!inst)return;
+ const e=entry(day,inst.instanceId);
+ const hasProgress=(e.sets||[]).some(set=>set?._complete===true)||e.minutes;
+ const message=hasProgress
+  ?(lang()==="cs"?"Přeskočit tento cvik pro dnešek? Už zapsané série tohoto cviku se odstraní.":"Skip this exercise today? Its already logged sets will be removed.")
+  :(lang()==="cs"?"Přeskočit tento cvik pro dnešek?":"Skip this exercise today?");
+ if(!confirm(message))return;
+ clearExerciseEntry(e);e.skipped=true;e.done=true;
+ state.activeWorkout.awaitingFinish=false;state.activeWorkout.workoutReminderAt=0;
+ clearWorkoutReminder();saveState();refreshTodayPreviewStatus(day,inst.instanceId);
+ const date=activeWorkoutDate();minimizeLive();showToday(day,date);
+ showToast(lang()==="cs"?"Cvik byl pro dnešek přeskočený.":"Exercise skipped for today.");
+ setTimeout(maybePromptFinishWorkout,100);
+}
+function restoreSkippedExercise(day,instanceId){
+ const e=entry(day,instanceId);e.skipped=false;e.done=false;
+ if(state.activeWorkout){state.activeWorkout.awaitingFinish=false;state.activeWorkout.workoutReminderAt=0}
+ clearWorkoutReminder();saveState();renderDay(day);
+ showToast(lang()==="cs"?"Cvik je znovu v dnešním workoutu.":"Exercise restored to today's workout.");
+}
 function resetReplacement(day,id){const e=entry(day,id);e.replacementId="";clearExerciseEntry(e);saveState();renderDay(day)}
 function replaceExercise(day,id,exerciseId){openReplacementScope(day,id,exerciseId)}
 function openReplacementScope(day,id,exerciseId){
@@ -6317,6 +6391,7 @@ function renderMore(){
  const languageOptions=[
    ["cs","Čeština"],["en","English"]
  ].map(([value,label])=>`<option value="${value}" ${lang()===value?"selected":""}>${label}</option>`).join("");
+ const workoutStyleOptions=Object.entries(PLAN_PRESETS).map(([value,preset])=>`<option value="${value}" ${state.settings.workoutStyle===value?"selected":""}>${esc(preset["name_"+lang()]||preset.name_en)}</option>`).join("");
  more.innerHTML=`<div class="card"><div class="day-head"><div><h2>${t("moreTitle")}</h2><p>${t("moreSub")}</p></div></div></div>
 
  <div class="card"><h3 style="margin-top:0">👤 ${t("account")}</h3>
@@ -6336,6 +6411,17 @@ function renderMore(){
      <option value="light" ${state.settings.theme==="light"?"selected":""}>${t("light")}</option>
      <option value="dark" ${state.settings.theme==="dark"?"selected":""}>${t("dark")}</option>
    </select>
+ </div>
+
+ <div class="card"><h3 style="margin-top:0">◷ ${lang()==="cs"?"Pozice odpočtu":"Rest timer position"}</h3>
+   <p class="subtitle">${lang()==="cs"?"Během odpočtu můžeš panel podržet za tečky a přesunout.":"During rest, hold the dotted handle and move the panel."}</p>
+   <select onchange="setRestDock(this.value)"><option value="bottom" ${state.settings.restDock!=="top"?"selected":""}>${lang()==="cs"?"Dole":"Bottom"}</option><option value="top" ${state.settings.restDock==="top"?"selected":""}>${lang()==="cs"?"Nahoře":"Top"}</option></select>
+ </div>
+
+ <div class="card workout-plan-settings" id="workoutPlanSettings"><h3 style="margin-top:0">🏋️ ${lang()==="cs"?"Tréninkový plán":"Workout plan"}</h3>
+   <p class="subtitle">${lang()==="cs"?"Vyber připravený styl. Aplikace podle něj nabídne cviky na pondělí, středu a pátek.":"Choose a prepared style. The app will build Monday, Wednesday and Friday workouts from it."}</p>
+   <select onchange="setWorkoutStyle(this.value)">${workoutStyleOptions}</select>
+   <div class="plan-style-preview">${["monday","wednesday","friday"].map(day=>`<div><b>${esc(BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en)}</b><span>${BASE_PLANS[day].items.length} ${lang()==="cs"?"cviků":"exercises"}</span></div>`).join("")}</div>
  </div>
 
  <div class="card"><div class="stat-grid settings-measurement-stats">
@@ -6360,6 +6446,26 @@ function setLanguage(value){
 }
 function setTheme(value){
  state.settings.theme=value==="dark"?"dark":"light";saveState();applyTheme();renderMore();
+}
+function setRestDock(value){state.settings.restDock=value==="top"?"top":"bottom";saveState();applyRestDock();renderMore()}
+function setWorkoutStyle(value){
+ if(!PLAN_PRESETS[value]||value===state.settings.workoutStyle)return;
+ if(state.activeWorkout){showToast(lang()==="cs"?"Nejdřív ukonči rozpracovaný workout.":"Finish the active workout first.");renderMore();return}
+ const name=PLAN_PRESETS[value]["name_"+lang()]||PLAN_PRESETS[value].name_en;
+ if(!confirm(lang()==="cs"?`Přepnout týdenní plán na „${name}“? Historie zůstane zachovaná.`:`Switch the weekly plan to “${name}”? Your history will be preserved.`)){renderMore();return}
+ state.settings.workoutStyle=value;BASE_PLANS=PLAN_PRESETS[value].plans;
+ state.planReplacements=defaultPlanReplacements();
+ DAYS.forEach(day=>{
+   const d=state.days[day]||defaultDay();
+   d.entries=Object.fromEntries(Object.entries(d.entries||{}).filter(([id])=>!id.startsWith("base:")));
+   d.order=(d.order||[]).filter(id=>!id.startsWith("base:"));d.completed=false;
+ });
+ selectedTodayDay=recommendedDay();saveState();renderMore();showToday(selectedTodayDay,selectedWorkoutDate||today());
+ showToast(lang()==="cs"?`Aktivní plán: ${name}`:`Active plan: ${name}`);
+}
+function openWorkoutPlanSettings(){
+ showScreen("more",document.querySelector('[data-screen="more"]'));
+ setTimeout(()=>document.getElementById("workoutPlanSettings")?.scrollIntoView({behavior:"smooth",block:"start"}),80);
 }
 function showScreen(id,btn){
  currentScreen=id;
@@ -7104,6 +7210,8 @@ function renderLive(){
  const setTarget=targetSetCount(m,e);
  const isFinalSet=m.mode!=="cardio"&&idx>=Math.max(0,setTarget-1);
  const restLabel=m.mode==="cardio"?"—":`${Number(m.rest)||0}s`;
+ const liveTips=m.tips?.[lang()]||m.tips?.en||[];
+ const liveVideoUrl=m.videoUrl||("https://www.youtube.com/results?search_query="+encodeURIComponent(m.en+" proper form tutorial"));
 
  liveProgressFill.style.width=`${((state.activeWorkout.position+1)/arr.length)*100}%`;
  liveProgressText.textContent=`${state.activeWorkout.position+1} / ${arr.length} · ${categoryName(m.category)}`;
@@ -7178,11 +7286,14 @@ function renderLive(){
    </div>
  </div>
 
- ${m.guideImage?`<button class="modern-live-guide" type="button" onclick="openVideo('${m.id}')">
-   <img src="${m.guideThumb||m.guideImage}" alt="${esc(itemName(m))}">
-   <span><b>${lang()==="cs"?"Návod ke cviku":"Exercise guide"}</b><small>${lang()==="cs"?"Klepni pro celý obrázek":"Tap to open the full guide"}</small></span>
-   <i>›</i>
- </button>`:""}
+ <details class="live-exercise-info">
+   <summary><span>ⓘ</span><b>${lang()==="cs"?"Technika, video a historie":"Technique, video & history"}</b><i>›</i></summary>
+   <div class="live-exercise-info-body">
+     ${m.guideImage?`<button class="live-info-guide" type="button" onclick="openVideo('${m.id}')"><img src="${m.guideThumb||m.guideImage}" alt=""><span><b>${lang()==="cs"?"Obrázkový návod":"Illustrated guide"}</b><small>${lang()==="cs"?"Otevřít celý obrázek a techniku":"Open full image and technique"}</small></span></button>`:""}
+     ${liveTips.length?`<ul>${liveTips.slice(0,3).map(tip=>`<li>${esc(tip)}</li>`).join("")}</ul>`:""}
+     <div class="live-info-actions"><a href="${esc(liveVideoUrl)}" target="_blank" rel="noopener">▶ Video</a><button type="button" onclick="openHistory('${m.id}')">◔ ${lang()==="cs"?"Historie":"History"}</button></div>
+   </div>
+ </details>
 
  ${last?`<div class="modern-previous"><span>${t("previous")}</span><strong>${esc(formatRecord(last))}</strong></div>`:""}
 
@@ -7199,6 +7310,7 @@ function renderLive(){
    ${inputs}
    <button class="live-done modern-complete-set" onclick="completeLiveSet('${inst.instanceId}',${idx})">✓ ${m.mode==="cardio"?t("saveCardio"):isFinalSet?(lang()==="cs"?"Dokončit cvik":"Finish exercise"):t("doneRest")}</button>
    <button class="modern-change-below" type="button" onclick="changeCurrentLiveExercise()">↔ ${t("changeExercise")}</button>
+   <button class="modern-skip-below" type="button" onclick="skipCurrentExercise()">⊘ ${lang()==="cs"?"Přeskočit cvik dnes":"Skip exercise today"}</button>
  </div>
 
  <div class="saved-sets-panel modern-saved-sets">
@@ -7264,9 +7376,38 @@ function startOptionalRestForCurrent(){
 }
 function previousLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.max(0,state.activeWorkout.position-1);saveState();renderLive()}
 function nextLive(){if(!state.activeWorkout)return;state.activeWorkout.position=Math.min(activeInstances().length-1,state.activeWorkout.position+1);saveState();renderLive()}
+let restDrag=null;
+function applyRestDock(){
+ const overlay=byId("restOverlay");if(!overlay)return;
+ overlay.classList.toggle("dock-top",state.settings?.restDock==="top");
+}
+function beginRestDrag(event){
+ const panel=event.currentTarget?.closest(".rest-panel");if(!panel)return;
+ event.preventDefault();event.currentTarget.setPointerCapture?.(event.pointerId);
+ restDrag={pointerId:event.pointerId,startY:event.clientY,panel};
+ panel.classList.add("dragging");
+ window.addEventListener("pointermove",moveRestDrag,{passive:false});
+ window.addEventListener("pointerup",endRestDrag,{once:true});
+ window.addEventListener("pointercancel",endRestDrag,{once:true});
+}
+function moveRestDrag(event){
+ if(!restDrag||event.pointerId!==restDrag.pointerId)return;
+ event.preventDefault();
+ const delta=Math.max(-window.innerHeight*.72,Math.min(window.innerHeight*.72,event.clientY-restDrag.startY));
+ restDrag.panel.style.transform=`translateY(${delta}px)`;
+}
+function endRestDrag(event){
+ if(!restDrag||event.pointerId!==restDrag.pointerId)return;
+ const {panel}=restDrag,center=panel.getBoundingClientRect().top+panel.offsetHeight/2;
+ state.settings.restDock=center<window.innerHeight/2?"top":"bottom";
+ panel.style.transform="";panel.classList.remove("dragging");restDrag=null;
+ window.removeEventListener("pointermove",moveRestDrag);
+ saveState(false);applyRestDock();
+ showToast(state.settings.restDock==="top"?(lang()==="cs"?"Odpočet je připnutý nahoře.":"Rest timer pinned to top."):(lang()==="cs"?"Odpočet je připnutý dole.":"Rest timer pinned to bottom."));
+}
 function startRest(seconds,name,setNo){
  if(!seconds)return;stopPostRestAlarm();lastRestBeepSecond=null;state.activeWorkout.restEndAt=Date.now()+seconds*1000;state.activeWorkout.restExercise=`${name} • ${t("set")} ${setNo}`;saveState(false);
- liveOverlay.classList.add("show");restOverlay.classList.remove("alarm-warning","alarm-finished");restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
+ liveOverlay.classList.add("show");restOverlay.classList.remove("alarm-warning","alarm-finished");applyRestDock();restOverlay.classList.add("show");restExercise.textContent=state.activeWorkout.restExercise;updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
 }
 function extendRest(seconds=30){
  const w=state.activeWorkout;if(!w)return;
@@ -7326,13 +7467,14 @@ function askFinishWorkout(){
 function openFinishDialog(){
  const w=state.activeWorkout;if(!w)return;
  const day=w.day,instances=activeInstances(day);
- const done=instances.filter(x=>entry(day,x.instanceId).done).length;
+ const skipped=instances.filter(x=>entry(day,x.instanceId).skipped).length;
+ const done=instances.filter(x=>entry(day,x.instanceId).done&&!entry(day,x.instanceId).skipped).length;
  const minutes=Math.max(1,Math.round(elapsedMs()/60000));
  byId("liveOverlay")?.classList.remove("show");
  byId("restOverlay")?.classList.remove("show");
  byId("workoutRunning")?.classList.remove("show");
  const summary=byId("finishSummary"),dialog=byId("finishDialog");
- if(summary)summary.innerHTML=`<p><b>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</b></p><p>${t("time")}: <b>${minutes} min</b><br>${t("completed")}: <b>${done}/${instances.length}</b></p>`;
+ if(summary)summary.innerHTML=`<p><b>${BASE_PLANS[day]["title_"+lang()]||BASE_PLANS[day].title_en}</b></p><p>${t("time")}: <b>${minutes} min</b><br>${t("completed")}: <b>${done}/${instances.length}</b>${skipped?`<br>${lang()==="cs"?"Přeskočeno":"Skipped"}: <b>${skipped}</b>`:""}</p>`;
  if(!dialog)return;
  dialog.dataset.minutes=String(minutes);
  if(!dialog.open)dialog.showModal();
@@ -7425,7 +7567,7 @@ function restoreActiveWorkout(){
  if(state.activeWorkout.awaitingFinish)scheduleWorkoutReminder();
  if(state.activeWorkout.restEndAt>Date.now()){
    const restName=byId("restExercise");if(restName)restName.textContent=state.activeWorkout.restExercise||"";
-   byId("restOverlay")?.classList.add("show");updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
+   applyRestDock();byId("restOverlay")?.classList.add("show");updateRest();clearInterval(restTick);restTick=setInterval(updateRest,500);
  }else if(state.activeWorkout.restEndAt){state.activeWorkout.restEndAt=0;saveState(false)}
  setTimeout(()=>{if(!state.activeWorkout)return;if(state.activeWorkout.awaitingFinish)openFinishDialog();else openLiveWorkout()},450);
 }
@@ -7677,6 +7819,8 @@ async function reconcileCloud(includeCurrentLocal=true){
    if(includeCurrentLocal&&hasMeaningfulLocalData())local=mergeStates(state,local);
    const remote=await fetchCloudState();
    state=remote?mergeStates(local,remote):migrateState(local);
+   if(!PLAN_PRESETS[state.settings.workoutStyle])state.settings.workoutStyle="balanced";
+   BASE_PLANS=PLAN_PRESETS[state.settings.workoutStyle].plans;
    state.meta={...(state.meta||{}),modifiedAt:Math.max(stateActivityTimestamp(state),Date.now()),cloudUserId:cloudUser.id};
    persistCurrentState();
    localStorage.removeItem(KEY);
@@ -7752,7 +7896,7 @@ async function cloudSignOut(){
  const {error}=await supabaseClient.auth.signOut();
  if(error){alert(error.message);return}
  cloudUser=null;
- state=defaultState();
+ state=defaultState();BASE_PLANS=PLAN_PRESETS.balanced.plans;
  localStorage.removeItem(KEY);
  localStorage.removeItem("gymSelectedWorkoutDate");
  if(cloudDialog.open)cloudDialog.close();

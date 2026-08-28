@@ -1,0 +1,33 @@
+Gym Tracker Pro v116 — QA REPORT
+Date: 2026-08-28
+
+IMPLEMENTED
+- Today navigation always selects the device-local current date.
+- Today's Workout and Plan are merged into one home section.
+- Every exercise for the selected workout is visible without expanding a second Plan block.
+- Tapping an exercise card opens live set logging directly.
+- Technique, illustrated guide, video and history are optional expandable content inside the live exercise.
+- Completed exercise cards remain green with a check mark.
+- Exercises can be skipped for the selected day and restored from the grey card.
+- Skipped exercises count as resolved for the workout-finish prompt but are reported separately from completed exercises.
+- Rest timer is compact and can be dragged between top and bottom docking positions.
+- Rest timer position can also be selected in Settings.
+- Saved workouts and workout-plan access are placed at the bottom of the home screen.
+- Settings contains five prepared weekly styles: Balanced, Full Body, Muscle Gain P/P/L, Machines Only and Quick 30 min.
+- Changing the weekly style preserves saved history and is blocked while a workout is active.
+
+AUTOMATED CHECKS
+- Inline JavaScript syntax: PASS
+- HTML parser / duplicate static IDs: PASS
+- Manifest JSON: PASS
+- Service worker, manifest and visible app version aligned to v116: PASS
+- All exercise IDs used by all five weekly styles exist in the 89-exercise database: PASS
+- Home exercise-card action routes to startExercise instead of exercise-detail modal: PASS
+- Unified home, skip/restore, expandable live help, draggable rest and Today-route assertions: PASS
+- git diff whitespace/error check: PASS
+
+DATA SAFETY
+- Existing local/cloud storage key remains gymTrackerProV2.
+- Existing workout history, measurements, account and exercise images are preserved.
+- Supabase guide paths remain on the verified v112 image set with the two v115 local corrected guides.
+- Previous Git history remains available for rollback.
