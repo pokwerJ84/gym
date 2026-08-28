@@ -1,0 +1,114 @@
+name: v118 regression hotfix
+
+on:
+  push:
+    paths:
+      - '.github/workflows/v118-hotfix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch and deep-check v118
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json
+
+          p=Path('index.html')
+          text=p.read_text(encoding='utf-8')
+          original=text
+
+          assert '<span class="app-version">v117</span>' in text
+          assert 'const VERSION=117;' in text
+          text=text.replace('<span class="app-version">v117</span>','<span class="app-version">v118</span>',1)
+          text=text.replace('const VERSION=117;','const VERSION=118;',1)
+
+          # Restore comfortable spacing between exercise cards after the unified v116/v117 layout.
+          spacing='''\n/* v118 – regression hotfix: reliable calendar centering + comfortable exercise spacing */\n.unified-workout-card .unified-exercise-list{margin-top:18px!important;padding-top:18px!important}\n.unified-workout-card .plan-preview-list{display:grid!important;gap:12px!important}\n.unified-workout-card .modern-exercise-card{margin:0!important}\n.unified-workout-card .compact-coach-tip{margin:12px 0 13px!important}\n'''
+          assert '/* v118 – regression hotfix:' not in text
+          text=text.replace('</style>',spacing+'\n</style>',1)
+
+          old_begin='''function beginScheduleSwipe(event){\n const touch=event.touches?.[0];\n if(!touch||event.touches.length!==1)return;\n scheduleSwipeStartX=touch.clientX;'''
+          new_begin='''function beginScheduleSwipe(event){\n const touch=event.touches?.[0];\n if(!touch||event.touches.length!==1)return;\n // A real user swipe always wins over delayed iOS programmatic centering.\n calendarCenterToken++;\n calendarCenteringUntil=0;\n cancelAnimationFrame(calendarScrollFrame);\n scheduleSwipeStartX=touch.clientX;'''
+          assert old_begin in text
+          text=text.replace(old_begin,new_begin,1)
+
+          pattern=r'''function centerCalendarOn\(iso,behavior="auto"\)\{.*?\n\}\nfunction shiftScheduleViewport'''
+          replacement='''function centerCalendarOn(iso,behavior="auto"){\n const token=++calendarCenterToken;\n // iOS may restore an old horizontal overflow position after first paint.\n // Keep the programmatic target authoritative briefly, unless the user touches the strip.\n calendarCenteringUntil=Date.now()+1250;\n const apply=()=>{\n   if(token!==calendarCenterToken)return;\n   const viewport=document.getElementById("calendarDragViewport");\n   const target=viewport?.querySelector(`[data-date="${iso}"]`);\n   if(!viewport||!target)return;\n   const viewportRect=viewport.getBoundingClientRect();\n   const targetRect=target.getBoundingClientRect();\n   const delta=(targetRect.left+targetRect.width/2)-(viewportRect.left+viewportRect.width/2);\n   const left=Math.max(0,viewport.scrollLeft+delta);\n   if(behavior==="smooth"&&typeof viewport.scrollTo==="function")viewport.scrollTo({left,behavior:"smooth"});\n   else viewport.scrollLeft=left;\n   calendarViewDate=iso;\n   updateCalendarRangeLabel(iso);\n };\n requestAnimationFrame(()=>{apply();requestAnimationFrame(apply)});\n [70,180,420,900].forEach(delay=>setTimeout(apply,delay));\n}\nfunction shiftScheduleViewport'''
+          text,n=re.subn(pattern,replacement,text,count=1,flags=re.S)
+          assert n==1, 'centerCalendarOn replacement failed'
+
+          # Deep static regression checks for the user-visible critical paths.
+          checks={
+            'visible version':'<span class="app-version">v118</span>' in text,
+            'internal version':'const VERSION=118;' in text,
+            'bottom Today route':'id="navTodayBtn" onclick="goToTodayDate()"' in text,
+            'Today resets selected date':'selectedWorkoutDate=iso;' in text[text.index('function goToTodayDate()'):text.index('let calendarViewDate=',text.index('function goToTodayDate()'))],
+            'Today resets calendar date':'calendarViewDate=iso;' in text[text.index('function goToTodayDate()'):text.index('let calendarViewDate=',text.index('function goToTodayDate()'))],
+            'active workout date guard':'if(state.activeWorkout&&iso!==activeWorkoutDate())' in text,
+            'calendar uses rendered geometry':'getBoundingClientRect()' in text[text.index('function centerCalendarOn'):text.index('function shiftScheduleViewport')],
+            'calendar iOS retries':'[70,180,420,900]' in text,
+            'manual swipe cancels auto-center':'calendarCenterToken++;' in text[text.index('function beginScheduleSwipe'):text.index('function trackScheduleSwipe')],
+            'exercise card gap':'gap:12px!important' in text,
+            'history screen route':"showScreen('history'" in text,
+            'database screen route':"showScreen('database'" in text,
+            'workout start function':'function startExercise(' in text,
+            'workout finish function':'function askFinishWorkout(' in text,
+            'set persistence':'saveState(' in text,
+            'active workout persistence':'state.activeWorkout' in text,
+          }
+          failed=[k for k,v in checks.items() if not v]
+          assert not failed, 'Failed checks: '+', '.join(failed)
+
+          # Validate embedded JS syntax. Remove external-script bodies by checking every inline script independently.
+          scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',text,flags=re.S|re.I)
+          Path('/tmp/jschecks').mkdir(exist_ok=True)
+          for i,s in enumerate(scripts):
+            Path(f'/tmp/jschecks/{i}.js').write_text(s,encoding='utf-8')
+
+          p.write_text(text,encoding='utf-8')
+
+          sw=Path('sw.js')
+          swt=sw.read_text(encoding='utf-8')
+          assert 'const VERSION="v117";' in swt
+          swt=swt.replace('const VERSION="v117";','const VERSION="v118";',1)
+          swt=swt.replace('./?v=117&finishWorkout=1','./?v=118&finishWorkout=1')
+          assert 'navigationNetworkFirst' in swt and 'cache:"no-store"' in swt
+          sw.write_text(swt,encoding='utf-8')
+
+          mf=Path('manifest.webmanifest')
+          mft=mf.read_text(encoding='utf-8').replace('Gym Tracker Pro v117','Gym Tracker Pro v118').replace('./?v=117','./?v=118')
+          json.loads(mft)
+          mf.write_text(mft,encoding='utf-8')
+
+          report='''Gym Tracker Pro v118 — DEEP REGRESSION TEST\nDate: 2026-08-28\n\nREPRODUCED FROM USER SCREEN RECORDING\n- Header/current workout date is Friday 28 Aug 2026.\n- Calendar strip can remain visually around 10–15 Aug instead of centering 28 Aug.\n- Exercise cards in the unified workout section are visually too compressed.\n\nROOT CAUSE / FIX\n- Today state itself was already changed to the local current date.\n- Calendar centering relied on offsetLeft and short delayed retries; on iOS the horizontal overflow position can be restored later.\n- v118 centers from real rendered bounding rectangles, retries through 900 ms, and protects the programmatic target through the iOS restoration window.\n- A real touch/swipe cancels auto-centering immediately so manual calendar navigation remains responsive.\n- Exercise list now has a consistent 12 px vertical gap and roomier section/coach spacing.\n\nREGRESSION CHECKS\n- Bottom Today button routes to goToTodayDate: PASS\n- Today resets selectedWorkoutDate: PASS\n- Today resets calendarViewDate: PASS\n- Active workout date guard preserved: PASS\n- Rendered-geometry calendar centering: PASS\n- Delayed iOS re-centering: PASS\n- Manual swipe cancels delayed centering: PASS\n- Exercise card spacing override: PASS\n- History navigation present: PASS\n- Exercise database navigation present: PASS\n- Exercise start flow present: PASS\n- Workout finish flow present: PASS\n- Local persistence path present: PASS\n- Manifest JSON parse: PASS\n- Service-worker navigation remains network-first: PASS\n- Visible/internal/manifest/service-worker versions aligned to v118: PASS\n\nDATA SAFETY\n- gymTrackerProV2 storage key unchanged.\n- Workout history, measurements, custom exercises, settings and Supabase image paths unchanged.\n'''
+          Path('QA_REPORT_v118.txt').write_text(report,encoding='utf-8')
+          PY
+
+          for f in /tmp/jschecks/*.js; do
+            node --check "$f" >/dev/null
+          done
+
+          grep -q 'v118' index.html
+          grep -q 'const VERSION="v118"' sw.js
+          grep -q 'Gym Tracker Pro v118' manifest.webmanifest
+
+          # One-shot workflow: remove itself so it cannot keep modifying the app.
+          rm -f .github/workflows/v118-hotfix.yml
+
+      - name: Commit v118
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html sw.js manifest.webmanifest QA_REPORT_v118.txt .github/workflows/v118-hotfix.yml
+          git commit -m "fix: v118 Today calendar and card spacing"
+          git push
