@@ -1,8 +1,8 @@
 {
-  "name": "Gym Tracker Pro v119",
+  "name": "Gym Tracker Pro v120",
   "short_name": "Gym Tracker",
   "description": "User-friendly gym tracker with workout history, weekly measurements and a daily posture routine.",
-  "start_url": "./?v=119",
+  "start_url": "./?v=120",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f7f8",

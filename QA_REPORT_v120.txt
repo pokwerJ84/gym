@@ -1,0 +1,44 @@
+Gym Tracker Pro v120 — LOCAL REVIEW BUILD
+Date: 2026-08-28
+
+STATUS
+- Local proposal only.
+- Nothing was pushed to GitHub.
+- GitHub main and the live GitHub Pages application remain unchanged.
+
+TODAY SCREEN REBUILD
+- Removed the 35-day horizontally scrolling calendar from the rendered UI.
+- Removed iOS scroll-centering, delayed retries, duplicate viewport targeting and swipe-click suppression.
+- Added a new fixed seven-day calendar grid with previous week, Today and next week controls.
+- Today always sets selectedWorkoutDate and calendarViewDate directly from today().
+- Removed the duplicate selected-day warning card.
+- Removed the extra flexible-day information card.
+- Separated the workout summary visually from the exercise list.
+- Removed the coaching and instruction blocks between the workout summary and exercise cards.
+
+EXERCISE CARDS
+- One clean row: 112 px image, readable text column and aligned chevron.
+- Card number is overlaid on the image instead of consuming another narrow grid column.
+- Fixed minimum card height: 136 px; narrow-screen fallback: 122 px.
+- Fixed 14 px spacing between cards.
+- Completed cards retain the green state.
+
+BOTTOM NAVIGATION
+- Fixed button height: 56 px.
+- Compact 5 px container padding.
+- Main content bottom padding prevents cards being hidden under the navigation.
+
+CHECKS PASSED
+- Inline JavaScript syntax: PASS
+- Service worker JavaScript syntax: PASS
+- Manifest JSON parsing: PASS
+- Version consistency v120: PASS
+- New calendar renders exactly seven dates: PASS
+- New calendar contains no horizontal drag viewport: PASS
+- Today routes directly through today(): PASS
+- Git diff whitespace validation: PASS
+
+NOT DEPLOYED
+- No commit was pushed.
+- No GitHub branch was updated.
+- No Supabase content was changed.

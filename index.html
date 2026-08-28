@@ -4603,6 +4603,77 @@ body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}b
  .unified-workout-card .modern-exercise-card .preview-card-main>strong{font-size:15px!important}
 }
 
+/* v120 – rebuilt mobile Today screen, calendar and navigation */
+.modern-today{gap:12px!important}
+.modern-today-head{align-items:center!important;min-height:48px;margin:0!important}
+.modern-today-head .eyebrow{font-size:10px!important;letter-spacing:.14em}
+.selected-workout-date{margin:3px 0 0!important;font-size:16px!important;line-height:1.2!important}
+.today-options-button{width:42px!important;height:42px!important;min-height:42px!important;border-radius:14px!important}
+.v120-calendar{display:grid;gap:10px;padding:12px;border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:0 8px 24px rgba(0,12,20,.12)}
+.v120-calendar-head{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;align-items:center;gap:8px}
+.v120-calendar-head>button{display:grid;place-items:center;width:42px;height:42px;min-height:42px;padding:0;border:1px solid color-mix(in srgb,var(--v95-teal) 45%,var(--line));border-radius:13px;background:var(--surface2);color:var(--text);font-size:25px;font-weight:800}
+.v120-calendar-title{display:flex;align-items:center;justify-content:center;gap:9px;min-width:0}
+.v120-calendar-title strong{font-size:15px;line-height:1.1;white-space:nowrap}
+.v120-calendar-title button{min-height:34px;padding:5px 9px;border:0;border-radius:10px;background:rgba(35,195,184,.12);color:var(--v95-teal);font-size:11px;font-weight:950}
+.v120-week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;width:100%}
+.v120-day{display:grid;grid-template-rows:auto auto 8px;place-items:center;min-width:0;min-height:62px!important;padding:7px 1px 5px!important;border:1px solid transparent;border-radius:14px;background:transparent;color:var(--muted);font-weight:900}
+.v120-day span{font-size:9px;line-height:1;text-transform:uppercase}
+.v120-day strong{margin-top:4px;font-size:18px;line-height:1;color:var(--text)}
+.v120-day i{min-height:8px;margin-top:3px;color:var(--v95-teal);font-size:9px;font-style:normal;line-height:1}
+.v120-day.today:not(.selected){border-color:rgba(35,195,184,.48);background:rgba(35,195,184,.06)}
+.v120-day.selected{border-color:var(--v95-teal);background:var(--v95-teal);color:#062630;box-shadow:0 5px 14px rgba(35,195,184,.25)}
+.v120-day.selected strong,.v120-day.selected i{color:#062630}
+.v120-day.completed:not(.selected){border-color:rgba(53,201,130,.38);background:rgba(53,201,130,.12)}
+.selected-date-alert{display:none!important}
+.unified-workout-card{padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.v120-workout-summary{padding:16px;border:1px solid rgba(113,224,216,.20);border-radius:22px;background:linear-gradient(145deg,#176a78,#155d6b);color:#fff;box-shadow:0 12px 30px rgba(0,15,24,.18)}
+.v120-workout-summary .workout-hero-top{align-items:center}
+.v120-workout-summary .workout-hero-top p{display:none}
+.v120-workout-summary .hero-kicker{font-size:10px!important;letter-spacing:.14em}
+.v120-workout-summary h2{margin-top:6px!important;font-size:27px!important}
+.v120-workout-summary .hero-plan-number{min-width:54px;min-height:54px;font-size:20px}
+.v120-workout-summary .hero-meta{margin-top:10px!important;font-size:12px!important}
+.v120-workout-summary .hero-actions{margin-top:12px!important;gap:8px!important}
+.v120-workout-summary .hero-actions button{min-height:44px!important;padding:8px!important;border-radius:13px!important;font-size:12px!important}
+.v120-workout-summary .rotation-tabs{margin-top:9px!important;gap:7px!important}
+.v120-workout-summary .rotation-tabs button{min-height:44px!important;padding:6px 4px!important;border-radius:13px!important}
+.v120-workout-summary .rotation-tabs button b{width:29px;height:29px}
+.v120-workout-summary .rotation-tabs span{font-size:11px!important}
+.unified-workout-card .unified-exercise-list{margin:12px 0 0!important;padding:0!important;border:0!important;background:transparent!important}
+.v120-exercise-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;padding:2px 2px 8px}
+.v120-exercise-heading h3{margin:0;font-size:19px;line-height:1.1}
+.v120-exercise-heading span{color:var(--muted);font-size:11px;font-weight:850}
+.unified-workout-card .plan-preview-list{display:grid!important;gap:14px!important}
+.unified-workout-card .modern-exercise-card{margin:0!important;border:1px solid color-mix(in srgb,var(--v95-teal) 30%,var(--line))!important;border-radius:18px!important;background:var(--surface)!important;box-shadow:0 8px 22px rgba(0,12,20,.13)!important;overflow:hidden!important}
+.unified-workout-card .modern-exercise-card summary{position:relative;display:grid!important;grid-template-columns:112px minmax(0,1fr) 16px!important;align-items:center!important;gap:12px!important;min-height:136px!important;padding:11px 12px!important}
+.unified-workout-card .modern-exercise-card .exercise-guide-thumb{grid-column:1;width:112px!important;height:112px!important;border-radius:12px!important;object-fit:contain!important;background:#061e2b}
+.unified-workout-card .modern-exercise-card .preview-card-number{position:absolute;z-index:2;top:16px;left:17px;width:31px;height:31px;border:2px solid rgba(255,255,255,.72);background:#0b4260;color:#fff;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.22)}
+.unified-workout-card .modern-exercise-card .preview-card-main{grid-column:2;min-width:0!important;padding:0!important;overflow:hidden!important}
+.unified-workout-card .modern-exercise-card .preview-card-main>strong{display:block;font-size:16px!important;line-height:1.22!important;overflow-wrap:normal!important;word-break:normal!important}
+.unified-workout-card .modern-exercise-card .preview-card-main small{display:block;margin-top:7px!important;color:var(--muted);font-size:11px!important;line-height:1.35!important}
+.unified-workout-card .modern-exercise-card .exercise-set-status{display:table;margin-top:9px!important;padding:5px 8px;border-radius:999px;background:var(--surface3);font-size:10px!important;line-height:1.1!important}
+.unified-workout-card .modern-exercise-card .preview-card-chevron{grid-column:3;align-self:center;margin:0!important;font-size:26px!important;transform:none!important}
+.unified-workout-card .modern-exercise-card .top-pick-badge,.unified-workout-card .modern-exercise-card .extra-badge{display:table;margin-top:5px;font-size:9px!important}
+.unified-workout-card .modern-exercise-card.exercise-done{border-color:rgba(53,201,130,.78)!important;background:rgba(53,201,130,.17)!important}
+.unified-workout-card .modern-exercise-card.exercise-done summary{background:linear-gradient(90deg,rgba(53,201,130,.15),rgba(53,201,130,.04))!important}
+.unified-workout-card .modern-exercise-card.exercise-done .preview-card-number{background:var(--v95-green)!important;color:#062630!important}
+.modern-plan-footer{margin-top:14px}
+nav{left:50%!important;right:auto!important;bottom:calc(7px + env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;width:min(500px,calc(100% - 20px))!important;height:auto!important;padding:5px!important;border-radius:20px!important}
+.navinner{height:56px!important;gap:3px!important}
+.navbtn{display:grid!important;place-items:center!important;align-content:center!important;gap:2px!important;min-height:56px!important;height:56px!important;padding:4px 2px!important;border-radius:15px!important}
+.navbtn .nav-glyph{margin:0!important;font-size:18px!important;line-height:1!important}
+.navbtn b{font-size:10px!important;line-height:1.05!important}
+.app{padding-bottom:calc(78px + env(safe-area-inset-bottom))!important}
+main{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+@media(max-width:380px){
+ .v120-calendar{padding:10px}.v120-week-grid{gap:4px}.v120-day{min-height:58px!important}.v120-day strong{font-size:17px}
+ .v120-workout-summary{padding:13px}.v120-workout-summary h2{font-size:24px!important}
+ .unified-workout-card .modern-exercise-card summary{grid-template-columns:96px minmax(0,1fr) 13px!important;gap:9px!important;min-height:122px!important;padding:10px!important}
+ .unified-workout-card .modern-exercise-card .exercise-guide-thumb{width:96px!important;height:102px!important}
+ .unified-workout-card .modern-exercise-card .preview-card-number{top:14px;left:14px;width:28px;height:28px}
+ .unified-workout-card .modern-exercise-card .preview-card-main>strong{font-size:15px!important}
+}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4615,7 +4686,7 @@ body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}b
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v119</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v120</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5814,7 +5885,10 @@ function selectScheduleDate(iso){
  localStorage.setItem("gymSelectedWorkoutDate",iso);
  showToday(state.activeWorkout?.day||trainingDayForIso(iso)||selectedTodayDay||recommendedDay(),iso);
 }
-function changeScheduleWeek(offset){shiftScheduleViewport(offset*7)}
+function changeScheduleWeek(offset){
+ calendarViewDate=uiAddDays(weekStart(calendarViewDate||selectedWorkoutDate||today()),offset*7);
+ renderDay(selectedTodayDay||trainingDayForIso(selectedWorkoutDate)||recommendedDay());
+}
 function goToTodayDate(){
  const iso=today();
  if(state.activeWorkout&&activeWorkoutDate()!==iso){returnToTodayAfterActiveWorkout=true;selectScheduleDate(iso);return}
@@ -5822,50 +5896,8 @@ function goToTodayDate(){
  calendarViewDate=iso;
  localStorage.setItem("gymSelectedWorkoutDate",iso);
  showToday(state.activeWorkout?.day||trainingDayForIso(iso)||recommendedDay(),iso);
- centerCalendarOn(iso,"auto");
 }
-let calendarViewDate=selectedWorkoutDate||today(),scheduleSwipeStartX=0,scheduleSwipeStartY=0,scheduleSwipeStartLeft=0,scheduleSwipeInProgress=false,scheduleSwipeMoved=false,suppressScheduleClickUntil=0,calendarScrollFrame=0,calendarCenterToken=0,calendarCenteringUntil=0;
-function beginScheduleSwipe(event){
- const touch=event.touches?.[0];
- if(!touch||event.touches.length!==1)return;
- // A real user swipe always wins over delayed iOS programmatic centering.
- calendarCenterToken++;
- calendarCenteringUntil=0;
- cancelAnimationFrame(calendarScrollFrame);
- scheduleSwipeStartX=touch.clientX;
- scheduleSwipeStartY=touch.clientY;
- scheduleSwipeStartLeft=event.currentTarget?.scrollLeft||0;
- scheduleSwipeInProgress=true;
- scheduleSwipeMoved=false;
-}
-function trackScheduleSwipe(event){
- if(!scheduleSwipeInProgress)return;
- const touch=event.touches?.[0];
- if(!touch)return;
- if(Math.abs(touch.clientX-scheduleSwipeStartX)>9||Math.abs(touch.clientY-scheduleSwipeStartY)>9)scheduleSwipeMoved=true;
-}
-function cancelScheduleSwipe(){scheduleSwipeInProgress=false;scheduleSwipeMoved=false}
-function consumeScheduleSwipeClick(event){
- if(Date.now()>=suppressScheduleClickUntil)return false;
- event?.preventDefault?.();
- event?.stopPropagation?.();
- return true;
-}
-function finishScheduleSwipe(event){
- if(!scheduleSwipeInProgress)return;
- scheduleSwipeInProgress=false;
- const movedByScroll=Math.abs((event.currentTarget?.scrollLeft||0)-scheduleSwipeStartLeft)>4;
- if(scheduleSwipeMoved||movedByScroll)suppressScheduleClickUntil=Date.now()+280;
- scheduleSwipeMoved=false;
- updateCalendarViewFromScroll(event.currentTarget);
-}
-function scrollScheduleWheel(event,viewport){
- if(!viewport)return;
- if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){
-   viewport.scrollLeft+=event.deltaY;
-   event.preventDefault();
- }
-}
+let calendarViewDate=selectedWorkoutDate||today();
 function openDateDialog(){
  quickWorkoutDate.value=selectedWorkoutDate||today();
  dateDialogTitle.textContent=lang()==="cs"?"Změnit datum":"Change date";
@@ -5882,74 +5914,20 @@ function nextPlannedDateAfter(iso){
  for(let i=0;i<8;i++){if(isPlannedStrengthDate(candidate))return candidate;candidate=uiAddDays(candidate,1)}
  return uiAddDays(iso,2);
 }
-function currentCalendarViewport(){
- return document.querySelector(".screen.active .calendar-drag-viewport")||document.getElementById(selectedTodayDay)?.querySelector(".calendar-drag-viewport")||null;
-}
-function updateCalendarRangeLabel(iso,viewport=currentCalendarViewport()){
- const monday=weekStart(iso||calendarViewDate||today()),sunday=uiAddDays(monday,6);
- const label=viewport?.closest(".screen")?.querySelector(".calendar-range-label")||document.querySelector(".screen.active .calendar-range-label");
- if(label)label.textContent=localizedMonthRange(monday,sunday);
-}
-function updateCalendarViewFromScroll(viewport){
- if(!viewport)return;
- cancelAnimationFrame(calendarScrollFrame);
- calendarScrollFrame=requestAnimationFrame(()=>{
-  if(Date.now()<calendarCenteringUntil)return;
-  const center=viewport.scrollLeft+viewport.clientWidth/2;
-  const buttons=[...viewport.querySelectorAll(".modern-week-day")];
-  let closest=null,distance=Infinity;
-  buttons.forEach(button=>{const point=button.offsetLeft+button.offsetWidth/2;const delta=Math.abs(point-center);if(delta<distance){distance=delta;closest=button}});
-  if(!closest)return;
-  calendarViewDate=closest.dataset.date||calendarViewDate;
-  updateCalendarRangeLabel(calendarViewDate,viewport);
- });
-}
-function centerCalendarOn(iso,behavior="auto"){
- const token=++calendarCenterToken;
- // iOS may restore an old horizontal overflow position after first paint.
- // Keep the programmatic target authoritative briefly, unless the user touches the strip.
- calendarCenteringUntil=Date.now()+1250;
- const apply=()=>{
-   if(token!==calendarCenterToken)return;
-   const viewport=currentCalendarViewport();
-   const target=viewport?.querySelector(`[data-date="${iso}"]`);
-   if(!viewport||!target)return;
-   const viewportRect=viewport.getBoundingClientRect();
-   const targetRect=target.getBoundingClientRect();
-   const delta=(targetRect.left+targetRect.width/2)-(viewportRect.left+viewportRect.width/2);
-   const left=Math.max(0,viewport.scrollLeft+delta);
-   if(behavior==="smooth"&&typeof viewport.scrollTo==="function")viewport.scrollTo({left,behavior:"smooth"});
-   else viewport.scrollLeft=left;
-   calendarViewDate=iso;
-   updateCalendarRangeLabel(iso,viewport);
- };
- requestAnimationFrame(()=>{apply();requestAnimationFrame(apply)});
- [70,180,420,900].forEach(delay=>setTimeout(apply,delay));
-}
-function shiftScheduleViewport(days){
- const target=uiAddDays(calendarViewDate||selectedWorkoutDate||today(),days);
- const viewport=currentCalendarViewport();
- const button=viewport?.querySelector(`[data-date="${target}"]`);
- if(button){centerCalendarOn(target,"smooth");return}
- calendarViewDate=target;
- renderDay(selectedTodayDay||recommendedDay());
-}
 function weekStripMarkup(selectedDay){
  const center=calendarViewDate||selectedWorkoutDate||today();
  const monday=weekStart(center),sunday=uiAddDays(monday,6);
- const stripStart=uiAddDays(monday,-14);
  const dayNames=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
- return `<div class="week-navigation">
+ return `<section class="v120-calendar" aria-label="${lang()==="cs"?"Týdenní kalendář":"Weekly calendar"}"><div class="v120-calendar-head">
    <button type="button" onclick="changeScheduleWeek(-1)" aria-label="${lang()==="cs"?"Předchozí týden":"Previous week"}">‹</button>
-   <div><strong class="calendar-range-label">${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div>
+   <div class="v120-calendar-title"><strong class="calendar-range-label">${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div>
    <button type="button" onclick="changeScheduleWeek(1)" aria-label="${lang()==="cs"?"Další týden":"Next week"}">›</button>
- </div>
- <div class="calendar-drag-viewport" aria-label="${lang()==="cs"?"Kalendář. Posuň prstem a klepnutím vyber den.":"Calendar. Swipe and tap to select a day."}" onscroll="updateCalendarViewFromScroll(this)" onwheel="scrollScheduleWheel(event,this)"><div class="modern-week-strip">${Array.from({length:35},(_,i)=>{
-   const iso=uiAddDays(stripStart,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
+ </div><div class="v120-week-grid">${Array.from({length:7},(_,i)=>{
+   const iso=uiAddDays(monday,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
    const marker=completed?"✓":cardio?"♥":planned?"•":"";
    const weekday=(uiDateFromIso(iso).getDay()+6)%7;
-   return `<button type="button" data-date="${iso}" class="modern-week-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="if(!consumeScheduleSwipeClick(event))selectScheduleDate('${iso}')"><span>${dayNames[weekday]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
- }).join("")}</div></div>`;
+   return `<button type="button" data-date="${iso}" class="v120-day ${planned?"training-day":""} ${selected?"selected":""} ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today":""}" onclick="selectScheduleDate('${iso}')"><span>${dayNames[weekday]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${marker}</i></button>`;
+ }).join("")}</div></section>`;
 }
 function setDatabaseQuery(value){
  databaseQuery=String(value||"");
@@ -6132,14 +6110,7 @@ function renderDay(day){
 
    ${weekStripMarkup(day)}
 
-   ${selectedWorkoutDate!==today()?`<div class="selected-date-alert"><span>${lang()==="cs"?"Vybraný den":"Selected day"}: ${esc(localizedFullDate(selectedWorkoutDate))}</span><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Zpět na dnešek":"Back to today"}</button></div>`:""}
-
    ${selectedIsMonday?measurementCardMarkup(day,"top"):""}
-
-   ${!isPlannedStrengthDate(today())?`<details class="flex-day-card compact-flex-info">
-     <summary><span class="flex-day-icon">↻</span><span><b>${lang()==="cs"?"Dnes je flexibilní den":"Today is a flexible day"}</b><small>${lang()==="cs"?"Další trénink je zobrazený níže":"Your next workout is shown below"}</small></span><i>›</i></summary>
-     <p>${lang()==="cs"?`Můžeš odjet ${esc(planTitle)} nebo zvolit lehké kardio.`:`You can do ${esc(planTitle)} or choose light cardio.`}</p>
-   </details>`:""}
 
    <div class="login-warning modern-login-warning" ${cloudUser?"hidden":""}>
      <div><b>⚠️ ${t("loginWarningTitle")}</b><span>${t("loginWarningText")}</span></div>
@@ -6149,6 +6120,7 @@ function renderDay(day){
    ${recoveryWarningNeeded()?`<div class="recovery-warning compact-warning">⚠️ ${t("recoveryWarning")}</div>`:""}
 
    <section class="workout-hero compact-hero unified-workout-card">
+    <div class="v120-workout-summary">
      <div class="workout-hero-top">
        <div>
          <span class="hero-kicker">${heroKicker}</span>
@@ -6172,18 +6144,10 @@ function renderDay(day){
      <button class="${day==="monday"?"active":""}" onclick="showToday('monday',selectedWorkoutDate)"><b>1</b><span>${lang()==="cs"?"Síla":"Strength"}</span></button>
      <button class="${day==="wednesday"?"active":""}" onclick="showToday('wednesday',selectedWorkoutDate)"><b>2</b><span>${lang()==="cs"?"Stabilita":"Stability"}</span></button>
      <button class="${day==="friday"?"active":""}" onclick="showToday('friday',selectedWorkoutDate)"><b>3</b><span>${lang()==="cs"?"Kontrola":"Control"}</span></button>
-   </div>`;
+   </div></div>`;
 
  html+=`<div class="modern-plan-section unified-exercise-list" id="exercisePlan-${day}">
-     <div class="section-title-row"><div><span class="eyebrow">${lang()==="cs"?"DNEŠNÍ CVIKY":"TODAY'S EXERCISES"}</span><h3>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</h3></div></div>
-     <details class="plan-coach-card compact-coach-tip">
-       <summary>${lang()==="cs"?"Jak cvičit pracovní série":"How to perform working sets"}</summary>
-       <strong>${lang()==="cs"?"Pravidlo pro každý pracovní set":"Rule for every working set"}</strong>
-       <span>${lang()==="cs"
-         ?"Nech si rezervu 2 opakování. Váhu spouštěj 2–3 sekundy. Až zvládneš horní hranici opakování ve všech sériích čistě, příště přidej nejmenší možnou váhu."
-         :"Keep about 2 reps in reserve. Lower the weight for 2–3 seconds. Once you reach the top of the rep range in every set with clean form, add the smallest available weight next time."}</span>
-     </details>
-     <div class="exercise-list-coach">${lang()==="cs"?"Klepni na cvik a rovnou začni zapisovat série.":"Tap an exercise to start logging sets immediately."}</div>
+     <div class="v120-exercise-heading"><h3>${orderedInstances.length} ${lang()==="cs"?"cviků":"exercises"}</h3><span>${lang()==="cs"?"Klepni a začni":"Tap to start"}</span></div>
      
      <div class="plan-preview-list today-preview-list">`;
 
@@ -6250,7 +6214,6 @@ function renderDay(day){
 
  html+=`</div>`;
  document.getElementById(day).innerHTML=html;
- centerCalendarOn(calendarViewDate||selectedWorkoutDate||today());
  setupExclusivePreviewCards();
  prefetchPlanImages(day,orderedInstances);
 }
