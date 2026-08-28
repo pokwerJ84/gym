@@ -5886,8 +5886,8 @@ function selectScheduleDate(iso){
  showToday(state.activeWorkout?.day||trainingDayForIso(iso)||selectedTodayDay||recommendedDay(),iso);
 }
 function changeScheduleWeek(offset){
- calendarViewDate=uiAddDays(weekStart(calendarViewDate||selectedWorkoutDate||today()),offset*7);
- renderDay(selectedTodayDay||trainingDayForIso(selectedWorkoutDate)||recommendedDay());
+ const target=uiAddDays(selectedWorkoutDate||today(),offset*7);
+ selectScheduleDate(target);
 }
 function goToTodayDate(){
  const iso=today();

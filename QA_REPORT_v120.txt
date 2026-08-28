@@ -34,6 +34,7 @@ CHECKS PASSED
 - Version consistency v120: PASS
 - New calendar renders exactly seven dates: PASS
 - New calendar contains no horizontal drag viewport: PASS
+- Previous/next week changes the selected date by exactly seven days: PASS
 - Today routes directly through today(): PASS
 - Git diff whitespace validation: PASS
 
