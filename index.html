@@ -4563,7 +4563,7 @@ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 @media(max-width:460px){.rest-panel{grid-template-columns:minmax(0,1fr) auto}.rest-time{grid-column:2}.rest-actions{grid-column:1/3;grid-row:3}.rest-actions button{flex:1}.rest-shell{padding-bottom:calc(74px + env(safe-area-inset-bottom))}}
 body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#eaf7fa}
 
-/* v116 – one-tap workout home, optional in-workout help and draggable rest dock */
+/* v117 – reliable Today navigation and iPhone calendar centering */
 .unified-workout-card{overflow:hidden}
 .unified-workout-card .unified-exercise-list{margin:14px -4px 0;padding:14px 4px 2px;border:0;border-top:1px solid rgba(255,255,255,.16);border-radius:0;background:transparent;box-shadow:none}
 .unified-workout-actions{grid-template-columns:1fr 1fr!important}
@@ -4598,7 +4598,7 @@ body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}b
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v116</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v117</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4937,7 +4937,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=116;
+const VERSION=117;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -5260,7 +5260,10 @@ function saveMondayMeasurement(day){
 function formatMondayDate(value){return formatMeasurementDate(value)}
 
 function recoveryWarningNeeded(){const last=lastStrengthWorkout();return !!(last&&daysBetween(last.date,today())===1)}
-let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=localStorage.getItem("gymSelectedWorkoutDate")||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null,returnToLiveAfterLibrary=false,completingLiveSet=false;
+// The Today screen must always start on the device-local current date. A dated
+// active workout is the only exception because its unsaved sets must not move.
+let currentScreen="today",selectedTodayDay=recommendedDay(),selectedWorkoutDate=state.activeWorkout?.date||state.days?.[state.activeWorkout?.day]?.date||today(),libraryDay="monday",libraryMode="add",libraryInstance=null,libraryCategory="all",databaseQuery="",databaseCategoryFilter="all",pendingReplacement=null,returnToLiveAfterLibrary=false,returnToTodayAfterActiveWorkout=false,completingLiveSet=false;
+localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
 let workoutTick=null,restTick=null,workoutReminderTimer=null,retroExerciseId=null,lastSetUndo=null,undoTimer=null;
 let audioContext=null,lastRestBeepSecond=null,postRestAlarmTimeout=null,postRestAlarmBeepsRemaining=0;
 const activeAlarmOscillators=new Set();
@@ -5780,13 +5783,14 @@ function upcomingWorkoutDate(){
 }
 function selectScheduleDate(iso){
  if(state.activeWorkout&&iso!==activeWorkoutDate()){
-   const from=localizedFullDate(activeWorkoutDate()),to=localizedFullDate(iso);
-   const message=lang()==="cs"?`Přesunout rozpracovaný trénink z ${from} na ${to}?`:`Move the active workout from ${from} to ${to}?`;
-   if(!confirm(message))return;
-   const day=state.activeWorkout.day;
-   state.activeWorkout.date=iso;
-   state.days[day].date=iso;
-   saveState();
+   const from=localizedFullDate(activeWorkoutDate());
+   const message=lang()==="cs"
+    ?`Stále běží trénink z ${from}. Nejdřív ho dokonči nebo zruš; jeho série se už nebudou přesouvat na jiné datum.`
+    :`A workout from ${from} is still running. Finish or delete it first; its sets will no longer be moved to another date.`;
+   showToast(message);
+   if(allWorkoutExercisesDone()){state.activeWorkout.awaitingFinish=true;saveState(false);openFinishDialog()}
+   else openLiveWorkout();
+   return;
  }
  selectedWorkoutDate=iso;
  calendarViewDate=iso;
@@ -5794,8 +5798,16 @@ function selectScheduleDate(iso){
  showToday(state.activeWorkout?.day||trainingDayForIso(iso)||selectedTodayDay||recommendedDay(),iso);
 }
 function changeScheduleWeek(offset){shiftScheduleViewport(offset*7)}
-function goToTodayDate(){selectScheduleDate(today())}
-let calendarViewDate=selectedWorkoutDate||today(),scheduleSwipeStartX=0,scheduleSwipeStartY=0,scheduleSwipeStartLeft=0,scheduleSwipeInProgress=false,scheduleSwipeMoved=false,suppressScheduleClickUntil=0,calendarScrollFrame=0;
+function goToTodayDate(){
+ const iso=today();
+ if(state.activeWorkout&&activeWorkoutDate()!==iso){returnToTodayAfterActiveWorkout=true;selectScheduleDate(iso);return}
+ selectedWorkoutDate=iso;
+ calendarViewDate=iso;
+ localStorage.setItem("gymSelectedWorkoutDate",iso);
+ showToday(state.activeWorkout?.day||trainingDayForIso(iso)||recommendedDay(),iso);
+ centerCalendarOn(iso,"auto");
+}
+let calendarViewDate=selectedWorkoutDate||today(),scheduleSwipeStartX=0,scheduleSwipeStartY=0,scheduleSwipeStartLeft=0,scheduleSwipeInProgress=false,scheduleSwipeMoved=false,suppressScheduleClickUntil=0,calendarScrollFrame=0,calendarCenterToken=0,calendarCenteringUntil=0;
 function beginScheduleSwipe(event){
  const touch=event.touches?.[0];
  if(!touch||event.touches.length!==1)return;
@@ -5858,6 +5870,7 @@ function updateCalendarViewFromScroll(viewport){
  if(!viewport)return;
  cancelAnimationFrame(calendarScrollFrame);
  calendarScrollFrame=requestAnimationFrame(()=>{
+  if(Date.now()<calendarCenteringUntil)return;
   const center=viewport.scrollLeft+viewport.clientWidth/2;
   const buttons=[...viewport.querySelectorAll(".modern-week-day")];
   let closest=null,distance=Infinity;
@@ -5868,14 +5881,24 @@ function updateCalendarViewFromScroll(viewport){
  });
 }
 function centerCalendarOn(iso,behavior="auto"){
- requestAnimationFrame(()=>{
+ const token=++calendarCenterToken;
+ calendarCenteringUntil=Date.now()+360;
+ const apply=()=>{
+   if(token!==calendarCenterToken)return;
    const viewport=document.getElementById("calendarDragViewport");
    const target=viewport?.querySelector(`[data-date="${iso}"]`);
    if(!viewport||!target)return;
-   viewport.scrollTo({left:Math.max(0,target.offsetLeft-(viewport.clientWidth-target.offsetWidth)/2),behavior});
+   const left=Math.max(0,target.offsetLeft-(viewport.clientWidth-target.offsetWidth)/2);
+   if(behavior==="smooth"&&typeof viewport.scrollTo==="function")viewport.scrollTo({left,behavior:"smooth"});
+   else viewport.scrollLeft=left;
    calendarViewDate=iso;
    updateCalendarRangeLabel(iso);
- });
+ };
+ requestAnimationFrame(()=>{apply();requestAnimationFrame(apply)});
+ // iOS can restore an overflow position after the first paint. Re-apply after
+ // layout and scroll restoration have settled.
+ setTimeout(apply,90);
+ setTimeout(apply,260);
 }
 function shiftScheduleViewport(days){
  const target=uiAddDays(calendarViewDate||selectedWorkoutDate||today(),days);
@@ -7496,6 +7519,8 @@ function deleteActiveWorkout(){
  if(!confirm(t("deleteWorkoutConfirm")))return;
 
  const day=w.day;
+ const goTodayAfter=returnToTodayAfterActiveWorkout;
+ returnToTodayAfterActiveWorkout=false;
  const oldDay=state.days[day]||defaultDay();
  const cleanDay=defaultDay();
  cleanDay.date=oldDay.date||today();
@@ -7518,12 +7543,19 @@ function deleteActiveWorkout(){
  if(byId("runningTime"))byId("runningTime").textContent="00:00";
 
  saveState();
- showToday(day);
+ if(goTodayAfter){
+   selectedWorkoutDate=today();calendarViewDate=selectedWorkoutDate;
+   selectedTodayDay=trainingDayForIso(selectedWorkoutDate)||recommendedDay();
+   localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
+   showToday(selectedTodayDay,selectedWorkoutDate);
+ }else showToday(day);
  alert(t("workoutDeleted"));
 }
 
 async function saveFinishedWorkout(){
  const w=state.activeWorkout;if(!w)return;
+ const goTodayAfter=returnToTodayAfterActiveWorkout;
+ returnToTodayAfterActiveWorkout=false;
  const day=w.day,d=state.days[day],instances=activeInstances(day);
  instances.forEach(inst=>{
   const e=entry(day,inst.instanceId),m=metaFor(day,inst);let rec={date:d.date||today(),day,exerciseId:m.id,mode:m.mode,notes:e.notes||""};
@@ -7551,8 +7583,9 @@ async function saveFinishedWorkout(){
  saveState();
  clearTimeout(cloudTimer);
  const cloudSaved=!cloudUser||await saveCloud();
- selectedTodayDay=nextStrengthDay();
- selectedWorkoutDate=nextPlannedDateAfter(d.date||today());
+ selectedTodayDay=goTodayAfter?(trainingDayForIso(today())||nextStrengthDay()):nextStrengthDay();
+ selectedWorkoutDate=goTodayAfter?today():nextPlannedDateAfter(d.date||today());
+ calendarViewDate=selectedWorkoutDate;
  localStorage.setItem("gymSelectedWorkoutDate",selectedWorkoutDate);
  renderProgress();renderHistoryScreen();showToday(selectedTodayDay,selectedWorkoutDate);
  alert(cloudSaved?t("workoutDone"):(lang()==="cs"?"Trénink je uložený v telefonu, ale cloudové uložení se nezdařilo. Až bude internet fungovat, stiskni Synchronizovat.":"The workout is saved on this device, but cloud saving failed. When the connection works, tap Sync now."));

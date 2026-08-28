@@ -1,0 +1,37 @@
+Gym Tracker Pro v117 — QA REPORT
+Date: 2026-08-28
+
+BUG REPRODUCED FROM IPHONE SCREENSHOT
+- Device date: Friday 28 August 2026.
+- Calendar heading: 24 Aug – 30 Aug.
+- Visible calendar row incorrectly remained on 10–15 Aug.
+- Last completed Friday (14 Aug) therefore looked like the selected/current workout.
+
+ROOT CAUSES
+- The Today screen restored gymSelectedWorkoutDate from localStorage on startup.
+- iOS can restore the horizontal overflow position after the first animation frame.
+- Generic date selection could move an unfinished workout and its completed sets to another date.
+
+FIXES
+- Today starts on the device-local current date after every normal app launch.
+- An active workout keeps its original date so unsaved sets are preserved.
+- Today explicitly resets selectedWorkoutDate, calendarViewDate and persisted selection.
+- Calendar centering is applied after the first paint and repeated after iOS layout/scroll restoration.
+- Programmatic centering cannot be overwritten by its own scroll event.
+- A workout already running on another date must be finished or deleted; its entries are never copied to Today.
+- After that old workout is finished or deleted, the screen automatically returns to the real Today date.
+
+AUTOMATED CHECKS
+- Inline JavaScript syntax: PASS
+- Manifest JSON: PASS
+- Today navigation from stale 2026-08-14 to local 2026-08-28: PASS
+- Calendar center target calculation and delayed iOS re-centering: PASS
+- Active workout date protection: PASS
+- Service worker, manifest and visible app version aligned to v117: PASS
+- Git whitespace/error check: PASS
+
+DATA SAFETY
+- Storage key gymTrackerProV2 is unchanged.
+- Workout history, measurements, custom exercises and settings are unchanged.
+- Supabase image paths are unchanged.
+- No old workout is automatically deleted, completed or moved.
