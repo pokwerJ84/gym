@@ -1,9 +1,9 @@
-Gym Tracker Pro v121 — LOCAL REVIEW BUILD
+Gym Tracker Pro v121 — RELEASE BUILD
 Date: 2026-08-28
 
 STATUS
-- Prepared locally only.
-- Not uploaded to GitHub.
+- Released to GitHub main.
+- Application release commit: 0dd82a81805f7ddeb021f534de9b368d1cee74c4.
 - Supabase content was not changed.
 
 TODAY BUTTON
