@@ -1,0 +1,41 @@
+Gym Tracker Pro v119 — DEEP REGRESSION REPORT
+Date: 2026-08-28
+
+LIVE v118 REPRODUCTION
+- The live GitHub Pages build was opened and inspected before editing.
+- Three #calendarDragViewport elements existed simultaneously.
+- On the Friday screen the first matching element belonged to hidden Monday and had clientWidth 0.
+- The visible Friday calendar had clientWidth 692 but was not the element changed by getElementById().
+- This explains why repeated timing and iOS scroll retries in v117/v118 did not fix Today.
+- Live v118 exercise cards measured 150 px high with 118 x 122 px images.
+- v118 changed only list spacing; it did not restore the approved larger card size.
+
+ROOT FIX
+- Removed repeated calendarDragViewport and calendarRangeLabel IDs from generated screens.
+- Calendar operations now target only .screen.active .calendar-drag-viewport.
+- Range-label updates are scoped to the same screen as the active calendar.
+- Replaced repeated todayPreviewList ID with a class and scoped status refresh to its workout day.
+- Today navigation still resets selected date, calendar view date and saved selection to device-local today.
+- A running workout remains protected from accidental date reassignment.
+
+CARD FIX
+- Workout-card gap increased to 17 px.
+- Standard card minimum height increased to 170 px.
+- Standard exercise image increased to 138 x 142 px.
+- Narrow iPhone fallback remains spacious at 158 px with a 124 x 132 px image.
+- Completed-card green state remains unchanged.
+
+AUTOMATED CHECKS
+- Inline JavaScript syntax: PASS
+- Manifest JSON: PASS
+- No generated duplicate calendar IDs: PASS
+- Active-screen calendar routing for Monday, Wednesday and Friday: PASS
+- Today old-date to current-date regression: PASS
+- Card cascade and narrow-screen dimensions: PASS
+- Service worker, manifest and visible app version aligned to v119: PASS
+- Git whitespace/error check: PASS
+
+DATA SAFETY
+- Local/cloud storage key gymTrackerProV2 is unchanged.
+- Workout history, measurements, settings and custom exercises are unchanged.
+- Supabase image paths are unchanged.

@@ -4587,11 +4587,21 @@ body.dark .modern-change-below{border-color:#35505d;background:#123047;color:#ea
 @media(max-width:460px){.plans-saved-footer>div{grid-template-columns:1fr}.rest-panel{padding-left:40px}.rest-drag-handle{left:6px;width:27px;min-width:27px}}
 body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}body.dark .modern-skip-below{color:#ff9ca6}
 
-/* v118 – regression hotfix: reliable calendar centering + comfortable exercise spacing */
+/* v119 – one visible calendar target + restored compromise exercise-card size */
 .unified-workout-card .unified-exercise-list{margin-top:18px!important;padding-top:18px!important}
-.unified-workout-card .plan-preview-list{display:grid!important;gap:12px!important}
+.unified-workout-card .plan-preview-list{display:grid!important;gap:17px!important}
 .unified-workout-card .modern-exercise-card{margin:0!important}
 .unified-workout-card .compact-coach-tip{margin:12px 0 13px!important}
+.unified-workout-card .modern-exercise-card summary{grid-template-columns:34px 138px minmax(0,1fr) 14px!important;gap:12px!important;min-height:170px!important;padding:14px!important}
+.unified-workout-card .modern-exercise-card .exercise-guide-thumb{width:138px!important;height:142px!important;border-radius:12px!important}
+.unified-workout-card .modern-exercise-card .preview-card-main>strong{font-size:17px!important;line-height:1.22!important}
+.unified-workout-card .modern-exercise-card .preview-card-main small{margin-top:7px!important;font-size:12px!important;line-height:1.35!important}
+.unified-workout-card .modern-exercise-card .exercise-set-status{margin-top:9px!important;font-size:11px!important}
+@media(max-width:380px){
+ .unified-workout-card .modern-exercise-card summary{grid-template-columns:30px 124px minmax(0,1fr) 11px!important;gap:9px!important;min-height:158px!important;padding:11px!important}
+ .unified-workout-card .modern-exercise-card .exercise-guide-thumb{width:124px!important;height:132px!important}
+ .unified-workout-card .modern-exercise-card .preview-card-main>strong{font-size:15px!important}
+}
 
 </style>
 
@@ -4605,7 +4615,7 @@ body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}b
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v118</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v119</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4944,7 +4954,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=118;
+const VERSION=119;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -5619,7 +5629,7 @@ function toggleTodayOptions(day){
  menu.classList.toggle("open");
 }
 function setupExclusivePreviewCards(){
- const cards=[...document.querySelectorAll("#todayPreviewList details.preview-accordion")];
+ const cards=[...document.querySelectorAll(".today-preview-list details.preview-accordion")];
  cards.forEach(card=>{
    card.addEventListener("toggle",()=>{
      if(card.open){
@@ -5632,12 +5642,12 @@ function setupExclusivePreviewCards(){
 }
 
 function collapseTodayCards(){
-  document.querySelectorAll("#todayPreviewList details.preview-accordion").forEach(card=>{
+  document.querySelectorAll(".today-preview-list details.preview-accordion").forEach(card=>{
     card.open=false;
   });
 }
 function refreshTodayPreviewStatus(day,instanceId){
- const card=[...document.querySelectorAll("#todayPreviewList details[data-instance-id]")].find(node=>node.dataset.instanceId===String(instanceId));
+ const card=[...document.querySelectorAll(`#${day} .today-preview-list details[data-instance-id]`)].find(node=>node.dataset.instanceId===String(instanceId));
  if(!card)return;
  const inst=activeInstances(day).find(item=>item.instanceId===instanceId);
  if(!inst)return;
@@ -5872,9 +5882,12 @@ function nextPlannedDateAfter(iso){
  for(let i=0;i<8;i++){if(isPlannedStrengthDate(candidate))return candidate;candidate=uiAddDays(candidate,1)}
  return uiAddDays(iso,2);
 }
-function updateCalendarRangeLabel(iso){
+function currentCalendarViewport(){
+ return document.querySelector(".screen.active .calendar-drag-viewport")||document.getElementById(selectedTodayDay)?.querySelector(".calendar-drag-viewport")||null;
+}
+function updateCalendarRangeLabel(iso,viewport=currentCalendarViewport()){
  const monday=weekStart(iso||calendarViewDate||today()),sunday=uiAddDays(monday,6);
- const label=document.getElementById("calendarRangeLabel");
+ const label=viewport?.closest(".screen")?.querySelector(".calendar-range-label")||document.querySelector(".screen.active .calendar-range-label");
  if(label)label.textContent=localizedMonthRange(monday,sunday);
 }
 function updateCalendarViewFromScroll(viewport){
@@ -5888,7 +5901,7 @@ function updateCalendarViewFromScroll(viewport){
   buttons.forEach(button=>{const point=button.offsetLeft+button.offsetWidth/2;const delta=Math.abs(point-center);if(delta<distance){distance=delta;closest=button}});
   if(!closest)return;
   calendarViewDate=closest.dataset.date||calendarViewDate;
-  updateCalendarRangeLabel(calendarViewDate);
+  updateCalendarRangeLabel(calendarViewDate,viewport);
  });
 }
 function centerCalendarOn(iso,behavior="auto"){
@@ -5898,7 +5911,7 @@ function centerCalendarOn(iso,behavior="auto"){
  calendarCenteringUntil=Date.now()+1250;
  const apply=()=>{
    if(token!==calendarCenterToken)return;
-   const viewport=document.getElementById("calendarDragViewport");
+   const viewport=currentCalendarViewport();
    const target=viewport?.querySelector(`[data-date="${iso}"]`);
    if(!viewport||!target)return;
    const viewportRect=viewport.getBoundingClientRect();
@@ -5908,14 +5921,14 @@ function centerCalendarOn(iso,behavior="auto"){
    if(behavior==="smooth"&&typeof viewport.scrollTo==="function")viewport.scrollTo({left,behavior:"smooth"});
    else viewport.scrollLeft=left;
    calendarViewDate=iso;
-   updateCalendarRangeLabel(iso);
+   updateCalendarRangeLabel(iso,viewport);
  };
  requestAnimationFrame(()=>{apply();requestAnimationFrame(apply)});
  [70,180,420,900].forEach(delay=>setTimeout(apply,delay));
 }
 function shiftScheduleViewport(days){
  const target=uiAddDays(calendarViewDate||selectedWorkoutDate||today(),days);
- const viewport=document.getElementById("calendarDragViewport");
+ const viewport=currentCalendarViewport();
  const button=viewport?.querySelector(`[data-date="${target}"]`);
  if(button){centerCalendarOn(target,"smooth");return}
  calendarViewDate=target;
@@ -5928,10 +5941,10 @@ function weekStripMarkup(selectedDay){
  const dayNames=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
  return `<div class="week-navigation">
    <button type="button" onclick="changeScheduleWeek(-1)" aria-label="${lang()==="cs"?"Předchozí týden":"Previous week"}">‹</button>
-   <div><strong id="calendarRangeLabel">${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div>
+   <div><strong class="calendar-range-label">${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div>
    <button type="button" onclick="changeScheduleWeek(1)" aria-label="${lang()==="cs"?"Další týden":"Next week"}">›</button>
  </div>
- <div class="calendar-drag-viewport" id="calendarDragViewport" aria-label="${lang()==="cs"?"Kalendář. Posuň prstem a klepnutím vyber den.":"Calendar. Swipe and tap to select a day."}" onscroll="updateCalendarViewFromScroll(this)" onwheel="scrollScheduleWheel(event,this)"><div class="modern-week-strip">${Array.from({length:35},(_,i)=>{
+ <div class="calendar-drag-viewport" aria-label="${lang()==="cs"?"Kalendář. Posuň prstem a klepnutím vyber den.":"Calendar. Swipe and tap to select a day."}" onscroll="updateCalendarViewFromScroll(this)" onwheel="scrollScheduleWheel(event,this)"><div class="modern-week-strip">${Array.from({length:35},(_,i)=>{
    const iso=uiAddDays(stripStart,i),selected=iso===selectedWorkoutDate,completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),planned=isPlannedStrengthDate(iso);
    const marker=completed?"✓":cardio?"♥":planned?"•":"";
    const weekday=(uiDateFromIso(iso).getDay()+6)%7;
@@ -6172,7 +6185,7 @@ function renderDay(day){
      </details>
      <div class="exercise-list-coach">${lang()==="cs"?"Klepni na cvik a rovnou začni zapisovat série.":"Tap an exercise to start logging sets immediately."}</div>
      
-     <div class="plan-preview-list" id="todayPreviewList">`;
+     <div class="plan-preview-list today-preview-list">`;
 
  let extraDividerShown=false;
  orderedInstances.forEach((inst,index)=>{

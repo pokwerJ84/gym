@@ -1,4 +1,4 @@
-const VERSION="v118";
+const VERSION="v119";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
@@ -149,6 +149,6 @@ self.addEventListener("notificationclick",event=>{
   event.waitUntil((async()=>{
     const clientsList=await clients.matchAll({type:"window",includeUncontrolled:true});
     if(clientsList.length){await clientsList[0].focus();return}
-    await clients.openWindow("./?v=118&finishWorkout=1");
+    await clients.openWindow("./?v=119&finishWorkout=1");
   })());
 });
