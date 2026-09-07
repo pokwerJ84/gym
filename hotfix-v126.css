@@ -1,0 +1,101 @@
+/* v126 mobile UX hotfix: contrast, safe-area and future planning */
+
+/* Keep interactive sheets below the iPhone status area / Dynamic Island. */
+dialog[open]{
+  padding-top:max(10px, env(safe-area-inset-top));
+  padding-bottom:max(8px, env(safe-area-inset-bottom));
+}
+dialog[open] .modal{
+  max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 18px);
+}
+dialog[open] .close,
+dialog[open] .iconbtn.close{
+  min-width:48px;
+  min-height:48px;
+  top:4px;
+}
+
+/* Exercise detail / live screen controls must stay comfortably below the status bar. */
+.v123-exercise-page{
+  padding-top:max(10px, env(safe-area-inset-top));
+}
+.v123-exercise-header{
+  min-height:58px;
+}
+.v123-back{
+  min-width:48px!important;
+  min-height:48px!important;
+}
+
+/* High contrast on teal/green actions. */
+.v123-set-done,
+.live-done,
+.modern-complete-set,
+.primary,
+.hero-start,
+button[style*="background:var(--good)"],
+button[style*="background: var(--good)"]{
+  color:#fff!important;
+  text-shadow:0 1px 1px rgba(0,0,0,.18);
+}
+
+/* Dark mode: never leave dark navy copy sitting on a dark surface. */
+body.dark .v123-exercise-title strong,
+body.dark .v123-set-summary,
+body.dark .modern-plan-section strong,
+body.dark .workout-hero strong,
+body.dark .daily-tracking-card strong,
+body.dark .card strong{
+  color:var(--text);
+}
+body.dark .v123-set-field button,
+body.dark .v123-edit-set,
+body.dark .secondary,
+body.dark .smallbtn{
+  color:var(--text)!important;
+}
+
+/* Completed Monday measurement is intentionally quiet at the end of Today. */
+.monday-measurement-card.measurement-saved.v126-measurement-bottom{
+  margin-top:16px;
+  opacity:.9;
+}
+.monday-measurement-card.measurement-saved.v126-measurement-bottom:not([open]){
+  box-shadow:none;
+}
+
+/* Future workout planner. */
+.v126-future-planner{
+  margin:12px 0 14px;
+  padding:14px;
+  border:1px solid color-mix(in srgb,var(--primary) 42%,var(--line));
+  border-radius:18px;
+  background:color-mix(in srgb,var(--primary) 8%,var(--surface));
+}
+.v126-future-planner h3{margin:0 0 4px;font-size:16px}
+.v126-future-planner p{margin:0 0 11px;color:var(--muted);font-size:12px;line-height:1.4}
+.v126-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.v126-plan-grid button{
+  min-height:52px;
+  padding:8px 6px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--surface2);
+  color:var(--text);
+  font-weight:900;
+  line-height:1.2;
+}
+.v126-plan-grid button.selected{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:#fff;
+}
+.v126-plan-grid button small{display:block;margin-top:3px;color:inherit;opacity:.76;font-size:9px}
+.v126-plan-clear{
+  width:100%;margin-top:8px;min-height:40px;border:0;border-radius:12px;
+  background:transparent;color:var(--muted);font-weight:850;
+}
+@media(max-width:430px){
+  .v126-plan-grid{grid-template-columns:1fr}
+  .v126-plan-grid button{min-height:46px}
+}
