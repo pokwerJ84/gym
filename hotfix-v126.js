@@ -31,10 +31,10 @@
     const plans=readPlans();
     const chosen=plans[iso]||"";
     const days=["monday","wednesday","friday"];
-    return `<section class="v126-future-planner" data-v126-date="${iso}">
+    return `<section class="v126-future-planner" data-v126-date="${iso}" data-v126-plan="${chosen}">
       <h3>${chosen?(cs?"Naplánovaný trénink":"Planned workout"):(cs?"Naplánovat trénink":"Plan workout")}</h3>
       <p>${cs?"Vyber session pro tento den. Plán zůstane uložený i po zavření aplikace.":"Choose a session for this date. The plan stays saved after you close the app."}</p>
-      <div class="v126-plan-grid">${days.map((day,index)=>`<button type="button" class="${chosen===day?"selected":""}" data-v126-day="${day}">${sessionLabel(day)}<small>${cs?`Session ${index+1}`:`Session ${index+1}`}</small></button>`).join("")}</div>
+      <div class="v126-plan-grid">${days.map((day,index)=>`<button type="button" class="${chosen===day?"selected":""}" data-v126-day="${day}">${sessionLabel(day)}<small>Session ${index+1}</small></button>`).join("")}</div>
       ${chosen?`<button type="button" class="v126-plan-clear">${cs?"Zrušit plán pro tento den":"Remove plan for this day"}</button>`:""}
     </section>`;
   }
@@ -48,17 +48,10 @@
     if(screen.lastElementChild!==card)screen.appendChild(card);
   }
 
-  function injectFuturePlanner(){
-    const screen=document.getElementById("today");
-    if(!screen)return;
-    screen.querySelectorAll(".v126-future-planner").forEach(x=>x.remove());
-    const iso=typeof selectedWorkoutDate!=="undefined"?selectedWorkoutDate:"";
-    if(!futureIso(iso))return;
-    const calendar=screen.querySelector(".v120-calendar")||screen.querySelector(".modern-week-strip")?.parentElement;
-    if(!calendar)return;
-    calendar.insertAdjacentHTML("afterend",plannerMarkup(iso));
-    const planner=screen.querySelector(`.v126-future-planner[data-v126-date="${iso}"]`);
-    planner?.querySelectorAll("[data-v126-day]").forEach(button=>button.addEventListener("click",()=>{
+  function bindPlanner(planner,iso){
+    if(!planner||planner.dataset.v126Bound==="1")return;
+    planner.dataset.v126Bound="1";
+    planner.querySelectorAll("[data-v126-day]").forEach(button=>button.addEventListener("click",()=>{
       const plans=readPlans();
       plans[iso]=button.dataset.v126Day;
       writePlans(plans);
@@ -67,13 +60,31 @@
         if(typeof showToday==="function")showToday(button.dataset.v126Day,iso);
         else if(typeof renderDay==="function")renderDay(button.dataset.v126Day);
         if(typeof showToast==="function")showToast((typeof lang==="function"&&lang()==="cs")?"Trénink naplánován ✓":"Workout planned ✓");
-      }catch(_){injectFuturePlanner()}
+      }catch(_){refresh()}
     }));
-    planner?.querySelector(".v126-plan-clear")?.addEventListener("click",()=>{
+    planner.querySelector(".v126-plan-clear")?.addEventListener("click",()=>{
       const plans=readPlans();delete plans[iso];writePlans(plans);
       const fallback=nativeTrainingDayForIso?.(iso)||((typeof recommendedDay==="function")?recommendedDay():"monday");
-      try{if(typeof showToday==="function")showToday(fallback,iso);else injectFuturePlanner()}catch(_){injectFuturePlanner()}
+      try{if(typeof showToday==="function")showToday(fallback,iso);else refresh()}catch(_){refresh()}
     });
+  }
+
+  function injectFuturePlanner(){
+    const screen=document.getElementById("today");
+    if(!screen)return;
+    const iso=typeof selectedWorkoutDate!=="undefined"?selectedWorkoutDate:"";
+    const existing=screen.querySelector(".v126-future-planner");
+    if(!futureIso(iso)){
+      if(existing)existing.remove();
+      return;
+    }
+    const chosen=readPlans()[iso]||"";
+    if(existing&&existing.dataset.v126Date===iso&&existing.dataset.v126Plan===chosen){bindPlanner(existing,iso);return}
+    if(existing)existing.remove();
+    const calendar=screen.querySelector(".v120-calendar")||screen.querySelector(".modern-week-strip")?.parentElement;
+    if(!calendar)return;
+    calendar.insertAdjacentHTML("afterend",plannerMarkup(iso));
+    bindPlanner(screen.querySelector(`.v126-future-planner[data-v126-date="${iso}"]`),iso);
   }
 
   let scheduled=false;
