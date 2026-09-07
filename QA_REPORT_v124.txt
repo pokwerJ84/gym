@@ -1,0 +1,46 @@
+GYM TRACKER PRO v124 — QA REPORT
+Date: 2026-09-07
+
+IMPLEMENTED
+- Removed the duplicate program chooser from the Today hero.
+- Added one View sessions action for the active program.
+- Added an editor for all three rotating sessions in every program.
+- Session exercises can be reordered, replaced, removed, added, or reset.
+- Session edits are stored independently for each program.
+- Restored the weekly calendar as workout history, not as workout navigation.
+- Completed workout dates are green and open the saved exercise results.
+- Kept Today tied to the real current date and next program session.
+- Moved Done below the active set and enlarged KG/REPS controls.
+- Added exercise images and videos from camera or device files.
+- Added private Supabase Storage uploads with signed playback URLs.
+- Added user-supplied HTTP/HTTPS video links.
+- Added media and exercise-history actions to Exercise Database cards.
+
+SUPABASE
+- Private bucket: exercise-media
+- Maximum file size: 50 MB
+- Images: JPEG, PNG, WebP, HEIC, HEIF
+- Videos: MP4, MOV/QuickTime, WebM
+- INSERT, SELECT, and DELETE policies are restricted to authenticated owners.
+- Storage paths begin with the authenticated user's UUID.
+- No service-role credential is present in the client.
+- Performance advisor: no findings.
+- Existing unrelated Auth warning: leaked-password protection is disabled.
+
+VALIDATION
+- Inline JavaScript syntax: PASS
+- Service worker JavaScript syntax: PASS
+- Manifest JSON: PASS
+- Git whitespace/error check: PASS
+- Runtime interaction checks: 18/18 PASS
+- Permanent in-workout exercise replacement compatibility: PASS
+- Exercise Database media actions checked across 99 exercises: PASS
+- Simulated blank-MIME iPhone MOV upload and signed playback: PASS
+- Calendar completed-day color and exercise detail: PASS
+- Runtime JavaScript errors during QA: 0
+
+NOTES
+- Automated runtime QA used a browser-like DOM environment because Chromium is
+  not installed in this workspace.
+- A final smoke test on the installed iPhone PWA is recommended before release.
+- v124 has not been committed or pushed to GitHub.
