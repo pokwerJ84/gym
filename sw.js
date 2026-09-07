@@ -1,4 +1,4 @@
-const VERSION="v125";
+const VERSION="v126";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
@@ -12,21 +12,23 @@ const CORE_ASSETS=[
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",
-  "./icon-512.png"
-  ,"./back-posture-routine.webp"
-  ,"./cat-cow.webp"
-  ,"./thoracic-rotation.webp"
-  ,"./wall-angels.webp"
-  ,"./scapular-squeeze.webp"
-  ,"./wall-push-up-plus.webp"
-  ,"./bird-dog.webp"
-  ,"./doorway-chest-stretch.webp"
-  ,"./nautilus-hack-squat.webp"
-  ,"./nautilus-rotary-torso.webp"
-  ,"./guide-seated-leg-curl-v115.webp"
-  ,"./guide-leg-press-calf-raise-v115.webp"
-  ,"./legacy-card-thumbs/hammer_strength_iso_lateral_incline_press.webp"
-  ,"./exercise-guides/v122/guides/hammer_strength_iso_lateral_incline_press.webp"
+  "./icon-512.png",
+  "./hotfix-v126.css",
+  "./hotfix-v126.js",
+  "./back-posture-routine.webp",
+  "./cat-cow.webp",
+  "./thoracic-rotation.webp",
+  "./wall-angels.webp",
+  "./scapular-squeeze.webp",
+  "./wall-push-up-plus.webp",
+  "./bird-dog.webp",
+  "./doorway-chest-stretch.webp",
+  "./nautilus-hack-squat.webp",
+  "./nautilus-rotary-torso.webp",
+  "./guide-seated-leg-curl-v115.webp",
+  "./guide-leg-press-calf-raise-v115.webp",
+  "./legacy-card-thumbs/hammer_strength_iso_lateral_incline_press.webp",
+  "./exercise-guides/v122/guides/hammer_strength_iso_lateral_incline_press.webp"
 ];
 
 self.addEventListener("install",event=>{
@@ -36,6 +38,7 @@ self.addEventListener("install",event=>{
       const response=await fetch(asset,{cache:"reload"});
       if(response.ok)await cache.put(asset,response);
     }));
+    await self.skipWaiting();
   })());
 });
 
@@ -67,12 +70,21 @@ async function cacheExerciseImage(requestOrUrl){
   const cache=await caches.open(IMAGE_CACHE);
   const cached=await cache.match(request);
   if(cached)return cached;
-
   const response=await fetch(request);
-  if(response.ok||response.type==="opaque"){
-    await cache.put(request,response.clone());
-  }
+  if(response.ok||response.type==="opaque")await cache.put(request,response.clone());
   return response;
+}
+
+async function injectV126(response){
+  if(!response||!response.ok)return response;
+  const type=response.headers.get("content-type")||"";
+  if(!type.includes("text/html"))return response;
+  let html=await response.text();
+  if(!html.includes("hotfix-v126.css"))html=html.replace("</head>",'<link rel="stylesheet" href="./hotfix-v126.css?v=126"></head>');
+  if(!html.includes("hotfix-v126.js"))html=html.replace("</body>",'<script src="./hotfix-v126.js?v=126"></script></body>');
+  const headers=new Headers(response.headers);
+  headers.delete("content-length");
+  return new Response(html,{status:response.status,statusText:response.statusText,headers});
 }
 
 async function navigationNetworkFirst(request){
@@ -80,9 +92,10 @@ async function navigationNetworkFirst(request){
   try{
     const response=await fetch(request,{cache:"no-store"});
     if(response.ok)await cache.put("./index.html",response.clone());
-    return response;
+    return injectV126(response);
   }catch(_){
-    return (await cache.match("./index.html"))||(await cache.match("./"));
+    const cached=(await cache.match("./index.html"))||(await cache.match("./"));
+    return injectV126(cached);
   }
 }
 
@@ -99,7 +112,6 @@ self.addEventListener("fetch",event=>{
   const request=event.request;
   if(request.method!=="GET")return;
   const url=request.url;
-
   if(isExerciseImageUrl(url)){
     event.respondWith(cacheExerciseImage(request).catch(async()=>{
       const cache=await caches.open(IMAGE_CACHE);
@@ -107,31 +119,25 @@ self.addEventListener("fetch",event=>{
     }));
     return;
   }
-
   const parsed=new URL(url);
   if(parsed.origin!==self.location.origin)return;
-
   if(request.mode==="navigate"){
     event.respondWith(navigationNetworkFirst(request));
     return;
   }
-
   event.respondWith(sameOriginCacheFirst(request));
 });
 
 self.addEventListener("message",event=>{
   const data=event.data||{};
-
   if(data.type==="GET_VERSION"){
     if(event.ports?.[0])event.ports[0].postMessage({version:VERSION});
     return;
   }
-
   if(data.type==="SKIP_WAITING"){
     self.skipWaiting();
     return;
   }
-
   if(data.type==="PURGE_URL"&&data.url){
     event.waitUntil((async()=>{
       const cache=await caches.open(IMAGE_CACHE);
@@ -139,11 +145,8 @@ self.addEventListener("message",event=>{
     })());
     return;
   }
-
   if(data.type==="PREFETCH_URLS"&&Array.isArray(data.urls)){
-    event.waitUntil(Promise.allSettled(
-      data.urls.filter(isExerciseImageUrl).map(url=>cacheExerciseImage(url))
-    ));
+    event.waitUntil(Promise.allSettled(data.urls.filter(isExerciseImageUrl).map(url=>cacheExerciseImage(url))));
   }
 });
 
@@ -152,6 +155,6 @@ self.addEventListener("notificationclick",event=>{
   event.waitUntil((async()=>{
     const clientsList=await clients.matchAll({type:"window",includeUncontrolled:true});
     if(clientsList.length){await clientsList[0].focus();return}
-    await clients.openWindow("./?v=119&finishWorkout=1");
+    await clients.openWindow("./?v=126&finishWorkout=1");
   })());
 });
