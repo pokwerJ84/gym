@@ -1,0 +1,18 @@
+Gym Tracker Pro v125 — startup fix
+
+Issue fixed
+- The external Supabase library was loaded as a parser-blocking script.
+- When the CDN was slow or unavailable, the app stopped on the empty shell screen.
+
+Fix
+- The workout UI now renders before Supabase is requested.
+- Supabase loads asynchronously and reconnects cloud sync after it becomes available.
+- A Supabase/CDN failure no longer blocks the Today screen or navigation.
+- Service-worker and manifest versions were advanced to v125.
+
+Verification
+- Fresh startup renders the complete Today screen without Supabase available.
+- Inline JavaScript syntax: PASS
+- Service worker syntax: PASS
+- Manifest JSON: PASS
+- Git diff validation: PASS
