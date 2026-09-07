@@ -1,4 +1,4 @@
-const VERSION="v121";
+const VERSION="v123";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
@@ -25,6 +25,8 @@ const CORE_ASSETS=[
   ,"./nautilus-rotary-torso.webp"
   ,"./guide-seated-leg-curl-v115.webp"
   ,"./guide-leg-press-calf-raise-v115.webp"
+  ,"./legacy-card-thumbs/hammer_strength_iso_lateral_incline_press.webp"
+  ,"./exercise-guides/v122/guides/hammer_strength_iso_lateral_incline_press.webp"
 ];
 
 self.addEventListener("install",event=>{
@@ -50,6 +52,7 @@ function isExerciseImageUrl(url){
   const value=String(url);
   return IMAGE_PREFIXES.some(prefix=>value.startsWith(prefix))
     ||value.includes("/legacy-card-thumbs/")
+    ||value.includes("/exercise-guides/v122/guides/")
     ||value.includes("/exercise-guides/v114/guides/")
     ||value.includes("/exercise-guides/v113/guides/")
     ||value.includes("/exercise-guides/v112/guides/")

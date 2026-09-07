@@ -4603,6 +4603,19 @@ body.dark .live-exercise-info,body.dark .plans-saved-footer{background:#0d2938}b
  .unified-workout-card .modern-exercise-card .preview-card-main>strong{font-size:15px!important}
 }
 
+/* v123 – goal programs, flexible rotation and exercise-first logging */
+.v123-program-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;padding:10px 11px;border:1px solid rgba(255,255,255,.2);border-radius:14px;background:rgba(0,20,30,.18)}
+.v123-program-line span{display:block;font-size:9px;font-weight:900;letter-spacing:.12em;opacity:.72}.v123-program-line strong{display:block;margin-top:3px;font-size:13px}.v123-program-line button{min-height:38px;padding:7px 11px;border:1px solid rgba(255,255,255,.35);border-radius:11px;background:rgba(255,255,255,.1);color:#fff;font-size:11px;font-weight:900}
+.v123-program-progress{height:7px;margin:8px 0 3px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}.v123-program-progress>i{display:block;height:100%;border-radius:inherit;background:#47dbc6}
+.program-picker-list{display:grid;gap:10px;margin-top:16px}.program-picker-card{display:grid;grid-template-columns:46px minmax(0,1fr) auto;align-items:center;gap:11px;width:100%;min-height:78px;padding:11px;border:1px solid var(--line);border-radius:16px;background:var(--surface2);color:var(--text);text-align:left}.program-picker-card.active{border-color:var(--primary);background:rgba(35,195,184,.1)}.program-picker-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:var(--surface3);font-size:23px}.program-picker-copy strong,.program-picker-copy small{display:block}.program-picker-copy small{margin-top:4px;color:var(--muted);font-size:10px;line-height:1.35}.program-picker-state{color:var(--primary);font-size:18px;font-weight:950}
+.workout-running{display:none!important}.live-top,.live-progress,.live-progress-text,.live-nav{display:none!important}.live-shell{padding-top:max(12px,env(safe-area-inset-top))!important;padding-bottom:max(18px,env(safe-area-inset-bottom))!important}.live-card{max-width:620px!important;margin:0 auto!important;padding:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.v123-exercise-page{display:grid;gap:12px}.v123-exercise-header{display:grid;grid-template-columns:46px 74px minmax(0,1fr);align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:var(--surface);box-shadow:0 8px 24px rgba(0,12,20,.14)}.v123-back{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:13px;background:var(--surface2);color:var(--text);font-size:25px}.v123-exercise-header img{width:74px;height:74px;object-fit:contain;border-radius:12px;background:#061e2b}.v123-exercise-title small,.v123-exercise-title strong,.v123-exercise-title span{display:block}.v123-exercise-title small{color:var(--primary);font-size:9px;font-weight:950;letter-spacing:.1em}.v123-exercise-title strong{margin-top:3px;font-size:18px;line-height:1.15}.v123-exercise-title span{margin-top:4px;color:var(--muted);font-size:10px;font-weight:800}
+.v123-quick-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}.v123-quick-links button{min-height:42px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font-size:11px;font-weight:900}.v123-previous{display:flex;justify-content:space-between;gap:12px;padding:11px 12px;border-radius:13px;background:var(--surface);color:var(--muted);font-size:11px}.v123-previous strong{color:var(--text);text-align:right}
+.v123-set-list{display:grid;gap:8px}.v123-set-row{display:grid;grid-template-columns:31px minmax(0,1fr) minmax(0,1fr) 72px;align-items:center;gap:7px;min-height:58px;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.v123-set-row.complete{border-color:rgba(53,201,130,.5);background:rgba(53,201,130,.1)}.v123-set-number{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--surface3);font-size:12px;font-weight:950}.v123-set-field{display:grid;grid-template-columns:27px minmax(34px,1fr) 27px;align-items:center;min-width:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}.v123-set-field button{min-height:38px;padding:0;border:0;background:var(--surface2);color:var(--text);font-size:18px}.v123-set-field input{width:100%;min-width:0;height:38px;padding:4px;border:0;background:transparent;color:var(--text);font-size:16px;font-weight:950;text-align:center}.v123-set-field-label{display:block;margin-bottom:3px;color:var(--muted);font-size:8px;font-weight:900;text-align:center}.v123-set-done{min-height:40px;padding:6px;border:0;border-radius:10px;background:var(--primary);color:#052731;font-size:10px;font-weight:950}.v123-set-summary{grid-column:2/4;font-size:12px;font-weight:900}.v123-edit-set{min-height:38px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);color:var(--text);font-size:10px;font-weight:900}.v123-future{opacity:.5}
+.v123-bottom-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.v123-bottom-actions button{min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font-size:11px;font-weight:900}.v123-bottom-actions .skip{color:#d65462}.v123-complete-note{display:flex;align-items:center;gap:10px;padding:13px;border-radius:14px;background:rgba(53,201,130,.15);color:var(--text)}.v123-complete-note b,.v123-complete-note small{display:block}.v123-complete-note small{margin-top:3px;color:var(--muted)}
+.v120-calendar,.modern-day-tabs.rotation-tabs,.hero-date-button,.plans-saved-footer{display:none!important}.unified-workout-actions{grid-template-columns:1fr 1fr!important}.v120-exercise-heading span{font-size:0}.v120-exercise-heading span::after{content:"Klepni pro otevření";font-size:11px}.exercise-in-progress{border-color:#d9932e!important;background:rgba(217,147,46,.12)!important}.exercise-skipped{filter:none!important;opacity:.62!important;background:var(--surface2)!important}
+@media(max-width:390px){.v123-exercise-header{grid-template-columns:42px 62px minmax(0,1fr);padding:8px}.v123-exercise-header img{width:62px;height:62px}.v123-set-row{grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) 62px;gap:5px;padding:6px}.v123-set-field{grid-template-columns:24px minmax(30px,1fr) 24px}.v123-set-field input{font-size:15px}.v123-set-done{font-size:9px}.program-picker-card{grid-template-columns:42px minmax(0,1fr) auto}}
+
 /* v120 – rebuilt mobile Today screen, calendar and navigation */
 .modern-today{gap:12px!important}
 .modern-today-head{align-items:center!important;min-height:48px;margin:0!important}
@@ -4732,6 +4745,14 @@ body{
   .completed-day-strip button{grid-column:1/-1;width:100%}
 }
 
+/* v123 final cascade */
+.v120-calendar,.modern-day-tabs.rotation-tabs,.plans-saved-footer{display:none!important}
+.v120-exercise-heading span{font-size:11px!important}.v120-exercise-heading span::after{content:none!important}
+.hero-program-button{display:block!important;background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.3)!important}
+.live-overlay{overscroll-behavior:contain}.v123-exercise-page{padding-bottom:12px}
+.unified-workout-card .modern-exercise-card.exercise-in-progress{border-color:#d9932e!important;background:rgba(217,147,46,.12)!important}
+.unified-workout-card .modern-exercise-card.exercise-skipped{border-color:var(--line)!important;background:var(--surface2)!important;opacity:.62!important;box-shadow:none!important}
+
 </style>
 
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -4744,7 +4765,7 @@ body{
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v121</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v123</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -4923,6 +4944,13 @@ body{
   </div>
 </div></dialog>
 
+<dialog id="programDialog"><div class="modal wide program-picker-modal">
+  <button class="iconbtn close" onclick="programDialog.close()">✕</button>
+  <h2 id="programDialogTitle" style="margin:3px 0 5px">Vybrat program</h2>
+  <p class="subtitle" id="programDialogSubtitle">Program není navázaný na konkrétní dny. Pokračuješ vždy dalším tréninkem.</p>
+  <div id="programDialogList" class="program-picker-list"></div>
+</div></dialog>
+
 <dialog id="cloudDialog"><div class="modal">
   <button class="iconbtn close" onclick="cloudDialog.close()">✕</button>
   <h2 id="cloudTitle" style="margin:3px 0"></h2>
@@ -5032,6 +5060,18 @@ LIBRARY.push({
  tips:{cs:["Lavici nastav doprostřed pod vedenou osu","Lopatky drž opřené a chodidla pevně na zemi","Osa klesá kontrolovaně ke středu hrudníku a tlač ji zpět bez propnutí loktů"],en:["Center the bench under the guided bar","Keep the shoulder blades set and feet planted","Lower the bar to mid chest under control and press back without locking the elbows"]},
  mistakes:{cs:["Lavice příliš daleko od osy","Odlepování zad od lavice","Narážení osy do dorazů"],en:["Placing the bench too far from the bar","Lifting the back off the bench","Slamming the bar into the stops"]}
 });
+LIBRARY.push({
+ id:"hammer_strength_iso_lateral_incline_press",cs:"Hammer Strength šikmý tlak na hrudník",en:"Hammer Strength Iso-Lateral Incline Press",category:"chest",mode:"weight",sets:3,range:"8–12",rest:120,topPick:true,
+ guideImage:"./exercise-guides/v122/guides/hammer_strength_iso_lateral_incline_press.webp",guideThumb:"./legacy-card-thumbs/hammer_strength_iso_lateral_incline_press.webp",guideExact:true,
+ tips:{
+  cs:["Nastav sedák tak, aby madla začínala u horní části hrudníku","Záda i hlavu drž na opěrce a chodidla pevně na zemi","Tlač obě ramena nahoru a vpřed bez propnutí loktů; návrat brzdi 2–3 sekundy"],
+  en:["Set the seat so the handles start at upper-chest level","Keep your back and head supported with both feet planted","Press both arms upward and forward without locking the elbows; lower for 2–3 seconds"]
+ },
+ mistakes:{
+  cs:["Zvedání ramen k uším nebo odlepování zad","Rozdílné kotouče na levé a pravé straně","Narážení ramen stroje do dorazů nebo propínání loktů"],
+  en:["Shrugging or lifting the back from the pad","Loading different plates on the left and right sides","Slamming the machine arms or locking the elbows"]
+ }
+});
 const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
 if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 
@@ -5045,7 +5085,7 @@ const LOCAL_CORRECTED_GUIDES={
  seated_leg_curl:"./guide-seated-leg-curl-v115.webp",
  leg_press_calf_raise:"./guide-leg-press-calf-raise-v115.webp"
 };
-const DEDICATED_GYM_GUIDES=new Set(["back_extension","machine_crunch","smith_machine_bench_press"]);
+const DEDICATED_GYM_GUIDES=new Set(["back_extension","machine_crunch","smith_machine_bench_press","hammer_strength_iso_lateral_incline_press"]);
 LIBRARY.forEach(item=>{
  if(!String(item.guideThumb||"").startsWith("./legacy-card-thumbs/"))return;
  const filename=item.guideThumb.split("/").pop().split("?")[0];
@@ -5078,12 +5118,39 @@ const PLAN_PRESETS={
   friday:{title_cs:"Rychlé C",title_en:"Quick C",sub_cs:"Rychlé zakončení týdne",sub_en:"Quick end of the week",items:[{id:"back_extension",sets:3,range:"10–12"},{id:"bench_press",sets:3,range:"6–10"},{id:"chest_supported_row",sets:3,range:"8–12"},{id:"lying_leg_curl",sets:2,range:"10–15"},{id:"standing_calf_raise",sets:2,range:"10–15"}]}
  }}
 };
+Object.assign(PLAN_PRESETS,{
+ sixpack_starter:{name_cs:"Six-Pack Starter – 14 dní",name_en:"Six-Pack Starter – 14 Days",plans:{
+  monday:{title_cs:"Six-Pack A",title_en:"Six-Pack A",sub_cs:"Přední část břicha a stabilita",sub_en:"Front abs and stability",items:[{id:"cable_crunch",sets:3,range:"10–15"},{id:"plank",sets:3,range:"30–45"},{id:"dead_bug",sets:3,range:"8–12 / strana"},{id:"treadmill",sets:1,range:"10 min"}]},
+  wednesday:{title_cs:"Six-Pack B",title_en:"Six-Pack B",sub_cs:"Spodní břicho a šikmé svaly",sub_en:"Lower abs and obliques",items:[{id:"hanging_knee_raise",sets:3,range:"8–12"},{id:"side_plank",sets:3,range:"20–40 / strana"},{id:"pallof_press",sets:3,range:"10–12 / strana"},{id:"treadmill",sets:1,range:"10 min"}]},
+  friday:{title_cs:"Six-Pack C",title_en:"Six-Pack C",sub_cs:"Kontrola trupu a závěrečné cardio",sub_en:"Core control and cardio finish",items:[{id:"machine_crunch",sets:3,range:"10–15"},{id:"reverse_crunch",sets:3,range:"10–15"},{id:"torso_rotation_machine",sets:3,range:"10–12 / strana"},{id:"treadmill",sets:1,range:"12 min"}]}
+ }},
+ sixpack_builder:{name_cs:"Six-Pack Builder – 6 týdnů",name_en:"Six-Pack Builder – 6 Weeks",plans:{
+  monday:{title_cs:"Core Strength A",title_en:"Core Strength A",sub_cs:"Silnější přímé břišní svaly",sub_en:"Stronger front abs",items:[{id:"cable_crunch",sets:4,range:"8–12"},{id:"hanging_knee_raise",sets:3,range:"8–15"},{id:"plank",sets:3,range:"40–60"},{id:"back_extension",sets:3,range:"10–12"}]},
+  wednesday:{title_cs:"Core Control B",title_en:"Core Control B",sub_cs:"Stabilita a kontrola pánve",sub_en:"Stability and pelvic control",items:[{id:"machine_crunch",sets:4,range:"10–15"},{id:"dead_bug",sets:3,range:"10–12 / strana"},{id:"pallof_press",sets:3,range:"10–12 / strana"},{id:"side_plank",sets:3,range:"30–45 / strana"}]},
+  friday:{title_cs:"Core Definition C",title_en:"Core Definition C",sub_cs:"Spodní břicho, rotace a cardio",sub_en:"Lower abs, rotation and cardio",items:[{id:"lying_leg_raise",sets:3,range:"8–15"},{id:"decline_crunch",sets:3,range:"10–15"},{id:"torso_rotation_machine",sets:3,range:"10–15 / strana"},{id:"treadmill",sets:1,range:"15 min"}]}
+ }},
+ get_ripped:{name_cs:"Get Ripped – 8 týdnů",name_en:"Get Ripped – 8 Weeks",plans:{
+  monday:{title_cs:"Ripped A – tlak a nohy",title_en:"Ripped A – Push & Legs",sub_cs:"Celé tělo s kratšími pauzami",sub_en:"Full body with shorter rests",items:[{id:"hack_squat",sets:3,range:"8–12"},{id:"machine_chest_press",sets:3,range:"8–12"},{id:"lat_pulldown",sets:3,range:"8–12"},{id:"lateral_raise",sets:3,range:"12–15"},{id:"cable_crunch",sets:3,range:"12–15"},{id:"treadmill",sets:1,range:"15 min"}]},
+  wednesday:{title_cs:"Ripped B – tah a core",title_en:"Ripped B – Pull & Core",sub_cs:"Záda, zadní řetězec a břicho",sub_en:"Back, posterior chain and abs",items:[{id:"leg_press",sets:3,range:"10–15"},{id:"seated_row",sets:3,range:"8–12"},{id:"incline_dumbbell_press",sets:3,range:"8–12"},{id:"lying_leg_curl",sets:3,range:"10–15"},{id:"hanging_knee_raise",sets:3,range:"10–15"},{id:"rowing_machine",sets:1,range:"12 min"}]},
+  friday:{title_cs:"Ripped C – celé tělo",title_en:"Ripped C – Full Body",sub_cs:"Svaly, kondice a kontrola",sub_en:"Muscle, conditioning and control",items:[{id:"hip_thrust",sets:3,range:"8–12"},{id:"chest_supported_row",sets:3,range:"8–12"},{id:"machine_shoulder_press",sets:3,range:"8–12"},{id:"triceps_pushdown",sets:3,range:"10–15"},{id:"dumbbell_curl",sets:3,range:"10–15"},{id:"pallof_press",sets:3,range:"10–12 / strana"},{id:"treadmill",sets:1,range:"15 min"}]}
+ }},
+ arms:{name_cs:"Bigger Arms – 6 týdnů",name_en:"Bigger Arms – 6 Weeks",plans:{
+  monday:{title_cs:"Arms A – biceps",title_en:"Arms A – Biceps",sub_cs:"Tahové cviky s důrazem na biceps",sub_en:"Pulling with extra biceps work",items:[{id:"lat_pulldown",sets:3,range:"8–12"},{id:"seated_row",sets:3,range:"8–12"},{id:"barbell_curl",sets:3,range:"8–12"},{id:"hammer_curl",sets:3,range:"10–12"},{id:"machine_preacher_curl",sets:3,range:"10–15"}]},
+  wednesday:{title_cs:"Arms B – triceps",title_en:"Arms B – Triceps",sub_cs:"Tlaky s důrazem na triceps",sub_en:"Pressing with extra triceps work",items:[{id:"machine_chest_press",sets:3,range:"8–12"},{id:"machine_shoulder_press",sets:3,range:"8–12"},{id:"triceps_pushdown",sets:3,range:"10–15"},{id:"overhead_triceps_extension",sets:3,range:"10–15"},{id:"close_grip_press_machine",sets:3,range:"8–12"}]},
+  friday:{title_cs:"Arms C – celé ruce",title_en:"Arms C – Complete Arms",sub_cs:"Biceps a triceps v jednom tréninku",sub_en:"Biceps and triceps together",items:[{id:"chest_supported_row",sets:3,range:"8–12"},{id:"incline_dumbbell_press",sets:3,range:"8–12"},{id:"cable_curl",sets:3,range:"10–15"},{id:"bayesian_cable_curl",sets:3,range:"10–15"},{id:"machine_triceps_extension",sets:3,range:"10–15"},{id:"triceps_pushdown",sets:3,range:"10–15"}]}
+ }},
+ strength_builder:{name_cs:"Strength Builder – 8 týdnů",name_en:"Strength Builder – 8 Weeks",plans:{
+  monday:{title_cs:"Síla A",title_en:"Strength A",sub_cs:"Těžší nohy, tlak a tah",sub_en:"Heavy legs, push and pull",items:[{id:"hack_squat",sets:4,range:"5–8"},{id:"bench_press",sets:4,range:"5–8"},{id:"lat_pulldown",sets:4,range:"6–10"},{id:"cable_crunch",sets:3,range:"10–15"}]},
+  wednesday:{title_cs:"Síla B",title_en:"Strength B",sub_cs:"Silný zadní řetězec a ramena",sub_en:"Posterior chain and shoulders",items:[{id:"leg_press",sets:4,range:"6–10"},{id:"hip_thrust",sets:4,range:"6–10"},{id:"machine_shoulder_press",sets:4,range:"6–10"},{id:"seated_row",sets:4,range:"6–10"},{id:"pallof_press",sets:3,range:"10–12 / strana"}]},
+  friday:{title_cs:"Síla C",title_en:"Strength C",sub_cs:"Kontrolovaný silový trénink",sub_en:"Controlled strength session",items:[{id:"v_squat_machine",sets:4,range:"5–8"},{id:"incline_machine_press",sets:4,range:"6–10"},{id:"chest_supported_row",sets:4,range:"6–10"},{id:"lying_leg_curl",sets:3,range:"8–12"},{id:"back_extension",sets:3,range:"10–12"}]}
+ }}
+});
 let BASE_PLANS=PLAN_PRESETS.balanced.plans;
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=119;
+const VERSION=123;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -5177,7 +5244,7 @@ function findExerciseByName(name){
 }
 function defaultDay(date=today()){return {date,weight:"",waist:"",entries:{},extras:[],order:[],completed:false}}
 function defaultPlanReplacements(){return {monday:{},wednesday:{},friday:{}}}
-function defaultState(){return {version:VERSION,meta:{modifiedAt:0,cloudUserId:""},settings:{language:"cs",theme:"light",exerciseSteps:{},workoutStyle:"balanced",restDock:"bottom"},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
+function defaultState(){return {version:VERSION,meta:{modifiedAt:0,cloudUserId:""},settings:{language:"cs",theme:"light",exerciseSteps:{},workoutStyle:"balanced",restDock:"bottom"},programJourney:{programId:"balanced",sessionIndex:0,completedSessions:0,startedAt:0},days:{monday:defaultDay(),wednesday:defaultDay(),friday:defaultDay()},planReplacements:defaultPlanReplacements(),history:{},progress:[],workouts:[],customExercises:[],weeklyMeasurementDraft:{week:"",date:today(),weight:"",waist:""},activeWorkout:null}}
 function applyPlanV71(s,fromVersion){
  if(Number(fromVersion)>=71)return s;
  DAYS.forEach(day=>{
@@ -5194,7 +5261,7 @@ function migrateState(raw){
    const s={...defaultState(),...raw};s.meta={...defaultState().meta,...(raw.meta||{})};s.settings={...defaultState().settings,...raw.settings};
    DAYS.forEach(d=>s.days[d]={...defaultDay(),...(raw.days?.[d]||{}),entries:raw.days?.[d]?.entries||{},extras:raw.days?.[d]?.extras||[],order:raw.days?.[d]?.order||[]});
    s.planReplacements={...defaultPlanReplacements(),...(raw.planReplacements||{})};DAYS.forEach(day=>s.planReplacements[day]={...(raw.planReplacements?.[day]||{})});
-   s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];s.weeklyMeasurementDraft=s.weeklyMeasurementDraft||{week:"",date:today(),weight:"",waist:""};return applyPlanV71(s,raw.version);
+   s.history=s.history||{};s.progress=s.progress||[];s.workouts=s.workouts||[];s.customExercises=s.customExercises||[];s.weeklyMeasurementDraft=s.weeklyMeasurementDraft||{week:"",date:today(),weight:"",waist:""};s.programJourney={...defaultState().programJourney,...(raw.programJourney||{}),programId:raw.programJourney?.programId||s.settings.workoutStyle||"balanced"};return applyPlanV71(s,raw.version);
  }
  const s=defaultState();
  if(raw?.settings)s.settings={...s.settings,...raw.settings};
@@ -6632,7 +6699,7 @@ function recommendExercise(day){
 
 const REPLACEMENT_GROUPS=[
  ["machine_chest_press","converging_chest_press","bench_press","decline_chest_press_machine","push_up"],
- ["incline_machine_press","smith_incline_press","incline_dumbbell_press","converging_chest_press"],
+ ["incline_machine_press","hammer_strength_iso_lateral_incline_press","smith_incline_press","incline_dumbbell_press","converging_chest_press"],
  ["pec_deck","cable_fly"],
  ["neutral_grip_lat_pulldown","lat_pulldown","assisted_pull_up","machine_high_row"],
  ["chest_supported_row","plate_loaded_row","seated_row","low_row_machine","one_arm_cable_row","machine_high_row"],
@@ -6747,7 +6814,7 @@ function renderLibrary(){
 const EXERCISE_IMAGE_PLACEHOLDER=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360"><rect width="520" height="360" rx="26" fill="#edf4f6"/><g fill="none" stroke="#1d8f92" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><rect x="125" y="70" width="270" height="200" rx="22"/><circle cx="205" cy="145" r="28"/><path d="M155 235l70-65 55 48 38-35 47 52"/></g><text x="260" y="315" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#173743">Tap to reload image</text></svg>`)}`;
 function isExerciseImage(img){
  const source=String(img?.getAttribute?.("src")||img?.dataset?.originalSrc||"");
- return img instanceof HTMLImageElement&&(source.includes(`/exercise-guides/${EXERCISE_IMAGE_VERSION}/`)||source.includes("/exercise-guides/v58/")||source.includes("/legacy-card-thumbs/")||source.startsWith("./legacy-card-thumbs/")||source.includes("guide-seated-leg-curl-v115.webp")||source.includes("guide-leg-press-calf-raise-v115.webp"));
+ return img instanceof HTMLImageElement&&(source.includes(`/exercise-guides/${EXERCISE_IMAGE_VERSION}/`)||source.includes("/exercise-guides/v122/")||source.includes("/exercise-guides/v58/")||source.includes("/legacy-card-thumbs/")||source.startsWith("./legacy-card-thumbs/")||source.includes("guide-seated-leg-curl-v115.webp")||source.includes("guide-leg-press-calf-raise-v115.webp"));
 }
 function handleExerciseImageFailure(img){
  if(!isExerciseImage(img)||img.dataset.failed==="1")return;
@@ -8120,7 +8187,7 @@ function renderWorkoutHistoryTab(rows){
  if(!rows.length)return `<div class="card empty">${t("historyEmpty")}</div>`;
  return `<div class="history-list">${rows.map(w=>{
   const isCardio=w.type==="cardio";
-  const title=isCardio?`${t("cardioWorkout")} – ${cardioTypeLabel(w.cardioType)}`:(BASE_PLANS[w.day]?.["title_"+lang()]||BASE_PLANS[w.day]?.title_en||t("strengthWorkout"));
+  const title=isCardio?`${t("cardioWorkout")} – ${cardioTypeLabel(w.cardioType)}`:(w.programTitle||BASE_PLANS[w.day]?.["title_"+lang()]||BASE_PLANS[w.day]?.title_en||t("strengthWorkout"));
   const detail=isCardio?`${w.minutes||"–"} min${w.speed?` • ${w.speed} km/h`:""}${w.note?` • ${w.note}`:""}`:`${w.minutes||"–"} min${w.note?` • ${w.note}`:""}`;
   const records=historyRecordsForWorkout(w),key=workoutUiKey(w);
   const body=isCardio?`<div class="history-exercise-row"><div class="history-exercise-head"><strong>${esc(cardioTypeLabel(w.cardioType))}</strong><span>🏃</span></div><div class="history-set-list"><div class="history-set-line"><b>✓</b><span>${esc(detail)}</span></div></div></div>`:records.length?records.map(historyExerciseMarkup).join(""):`<div class="history-empty-detail">${lang()==="cs"?"U tohoto staršího tréninku nejsou uložené podrobnosti cviků.":"Exercise details were not saved for this older workout."}</div>`;
@@ -8185,7 +8252,7 @@ renderMore=function(){
  <div class="card"><h3 style="margin-top:0">◐ ${t("appearance")}</h3><select onchange="setTheme(this.value)"><option value="light" ${state.settings.theme==="light"?"selected":""}>${t("light")}</option><option value="dark" ${state.settings.theme==="dark"?"selected":""}>${t("dark")}</option></select></div>
  <div class="card"><div class="stat-grid settings-measurement-stats"><div class="stat"><span>${t("latestWeight")}</span><strong>${latestWeight.weight?esc(latestWeight.weight)+" kg":"–"}</strong><small>${latestWeight.date?formatMeasurementDate(latestWeight.date):""}</small></div><div class="stat"><span>${t("latestWaist")}</span><strong>${latestWaist.waist?esc(latestWaist.waist)+" cm":"–"}</strong><small>${latestWaist.date?formatMeasurementDate(latestWaist.date):""}</small></div><div class="stat"><span>${lang()==="cs"?"Průměrná váha":"Average weight"}</span><strong>${averageWeight===null?"–":averageWeight.toFixed(1)+" kg"}</strong><small>${lang()==="cs"?`Průměr z posledních ${lastFour.length} měření`:`Average of the last ${lastFour.length} measurements`}</small></div></div><div class="actions"><button class="secondary full" onclick="historyActiveTab='measurements';showScreen('history',document.querySelector('[data-screen=history]'))">📈 ${lang()==="cs"?"Otevřít měření":"Open measurements"}</button></div></div>
  <details class="card advanced-settings"><summary><span>⚙ ${lang()==="cs"?"Pokročilé":"Advanced"}</span><span>›</span></summary><div class="advanced-settings-body"><div class="more-grid"><button class="more-action" onclick="syncNow()"><span>☁️ ${t("sync")}</span><span>›</span></button><button class="more-action" onclick="exportBackup()"><span>⬇️ ${t("export")}</span><span>›</span></button><button class="more-action" onclick="importInput.click()"><span>⬆️ ${t("import")}</span><span>›</span></button><button class="more-action" onclick="checkForAppUpdate(true)"><span>↻ ${lang()==="cs"?"Aktualizovat aplikaci":"Update app"}</span><span>v${VERSION}</span></button><button class="more-action" onclick="checkExerciseImageStorage(true)"><span>▧ ${lang()==="cs"?"Test obrázků":"Test images"}</span><span>›</span></button></div></div></details>
- <div class="app-build-note">Gym Tracker Pro v${VERSION} · ${lang()==="cs"?"88 obrázkových návodů + 7 cviků denní sestavy s videi.":"88 illustrated guides + 7 daily-routine exercises with videos."}</div>`;
+ <div class="app-build-note">Gym Tracker Pro v${VERSION} · ${lang()==="cs"?"89 obrázkových návodů + 7 cviků denní sestavy s videi.":"89 illustrated guides + 7 daily-routine exercises with videos."}</div>`;
 };
 
 function lastCloudSyncKey(){return `gymLastCloudSync:${cloudUser?.id||"local"}`}
@@ -8221,6 +8288,180 @@ importBackup=async function(file){
  if(!proceed)return;
  try{createLocalSafetyBackup("before-import-v82");state=migrateState(JSON.parse(await file.text()));saveState();location.reload()}catch{alert(lang()==="cs"?"Soubor zálohy není platný.":"The backup file is invalid.")}
 };
+
+/* v123 behavior: flexible goal programs and exercise-first auto-save */
+const PROGRAM_META={
+ balanced:{icon:"⚖️",sessions:0,label_cs:"Vyvážený plán",label_en:"Balanced plan",detail_cs:"Volná rotace Síla · Stabilita · Kontrola",detail_en:"Flexible Strength · Stability · Control rotation"},
+ full_body:{icon:"⚡",sessions:18,label_cs:"Full Body – 6 týdnů",label_en:"Full Body – 6 Weeks",detail_cs:"18 tréninků · celé tělo",detail_en:"18 sessions · full body"},
+ hypertrophy:{icon:"🏋️",sessions:24,label_cs:"Muscle Gain – 8 týdnů",label_en:"Muscle Gain – 8 Weeks",detail_cs:"24 tréninků · Push / Pull / Legs",detail_en:"24 sessions · Push / Pull / Legs"},
+ machines:{icon:"⚙️",sessions:18,label_cs:"Pouze stroje",label_en:"Machines Only",detail_cs:"18 tréninků · bez volných vah",detail_en:"18 sessions · no free weights"},
+ quick:{icon:"⏱️",sessions:12,label_cs:"Rychlý trénink",label_en:"Quick Workout",detail_cs:"12 tréninků · přibližně 30 minut",detail_en:"12 sessions · about 30 minutes"},
+ sixpack_starter:{icon:"🔥",sessions:6,label_cs:"Six-Pack Starter – 14 dní",label_en:"Six-Pack Starter – 14 Days",detail_cs:"6 krátkých tréninků · břicho a core",detail_en:"6 short sessions · abs and core"},
+ sixpack_builder:{icon:"🎯",sessions:18,label_cs:"Six-Pack Builder – 6 týdnů",label_en:"Six-Pack Builder – 6 Weeks",detail_cs:"18 tréninků · síla a kontrola core",detail_en:"18 sessions · core strength and control"},
+ get_ripped:{icon:"⚡",sessions:24,label_cs:"Get Ripped – 8 týdnů",label_en:"Get Ripped – 8 Weeks",detail_cs:"24 tréninků · celé tělo a kondice",detail_en:"24 sessions · full body and conditioning"},
+ arms:{icon:"💪",sessions:18,label_cs:"Bigger Arms – 6 týdnů",label_en:"Bigger Arms – 6 Weeks",detail_cs:"18 tréninků · větší důraz na ruce",detail_en:"18 sessions · extra arm focus"},
+ strength_builder:{icon:"🏆",sessions:24,label_cs:"Strength Builder – 8 týdnů",label_en:"Strength Builder – 8 Weeks",detail_cs:"24 tréninků · postupný růst síly",detail_en:"24 sessions · progressive strength"}
+};
+function normalizeProgramJourney(){
+ const fallback=PLAN_PRESETS[state.settings?.workoutStyle]?state.settings.workoutStyle:"balanced";
+ state.programJourney={programId:fallback,sessionIndex:0,completedSessions:0,startedAt:Date.now(),...(state.programJourney||{})};
+ if(!PLAN_PRESETS[state.programJourney.programId])state.programJourney.programId=fallback;
+ if(!Number(state.programJourney.startedAt))state.programJourney.startedAt=Date.now();
+ state.settings.workoutStyle=state.programJourney.programId;
+ BASE_PLANS=PLAN_PRESETS[state.programJourney.programId].plans;
+}
+normalizeProgramJourney();
+persistCurrentState();
+function currentProgramDay(offset=0){return DAYS[(Math.max(0,Number(state.programJourney?.sessionIndex)||0)+offset)%DAYS.length]}
+function currentProgramMeta(){return PROGRAM_META[state.programJourney?.programId]||PROGRAM_META.balanced}
+function currentProgramLabel(){const meta=currentProgramMeta();return meta[`label_${lang()}`]||meta.label_en}
+function programSessionKey(index=state.programJourney?.sessionIndex||0){return `${state.programJourney?.programId||"balanced"}:${state.programJourney?.startedAt||0}:${index}`}
+function prepareProgramSession(day){
+ if(state.activeWorkout)return;
+ const key=programSessionKey(),old=state.days?.[day]||defaultDay(today());
+ if(old.programSessionKey===key)return;
+ const clean=defaultDay(today());
+ clean.weight=old.weight||"";clean.waist=old.waist||"";clean.programSessionKey=key;clean.programId=state.programJourney.programId;clean.programSessionIndex=state.programJourney.sessionIndex;
+ state.days[day]=clean;
+}
+function recommendedDay(){return state.activeWorkout?.day||currentProgramDay()}
+function nextStrengthDay(){return currentProgramDay()}
+function weekStripMarkup(){return ""}
+function restoreCompletedPlanForDate(day,iso){
+ const d=state.days?.[day];if(!d)return;const key=d.programSessionKey;
+ const workout=(state.workouts||[]).find(item=>item.type!=="cardio"&&(key?item.sessionKey===key:(!item.sessionKey&&item.day===day&&item.date===iso)));if(!workout)return;
+ d.completed=true;const records=[];Object.values(state.history||{}).forEach(items=>(items||[]).forEach(record=>{if(key?record.sessionKey===key:(!record.sessionKey&&record.day===day&&record.date===iso))records.push(record)}));
+ const instances=[...baseInstances(day),...(d.extras||[])];records.forEach(record=>{const inst=instances.find(item=>item.exerciseId===record.exerciseId||item.recommendedId===record.exerciseId);if(!inst)return;const e=entry(day,inst.instanceId);e.done=true;if(Array.isArray(record.sets))e.sets=record.sets.map(set=>({...set,_complete:true}));if(record.mode==="cardio"){e.minutes=record.minutes||"";e.speed=record.speed||""}});
+}
+const activatePlanForDateV122=activatePlanForDate;
+activatePlanForDate=function(day,iso){
+ if(state.activeWorkout?.day===day){prepareDay(day);ensureOrder(day);return}
+ activatePlanForDateV122(day,iso);
+}
+function openProgramPicker(){
+ const title=byId("programDialogTitle"),sub=byId("programDialogSubtitle"),list=byId("programDialogList");
+ if(title)title.textContent=lang()==="cs"?"Vybrat program":"Choose a program";
+ if(sub)sub.textContent=lang()==="cs"?"Bez pevných dnů. Po dokončení se automaticky nabídne další trénink v pořadí.":"No fixed weekdays. The next session appears automatically after completion.";
+ if(list)list.innerHTML=Object.entries(PROGRAM_META).map(([id,meta])=>{
+  const active=id===state.programJourney.programId,label=meta[`label_${lang()}`]||meta.label_en,detail=meta[`detail_${lang()}`]||meta.detail_en;
+  return `<button type="button" class="program-picker-card ${active?"active":""}" onclick="selectGoalProgram('${id}')"><span class="program-picker-icon">${meta.icon}</span><span class="program-picker-copy"><strong>${esc(label)}</strong><small>${esc(detail)}</small></span><span class="program-picker-state">${active?"✓":"›"}</span></button>`;
+ }).join("");
+ byId("programDialog")?.showModal();
+}
+function selectGoalProgram(id){
+ if(!PLAN_PRESETS[id]||id===state.programJourney.programId){byId("programDialog")?.close();return}
+ const hasProgress=state.activeWorkout||DAYS.some(day=>Object.values(state.days?.[day]?.entries||{}).some(e=>e.done||(e.sets||[]).some(s=>s?._complete)));
+ if(hasProgress&&!confirm(lang()==="cs"?"Přepnout program? Rozpracovaný trénink se ukončí, uložená historie zůstane zachovaná.":"Switch program? The current draft will close; saved history stays available."))return;
+ state.activeWorkout=null;clearInterval(workoutTick);clearInterval(restTick);clearWorkoutReminder();stopPostRestAlarm();byId("liveOverlay")?.classList.remove("show");byId("restOverlay")?.classList.remove("show");
+ state.programJourney={programId:id,sessionIndex:0,completedSessions:0,startedAt:Date.now()};state.settings.workoutStyle=id;BASE_PLANS=PLAN_PRESETS[id].plans;
+ DAYS.forEach(day=>{const old=state.days?.[day]||defaultDay();const clean=defaultDay(today());clean.weight=old.weight||"";clean.waist=old.waist||"";state.days[day]=clean});
+ selectedWorkoutDate=today();selectedTodayDay=currentProgramDay();byId("programDialog")?.close();saveState();showToday(selectedTodayDay,today());showToast(lang()==="cs"?`Program ${currentProgramLabel()} je připravený.`:`${currentProgramLabel()} is ready.`);
+}
+const renderDayV122=renderDay;
+renderDay=function(day){
+ normalizeProgramJourney();if(day===currentProgramDay()||!state.days?.[day]?.programSessionKey)prepareProgramSession(day);renderDayV122(day);
+ const root=byId(day),summary=root?.querySelector(".v120-workout-summary");if(!summary)return;
+ const meta=currentProgramMeta(),total=Number(meta.sessions)||0,done=Math.min(Number(state.programJourney.completedSessions)||0,total||999),percent=total?Math.round(done/total*100):0;
+ summary.insertAdjacentHTML("afterbegin",`<div class="v123-program-line"><div><span>${lang()==="cs"?"AKTIVNÍ PROGRAM":"ACTIVE PROGRAM"}</span><strong>${esc(currentProgramLabel())}</strong>${total?`<div class="v123-program-progress"><i style="width:${percent}%"></i></div>`:""}</div><button type="button" onclick="openProgramPicker()">${lang()==="cs"?"Změnit":"Change"}</button></div>`);
+ const number=summary.querySelector(".hero-plan-number");if(number)number.textContent=total?`${Math.min(done+1,total)}/${total}`:`${(state.programJourney.sessionIndex%3)+1}/3`;
+ const kicker=summary.querySelector(".hero-kicker");if(kicker)kicker.textContent=lang()==="cs"?"DALŠÍ TRÉNINK V POŘADÍ":"NEXT SESSION IN ORDER";
+ const dateButton=summary.querySelector(".hero-date-button");if(dateButton){dateButton.hidden=false;dateButton.className="hero-program-button";dateButton.innerHTML=`▦ ${lang()==="cs"?"Vybrat program":"Choose program"}`;dateButton.onclick=openProgramPicker}
+ const hint=root.querySelector(".v120-exercise-heading span");if(hint)hint.textContent=lang()==="cs"?"Klepni pro otevření":"Tap to open";
+ if(!state.days?.[day]?.completed)root.querySelector(".completed-day-strip")?.remove();
+}
+const showTodayV122=showToday;
+showToday=function(day,date){
+ normalizeProgramJourney();selectedWorkoutDate=today();calendarViewDate=today();const target=state.activeWorkout?.day||currentProgramDay();return showTodayV122(target,today());
+}
+function goToTodayDate(){selectedWorkoutDate=today();calendarViewDate=today();localStorage.setItem("gymSelectedWorkoutDate",today());showToday(currentProgramDay(),today());window.scrollTo({top:0,behavior:"smooth"})}
+const setWorkoutStyleV122=setWorkoutStyle;
+setWorkoutStyle=function(value){if(PLAN_PRESETS[value])selectGoalProgram(value);else setWorkoutStyleV122(value)};
+
+function workoutHasRealProgress(day=state.activeWorkout?.day){
+ return !!day&&activeInstances(day).some(inst=>{const e=entry(day,inst.instanceId);return !e.skipped&&(e.minutes||(e.sets||[]).some(s=>s?._complete===true))});
+}
+function startExercise(day,instanceId){
+ normalizeProgramJourney();day=state.activeWorkout?.day||day||currentProgramDay();const savedSession=!!state.days?.[day]?.programSessionKey;if(!savedSession)prepareProgramSession(day);const arr=activeInstances(day),position=arr.findIndex(item=>item.instanceId===instanceId);if(position<0)return;
+ if(!state.activeWorkout)state.activeWorkout={day,date:state.days[day]?.date||today(),startedAt:0,elapsed:0,paused:false,position,restEndAt:0,restExercise:"",draft:true,sessionKey:state.days[day]?.programSessionKey||programSessionKey(),programId:state.days[day]?.programId||state.programJourney.programId,programSessionIndex:state.days[day]?.programSessionIndex??state.programJourney.sessionIndex};
+ else state.activeWorkout.position=position;
+ saveState(false);openLiveWorkout();renderLive();
+}
+function startWorkout(day){showToday(currentProgramDay(),today())}
+function backToExerciseList(message=false){
+ if(!state.activeWorkout)return showToday(currentProgramDay(),today());const day=state.activeWorkout.day;
+ if(state.activeWorkout.draft)state.activeWorkout=null;
+ byId("liveOverlay")?.classList.remove("show");byId("restOverlay")?.classList.remove("show");saveState(false);showTodayV122(day,today());if(message)showToast(lang()==="cs"?"Vyber další cvik.":"Choose another exercise.");
+}
+function restoreActiveWorkout(){
+ if(!state.activeWorkout)return;byId("workoutRunning")?.classList.remove("show");selectedWorkoutDate=today();selectedTodayDay=state.activeWorkout.day;
+ if(allWorkoutExercisesDone())setTimeout(autoFinalizeWorkout,100);
+}
+function compactField(label,id,value,minus,plus,decimal=false){return `<div><span class="v123-set-field-label">${label}</span><div class="v123-set-field"><button type="button" onclick="adjustLiveInput('${id}',${minus},0)">−</button><input id="${id}" inputmode="${decimal?"decimal":"numeric"}" value="${esc(value||"")}" placeholder="0"><button type="button" onclick="adjustLiveInput('${id}',${plus},0)">+</button></div></div>`}
+function renderLive(){
+ if(!state.activeWorkout)return;const day=state.activeWorkout.day,inst=currentLive();if(!inst)return;const m=metaFor(day,inst),e=entry(day,inst.instanceId),target=targetSetCount(m,e),active=firstIncompleteSet(m,e),last=lastRecord(m.id),step=exerciseStep(m.id);
+ const rows=[];
+ if(m.mode==="cardio"){
+  rows.push(`<div class="v123-set-row"><span class="v123-set-number">1</span>${compactField(lang()==="cs"?"MIN":"MIN","liveMinutes",e.minutes||"",-1,1)}${m.id==="treadmill"?`<div></div>`:compactField(lang()==="cs"?"RYCHLOST":"SPEED","liveSpeed",e.speed||"",-.5,.5,true)}<button class="v123-set-done" onclick="completeLiveSet('${inst.instanceId}',0)">${lang()==="cs"?"Hotovo":"Done"}</button></div>`);
+ }else for(let i=0;i<target;i++){
+  const set=e.sets?.[i]||{};
+  if(set._complete===true){rows.push(`<div class="v123-set-row complete"><span class="v123-set-number">✓</span><strong class="v123-set-summary">${esc(savedSetSummary(m,set))}</strong><button class="v123-edit-set" onclick="editSavedSet(${i})">${lang()==="cs"?"Upravit":"Edit"}</button></div>`);continue}
+  if(i!==active){rows.push(`<div class="v123-set-row v123-future"><span class="v123-set-number">${i+1}</span><span class="v123-set-summary">${lang()==="cs"?"Další série":"Next set"}</span><span></span></div>`);continue}
+  ensurePrefill(day,inst,m,e,i);const s=e.sets?.[i]||{};let fields="";
+  if(m.mode==="weight")fields=compactField("KG","liveKg",s.kg,-step,step,true)+compactField(lang()==="cs"?"OPAK.":"REPS","liveReps",s.reps,-1,1);
+  else if(m.mode==="reps")fields=compactField(lang()==="cs"?"OPAK.":"REPS","liveReps",s.reps,-1,1)+`<div></div>`;
+  else if(m.mode==="time")fields=compactField("SEC","liveSeconds",s.seconds,-5,5)+`<div></div>`;
+  else if(m.mode==="sideweight")fields=compactField("KG","liveKg",s.kg,-step,step,true)+`<div><span class="v123-set-field-label">L / P</span><div class="v123-set-field"><input id="liveLeft" inputmode="numeric" value="${esc(s.left||"")}" placeholder="L"><input id="liveRight" inputmode="numeric" value="${esc(s.right||"")}" placeholder="P"></div></div>`;
+  else fields=`<div><span class="v123-set-field-label">L / P · SEC</span><div class="v123-set-field"><input id="liveLeftSeconds" inputmode="numeric" value="${esc(s.leftSeconds||"")}" placeholder="L"><input id="liveRightSeconds" inputmode="numeric" value="${esc(s.rightSeconds||"")}" placeholder="P"></div></div><div></div>`;
+  rows.push(`<div class="v123-set-row"><span class="v123-set-number">${i+1}</span>${fields}<button class="v123-set-done" onclick="completeLiveSet('${inst.instanceId}',${i})">${lang()==="cs"?"Hotovo":"Done"}</button></div>`);
+ }
+ const done=!!e.done;
+ liveContent.innerHTML=`<div class="v123-exercise-page"><div class="v123-exercise-header"><button class="v123-back" onclick="backToExerciseList()">‹</button>${m.guideThumb?`<img src="${m.guideThumb}" alt="">`:`<span class="program-picker-icon">${categoryGlyph(m.category)}</span>`}<div class="v123-exercise-title"><small>${esc(categoryName(m.category).toUpperCase())}</small><strong>${esc(itemName(m))}</strong><span>${targetText(m)} · ${Number(m.rest)||0}s ${lang()==="cs"?"pauza":"rest"}</span></div></div><div class="v123-quick-links"><button onclick="openVideo('${m.id}')">ⓘ ${lang()==="cs"?"Technika a video":"Technique & video"}</button><button onclick="openHistory('${m.id}')">◔ ${lang()==="cs"?"Historie":"History"}</button></div>${last?`<div class="v123-previous"><span>${lang()==="cs"?"Minule":"Previous"}</span><strong>${esc(formatRecord(last))}</strong></div>`:""}${done?`<div class="v123-complete-note"><span class="exercise-complete-mark">✓</span><div><b>${lang()==="cs"?"Cvik je uložený":"Exercise saved"}</b><small>${lang()==="cs"?"Karta na hlavní stránce je zelená.":"The card on Today is green."}</small></div></div>`:""}<div class="v123-set-list">${rows.join("")}</div>${m.mode!=="cardio"?`<button class="secondary full" onclick="addExtraSetCurrent()">＋ ${lang()==="cs"?"Přidat sérii":"Add set"}</button>`:""}<div class="v123-bottom-actions"><button onclick="changeCurrentLiveExercise()">↔ ${lang()==="cs"?"Změnit cvik":"Change exercise"}</button><button class="skip" onclick="skipCurrentExercise()">⊘ ${lang()==="cs"?"Přeskočit":"Skip"}</button></div></div>`;
+}
+function upsertCurrentExerciseHistory(day,inst,m,e){
+ const key=state.activeWorkout?.sessionKey||programSessionKey(),date=state.activeWorkout?.date||today();let rec={date,day,exerciseId:m.id,mode:m.mode,notes:e.notes||"",sessionKey:key,programId:state.activeWorkout?.programId||state.programJourney.programId};
+ if(m.mode==="cardio"){rec.minutes=e.minutes||"";rec.speed=e.speed||""}else rec.sets=(e.sets||[]).filter(s=>s?._complete===true).map(({_complete,...set})=>set);
+ state.history[m.id]=state.history[m.id]||[];const index=state.history[m.id].findIndex(x=>x.sessionKey===key);if(index>=0)state.history[m.id][index]=rec;else state.history[m.id].push(rec);
+}
+function syncCurrentExerciseHistory(){
+ if(!state.activeWorkout)return;const day=state.activeWorkout.day,inst=currentLive();if(!inst)return;const m=metaFor(day,inst),e=entry(day,inst.instanceId),key=state.activeWorkout.sessionKey;
+ if(e.done&&!e.skipped)upsertCurrentExerciseHistory(day,inst,m,e);else if(key&&state.history[m.id])state.history[m.id]=state.history[m.id].filter(record=>record.sessionKey!==key);saveState();
+}
+const saveEditedSetV122=saveEditedSet;
+saveEditedSet=function(index){saveEditedSetV122(index);syncCurrentExerciseHistory()};
+const deleteSavedSetV122=deleteSavedSet;
+deleteSavedSet=function(index){deleteSavedSetV122(index);syncCurrentExerciseHistory()};
+function completeLiveSet(instanceId,index){
+ if(completingLiveSet||!state.activeWorkout)return;completingLiveSet=true;prepareTimerAudio();const day=state.activeWorkout.day,inst=activeInstances(day).find(x=>x.instanceId===instanceId),m=metaFor(day,inst),e=entry(day,instanceId),previous=structuredClone(e.sets?.[index]||{}),s={};
+ const invalid=message=>{completingLiveSet=false;alert(message);return false};
+ if(m.mode==="weight"){s.kg=byId("liveKg")?.value.trim();s.reps=byId("liveReps")?.value.trim();if(!s.kg||!s.reps)return invalid(t("enterBoth"))}
+ if(m.mode==="reps"){s.reps=byId("liveReps")?.value.trim();if(!s.reps)return invalid(t("enterReps"))}
+ if(m.mode==="time"){s.seconds=byId("liveSeconds")?.value.trim();if(!s.seconds)return invalid(t("enterSeconds"))}
+ if(m.mode==="sideweight"){s.kg=byId("liveKg")?.value.trim();s.left=byId("liveLeft")?.value.trim();s.right=byId("liveRight")?.value.trim();if(!s.kg||!s.left||!s.right)return invalid(t("enterSides"))}
+ if(m.mode==="sidetime"){s.leftSeconds=byId("liveLeftSeconds")?.value.trim();s.rightSeconds=byId("liveRightSeconds")?.value.trim();if(!s.leftSeconds||!s.rightSeconds)return invalid(t("enterSides"))}
+ if(state.activeWorkout.draft){state.activeWorkout.draft=false;state.activeWorkout.startedAt=Date.now()}
+ if(m.mode==="cardio"){e.minutes=byId("liveMinutes")?.value.trim();e.speed=m.id==="treadmill"?"":(byId("liveSpeed")?.value||"").trim();if(!e.minutes)return invalid(t("enterCardio"));e.done=true}
+ else{e.sets=e.sets||[];lastSetUndo={day,instanceId,index,previous,workoutPosition:state.activeWorkout.position};s._complete=true;e.sets[index]=s;const target=targetSetCount(m,e);e.done=e.sets.slice(0,target).filter(x=>x?._complete===true).length>=target}
+ if(e.done)upsertCurrentExerciseHistory(day,inst,m,e);saveState();refreshTodayPreviewStatus(day,instanceId);createLocalSafetyBackup(e.done?"exercise-completed":"set-completed");navigator.vibrate?.(35);completingLiveSet=false;
+ if(e.done){byId("restOverlay")?.classList.remove("show");byId("liveOverlay")?.classList.remove("show");showTodayV122(day,today());showToast(lang()==="cs"?"Cvik uložen ✓":"Exercise saved ✓");setTimeout(autoFinalizeWorkout,120)}
+ else{renderLive();showUndoToast();startRest(Number(m.rest)||0,itemName(m),index+1)}
+}
+function skipCurrentExercise(){
+ if(!state.activeWorkout)return;const day=state.activeWorkout.day,inst=currentLive();if(!inst)return;if(!confirm(lang()==="cs"?"Přeskočit tento cvik?":"Skip this exercise?"))return;const e=entry(day,inst.instanceId);clearExerciseEntry(e);e.skipped=true;e.done=true;saveState();byId("liveOverlay")?.classList.remove("show");showTodayV122(day,today());showToast(lang()==="cs"?"Cvik byl přeskočený.":"Exercise skipped.");setTimeout(autoFinalizeWorkout,120);
+}
+async function autoFinalizeWorkout(){
+ const w=state.activeWorkout;if(!w||!allWorkoutExercisesDone()||!workoutHasRealProgress(w.day))return false;const day=w.day,d=state.days[day],key=w.sessionKey||programSessionKey();
+ activeInstances(day).forEach(inst=>{const e=entry(day,inst.instanceId);if(e.done&&!e.skipped)upsertCurrentExerciseHistory(day,inst,metaFor(day,inst),e)});
+ const existing=(state.workouts||[]).find(x=>x.sessionKey===key);const minutes=Math.max(1,Math.round((Date.now()-(Number(w.startedAt)||Date.now()))/60000));
+ if(existing){existing.updatedAt=Date.now()}else state.workouts.push({type:"strength",date:w.date||today(),day,minutes,note:"",savedAt:Date.now(),sessionKey:key,programId:w.programId||state.programJourney.programId,programTitle:currentProgramLabel(),programSessionIndex:w.programSessionIndex??state.programJourney.sessionIndex});
+ d.completed=true;d.programSessionKey=key;if(!existing){state.programJourney.sessionIndex=(Number(state.programJourney.sessionIndex)||0)+1;const limit=Number(currentProgramMeta().sessions)||Infinity;state.programJourney.completedSessions=Math.min(limit,(Number(state.programJourney.completedSessions)||0)+1)}state.activeWorkout=null;clearInterval(workoutTick);clearInterval(restTick);clearWorkoutReminder();stopPostRestAlarm();if(byId("finishDialog")?.open)byId("finishDialog").close();byId("liveOverlay")?.classList.remove("show");byId("restOverlay")?.classList.remove("show");saveState();clearTimeout(cloudTimer);if(cloudUser)await saveCloud();renderHistoryScreen();renderProgress();showTodayV122(day,today());showToast(lang()==="cs"?`${currentProgramLabel()}: trénink automaticky uložen ✓`:`${currentProgramLabel()}: session saved automatically ✓`);return true;
+}
+function maybePromptFinishWorkout(){return autoFinalizeWorkout()}
+function askFinishWorkout(){return autoFinalizeWorkout()}
+function openFinishDialog(){return autoFinalizeWorkout()}
+function continueNextIncompleteExercise(){backToExerciseList(true)}
+
+const renderWorkoutHistoryTabV123=renderWorkoutHistoryTab;
+renderWorkoutHistoryTab=function(rows){return renderWorkoutHistoryTabV123(rows)};
 
 function init(){
  installExerciseImageRecovery();

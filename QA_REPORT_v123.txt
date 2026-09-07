@@ -1,0 +1,79 @@
+GYM TRACKER PRO v123 — QA REPORT
+Date: 2026-09-07
+
+SCOPE
+- Goal-based programs without fixed weekdays
+- Program chooser on the Today screen
+- Exercise-first logging without a user-facing running workout
+- Immediate set and exercise saving
+- Automatic workout completion
+- Compact exercise layout
+
+PROGRAM DATA
+- 10 program templates found
+- 30 rotating session templates found (A/B/C per program)
+- 0 missing exercise references
+- New programs: Six-Pack Starter, Six-Pack Builder, Get Ripped,
+  Bigger Arms and Strength Builder
+- Existing Balanced, Full Body, Muscle Gain, Machines Only and Quick
+  programs remain available
+
+STATE AND MIGRATION
+- Existing history, measurements, custom exercises and cloud data remain
+  in the state model
+- New programJourney state is added with a safe fallback to the previously
+  selected workout style
+- Each program session receives a stable sessionKey
+- Exercise history is updated by sessionKey instead of duplicated
+- Revisiting an already saved workout updates the existing workout record
+- A partially completed workout survives navigation and date changes
+- A new program starts with clean transient session entries; saved history
+  remains untouched
+
+WORKOUT FLOW
+- Opening an exercise creates only a draft navigation context
+- The real session start time is created after the first completed set
+- Completed sets save immediately
+- Completed exercise history saves immediately
+- Completed exercise card renders green
+- Partial exercise card renders orange
+- Skipped exercise card renders grey
+- The final resolved exercise triggers automatic workout saving
+- No finish-workout confirmation is required
+- At least one genuinely completed exercise is required before automatic
+  workout completion; an all-skipped session is not saved as completed
+
+UI
+- Fixed weekday calendar is removed from the Today screen
+- Program selection is visible in the workout header
+- Previous/Next exercise footer is hidden
+- Running-workout banner and finish controls are hidden
+- Technique/video and history are secondary actions
+- Set entry is rendered as compact rows
+- Rest timer remains movable between top and bottom
+
+VALIDATION
+- Inline JavaScript syntax: PASS
+- Service worker JavaScript syntax: PASS
+- Manifest JSON syntax: PASS
+- Version consistency (HTML / manifest / service worker): PASS — v123
+- Git whitespace/error check: PASS
+- Required DOM targets: PASS
+- Required local v122 exercise image assets retained: PASS
+- Runtime DOM initialization: PASS — no JavaScript errors
+- Open exercise without saving a workout: PASS
+- Close untouched exercise draft: PASS — active workout remains null
+- Switch to Six-Pack Starter: PASS — 4 exercises loaded for session A
+- Partial exercise status: PASS — orange card rendered
+- Completed exercise status: PASS — green card and one history record
+- Skipped exercise status: PASS — grey card rendered
+- Automatic final workout save: PASS — one workout, no active workout
+- Program progress after completion: PASS — advanced from 0/6 to 1/6
+- Edit completed exercise: PASS — existing workout count remained 1 and
+  exercise history updated from 3 to 4 sets
+
+NOTE
+- Runtime behavior was exercised in a simulated browser DOM. The execution
+  environment could not download the Playwright rendering binary, so final
+  visual and touch testing should also be performed on the installed iPhone
+  PWA before release to main.
