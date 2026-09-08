@@ -1,0 +1,6 @@
+/* Gym Tracker v135: completed rest remains visible until tap */
+@keyframes v135RestFinished{0%,100%{filter:brightness(1);box-shadow:0 0 0 2px rgba(240,106,106,.35),0 0 14px rgba(240,106,106,.3)}50%{filter:brightness(1.7) saturate(1.7);box-shadow:0 0 0 7px rgba(240,106,106,.72),0 0 36px 14px rgba(240,106,106,.58)}}
+#v133GlobalRest.v135-finished{display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;background:linear-gradient(135deg,#f06a6a,#8f2222)!important;color:#fff!important;border-color:#ffb0b0!important;animation:v135RestFinished .44s steps(2,end) infinite!important}
+#v133GlobalRest.v135-finished .v133-global-rest-label{font-weight:950!important}
+#restOverlay.v135-rest-finished .rest-panel{animation:v135RestFinished .44s steps(2,end) infinite!important;outline:4px solid rgba(240,106,106,.9)}
+#restOverlay.v135-rest-finished .rest-time{color:#fff!important;background:#c83232!important;border-radius:20px!important}
