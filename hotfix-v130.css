@@ -1,0 +1,19 @@
+/* Gym Tracker v130 - undo completed + custom workout planner */
+.v130-undo-complete{display:inline-flex;align-items:center;justify-content:center;margin-top:9px;min-height:38px;padding:7px 11px;border:1px solid color-mix(in srgb,var(--good) 55%,var(--line));border-radius:11px;background:color-mix(in srgb,var(--surface) 88%,var(--good));color:var(--text);font-size:11px;font-weight:900}
+body.dark .v130-undo-complete{background:rgba(255,255,255,.08);color:var(--text)}
+.v130-custom-plan{min-height:52px;padding:8px 6px;border:1px dashed color-mix(in srgb,var(--primary) 70%,var(--line));border-radius:13px;background:color-mix(in srgb,var(--primary) 8%,var(--surface2));color:var(--text);font-weight:900;line-height:1.2}
+.v130-custom-plan.selected{border-style:solid;background:var(--primary);border-color:var(--primary);color:#fff}
+.v130-custom-plan small{display:block;margin-top:3px;color:inherit;opacity:.78;font-size:9px}
+.v130-custom-modal{padding-bottom:calc(18px + env(safe-area-inset-bottom));}
+.v130-custom-head span{font-size:10px;font-weight:950;letter-spacing:.12em;color:var(--primary)}
+.v130-custom-head h2{margin:5px 0 5px}.v130-custom-head p{margin:0 0 12px;color:var(--muted);font-size:11px;line-height:1.45}
+.v130-custom-search{font-size:16px!important;margin-bottom:8px}
+.v130-selected-count{margin:7px 2px 9px;color:var(--primary);font-size:11px;font-weight:900}
+.v130-custom-list{display:grid;gap:7px;max-height:52dvh;overflow:auto;padding-right:2px}
+.v130-pick{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--surface2);cursor:pointer}
+.v130-pick.selected{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 12%,var(--surface))}
+.v130-pick input{width:22px;height:22px;flex:none;accent-color:var(--primary)}
+.v130-pick span{min-width:0}.v130-pick b{display:block;font-size:12px}.v130-pick small{display:block;margin-top:3px;color:var(--muted);font-size:9px}
+.v130-custom-actions{position:sticky;bottom:0;display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:12px;padding-top:10px;background:var(--surface)}
+.v130-custom-actions button{min-height:48px}
+@media(max-width:430px){.v129-plan-grid{grid-template-columns:1fr!important}.v130-custom-list{max-height:48dvh}}
