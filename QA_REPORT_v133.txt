@@ -1,0 +1,14 @@
+Gym Tracker v133 QA
+
+Feature: persistent compact rest timer across screens and open dialogs.
+
+Checks performed:
+- v133-core.js syntax: PASS
+- sw.js v133 syntax: PASS before deploy
+- timer reads state.activeWorkout.restEndAt without resetting it
+- countdown uses absolute end timestamp, so navigation does not restart the timer
+- mini timer hides when full rest overlay is already visible to avoid duplication
+- mini timer is re-parented into the topmost open dialog so it remains visible above modal top layer
+- clicking mini timer closes open dialogs and returns to the active workout/rest overlay
+- timer hides when restEndAt expires or is cleared
+- iPhone safe-area bottom offset included

@@ -1,0 +1,49 @@
+/* Gym Tracker v133: persistent compact rest timer */
+.v133-global-rest{
+  display:none;
+  position:fixed;
+  right:max(14px,env(safe-area-inset-right));
+  bottom:calc(102px + env(safe-area-inset-bottom));
+  z-index:2147483000;
+  min-width:176px;
+  height:64px;
+  padding:8px 12px;
+  border:1px solid color-mix(in srgb,var(--primary) 48%,var(--line));
+  border-radius:18px;
+  background:color-mix(in srgb,var(--surface) 96%,transparent);
+  color:var(--text);
+  box-shadow:0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  grid-template-columns:auto auto auto;
+  align-items:center;
+  gap:9px;
+  -webkit-tap-highlight-color:transparent;
+}
+.v133-global-rest.show{display:grid}
+.v133-global-rest.in-dialog{
+  right:14px;
+  bottom:max(14px,env(safe-area-inset-bottom));
+}
+.v133-global-rest-label{
+  color:var(--primary);
+  font-size:10px;
+  line-height:1;
+  font-weight:950;
+  letter-spacing:.10em;
+}
+.v133-global-rest-time{
+  font-size:25px;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.04em;
+}
+.v133-global-rest-arrow{
+  font-size:27px;
+  line-height:1;
+  color:var(--muted);
+}
+@media(max-width:420px){
+  .v133-global-rest{min-width:164px;height:60px}
+  .v133-global-rest-time{font-size:23px}
+}
