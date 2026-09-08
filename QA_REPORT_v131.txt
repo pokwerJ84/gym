@@ -1,0 +1,20 @@
+Gym Tracker v131 QA
+
+Calendar/login regression:
+- PASS: future date selected while cloudUser is present
+- PASS: future date survives a simulated cloud redraw back to Today
+- PASS: render restores selected future date
+- PASS: Today clears the future-date lock
+- PASS: tomorrow remains a valid future planning date
+
+Completed exercise undo:
+- PASS: green check receives its own click handler
+- PASS: click stops the parent card action
+- PASS: confirmation text is "Zrušit hotový cvik?"
+- PASS: confirmed click calls v130UndoExercise for the correct day/exercise
+- PASS: entered kg/reps remain; only completion flags are cleared
+
+Static checks:
+- v131-core.js syntax PASS
+- sw.js v131 syntax PASS
+- service worker v131 assets/injection assertions PASS

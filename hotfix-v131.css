@@ -1,0 +1,4 @@
+/* Gym Tracker v131 */
+.v131-undo-check{cursor:pointer!important;position:relative;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.v131-undo-check:focus-visible{outline:3px solid color-mix(in srgb,var(--good) 55%,white);outline-offset:3px}
+.modern-exercise-card.exercise-done .v131-undo-check:active{transform:scale(.92)}
