@@ -1,4 +1,4 @@
-const VERSION="v126";
+const VERSION="v127";
 const CORE_CACHE=`gym-tracker-core-${VERSION}`;
 const IMAGE_CACHE=`gym-tracker-supabase-images-${VERSION}`;
 const IMAGE_PREFIXES=[
@@ -80,8 +80,8 @@ async function injectV126(response){
   const type=response.headers.get("content-type")||"";
   if(!type.includes("text/html"))return response;
   let html=await response.text();
-  if(!html.includes("hotfix-v126.css"))html=html.replace("</head>",'<link rel="stylesheet" href="./hotfix-v126.css?v=126"></head>');
-  if(!html.includes("hotfix-v126.js"))html=html.replace("</body>",'<script src="./hotfix-v126.js?v=126"></script></body>');
+  if(!html.includes("hotfix-v126.css"))html=html.replace("</head>",'<link rel="stylesheet" href="./hotfix-v126.css?v=127"></head>');
+  if(!html.includes("hotfix-v126.js"))html=html.replace("</body>",'<script src="./hotfix-v126.js?v=127"></script></body>');
   const headers=new Headers(response.headers);
   headers.delete("content-length");
   return new Response(html,{status:response.status,statusText:response.statusText,headers});
@@ -155,6 +155,6 @@ self.addEventListener("notificationclick",event=>{
   event.waitUntil((async()=>{
     const clientsList=await clients.matchAll({type:"window",includeUncontrolled:true});
     if(clientsList.length){await clientsList[0].focus();return}
-    await clients.openWindow("./?v=126&finishWorkout=1");
+    await clients.openWindow("./?v=127&finishWorkout=1");
   })());
 });
