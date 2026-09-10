@@ -1,0 +1,34 @@
+/* Gym Tracker v142: Technogym Rotary Torso photo gallery */
+.v142-machine-photos{
+  margin:14px 0;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--surface2);
+}
+.v142-machine-photos-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:9px}
+.v142-machine-photos-head h3{margin:0;font-size:14px}
+.v142-machine-photos-head small{color:var(--muted);font-size:9px;text-align:right}
+.v142-machine-photo-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.v142-machine-photo{
+  border:1px solid var(--line);
+  padding:0;
+  border-radius:13px;
+  overflow:hidden;
+  background:var(--surface);
+  aspect-ratio:4/5;
+}
+.v142-machine-photo img{width:100%;height:100%;display:block;object-fit:cover}
+.v142-photo-viewer{border:0;padding:0;background:transparent;max-width:none}
+.v142-photo-viewer::backdrop{background:rgba(0,0,0,.86);backdrop-filter:blur(3px)}
+.v142-photo-viewer img{display:block;max-width:92vw;max-height:84vh;border-radius:16px;object-fit:contain;background:#000}
+.v142-photo-close{
+  position:fixed;right:18px;top:calc(18px + env(safe-area-inset-top));
+  width:44px;height:44px;border:0;border-radius:50%;
+  background:rgba(255,255,255,.92);color:#111;font-size:28px;z-index:2;
+}
+@media(max-width:430px){
+  .v142-machine-photos-head{display:block}
+  .v142-machine-photos-head small{display:block;text-align:left;margin-top:3px}
+  .v142-machine-photo-strip{gap:5px}
+}
