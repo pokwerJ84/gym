@@ -1,0 +1,19 @@
+/* Gym Tracker v140: collapse only the turquoise workout overview, never the exercise list */
+.workout-hero.v139-collapsed>.modern-plan-section,
+.workout-hero.v139-collapsed>.unified-exercise-list,
+.workout-hero.v139-collapsed>#exercisePlan-monday,
+.workout-hero.v139-collapsed>#exercisePlan-wednesday,
+.workout-hero.v139-collapsed>#exercisePlan-friday{
+  display:block!important;
+}
+
+/* Keep the compact header visible while the detailed turquoise summary is collapsed. */
+.workout-hero.v139-collapsed>.v120-workout-summary{
+  display:none!important;
+}
+
+/* Any non-overview content below the hero summary must stay visible. */
+.workout-hero.v139-collapsed>.modern-recommendation,
+.workout-hero.v139-collapsed>.plans-saved-footer{
+  display:block!important;
+}
