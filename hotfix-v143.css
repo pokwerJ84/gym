@@ -1,0 +1,27 @@
+/* Gym Tracker v143: visible delete control + completed-day clarity */
+.saved-set-row .v143-left-delete{
+  display:grid!important;
+  place-items:center;
+  width:52px;
+  height:52px;
+  min-width:52px;
+  margin:0;
+  padding:0;
+  border:1px solid rgba(240,106,106,.7);
+  border-radius:14px;
+  background:rgba(240,106,106,.15);
+  color:var(--bad,#F06A6A);
+  font-size:30px;
+  line-height:1;
+  font-weight:950;
+  box-shadow:none;
+}
+body.dark .saved-set-row .v143-left-delete{
+  background:#381c22;
+  border-color:#71343c;
+  color:#ff8d8d;
+}
+.saved-set-row .saved-set-actions .delete-set-btn{display:none!important}
+.completed-day-strip{border-color:color-mix(in srgb,var(--good) 65%,var(--line))!important;background:color-mix(in srgb,var(--good) 12%,var(--surface))!important}
+.modern-exercise-card.exercise-done{border-color:var(--good)!important;background:color-mix(in srgb,var(--good) 11%,var(--surface))!important}
+.modern-exercise-card.exercise-done .exercise-set-status{color:var(--good)!important;font-weight:950!important}
