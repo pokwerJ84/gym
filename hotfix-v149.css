@@ -1,0 +1,15 @@
+/* Gym Tracker v149: clearly green completed exercises in calendar detail */
+.v149-day-workout{margin-top:12px;padding:12px;border:1px solid color-mix(in srgb,var(--good) 45%,var(--line));border-radius:18px;background:color-mix(in srgb,var(--good) 7%,var(--surface2))}
+.v149-day-workout>h3{margin:0 0 10px;font-size:18px;color:var(--text)}
+.v149-completed-list{display:grid;gap:8px}
+.v149-completed-exercise,.v144-completed-card.v149-green-completed{
+  width:100%;display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;gap:10px;
+  padding:11px;border:1px solid color-mix(in srgb,var(--good) 78%,var(--line));border-radius:16px;
+  background:color-mix(in srgb,var(--good) 18%,var(--surface));color:var(--text);text-align:left;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--good) 12%,transparent)
+}
+.v149-check{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--good);color:#fff;font-weight:950;font-size:20px}
+.v149-ex-copy{min-width:0}.v149-ex-copy strong{display:block;font-size:14px;line-height:1.2}.v149-ex-copy small{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.35}
+.v149-cardio{border-color:var(--line);background:var(--surface2)}
+.v149-cardio-row{display:flex;justify-content:space-between;gap:12px;padding:10px;border-radius:14px;background:var(--surface)}
+body.dark .v149-completed-exercise,body.dark .v144-completed-card.v149-green-completed{background:rgba(49,192,124,.16);border-color:rgba(49,192,124,.74)}
