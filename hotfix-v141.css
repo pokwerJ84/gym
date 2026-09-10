@@ -1,0 +1,21 @@
+/* Gym Tracker v141 — completed set delete button */
+.saved-set-row .saved-set-left-delete{
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  padding:0;
+  border:1px solid color-mix(in srgb,var(--bad) 45%,var(--line));
+  border-radius:12px;
+  background:color-mix(in srgb,var(--bad) 13%,var(--surface));
+  color:var(--bad);
+  font-size:25px;
+  line-height:1;
+  font-weight:950;
+}
+body.dark .saved-set-row .saved-set-left-delete{
+  background:#3A1C1C;
+  color:#FFB4AC;
+}
+.saved-set-actions:empty{display:none}
