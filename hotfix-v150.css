@@ -1,0 +1,17 @@
+/* Gym Tracker v150: completed days use the normal exercise card design */
+.v150-history-list{display:grid;gap:10px}
+.v150-history-card.modern-exercise-card{
+  border-color:color-mix(in srgb,var(--good) 78%,var(--line))!important;
+  background:color-mix(in srgb,var(--good) 15%,var(--surface))!important;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--good) 10%,transparent)!important;
+}
+.v150-history-card.modern-exercise-card>summary{cursor:pointer}
+.v150-history-card .preview-card-number{
+  background:var(--good)!important;
+  border-color:color-mix(in srgb,var(--good) 85%,white)!important;
+  color:white!important;
+}
+.v150-history-card .exercise-guide-thumb{filter:none!important;opacity:1!important}
+.v150-history-card .exercise-set-status{background:color-mix(in srgb,var(--good) 18%,var(--surface2))!important;color:var(--good)!important}
+.v150-saved-performance{display:block;margin-top:5px;color:var(--text);font-size:12px;font-weight:800;line-height:1.35}
+body.dark .v150-history-card.modern-exercise-card{background:rgba(49,192,124,.15)!important;border-color:rgba(49,192,124,.72)!important}
