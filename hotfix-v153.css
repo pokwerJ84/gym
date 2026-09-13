@@ -1,0 +1,21 @@
+/* Gym Tracker v153: historical workout cards reuse normal card layout, green completed state */
+.v153-history-mode .v153-history-list{display:grid;gap:12px}
+.v153-history-mode .v153-history-card{
+  border-color:color-mix(in srgb,var(--good) 78%,var(--line))!important;
+  background:color-mix(in srgb,var(--good) 15%,var(--surface))!important;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--good) 10%,transparent)!important;
+}
+.v153-history-mode .v153-history-card>summary{display:grid;grid-template-columns:42px 168px minmax(0,1fr) 22px;align-items:center;gap:12px;padding:12px}
+.v153-history-mode .v153-history-card .exercise-guide-thumb{width:168px;height:132px;object-fit:cover;border-radius:18px;background:var(--surface2)}
+.v153-history-mode .v153-check{background:var(--good)!important;color:#fff!important;border-color:transparent!important;font-size:20px;font-weight:950}
+.v153-history-mode .v153-thumb-fallback{width:168px;height:132px;border-radius:18px;display:grid;place-items:center;background:var(--surface2);color:var(--good);font-size:30px}
+.v153-history-mode .v153-saved-performance{display:block;margin-top:8px;color:var(--text);font-size:12px;font-weight:850;line-height:1.35}
+.v153-history-mode .v153-target{display:block;margin-top:5px;color:var(--muted);font-size:11px}
+.v153-history-mode .exercise-set-status{display:inline-block;margin-top:8px;color:var(--good);font-weight:900}
+.v153-history-mode .v153-history-card .preview-card-chevron{color:var(--good)}
+body.dark .v153-history-mode .v153-history-card{background:rgba(49,192,124,.14)!important;border-color:rgba(49,192,124,.72)!important}
+@media(max-width:430px){
+ .v153-history-mode .v153-history-card>summary{grid-template-columns:38px 108px minmax(0,1fr) 16px;gap:9px;padding:10px}
+ .v153-history-mode .v153-history-card .exercise-guide-thumb,.v153-history-mode .v153-thumb-fallback{width:108px;height:96px;border-radius:15px}
+ .v153-history-mode .v153-saved-performance{font-size:11px}
+}
