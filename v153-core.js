@@ -1,4 +1,4 @@
-/* Gym Tracker v153: historical dates render saved workout directly as normal green exercise cards */
+/* Gym Tracker v153/v158: historical dates render saved workout directly as normal green exercise cards */
 (()=>{
 'use strict';
 const q=(s,r=document)=>r?.querySelector?.(s)||null;
@@ -18,8 +18,9 @@ function recordsFor(workout){
   try{
     Object.entries(state?.history||{}).forEach(([exerciseId,items])=>{
       (items||[]).forEach(record=>{
-        const match=workout.sessionKey?record.sessionKey===workout.sessionKey:(record.date===workout.date&&(!workout.day||record.day===workout.day));
-        if(match)out.push({...record,exerciseId:record.exerciseId||exerciseId});
+        const sameSession=!!(workout.sessionKey&&record.sessionKey&&record.sessionKey===workout.sessionKey);
+        const sameDateDay=record.date===workout.date&&(!workout.day||!record.day||record.day===workout.day);
+        if(sameSession||sameDateDay)out.push({...record,exerciseId:record.exerciseId||exerciseId});
       });
     });
   }catch(_){}
@@ -120,6 +121,6 @@ function install(){
     }
   }catch(_){}
 }
-window.GymV153={release:'v153',completedWorkout,recordsFor,renderHistorical,clearHistorical};
+window.GymV153={release:'v158-compatible',completedWorkout,recordsFor,renderHistorical,clearHistorical};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
