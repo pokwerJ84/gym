@@ -1,0 +1,11 @@
+/* Gym Tracker v152: historical workout uses normal cards, only completed state changes */
+.v152-history-mode .v152-history-card{
+  border-color:color-mix(in srgb,var(--good) 78%,var(--line))!important;
+  background:color-mix(in srgb,var(--good) 16%,var(--surface))!important;
+}
+.v152-history-mode .v152-history-card .preview-card-number{
+  background:var(--good)!important;color:#fff!important;border-color:var(--good)!important;
+}
+.v152-saved-performance{display:block;margin-top:6px;color:var(--text);font-size:11px;font-weight:800;line-height:1.35}
+.v152-history-mode .v152-history-card .exercise-set-status{color:var(--good)!important}
+body.dark .v152-history-mode .v152-history-card{background:rgba(49,192,124,.16)!important;border-color:rgba(49,192,124,.8)!important}
