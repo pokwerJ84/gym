@@ -1,0 +1,96 @@
+/* Gym Tracker v161: actual workout summary split-tone redesign */
+
+/* The real coloured card is .v120-workout-summary, not .workout-hero. */
+.v120-workout-summary{
+  background:#294b66!important;
+  border-color:rgba(149,187,214,.34)!important;
+  box-shadow:0 14px 34px rgba(0,13,25,.26)!important;
+  overflow:hidden!important;
+}
+
+/* Top Active Program strip */
+.v120-workout-summary .v123-program-line{
+  margin:-16px -16px 14px!important;
+  padding:16px!important;
+  background:linear-gradient(135deg,#1b344a,#223f58)!important;
+  border-bottom:1px solid rgba(170,204,226,.18)!important;
+}
+.v120-workout-summary .v123-program-line button{
+  background:#2b4b64!important;
+  border:1px solid rgba(174,205,226,.32)!important;
+  color:#f7fbff!important;
+}
+
+/* Main Next Session zone */
+.v120-workout-summary .workout-hero-top{
+  margin:0 -4px!important;
+  padding:4px 4px 12px!important;
+  background:transparent!important;
+}
+.v120-workout-summary .hero-kicker{
+  color:#a9cbe2!important;
+}
+.v120-workout-summary h2,
+.v120-workout-summary .hero-meta{
+  color:#fff!important;
+}
+.v120-workout-summary .hero-plan-number{
+  background:#3d6380!important;
+  border:1px solid rgba(190,216,233,.25)!important;
+  color:#fff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+
+/* Session control = separate darker panel */
+.v120-workout-summary .v137-session-control{
+  margin-top:12px!important;
+  background:linear-gradient(135deg,#203a51,#28475f)!important;
+  border:1px solid rgba(170,204,226,.26)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+.v120-workout-summary .v137-session-control small,
+.v120-workout-summary .v137-session-control em{
+  color:#a9bfd0!important;
+}
+.v120-workout-summary .v137-session-control strong{
+  color:#fff!important;
+}
+.v120-workout-summary .v137-session-control button{
+  background:#355773!important;
+  border:1px solid rgba(177,208,229,.30)!important;
+  color:#fff!important;
+}
+
+/* Bottom actions form their own visual band */
+.v120-workout-summary .hero-actions{
+  margin:14px -4px -4px!important;
+  padding-top:12px!important;
+  border-top:1px solid rgba(177,208,229,.16)!important;
+}
+.v120-workout-summary .hero-actions button,
+.v120-workout-summary .hero-program-button{
+  background:#294a63!important;
+  border:1px solid rgba(177,208,229,.27)!important;
+  color:#f7fbff!important;
+}
+.v120-workout-summary .hero-actions button:active,
+.v120-workout-summary .hero-program-button:active{
+  background:#365c78!important;
+}
+
+/* Dark mode variant */
+body.dark .v120-workout-summary{
+  background:#294b66!important;
+}
+body.dark .v120-workout-summary .v123-program-line{
+  background:linear-gradient(135deg,#182f43,#203c55)!important;
+}
+
+/* Collapsed state stays in the same palette */
+.workout-hero.v139-collapsed{
+  background:linear-gradient(135deg,#1d3a50,#274a64)!important;
+  border:1px solid rgba(147,186,212,.28)!important;
+}
+.workout-hero.v139-collapsed>.v139-overview-compact{
+  background:transparent!important;
+}
