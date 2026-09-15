@@ -1,0 +1,63 @@
+/* Gym Tracker v160: split-tone slate / steel workout overview */
+
+.workout-hero,
+.unified-workout-card.workout-hero,
+.workout-hero.unified-workout-card {
+  background: linear-gradient(180deg,#274e6b 0%,#274e6b 34%,#315d7b 34%,#315d7b 68%,#223f59 68%,#223f59 100%) !important;
+  border-color: rgba(137,178,205,.42) !important;
+  box-shadow: 0 16px 38px rgba(4,18,30,.28) !important;
+}
+
+.workout-hero .workout-hero-top,
+.workout-hero .hero-program,
+.workout-hero .active-program,
+.workout-hero > div:first-child {
+  background-color: rgba(21,49,70,.24) !important;
+}
+
+.workout-hero .v137-session-control {
+  background: rgba(24,55,78,.58) !important;
+  border-color: rgba(151,188,214,.38) !important;
+  color:#f4fbff !important;
+}
+
+.workout-hero button:not(.v139-overview-toggle) {
+  background: rgba(42,73,97,.78) !important;
+  border-color: rgba(158,195,220,.42) !important;
+  color:#f5fbff !important;
+}
+
+.workout-hero button:not(.v139-overview-toggle):active {
+  background: rgba(55,91,117,.88) !important;
+}
+
+.workout-hero .hero-plan-number {
+  background: rgba(57,91,116,.78) !important;
+  border:1px solid rgba(164,198,221,.3) !important;
+  color:#fff !important;
+}
+
+.workout-hero small,
+.workout-hero p,
+.workout-hero em,
+.workout-hero .v137-session-control em {
+  color:#c3d5e2 !important;
+}
+
+.workout-hero h2,
+.workout-hero h3,
+.workout-hero strong,
+.workout-hero .hero-title {
+  color:#fff !important;
+}
+
+.workout-hero.v139-collapsed,
+.workout-hero .v139-overview-compact {
+  background: linear-gradient(135deg,#254a66,#1f3d57) !important;
+  border-color: rgba(137,178,205,.38) !important;
+}
+
+body.dark .workout-hero,
+body.dark .unified-workout-card.workout-hero {
+  background: linear-gradient(180deg,#234761 0%,#234761 34%,#2d5673 34%,#2d5673 68%,#1c374f 68%,#1c374f 100%) !important;
+}
