@@ -208,3 +208,7 @@ body.dark .v120-workout-summary .v123-program-line{background:linear-gradient(13
   .v170-chart-svg{min-height:150px}
   .v170-dashboard-kpis strong{font-size:24px}
 }
+
+.v170-session-copy{min-width:0;flex:1}
+.v170-session-bar{height:5px;margin-top:7px;border-radius:999px;background:color-mix(in srgb,var(--line) 68%,transparent);overflow:hidden}
+.v170-session-bar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 70%,white))}
