@@ -63,15 +63,18 @@ function baseItems(workout){
   return items.filter(x=>x?.id&&ex(x.id));
 }
 function recordSummary(r){
-  try{if(typeof formatRecord==='function')return formatRecord(r)}catch(_){}
   if(Array.isArray(r?.sets)&&r.sets.length){
-    return r.sets.map(s=>{
+    const simple=r.sets.map(s=>{
       if(s.kg!=null&&s.reps!=null)return `${s.kg}×${s.reps}`;
       if(s.reps!=null)return `${s.reps}×`;
       if(s.seconds!=null)return `${s.seconds}s`;
+      if(s.leftSeconds!=null||s.rightSeconds!=null)return `L ${s.leftSeconds||'–'}s / ${cs()?'P':'R'} ${s.rightSeconds||'–'}s`;
+      if(s.left!=null||s.right!=null)return `${s.kg||'–'} kg · L ${s.left||'–'} / ${cs()?'P':'R'} ${s.right||'–'}`;
       return '';
     }).filter(Boolean).join(' / ');
+    if(simple)return simple;
   }
+  try{if(typeof formatRecord==='function')return formatRecord(r)}catch(_){}
   return r?.minutes?`${r.minutes} min`:'';
 }
 function reconstructedItems(workout){
@@ -128,6 +131,10 @@ function historyCard(item){
 }
 function sessionTitle(workout){
   try{
+    if(workout?.programId==='busy_week'&&window.GymV165?.busySession){
+      const s=window.GymV165.busySession(Number(workout.programSessionIndex)||0);
+      if(s)return cs()?s.titleCs:s.titleEn;
+    }
     const plan=PLAN_PRESETS?.[workout?.programId]?.plans?.[workout?.day];
     return plan?.[cs()?'title_cs':'title_en']||plan?.title_en||({monday:'Strength',wednesday:'Stability',friday:'Control'}[workout?.day]||'Workout');
   }catch(_){return 'Workout'}
