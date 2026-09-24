@@ -254,3 +254,43 @@ body.dark .v120-workout-summary .v123-program-line{background:linear-gradient(13
   padding-left:0!important;
   padding-right:0!important;
 }
+
+
+/* v174 full month calendar */
+.v174-calendar-actions{display:flex;align-items:center;gap:6px}
+.v174-calendar-actions button{min-height:34px;padding:5px 9px;border:0;border-radius:10px;background:rgba(35,195,184,.12);color:var(--v95-teal);font-size:11px;font-weight:950}
+.v174-month-dialog{width:min(760px,calc(100vw - 14px));max-width:none;border:0;padding:0;background:transparent;color:var(--text)}
+.v174-month-dialog::backdrop{background:rgba(1,10,16,.82);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.v174-month-modal{position:relative;padding:18px;border:1px solid var(--line);border-radius:24px;background:var(--surface2);box-shadow:0 24px 70px rgba(0,0,0,.45)}
+.v174-month-close{position:absolute;top:12px;right:12px;z-index:3;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:22px;font-weight:900}
+.v174-month-head{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:10px;padding-right:54px}
+.v174-month-head>button{width:44px;height:44px;border-radius:13px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:24px;font-weight:900}
+.v174-month-head>div{text-align:center;min-width:0}
+.v174-month-head small{display:block;color:var(--primary);font-size:9px;font-weight:950;letter-spacing:.14em}
+.v174-month-head strong{display:block;margin-top:4px;font-size:21px;text-transform:capitalize}
+.v174-month-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 10px}
+.v174-month-actions button{min-height:38px;padding:7px 12px;border-radius:11px;border:1px solid color-mix(in srgb,var(--primary) 40%,var(--line));background:color-mix(in srgb,var(--primary) 12%,var(--surface));color:var(--text);font-weight:900}
+.v174-month-actions span{color:var(--muted);font-size:10px;font-weight:800}
+.v174-month-weekdays,.v174-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.v174-month-weekdays{margin-bottom:6px}
+.v174-month-weekdays span{text-align:center;color:var(--muted);font-size:9px;font-weight:950;text-transform:uppercase}
+.v174-month-day{position:relative;display:grid;place-items:center;min-height:64px;padding:6px 3px;border:1px solid transparent;border-radius:14px;background:var(--surface);color:var(--text)}
+.v174-month-day span{font-size:16px;font-weight:950}
+.v174-month-day i{position:absolute;bottom:5px;right:7px;font-size:9px;font-style:normal;color:var(--primary)}
+.v174-month-day.outside{opacity:.28}
+.v174-month-day.today{border-color:color-mix(in srgb,var(--primary) 55%,var(--line))}
+.v174-month-day.selected:not(.completed){box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--primary) 55%,transparent)}
+.v174-month-day.completed{background:rgba(53,201,130,.18);border-color:rgba(53,201,130,.58);color:#ecfff5}
+.v174-month-day.completed span{color:#ecfff5}
+.v174-month-day.completed i{color:#55d997}
+.v174-month-day.cardio:not(.completed){background:rgba(35,195,184,.10);border-color:rgba(35,195,184,.26)}
+@media(max-width:430px){
+  .v174-calendar-actions{gap:4px}
+  .v174-calendar-actions button{padding:5px 7px;font-size:10px}
+  .v174-month-modal{padding:12px;border-radius:18px}
+  .v174-month-head{padding-right:48px;grid-template-columns:40px 1fr 40px}
+  .v174-month-head>button{width:40px;height:40px}
+  .v174-month-head strong{font-size:18px}
+  .v174-month-day{min-height:54px;border-radius:12px}
+  .v174-month-day span{font-size:15px}
+}
