@@ -1,0 +1,107 @@
+/* Gym Tracker v166: consolidated runtime styles */
+
+/* Rest timer + silent finish state */
+.v133-global-rest{
+  display:none;position:fixed;right:max(14px,env(safe-area-inset-right));
+  bottom:calc(102px + env(safe-area-inset-bottom));z-index:2147483000;
+  min-width:176px;height:64px;padding:8px 12px;
+  border:1px solid color-mix(in srgb,var(--primary) 48%,var(--line));border-radius:18px;
+  background:color-mix(in srgb,var(--surface) 96%,transparent);color:var(--text);
+  box-shadow:0 14px 35px rgba(0,0,0,.28);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  grid-template-columns:auto auto auto;align-items:center;gap:9px;-webkit-tap-highlight-color:transparent;
+}
+.v133-global-rest.show{display:grid}
+.v133-global-rest.in-dialog{right:14px;bottom:max(14px,env(safe-area-inset-bottom))}
+.v133-global-rest-label{color:var(--primary);font-size:10px;line-height:1;font-weight:950;letter-spacing:.10em}
+.v133-global-rest-time{font-size:25px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.v133-global-rest-arrow{font-size:27px;line-height:1;color:var(--muted)}
+@keyframes v166AlarmFlash{0%,100%{filter:none;box-shadow:0 0 0 0 rgba(240,106,106,0)}50%{filter:brightness(1.55) saturate(1.45);box-shadow:0 0 0 5px rgba(240,106,106,.55),0 0 28px 10px rgba(240,106,106,.42)}}
+.v134-alarm-flash{animation:v166AlarmFlash var(--v134-flash-ms,700ms) steps(2,end) infinite!important;border-color:var(--danger)!important}
+#v133GlobalRest.v134-alarm-flash{background:linear-gradient(135deg,var(--danger),#8f2d2d)!important;color:#fff!important}
+#restOverlay.v134-alarm-flash{outline:3px solid color-mix(in srgb,var(--danger) 75%,transparent)}
+@keyframes v166RestFinished{0%,100%{filter:brightness(1);box-shadow:0 0 0 2px rgba(240,106,106,.35),0 0 14px rgba(240,106,106,.3)}50%{filter:brightness(1.7) saturate(1.7);box-shadow:0 0 0 7px rgba(240,106,106,.72),0 0 36px 14px rgba(240,106,106,.58)}}
+#v133GlobalRest.v135-finished{display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;background:linear-gradient(135deg,#f06a6a,#8f2222)!important;color:#fff!important;border-color:#ffb0b0!important;animation:v166RestFinished .44s steps(2,end) infinite!important}
+#v133GlobalRest.v135-finished .v133-global-rest-label{font-weight:950!important}
+#restOverlay.v135-rest-finished .rest-panel{animation:v166RestFinished .44s steps(2,end) infinite!important;outline:4px solid rgba(240,106,106,.9)}
+#restOverlay.v135-rest-finished .rest-time{color:#fff!important;background:#c83232!important;border-radius:20px!important}
+
+/* Workout overview: one final slate / steel palette */
+.v120-workout-summary{
+  background:#294b66!important;border-color:rgba(149,187,214,.34)!important;
+  box-shadow:0 14px 34px rgba(0,13,25,.26)!important;overflow:hidden!important;
+}
+.v120-workout-summary .v123-program-line{
+  margin:-16px -16px 14px!important;padding:16px!important;padding-right:16px!important;
+  background:linear-gradient(135deg,#1b344a,#223f58)!important;border-bottom:1px solid rgba(170,204,226,.18)!important;
+}
+.v120-workout-summary .v123-program-line button{
+  margin-right:0!important;background:#2b4b64!important;border:1px solid rgba(174,205,226,.32)!important;color:#f7fbff!important;
+}
+.v120-workout-summary .workout-hero-top{margin:0 -4px!important;padding:4px 4px 12px!important;background:transparent!important}
+.v120-workout-summary .hero-kicker{color:#a9cbe2!important}
+.v120-workout-summary h2,.v120-workout-summary .hero-meta{color:#fff!important}
+.v120-workout-summary .hero-plan-number{
+  background:#3d6380!important;border:1px solid rgba(190,216,233,.25)!important;color:#fff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.v120-workout-summary .v137-session-control{
+  margin-top:12px!important;background:linear-gradient(135deg,#203a51,#28475f)!important;
+  border:1px solid rgba(170,204,226,.26)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+.v120-workout-summary .v137-session-control small,.v120-workout-summary .v137-session-control em{color:#a9bfd0!important}
+.v120-workout-summary .v137-session-control strong{color:#fff!important}
+.v120-workout-summary .v137-session-control button{background:#355773!important;border:1px solid rgba(177,208,229,.30)!important;color:#fff!important}
+.v120-workout-summary .hero-actions{margin:14px -4px -4px!important;padding-top:12px!important;border-top:1px solid rgba(177,208,229,.16)!important}
+.v120-workout-summary .hero-actions button,.v120-workout-summary .hero-program-button{background:#294a63!important;border:1px solid rgba(177,208,229,.27)!important;color:#f7fbff!important}
+.v120-workout-summary .hero-actions button:active,.v120-workout-summary .hero-program-button:active{background:#365c78!important}
+body.dark .v120-workout-summary{background:#294b66!important}
+body.dark .v120-workout-summary .v123-program-line{background:linear-gradient(135deg,#182f43,#203c55)!important}
+
+.workout-hero{position:relative!important;overflow:visible!important}
+.workout-hero.v139-collapsed{background:linear-gradient(135deg,#1d3a50,#274a64)!important;border:1px solid rgba(147,186,212,.28)!important}
+.workout-hero.v139-collapsed>.v139-overview-compact{background:transparent!important}
+
+/* Compact visuals, full-size mobile hit areas */
+.workout-hero > .v139-overview-toggle{
+  top:-15px!important;right:8px!important;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
+  border-radius:13px!important;font-size:18px!important;line-height:1!important;z-index:20!important;
+  background:#203b52!important;border:1px solid rgba(165,199,222,.34)!important;box-shadow:0 8px 20px rgba(0,12,24,.30)!important;
+}
+.unified-workout-card .v120-exercise-heading{padding:10px 18px 11px!important;align-items:center!important}
+.unified-workout-card .v120-exercise-heading h3{margin:0!important;line-height:1.1!important}
+.unified-workout-card .v120-exercise-heading span{margin-left:auto!important;text-align:right!important}
+
+/* Editable exercise cards */
+.modern-exercise-card{position:relative}
+.v163-card-menu{
+  position:absolute;top:6px;right:6px;z-index:7;width:44px;height:44px;padding:0;
+  border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--surface2) 90%,transparent);
+  color:var(--muted);font-size:15px;font-weight:950;letter-spacing:1px;line-height:1;
+  display:grid;place-items:center;box-shadow:0 5px 14px rgba(0,0,0,.12)
+}
+.modern-exercise-card .v163-card-menu + *{pointer-events:auto}
+.modern-exercise-card>summary{padding-right:58px!important}
+.v163-modal{width:min(520px,calc(100vw - 24px));padding:18px}
+.v163-modal-head{padding-right:50px;margin-bottom:14px}
+.v163-modal-head>span{display:block;color:var(--primary);font-size:9px;font-weight:950;letter-spacing:.13em}
+.v163-modal-head h2{margin:5px 0 0;font-size:20px;line-height:1.2}
+.v163-actions{display:grid;gap:9px}
+.v163-action{width:100%;min-height:58px;padding:12px 14px!important;text-align:left!important;display:flex!important;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px}
+.v163-action strong{font-size:14px}
+.v163-action small{color:var(--muted);font-size:10px;line-height:1.35;font-weight:750}
+.v163-action.danger small{color:color-mix(in srgb,var(--bad) 68%,var(--muted))}
+.v163-history-skipped{border-color:#647985!important;background:rgba(91,108,118,.16)!important;opacity:.78!important;filter:saturate(.25)!important;box-shadow:none!important}
+.v163-history-skipped .preview-card-number{background:#657984!important;color:#fff!important;border-color:#8698a1!important}
+.v163-history-skipped .exercise-set-status,.v163-history-skipped .v153-saved-performance{color:#9baab1!important}
+.v163-history-incomplete{border-color:#806f55!important;background:rgba(128,111,85,.11)!important;opacity:.82}
+.v163-history-incomplete .preview-card-number{background:#806f55!important;color:#fff!important}
+
+@media(max-width:430px){
+  .v133-global-rest{min-width:164px;height:60px}
+  .v133-global-rest-time{font-size:23px}
+  .workout-hero > .v139-overview-toggle{top:-13px!important;right:7px!important}
+  .unified-workout-card .v120-exercise-heading{padding-left:16px!important;padding-right:16px!important}
+  .v163-card-menu{top:4px;right:4px}
+  .modern-exercise-card>summary{padding-right:58px!important}
+  .v163-modal{padding:16px}
+}
