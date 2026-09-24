@@ -8642,8 +8642,48 @@ function v124ResetSession(day){
 function v124ChangeCalendarWeek(offset){calendarViewDate=uiAddDays(calendarViewDate||today(),offset*7);renderDay(currentProgramDay())}
 weekStripMarkup=function(){
  const center=calendarViewDate||today(),monday=weekStart(center),sunday=uiAddDays(monday,6),names=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
- return `<section class="v120-calendar" aria-label="${lang()==="cs"?"Historie tréninků":"Workout history"}"><div class="v120-calendar-head"><button type="button" onclick="v124ChangeCalendarWeek(-1)">‹</button><div class="v120-calendar-title"><strong>${localizedMonthRange(monday,sunday)}</strong><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div><button type="button" onclick="v124ChangeCalendarWeek(1)">›</button></div><div class="v120-week-grid">${Array.from({length:7},(_,i)=>{const iso=uiAddDays(monday,i),completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),weekday=(uiDateFromIso(iso).getDay()+6)%7;return `<button type="button" class="v120-day ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today selected":""}" onclick="v124OpenCalendarDay('${iso}')"><span>${names[weekday]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${completed?"✓":cardio?"♥":""}</i></button>`}).join("")}</div><div class="v124-calendar-note">${lang()==="cs"?"Zelená = dokončený trénink · klepnutím otevřeš detail":"Green = completed workout · tap for details"}</div></section>`;
+ return `<section class="v120-calendar" aria-label="${lang()==="cs"?"Historie tréninků":"Workout history"}"><div class="v120-calendar-head"><button type="button" onclick="v124ChangeCalendarWeek(-1)">‹</button><div class="v120-calendar-title"><strong>${localizedMonthRange(monday,sunday)}</strong><div class="v174-calendar-actions"><button type="button" onclick="v174OpenMonthCalendar()">${lang()==="cs"?"Měsíc":"Month"}</button><button type="button" onclick="goToTodayDate()">${lang()==="cs"?"Dnes":"Today"}</button></div></div><button type="button" onclick="v124ChangeCalendarWeek(1)">›</button></div><div class="v120-week-grid">${Array.from({length:7},(_,i)=>{const iso=uiAddDays(monday,i),completed=completedWorkoutOnDate(iso),cardio=cardioWorkoutOnDate(iso),isToday=iso===today(),weekday=(uiDateFromIso(iso).getDay()+6)%7;return `<button type="button" class="v120-day ${completed?"completed":""} ${cardio?"cardio-done":""} ${isToday?"today selected":""}" onclick="v124OpenCalendarDay('${iso}')"><span>${names[weekday]}</span><strong>${uiDateFromIso(iso).getDate()}</strong><i>${completed?"✓":cardio?"♥":""}</i></button>`}).join("")}</div><div class="v124-calendar-note">${lang()==="cs"?"Zelená = dokončený trénink · klepnutím otevřeš detail":"Green = completed workout · tap for details"}</div></section>`;
 };
+
+let v174MonthCursor="";
+function v174MonthIso(year,monthIndex,day=1){return uiIsoFromDate(new Date(year,monthIndex,day,12,0,0))}
+function v174MonthTitle(iso){
+ const d=uiDateFromIso(iso);
+ return new Intl.DateTimeFormat(lang()==="cs"?"cs-CZ":"en-GB",{month:"long",year:"numeric"}).format(d);
+}
+function v174EnsureMonthDialog(){
+ let d=byId("v174MonthDialog");if(d)return d;
+ d=document.createElement("dialog");d.id="v174MonthDialog";d.className="v174-month-dialog";
+ d.innerHTML=`<div class="v174-month-modal"><button type="button" class="v174-month-close" aria-label="Close">×</button><div id="v174MonthBody"></div></div>`;
+ document.body.appendChild(d);
+ d.querySelector(".v174-month-close").addEventListener("click",()=>d.close());
+ d.addEventListener("click",e=>{if(e.target===d)d.close()});
+ return d;
+}
+function v174MonthCells(baseIso){
+ const d=uiDateFromIso(baseIso),year=d.getFullYear(),month=d.getMonth(),first=new Date(year,month,1,12,0,0);
+ const mondayOffset=(first.getDay()+6)%7,start=new Date(year,month,1-mondayOffset,12,0,0);
+ return Array.from({length:42},(_,i)=>{const x=new Date(start);x.setDate(start.getDate()+i);return{iso:uiIsoFromDate(x),day:x.getDate(),outside:x.getMonth()!==month}});
+}
+function v174RenderMonth(){
+ const d=v174EnsureMonthDialog(),body=byId("v174MonthBody");if(!body)return;
+ const base=v174MonthCursor||calendarViewDate||selectedWorkoutDate||today(),cells=v174MonthCells(base),names=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
+ body.innerHTML=`<div class="v174-month-head"><button type="button" onclick="v174ChangeMonth(-1)" aria-label="${lang()==="cs"?"Předchozí měsíc":"Previous month"}">‹</button><div><small>${lang()==="cs"?"MĚSÍČNÍ PŘEHLED":"MONTH VIEW"}</small><strong>${esc(v174MonthTitle(base))}</strong></div><button type="button" onclick="v174ChangeMonth(1)" aria-label="${lang()==="cs"?"Další měsíc":"Next month"}">›</button></div><div class="v174-month-actions"><button type="button" onclick="v174GoToday()">${lang()==="cs"?"Dnes":"Today"}</button><span>● ${lang()==="cs"?"zelená = odcvičeno":"green = completed"}</span></div><div class="v174-month-weekdays">${names.map(n=>`<span>${n}</span>`).join("")}</div><div class="v174-month-grid">${cells.map(cell=>{const completed=completedWorkoutOnDate(cell.iso),cardio=cardioWorkoutOnDate(cell.iso),isToday=cell.iso===today(),selected=cell.iso===selectedWorkoutDate;return `<button type="button" class="v174-month-day ${cell.outside?"outside":""} ${completed?"completed":""} ${cardio?"cardio":""} ${isToday?"today":""} ${selected?"selected":""}" onclick="v174OpenMonthDay('${cell.iso}')"><span>${cell.day}</span><i>${completed?"✓":cardio?"♥":""}</i></button>`}).join("")}</div>`;
+}
+function v174OpenMonthCalendar(){
+ const base=calendarViewDate||selectedWorkoutDate||today(),d=uiDateFromIso(base);v174MonthCursor=v174MonthIso(d.getFullYear(),d.getMonth(),1);v174RenderMonth();const dlg=v174EnsureMonthDialog();if(!dlg.open)dlg.showModal();
+}
+function v174ChangeMonth(offset){
+ const d=uiDateFromIso(v174MonthCursor||today());v174MonthCursor=v174MonthIso(d.getFullYear(),d.getMonth()+offset,1);v174RenderMonth();
+}
+function v174GoToday(){
+ const d=uiDateFromIso(today());v174MonthCursor=v174MonthIso(d.getFullYear(),d.getMonth(),1);v174RenderMonth();
+}
+function v174OpenMonthDay(iso){
+ byId("v174MonthDialog")?.close();
+ if((state.workouts||[]).some(w=>w.date===iso))v124OpenCalendarDay(iso);
+ else selectScheduleDate(iso);
+}
 function v124WorkoutRecords(workout){
  const rows=[];Object.entries(state.history||{}).forEach(([exerciseId,items])=>(items||[]).forEach(record=>{if(workout.sessionKey?record.sessionKey===workout.sessionKey:(record.date===workout.date&&record.day===workout.day))rows.push({...record,exerciseId:record.exerciseId||exerciseId})}));return rows;
 }
