@@ -8728,7 +8728,9 @@ function v124AddExerciseLink(exerciseId){
 function v124RemoveExerciseLink(exerciseId,id){const store=v124MediaStore(exerciseId);store.links=store.links.filter(item=>item.id!==id);saveState();renderExerciseMedia(exerciseId)}
 async function v124DeleteExerciseMedia(exerciseId,id){
  const store=v124MediaStore(exerciseId),item=store.files.find(file=>file.id===id);if(!item)return;if(!confirm(lang()==="cs"?"Odstranit tento soubor ze Supabase?":"Delete this file from Supabase?"))return;
- const {error}=await supabaseClient.storage.from(EXERCISE_MEDIA_BUCKET).remove([item.path]);if(error)return showToast(error.message);store.files=store.files.filter(file=>file.id!==id);v124SignedMediaCache.delete(item.path);saveState();if(cloudUser)await saveCloud();renderExerciseMedia(exerciseId);
+ const {error}=await supabaseClient.storage.from(EXERCISE_MEDIA_BUCKET).remove([item.path]);if(error)return showToast(error.message);
+ store.files=store.files.filter(file=>file.id!==id);if(store.coverFileId===id)delete store.coverFileId;
+ v124SignedMediaCache.delete(item.path);saveState();if(cloudUser)await saveCloud();await v124ApplyPrimaryImage(exerciseId);renderExerciseMedia(exerciseId);
 }
 async function renderExerciseMedia(exerciseId){
  const panel=byId("exerciseMediaPanel"),x=EX[exerciseId];if(!panel||!x)return;v124MediaExerciseId=exerciseId;const store=v124MediaStore(exerciseId),signedIn=!!cloudUser;
