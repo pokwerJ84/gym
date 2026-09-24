@@ -89,6 +89,19 @@ const BUSY=[
 ];
 
 function exercise(id){try{return EX?.[id]||null}catch(_){return null}}
+function ensureAssistedDips(){
+ try{
+  if(EX?.assisted_dips)return;
+  const item={
+   id:'assisted_dips',cs:'Dipy s dopomocí',en:'Assisted Dips',category:'triceps',mode:'weight',sets:3,range:'8–12',rest:90,topPick:true,
+   tips:{cs:['Ramena drž stažená dolů','Spouštěj se kontrolovaně','Nastav dopomoc tak, aby technika zůstala čistá'],en:['Keep shoulders down','Lower under control','Use enough assistance to keep technique clean']},
+   mistakes:{cs:['Krčení ramen','Rychlý pád dolů','Příliš malá dopomoc a ztráta techniky'],en:['Shrugging the shoulders','Dropping too quickly','Too little assistance and losing technique']},
+   guideImage:'./exercise-guides/v169/assisted_dips.svg',guideThumb:'./exercise-guides/v169/assisted_dips.svg',guideExact:true
+  };
+  if(Array.isArray(LIBRARY))LIBRARY.push(item);
+  try{refreshExerciseIndex()}catch(_){try{EX.assisted_dips=item}catch(__){}}
+ }catch(e){console.warn('[v168 assisted dips]',e)}
+}
 function validateItems(items){return items.filter(x=>exercise(x.id))}
 function busyActive(){try{return state?.programJourney?.programId==='busy_week'}catch(_){return false}}
 function busyStep(){
@@ -238,7 +251,7 @@ function hookRender(){
 }
 
 function install(){
- ensureBusyProgram();migrateLegacy();installBusyInstances();hookRender();
+ ensureAssistedDips();ensureBusyProgram();migrateLegacy();installBusyInstances();hookRender();
  document.addEventListener('click',ev=>{if(ev.target?.closest?.('.v137-session-control button'))setTimeout(decorateChooser,0)},true);
  requestAnimationFrame(decorate);
 }
