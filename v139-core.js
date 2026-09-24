@@ -16,6 +16,11 @@ function decorate(){
  if(!hero)return;
  let toggle=q('.v139-overview-toggle',hero),compact=q('.v139-overview-compact',hero);
  if(!toggle){toggle=document.createElement('button');toggle.type='button';toggle.className='v139-overview-toggle';toggle.addEventListener('click',e=>{e.stopPropagation();setCollapsed(!hero.classList.contains('v139-collapsed'))});hero.prepend(toggle)}
+ const programLine=q('.v123-program-line',hero);
+ if(programLine&&toggle.parentElement!==programLine){
+   toggle.classList.add('v139-inline-toggle');
+   programLine.appendChild(toggle);
+ }
  if(!compact){compact=document.createElement('button');compact.type='button';compact.className='v139-overview-compact';compact.addEventListener('click',()=>setCollapsed(false));hero.prepend(compact)}
  const day=currentDay(),idx=sessionIndex(day),name=sessionName(day);
  compact.innerHTML=`<span><small>${cs()?'TRÉNINK':'WORKOUT'}</small><strong>${planName()} · ${name} ${idx}/3</strong></span><b>${cs()?'Zobrazit':'Show'}⌄</b>`;
