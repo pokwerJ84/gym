@@ -26,11 +26,12 @@ function openChoice(title,actions){
 }
 
 function sessionLayout(day){
+ try{if(programId()==='busy_week'&&window.GymV165?.sessionLayout){const x=window.GymV165.sessionLayout(day);if(Array.isArray(x))return x}}catch(_){}
  try{if(typeof v124EnsureSessionLayout==='function')return v124EnsureSessionLayout(programId(),day)}catch(_){}
  state.programSessionLayouts=state.programSessionLayouts||{};state.programSessionLayouts[programId()]=state.programSessionLayouts[programId()]||{};
  return state.programSessionLayouts[programId()][day]=state.programSessionLayouts[programId()][day]||[];
 }
-function instanceSlot(instanceId){const p=String(instanceId||'').split(':');return p[0]==='base'?p.slice(2).join(':'):''}
+function instanceSlot(instanceId){const p=String(instanceId||'').split(':');if(p[0]==='base')return p.slice(2).join(':');if(p[0]==='busy')return p.slice(2).join(':');return''}
 
 function addPermanent(day,exerciseId){
  const x=exerciseObj(exerciseId);if(!x)return;
@@ -38,7 +39,7 @@ function addPermanent(day,exerciseId){
  if(items.some(i=>i.id===exerciseId)){toast(cs()?'Tento cvik už v session je.':'This exercise is already in this session.');return}
  const slotId=`custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
  items.push({slotId,id:exerciseId,sets:x.sets||3,range:x.range||'8–12'});
- try{ensureOrder(day)}catch(_){}persist();try{renderDay(day)}catch(_){};toast(cs()?'Cvik byl přidán natrvalo do této session.':'Exercise added permanently to this session.');
+ if(programId()!=='busy_week'){try{ensureOrder(day)}catch(_){}}persist();try{renderDay(day)}catch(_){};toast(cs()?'Cvik byl přidán natrvalo do této session.':'Exercise added permanently to this session.');
 }
 function removePermanent(day,instanceId){
  const slotId=instanceSlot(instanceId);if(!slotId){
@@ -49,7 +50,7 @@ function removePermanent(day,instanceId){
  const item=items[idx];
  if(!confirm(cs()?`Odebrat ${exerciseLabel(item.id)} z této session i do budoucna?`:`Remove ${exerciseLabel(item.id)} from this session permanently?`))return;
  items.splice(idx,1);
- try{delete state.days?.[day]?.entries?.[instanceId];state.days[day].order=(state.days[day].order||[]).filter(id=>id!==instanceId);ensureOrder(day)}catch(_){}
+ try{delete state.days?.[day]?.entries?.[instanceId];state.days[day].order=(state.days[day].order||[]).filter(id=>id!==instanceId);if(programId()!=='busy_week')ensureOrder(day)}catch(_){}
  persist();try{renderDay(day)}catch(_){};toast(cs()?'Cvik byl odebrán z této session.':'Exercise removed from this session.');
 }
 
