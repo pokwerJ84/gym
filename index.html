@@ -8665,10 +8665,36 @@ function v174MonthCells(baseIso){
  const mondayOffset=(first.getDay()+6)%7,start=new Date(year,month,1-mondayOffset,12,0,0);
  return Array.from({length:42},(_,i)=>{const x=new Date(start);x.setDate(start.getDate()+i);return{iso:uiIsoFromDate(x),day:x.getDate(),outside:x.getMonth()!==month}});
 }
+function v175WorkoutForDate(iso){
+ return (state.workouts||[]).filter(w=>w&&w.date===iso&&w.type!=="cardio").sort((a,b)=>(Number(b.savedAt)||0)-(Number(a.savedAt)||0))[0]||null;
+}
+function v175SessionLabel(workout){
+ if(!workout)return"";
+ if(workout.programId==="busy_week"&&window.GymV165?.busySession){
+   const s=window.GymV165.busySession(Number(workout.programSessionIndex)||0);
+   if(s)return lang()==="cs"?s.titleCs:s.titleEn;
+ }
+ try{
+   const p=PLAN_PRESETS?.[workout.programId]?.plans?.[workout.day];
+   return p?.["title_"+lang()]||p?.title_en||workout.programTitle||workout.day||"Workout";
+ }catch(_){return workout.programTitle||workout.day||"Workout"}
+}
+function v175SessionClass(workout){
+ const text=v175SessionLabel(workout).toLowerCase();
+ if(/strength|síla|silov/.test(text))return"strength";
+ if(/stability|stabilit/.test(text))return"stability";
+ if(/control|kontrol/.test(text))return"control";
+ if(/push/.test(text))return"push";
+ if(/pull/.test(text))return"pull";
+ if(/legs|leg|nohy|lower/.test(text))return"legs";
+ if(/arms|arm|ruce|biceps|triceps/.test(text))return"arms";
+ if(/abs|core|břich|oblique/.test(text))return"core";
+ return"workout";
+}
 function v174RenderMonth(){
  const d=v174EnsureMonthDialog(),body=byId("v174MonthBody");if(!body)return;
  const base=v174MonthCursor||calendarViewDate||selectedWorkoutDate||today(),cells=v174MonthCells(base),names=lang()==="cs"?["Po","Út","St","Čt","Pá","So","Ne"]:["M","T","W","T","F","S","S"];
- body.innerHTML=`<div class="v174-month-head"><button type="button" onclick="v174ChangeMonth(-1)" aria-label="${lang()==="cs"?"Předchozí měsíc":"Previous month"}">‹</button><div><small>${lang()==="cs"?"MĚSÍČNÍ PŘEHLED":"MONTH VIEW"}</small><strong>${esc(v174MonthTitle(base))}</strong></div><button type="button" onclick="v174ChangeMonth(1)" aria-label="${lang()==="cs"?"Další měsíc":"Next month"}">›</button></div><div class="v174-month-actions"><button type="button" onclick="v174GoToday()">${lang()==="cs"?"Dnes":"Today"}</button><span>● ${lang()==="cs"?"zelená = odcvičeno":"green = completed"}</span></div><div class="v174-month-weekdays">${names.map(n=>`<span>${n}</span>`).join("")}</div><div class="v174-month-grid">${cells.map(cell=>{const completed=completedWorkoutOnDate(cell.iso),cardio=cardioWorkoutOnDate(cell.iso),isToday=cell.iso===today(),selected=cell.iso===selectedWorkoutDate;return `<button type="button" class="v174-month-day ${cell.outside?"outside":""} ${completed?"completed":""} ${cardio?"cardio":""} ${isToday?"today":""} ${selected?"selected":""}" onclick="v174OpenMonthDay('${cell.iso}')"><span>${cell.day}</span><i>${completed?"✓":cardio?"♥":""}</i></button>`}).join("")}</div>`;
+ body.innerHTML=`<div class="v174-month-head"><button type="button" onclick="v174ChangeMonth(-1)" aria-label="${lang()==="cs"?"Předchozí měsíc":"Previous month"}">‹</button><div><small>${lang()==="cs"?"MĚSÍČNÍ PŘEHLED":"MONTH VIEW"}</small><strong>${esc(v174MonthTitle(base))}</strong></div><button type="button" onclick="v174ChangeMonth(1)" aria-label="${lang()==="cs"?"Další měsíc":"Next month"}">›</button></div><div class="v174-month-actions"><button type="button" onclick="v174GoToday()">${lang()==="cs"?"Dnes":"Today"}</button><span>${lang()==="cs"?"Klepni na barevný den pro cviky":"Tap a coloured day to open exercises"}</span></div><div class="v175-month-legend"><span class="strength">● Strength</span><span class="stability">● Stability</span><span class="control">● Control</span><span class="other">● ${lang()==="cs"?"Další":"Other"}</span></div><div class="v174-month-weekdays">${names.map(n=>`<span>${n}</span>`).join("")}</div><div class="v174-month-grid">${cells.map(cell=>{const workout=v175WorkoutForDate(cell.iso),completed=!!workout,sessionClass=workout?v175SessionClass(workout):"",sessionLabel=workout?v175SessionLabel(workout):"",cardio=cardioWorkoutOnDate(cell.iso),isToday=cell.iso===today(),selected=cell.iso===selectedWorkoutDate;return `<button type="button" title="${esc(sessionLabel)}" class="v174-month-day ${cell.outside?"outside":""} ${completed?"completed":""} ${sessionClass?("session-"+sessionClass):""} ${cardio?"cardio":""} ${isToday?"today":""} ${selected?"selected":""}" onclick="v174OpenMonthDay('${cell.iso}')"><span>${cell.day}</span><i>${completed?"✓":cardio?"♥":""}</i></button>`}).join("")}</div>`;
 }
 function v174OpenMonthCalendar(){
  const base=calendarViewDate||selectedWorkoutDate||today(),d=uiDateFromIso(base);v174MonthCursor=v174MonthIso(d.getFullYear(),d.getMonth(),1);v174RenderMonth();const dlg=v174EnsureMonthDialog();if(!dlg.open)dlg.showModal();
@@ -8681,8 +8707,16 @@ function v174GoToday(){
 }
 function v174OpenMonthDay(iso){
  byId("v174MonthDialog")?.close();
- if((state.workouts||[]).some(w=>w.date===iso))v124OpenCalendarDay(iso);
- else selectScheduleDate(iso);
+ const workout=v175WorkoutForDate(iso);
+ if(workout){
+   try{
+     if(window.GymV166?.renderHistorical&&window.GymV166.renderHistorical(iso))return;
+     if(window.GymV153?.renderHistorical&&window.GymV153.renderHistorical(iso))return;
+   }catch(e){console.warn("[month historical]",e)}
+   v124OpenCalendarDay(iso);return;
+ }
+ if(cardioWorkoutOnDate(iso)){v124OpenCalendarDay(iso);return}
+ selectScheduleDate(iso);
 }
 function v124WorkoutRecords(workout){
  const rows=[];Object.entries(state.history||{}).forEach(([exerciseId,items])=>(items||[]).forEach(record=>{if(workout.sessionKey?record.sessionKey===workout.sessionKey:(record.date===workout.date&&record.day===workout.day))rows.push({...record,exerciseId:record.exerciseId||exerciseId})}));return rows;
