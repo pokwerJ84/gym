@@ -8522,6 +8522,7 @@ renderWorkoutHistoryTab=function(rows){return renderWorkoutHistoryTabV123(rows)}
 const EXERCISE_MEDIA_BUCKET="exercise-media";
 let v124SessionEditTarget=null;
 let v124MediaExerciseId="";
+let v124MediaPurpose="gallery";
 const v124SignedMediaCache=new Map();
 
 function normalizeV124State(){
@@ -8624,8 +8625,13 @@ function v124MoveSessionExercise(day,slotId,direction){
 }
 function v124RemoveSessionExercise(day,slotId){
  const items=v124EnsureSessionLayout(v124ProgramId(),day);if(items.length<=1)return showToast(lang()==="cs"?"Session musí obsahovat alespoň jeden cvik.":"A session needs at least one exercise.");
- if(v124SessionHasProgress(day,slotId)&&!confirm(lang()==="cs"?"Odstranit cvik i jeho rozpracované série?":"Remove the exercise and its current sets?"))return;
- const index=items.findIndex(item=>item.slotId===slotId);if(index<0)return;items.splice(index,1);v124ClearSessionEntry(day,slotId);ensureOrder(day);saveState();openProgramSessions();renderDay(currentProgramDay());
+ const index=items.findIndex(item=>item.slotId===slotId);if(index<0)return;
+ const x=EX[items[index]?.id],name=x?itemName(x):(items[index]?.id||"");
+ const msg=v124SessionHasProgress(day,slotId)
+  ?(lang()==="cs"?`Opravdu chceš smazat ${name} z této session? Rozpracované série se také smažou.`:`Really remove ${name} from this session? Its current sets will also be deleted.`)
+  :(lang()==="cs"?`Opravdu chceš smazat ${name} z této session?`:`Really remove ${name} from this session?`);
+ if(!confirm(msg))return;
+ items.splice(index,1);v124ClearSessionEntry(day,slotId);ensureOrder(day);saveState();openProgramSessions();renderDay(currentProgramDay());
 }
 function v124ResetSession(day){
  if(!confirm(lang()==="cs"?"Vrátit tuto session do původního složení programu?":"Restore this session to the program default?"))return;
@@ -8648,8 +8654,40 @@ function v124OpenCalendarDay(iso){
 }
 
 function v124MediaStore(exerciseId){normalizeV124State();state.exerciseMedia[exerciseId]=state.exerciseMedia[exerciseId]||{files:[],links:[]};state.exerciseMedia[exerciseId].files=state.exerciseMedia[exerciseId].files||[];state.exerciseMedia[exerciseId].links=state.exerciseMedia[exerciseId].links||[];return state.exerciseMedia[exerciseId]}
-function v124OpenMediaInput(exerciseId,inputId){
- v124MediaExerciseId=exerciseId;if(!cloudUser||!supabaseClient){showToast(lang()==="cs"?"Pro bezpečné nahrání se nejdřív přihlas do cloudu.":"Sign in to cloud before uploading.");openCloud();return}const input=byId(inputId);if(input){input.value="";input.click()}
+function v124OpenMediaInput(exerciseId,inputId,purpose="gallery"){
+ v124MediaExerciseId=exerciseId;v124MediaPurpose=purpose||"gallery";
+ if(!cloudUser||!supabaseClient){showToast(lang()==="cs"?"Pro bezpečné nahrání se nejdřív přihlas do cloudu.":"Sign in to cloud before uploading.");openCloud();return}
+ const input=byId(inputId);if(input){input.value="";input.click()}
+}
+function v124ChooseMainImage(exerciseId){
+ v124OpenMediaInput(exerciseId,"exerciseImageFileInput","cover");
+}
+async function v124ResetMainImage(exerciseId){
+ const store=v124MediaStore(exerciseId);delete store.coverFileId;saveState();if(cloudUser)await saveCloud();await v124ApplyPrimaryImage(exerciseId);renderExerciseMedia(exerciseId);
+ showToast(lang()==="cs"?"Původní obrázek obnoven.":"Default image restored.");
+}
+async function v124SetMainImage(exerciseId,fileId){
+ const store=v124MediaStore(exerciseId),file=store.files.find(x=>x.id===fileId&&x.kind==="image");if(!file)return;
+ store.coverFileId=fileId;saveState();if(cloudUser)await saveCloud();await v124ApplyPrimaryImage(exerciseId);renderExerciseMedia(exerciseId);
+ showToast(lang()==="cs"?"Hlavní obrázek změněn.":"Main image changed.");
+}
+async function v124ApplyPrimaryImage(exerciseId){
+ const x=EX[exerciseId],img=byId("videoGuideImage"),wrap=byId("videoGuideWrap"),hint=byId("videoGuideHint");if(!x||!img||!wrap)return;
+ const store=v124MediaStore(exerciseId),file=store.files.find(f=>f.id===store.coverFileId&&f.kind==="image");
+ if(file&&cloudUser&&supabaseClient){
+   try{
+     const url=await v124SignedMediaUrl(file.path);if(v124MediaExerciseId!==exerciseId)return;
+     img.src=url;img.alt=itemName(x);wrap.hidden=false;wrap.classList.remove("expanded");
+     if(hint)hint.textContent=lang()==="cs"?"Tvůj vlastní hlavní obrázek.":"Your custom main image.";
+     return;
+   }catch(e){console.warn("[main exercise image]",e)}
+ }
+ if(x.guideImage){
+   img.src=x.guideImage;img.alt=itemName(x);wrap.hidden=false;
+   if(hint)hint.textContent=x.guideExact===false
+     ?(lang()==="cs"?"Dočasně je použitý nejbližší související návod.":"A closely related guide is temporarily used.")
+     :(lang()==="cs"?"Obrázkový návod vytvořený pro tuto aplikaci. Klepnutím obrázek zvětšíš.":"Illustrated guide created for this app. Tap the image to enlarge.");
+ }else{img.removeAttribute("src");img.alt="";wrap.hidden=true}
 }
 function v124SafeFileName(name){const parts=String(name||"file").toLowerCase().split("."),ext=(parts.length>1?parts.pop():"").replace(/[^a-z0-9]/g,"").slice(0,8);return `${Date.now()}-${uid()}${ext?`.${ext}`:""}`}
 function v124MatchesMediaKind(file,kind){const type=String(file?.type||"").toLowerCase(),name=String(file?.name||"").toLowerCase();return kind==="image"?(type.startsWith("image/")||/\.(jpe?g|png|webp|heic|heif)$/.test(name)):(type.startsWith("video/")||/\.(mp4|mov|webm)$/.test(name))}
@@ -8669,9 +8707,14 @@ async function uploadExerciseMediaFiles(fileList,kind){
    const mime=v124MediaMime(file);
    const {error}=await supabaseClient.storage.from(EXERCISE_MEDIA_BUCKET).upload(path,file,{contentType:mime,upsert:false,cacheControl:"3600"});
    if(error){showToast(`${file.name}: ${error.message}`);continue}
-   v124MediaStore(exerciseId).files.push({id:uid(),path,kind,mime,name:file.name,size:file.size,createdAt:Date.now()});uploaded++;
+   const rec={id:uid(),path,kind,mime,name:file.name,size:file.size,createdAt:Date.now()};
+   const store=v124MediaStore(exerciseId);store.files.push(rec);
+   if(kind==="image"&&v124MediaPurpose==="cover")store.coverFileId=rec.id;
+   uploaded++;
  }
  if(uploaded){saveState();if(cloudUser)await saveCloud();showToast(lang()==="cs"?`${uploaded} souborů uloženo do Supabase.`:`${uploaded} files saved to Supabase.`)}
+ const purpose=v124MediaPurpose;v124MediaPurpose="gallery";
+ if(purpose==="cover")await v124ApplyPrimaryImage(exerciseId);
  await renderExerciseMedia(exerciseId);
 }
 async function v124SignedMediaUrl(path){
@@ -8690,16 +8733,16 @@ async function v124DeleteExerciseMedia(exerciseId,id){
 async function renderExerciseMedia(exerciseId){
  const panel=byId("exerciseMediaPanel"),x=EX[exerciseId];if(!panel||!x)return;v124MediaExerciseId=exerciseId;const store=v124MediaStore(exerciseId),signedIn=!!cloudUser;
  const savedLinks=[...(x.videoUrl?[{id:"built-in",url:x.videoUrl,label:lang()==="cs"?"Uložené video":"Saved video",fixed:true}]:[]),...store.links];
- panel.innerHTML=`<div class="v124-media-head"><h3>${lang()==="cs"?"Moje obrázky a videa":"My images and videos"}</h3><small>${signedIn?(lang()==="cs"?"Soukromě v cloudu":"Private cloud storage"):(lang()==="cs"?"Pro nahrání se přihlas":"Sign in to upload")}</small></div><div class="v124-media-actions"><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseImageCameraInput')">📷 ${lang()==="cs"?"Vyfotit":"Take photo"}</button><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseImageFileInput')">▧ ${lang()==="cs"?"Přidat obrázek":"Add image"}</button><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseVideoCameraInput')">● ${lang()==="cs"?"Natočit video":"Record video"}</button><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseVideoFileInput')">▶ ${lang()==="cs"?"Přidat video":"Add video"}</button></div><div id="exerciseMediaStatus" class="v124-media-status"></div><div id="exerciseMediaGrid" class="v124-media-grid">${store.files.length?(lang()==="cs"?"Načítám média…":"Loading media…"):""}</div><div class="v124-link-form"><input id="exerciseLinkInput" type="url" placeholder="https://youtube.com/…"><button class="primary" onclick="v124AddExerciseLink('${exerciseId}')">＋ ${lang()==="cs"?"Uložit odkaz":"Save link"}</button></div><div class="v124-links">${savedLinks.map(link=>`<div class="v124-link-row"><a href="${esc(link.url)}" target="_blank" rel="noopener">▶ ${esc(link.label||link.url)}</a>${link.fixed?"":`<button onclick="v124RemoveExerciseLink('${exerciseId}','${link.id}')">×</button>`}</div>`).join("")}</div>`;
+ panel.innerHTML=`<div class="v124-media-head"><h3>${lang()==="cs"?"Moje obrázky a videa":"My images and videos"}</h3><small>${signedIn?(lang()==="cs"?"Soukromě v cloudu":"Private cloud storage"):(lang()==="cs"?"Pro nahrání se přihlas":"Sign in to upload")}</small></div><div class="v170-cover-actions"><button class="primary" ${signedIn?"":"disabled"} onclick="v124ChooseMainImage('${exerciseId}')">▧ ${lang()==="cs"?"Změnit hlavní obrázek":"Change main image"}</button>${store.coverFileId?`<button class="secondary" onclick="v124ResetMainImage('${exerciseId}')">↺ ${lang()==="cs"?"Vrátit původní":"Reset image"}</button>`:""}</div><div class="v124-media-actions"><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseImageCameraInput')">📷 ${lang()==="cs"?"Vyfotit":"Take photo"}</button><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseImageFileInput')">▧ ${lang()==="cs"?"Přidat obrázek":"Add image"}</button><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseVideoCameraInput')">● ${lang()==="cs"?"Natočit video":"Record video"}</button><button ${signedIn?"":"disabled"} onclick="v124OpenMediaInput('${exerciseId}','exerciseVideoFileInput')">▶ ${lang()==="cs"?"Přidat video":"Add video"}</button></div><div id="exerciseMediaStatus" class="v124-media-status"></div><div id="exerciseMediaGrid" class="v124-media-grid">${store.files.length?(lang()==="cs"?"Načítám média…":"Loading media…"):""}</div><div class="v124-link-form"><input id="exerciseLinkInput" type="url" placeholder="https://youtube.com/…"><button class="primary" onclick="v124AddExerciseLink('${exerciseId}')">＋ ${lang()==="cs"?"Uložit odkaz":"Save link"}</button></div><div class="v124-links">${savedLinks.map(link=>`<div class="v124-link-row"><a href="${esc(link.url)}" target="_blank" rel="noopener">▶ ${esc(link.label||link.url)}</a>${link.fixed?"":`<button onclick="v124RemoveExerciseLink('${exerciseId}','${link.id}')">×</button>`}</div>`).join("")}</div>`;
  const grid=byId("exerciseMediaGrid");if(!grid||!store.files.length)return;if(!signedIn){grid.innerHTML=`<p class="subtitle">${lang()==="cs"?"Přihlas se pro zobrazení soukromých médií.":"Sign in to view private media."}</p>`;return}
- const rendered=await Promise.all(store.files.map(async file=>{try{const url=await v124SignedMediaUrl(file.path);return `<div class="v124-media-item">${file.kind==="video"?`<video src="${esc(url)}" controls playsinline preload="metadata"></video>`:`<img src="${esc(url)}" alt="${esc(file.name||"")}" loading="lazy">`}<button onclick="v124DeleteExerciseMedia('${exerciseId}','${file.id}')">×</button></div>`}catch{return `<div class="v124-media-item"><p class="subtitle">${lang()==="cs"?"Soubor nelze načíst":"Unable to load file"}</p></div>`}}));if(v124MediaExerciseId===exerciseId&&byId("exerciseMediaGrid"))byId("exerciseMediaGrid").innerHTML=rendered.join("");
+ const rendered=await Promise.all(store.files.map(async file=>{try{const url=await v124SignedMediaUrl(file.path);return `<div class="v124-media-item ${store.coverFileId===file.id?"v170-main-image":""}">${file.kind==="video"?`<video src="${esc(url)}" controls playsinline preload="metadata"></video>`:`<img src="${esc(url)}" alt="${esc(file.name||"")}" loading="lazy">`}${file.kind==="image"?`<button class="v170-use-cover" onclick="v124SetMainImage('${exerciseId}','${file.id}')">${store.coverFileId===file.id?(lang()==="cs"?"✓ Hlavní":"✓ Main"):(lang()==="cs"?"Použít":"Use")}</button>`:""}<button onclick="v124DeleteExerciseMedia('${exerciseId}','${file.id}')">×</button></div>`}catch{return `<div class="v124-media-item"><p class="subtitle">${lang()==="cs"?"Soubor nelze načíst":"Unable to load file"}</p></div>`}}));if(v124MediaExerciseId===exerciseId&&byId("exerciseMediaGrid"))byId("exerciseMediaGrid").innerHTML=rendered.join("");
 }
 const renderExerciseDetailActionsV123ForV124=renderExerciseDetailActions;
 renderExerciseDetailActions=function(exerciseId,day="",instanceId=""){
  const wrap=byId("exerciseDetailActions");if(!wrap)return;wrap.innerHTML=`${day&&instanceId?`<button class="detail-start" type="button" onclick="videoDialog.close();startExercise('${day}','${instanceId}')">▶ ${lang()==="cs"?"Otevřít zápis cviku":"Open exercise log"}</button>`:""}<button class="detail-history" type="button" onclick="videoDialog.close();openHistory('${exerciseId}')">◔ ${lang()==="cs"?"Historie cviku":"Exercise history"}</button>${day&&instanceId?`<button class="detail-change" type="button" onclick="videoDialog.close();openLibrary('${day}','replace','${instanceId}')">↔ ${t("changeExercise")}</button>`:""}`;
 };
 const openVideoV123ForV124=openVideo;
-openVideo=function(exerciseId,day="",instanceId=""){openVideoV123ForV124(exerciseId,day,instanceId);renderExerciseMedia(exerciseId)};
+openVideo=function(exerciseId,day="",instanceId=""){openVideoV123ForV124(exerciseId,day,instanceId);v124MediaExerciseId=exerciseId;renderExerciseMedia(exerciseId);v124ApplyPrimaryImage(exerciseId)};
 
 function init(){
  normalizeV124State();installExerciseImageRecovery();
