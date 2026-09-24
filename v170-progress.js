@@ -1,7 +1,7 @@
 /* Gym Tracker v170: exercise, session and dashboard progress */
 (()=>{
 'use strict';
-const V={release:'v170'};
+const V={release:'v171'};
 const q=(s,r=document)=>r?.querySelector?.(s)||null;
 const qa=(s,r=document)=>Array.from(r?.querySelectorAll?.(s)||[]);
 const cs=()=>{try{return typeof lang==='function'&&lang()==='cs'}catch(_){return true}};
@@ -59,10 +59,22 @@ function exerciseMarkup(id,compact){
  const def=options.find(x=>x.key===key),rows=series(id,key),all=records(id),best=rows.length?Math.max(...rows.map(r=>r.value)):null,last=rows.at(-1)?.value??null,tr=trend(rows);
  let trendText='–';if(tr){trendText=tr.delta>0?'↑ '+fmt(Math.abs(tr.delta))+' '+def.unit+' (+'+fmt(tr.pct)+'%)':tr.delta<0?'↓ '+fmt(Math.abs(tr.delta))+' '+def.unit:(cs()?'beze změny':'no change')}
  let tabs='';if(options.length>1){tabs='<div class="v170-metric-tabs">'+options.map(d=>'<button type="button" class="'+(d.key===key?'active':'')+'" data-v170-metric="'+d.key+'" data-v170-ex="'+esc(id)+'">'+esc(d.label)+'</button>').join('')+'</div>'}
- return '<section class="v170-ex-progress '+(compact?'compact':'')+'" data-exercise="'+esc(id)+'"><div class="v170-progress-head"><div><small>'+(cs()?'PROGRESS CVIKU':'EXERCISE PROGRESS')+'</small><h3>'+(cs()?'Vývoj výkonu':'Performance trend')+'</h3></div><span>'+all.length+' '+(cs()?'tréninků':'sessions')+'</span></div>'+tabs+'<div class="v170-kpis"><div><span>'+(cs()?'Nejlepší':'Best')+'</span><strong>'+(best==null?'–':fmt(best)+' '+def.unit)+'</strong></div><div><span>'+(cs()?'Poslední':'Last')+'</span><strong>'+(last==null?'–':fmt(last)+' '+def.unit)+'</strong></div><div><span>'+(cs()?'Trend':'Trend')+'</span><strong>'+esc(trendText)+'</strong></div></div><div class="v170-chart-wrap">'+chart(rows,def.unit)+'</div></section>';
+ return '<section class="v170-ex-progress '+(compact?'compact':'')+'" data-exercise="'+esc(id)+'"><div class="v170-progress-head"><div><small>'+(cs()?'PROGRESS CVIKU':'EXERCISE PROGRESS')+'</small><h3>'+(cs()?'Vývoj výkonu':'Performance trend')+'</h3></div><div class="v171-progress-tools"><span>'+all.length+' '+(cs()?'tréninků':'sessions')+'</span><button type="button" class="v171-expand-chart" data-v171-expand="'+esc(id)+'" aria-label="'+(cs()?'Zvětšit graf':'Expand chart')+'">⛶</button></div></div>'+tabs+'<div class="v170-kpis"><div><span>'+(cs()?'Nejlepší':'Best')+'</span><strong>'+(best==null?'–':fmt(best)+' '+def.unit)+'</strong></div><div><span>'+(cs()?'Poslední':'Last')+'</span><strong>'+(last==null?'–':fmt(last)+' '+def.unit)+'</strong></div><div><span>'+(cs()?'Trend':'Trend')+'</span><strong>'+esc(trendText)+'</strong></div></div><div class="v170-chart-wrap">'+chart(rows,def.unit)+'</div></section>';
 }
 function bind(root){
  qa('[data-v170-metric]',root).forEach(btn=>btn.onclick=()=>{const id=btn.dataset.v170Ex,key=btn.dataset.v170Metric;metricBy[id]=key;const card=btn.closest('.v170-ex-progress');if(!card)return;const box=document.createElement('div');box.innerHTML=exerciseMarkup(id,card.classList.contains('compact'));card.replaceWith(box.firstElementChild);bind(root)});
+ qa('[data-v171-expand]',root).forEach(btn=>btn.onclick=()=>openExpanded(btn.dataset.v171Expand));
+}
+function ensureExpandedDialog(){
+ let d=document.getElementById('v171ChartDialog');if(d)return d;
+ d=document.createElement('dialog');d.id='v171ChartDialog';d.className='v171-chart-dialog';
+ d.innerHTML='<div class="v171-chart-modal"><button type="button" class="v171-chart-close" aria-label="Close">×</button><div id="v171ChartBody"></div></div>';
+ document.body.appendChild(d);q('.v171-chart-close',d).addEventListener('click',()=>d.close());d.addEventListener('click',e=>{if(e.target===d)d.close()});return d;
+}
+function openExpanded(id){
+ const d=ensureExpandedDialog(),body=q('#v171ChartBody',d);if(!body)return;
+ body.innerHTML=exerciseMarkup(id,false).replace('class="v170-ex-progress ','class="v170-ex-progress v171-expanded ');
+ bind(body);if(!d.open)d.showModal();
 }
 function injectDetail(id){const actions=q('#exerciseDetailActions');if(!actions)return;q('.v170-ex-progress',q('#videoDialog'))?.remove();actions.insertAdjacentHTML('afterend',exerciseMarkup(id,false));bind(q('#videoDialog'))}
 function injectHistory(id){const content=q('#historyContent');if(!content)return;q('.v170-ex-progress',content)?.remove();content.insertAdjacentHTML('afterbegin',exerciseMarkup(id,true));bind(content)}
