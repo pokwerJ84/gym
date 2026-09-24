@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Assisted Dips exercise guide</title>
+<desc id="desc">Three-step instructional illustration for assisted dips on a machine.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#10283a"/><stop offset="1" stop-color="#1d4662"/></linearGradient>
+  <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#244f6c"/><stop offset="1" stop-color="#18384f"/></linearGradient>
+  <style>
+    .p{fill:url(#panel);stroke:#5c89a6;stroke-width:3}.m{fill:none;stroke:#8fb8d0;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
+    .body{fill:none;stroke:#e9f4fb;stroke-width:18;stroke-linecap:round;stroke-linejoin:round}.joint{fill:#e9f4fb}
+    .accent{fill:none;stroke:#67d6d0;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}.txt{fill:#eaf5fb;font-family:Arial,sans-serif;font-weight:700}
+    .sub{fill:#9fc2d7;font-family:Arial,sans-serif;font-weight:600}.arrow{fill:none;stroke:#67d6d0;stroke-width:8;stroke-linecap:round}
+  </style>
+  <marker id="ah" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67d6d0"/></marker>
+</defs>
+<rect width="1200" height="720" rx="42" fill="url(#bg)"/>
+<text x="54" y="68" class="txt" font-size="34">ASSISTED DIPS</text>
+<text x="54" y="104" class="sub" font-size="20">Controlled shoulders • elbows track back • use enough assistance</text>
+
+<g transform="translate(40,140)">
+  <rect class="p" width="350" height="520" rx="28"/>
+  <text x="24" y="48" class="txt" font-size="24">1 • START</text>
+  <path class="m" d="M68 430V142M68 180H282M282 180V430M108 410H242"/>
+  <path class="m" d="M116 240H84M234 240H266"/>
+  <circle class="joint" cx="176" cy="170" r="28"/>
+  <path class="body" d="M176 200L176 310M176 225L120 245M176 225L232 245M176 310L145 382M176 310L207 382"/>
+  <path class="accent" d="M120 245L102 292M232 245L250 292"/>
+  <path class="accent" d="M139 388H216"/>
+  <text x="24" y="486" class="sub" font-size="18">Chest tall, shoulders down</text>
+</g>
+
+<g transform="translate(425,140)">
+  <rect class="p" width="350" height="520" rx="28"/>
+  <text x="24" y="48" class="txt" font-size="24">2 • LOWER</text>
+  <path class="m" d="M68 430V142M68 180H282M282 180V430M108 410H242"/>
+  <path class="m" d="M116 240H84M234 240H266"/>
+  <circle class="joint" cx="176" cy="218" r="28"/>
+  <path class="body" d="M176 248L176 340M176 268L128 290M176 268L224 290M176 340L148 397M176 340L204 397"/>
+  <path class="accent" d="M128 290L103 244M224 290L249 244"/>
+  <path class="accent" d="M139 405H216"/>
+  <path class="arrow" d="M306 196V300" marker-end="url(#ah)"/>
+  <text x="24" y="486" class="sub" font-size="18">Lower slowly; elbows bend back</text>
+</g>
+
+<g transform="translate(810,140)">
+  <rect class="p" width="350" height="520" rx="28"/>
+  <text x="24" y="48" class="txt" font-size="24">3 • PRESS</text>
+  <path class="m" d="M68 430V142M68 180H282M282 180V430M108 410H242"/>
+  <path class="m" d="M116 240H84M234 240H266"/>
+  <circle class="joint" cx="176" cy="170" r="28"/>
+  <path class="body" d="M176 200L176 310M176 225L120 245M176 225L232 245M176 310L145 382M176 310L207 382"/>
+  <path class="accent" d="M120 245L102 292M232 245L250 292"/>
+  <path class="accent" d="M139 388H216"/>
+  <path class="arrow" d="M306 300V196" marker-end="url(#ah)"/>
+  <text x="24" y="486" class="sub" font-size="18">Press smoothly; don't shrug</text>
+</g>
+</svg>
