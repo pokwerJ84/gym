@@ -212,3 +212,34 @@ body.dark .v120-workout-summary .v123-program-line{background:linear-gradient(13
 .v170-session-copy{min-width:0;flex:1}
 .v170-session-bar{height:5px;margin-top:7px;border-radius:999px;background:color-mix(in srgb,var(--line) 68%,transparent);overflow:hidden}
 .v170-session-bar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 70%,white))}
+
+
+/* v171 expandable progress chart */
+.v171-progress-tools{display:flex;align-items:center;gap:8px}
+.v171-progress-tools>span{font-size:11px;color:var(--muted);font-weight:800;white-space:nowrap}
+.v171-expand-chart{
+  width:40px;height:40px;min-width:40px;padding:0;border-radius:12px;border:1px solid var(--line);
+  background:var(--surface);color:var(--text);display:grid;place-items:center;font-size:18px;font-weight:900
+}
+.v171-chart-dialog{
+  width:min(980px,calc(100vw - 18px));max-width:none;border:0;padding:0;background:transparent;color:var(--text)
+}
+.v171-chart-dialog::backdrop{background:rgba(1,10,16,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.v171-chart-modal{
+  position:relative;padding:16px;border:1px solid color-mix(in srgb,var(--primary) 30%,var(--line));
+  border-radius:24px;background:var(--surface2);box-shadow:0 24px 70px rgba(0,0,0,.46)
+}
+.v171-chart-close{
+  position:absolute;top:12px;right:12px;z-index:8;width:44px;height:44px;border-radius:14px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:22px;font-weight:900
+}
+.v171-expanded{margin:0;padding-top:56px}
+.v171-expanded .v170-chart-svg{min-height:320px}
+.v171-expanded .v170-chart-wrap{padding:12px 10px 6px}
+.v171-expanded .v170-kpis{grid-template-columns:repeat(3,1fr)}
+@media(max-width:600px){
+  .v171-chart-dialog{width:calc(100vw - 10px)}
+  .v171-chart-modal{padding:10px;border-radius:18px}
+  .v171-expanded{padding:52px 10px 12px}
+  .v171-expanded .v170-chart-svg{min-height:250px}
+}
