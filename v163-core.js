@@ -88,6 +88,12 @@ function decorateCards(day){
   const btn=document.createElement('button');btn.type='button';btn.className='v163-card-menu';btn.textContent='•••';btn.setAttribute('aria-label',cs()?'Upravit cvik':'Edit exercise');
   btn.onclick=ev=>{ev.preventDefault();ev.stopPropagation();openCardMenu(day,id)};card.appendChild(btn);
  });
+ const footer=q('.modern-plan-footer',root);
+ if(footer&&!q('.v178-manual-save',footer)){
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary full v178-manual-save';
+   btn.textContent=(cs()?'💾 Uložit session ručně':'💾 Save session manually');
+   btn.onclick=()=>openManualSave(day);footer.appendChild(btn);
+ }
 }
 function hookRender(){
  try{
@@ -96,6 +102,66 @@ function hookRender(){
  }catch(_){}
 }
 
+function manualSaveDialog(){
+ let d=q('#v178ManualSaveDialog');if(d)return d;
+ d=document.createElement('dialog');d.id='v178ManualSaveDialog';d.className='v178-manual-dialog';
+ d.innerHTML='<div class="v178-manual-shell"><button type="button" class="v178-manual-close">×</button><small>SESSION</small><h3></h3><p></p><label><span></span><input type="date" class="v178-manual-date"></label><button type="button" class="primary v178-manual-confirm"></button></div>';
+ document.body.appendChild(d);q('.v178-manual-close',d).onclick=()=>d.close();d.addEventListener('click',e=>{if(e.target===d)d.close()});return d;
+}
+function openManualSave(day){
+ const d=manualSaveDialog(),dateInput=q('.v178-manual-date',d);
+ q('h3',d).textContent=cs()?'Uložit session ručně':'Save session manually';
+ q('p',d).textContent=cs()?'Vyber datum, ke kterému se má tento workout uložit.':'Choose the date for this workout.';
+ q('label span',d).textContent=cs()?'Datum workoutu':'Workout date';
+ q('.v178-manual-confirm',d).textContent=cs()?'Uložit session':'Save session';
+ dateInput.value=String(selectedWorkoutDate||today());
+ q('.v178-manual-confirm',d).onclick=()=>manualSaveSession(day,dateInput.value||today());
+ if(!d.open)d.showModal();
+}
+function removeHistoryForSession(key){
+ if(!key)return;
+ Object.keys(state.history||{}).forEach(id=>{state.history[id]=(state.history[id]||[]).filter(r=>r?.sessionKey!==key);if(!state.history[id].length)delete state.history[id]});
+}
+async function manualSaveSession(day,date){
+ try{
+  const d=state.days?.[day];if(!d)return;
+  const instances=activeInstances(day);if(!instances.length)return;
+  const key=d.programSessionKey||('manual:'+programId()+':'+day+':'+Date.now());
+  const items=[];let real=0;
+  instances.forEach((inst,index)=>{
+   const m=metaFor(day,inst),e=entry(day,inst.instanceId);
+   const sets=(e.sets||[]).filter(s=>s?._complete===true).map(s=>{const copy={...s};delete copy._complete;return copy});
+   const done=!!e.done&&!e.skipped&&(sets.length||e.minutes);if(done)real++;
+   items.push({order:index,instanceId:inst.instanceId,exerciseId:m.id,mode:m.mode,skipped:!!e.skipped,done:!!done,sets,minutes:e.minutes||'',speed:e.speed||'',incline:e.incline||'',setsTarget:m.sets||inst.sets||3,range:m.range||inst.range||'',category:m.category||'',guideThumb:m.guideThumb||m.guideImage||''});
+  });
+  if(!real){alert(cs()?'Nejdřív ulož alespoň jeden skutečně odcvičený cvik.':'Save at least one completed exercise first.');return}
+  const existing=(state.workouts||[]).find(w=>w&&w.type!=='cardio'&&w.sessionKey===key);
+  if(existing&&!confirm(cs()?'Tato session už je uložená. Přepsat ji novým stavem?':'This session is already saved. Replace it with the current state?'))return;
+  removeHistoryForSession(key);
+  items.filter(x=>x.done&&!x.skipped).forEach(item=>{
+   const rec={date,day,exerciseId:item.exerciseId,mode:item.mode||exerciseObj(item.exerciseId)?.mode||'weight',notes:'',sessionKey:key,programId:programId()};
+   if(rec.mode==='cardio'){rec.minutes=item.minutes||'';rec.speed=item.speed||''}else rec.sets=item.sets.map(s=>({...s}));
+   state.history[item.exerciseId]=state.history[item.exerciseId]||[];state.history[item.exerciseId].push(rec);
+  });
+  const payload={type:'strength',date,day,minutes:0,note:'',savedAt:Date.now(),sessionKey:key,programId:programId(),programTitle:(typeof currentProgramLabel==='function'?currentProgramLabel():''),programSessionIndex:d.programSessionIndex??state.programJourney?.sessionIndex??0,exerciseSnapshot:items,exerciseSnapshotVersion:178,manualSave:true};
+  if(existing)Object.assign(existing,payload);else state.workouts.push(payload);
+  d.completed=true;d.programSessionKey=key;
+  if(!existing&&Number(d.programSessionIndex)===Number(state.programJourney?.sessionIndex)){
+   state.programJourney.sessionIndex=(Number(state.programJourney.sessionIndex)||0)+1;
+   const limit=(typeof currentProgramMeta==='function'?(Number(currentProgramMeta().sessions)||Infinity):Infinity);
+   state.programJourney.completedSessions=Math.min(limit,(Number(state.programJourney.completedSessions)||0)+1);
+  }
+  if(state.activeWorkout?.day===day){state.activeWorkout=null;try{clearInterval(workoutTick);clearInterval(restTick);clearWorkoutReminder();stopPostRestAlarm()}catch(_){}}
+  persist();try{if(typeof saveCloud==='function')await saveCloud()}catch(_){}
+  try{q('#v178ManualSaveDialog')?.close()}catch(_){}
+  try{renderHistoryScreen();renderProgress()}catch(_){}
+  const next=(typeof currentProgramDay==='function'?currentProgramDay():day);
+  try{prepareProgramSession(next)}catch(_){}
+  try{showToday(next,today())}catch(_){try{renderDay(next)}catch(__){}}
+  toast((cs()?'Session uložena k datu ':'Session saved for ')+date+' ✓');
+ }catch(e){console.warn('[v178 manual save]',e);alert(cs()?'Session se nepodařilo uložit.':'Could not save session.')}
+}
+window.v178OpenManualSave=openManualSave;window.v178ManualSaveSession=manualSaveSession;
 function captureSnapshot(){
  try{
   const w=state?.activeWorkout;if(!w)return null;const day=w.day,date=w.date||state.days?.[day]?.date||workoutDate();
@@ -112,7 +178,7 @@ function attachSnapshot(snap){
 function wrapFinish(name){
  try{
   const native=window[name]||eval(`typeof ${name}==='function'?${name}:null`);if(typeof native!=='function'||native.__v163)return;
-  const f=async function(...args){const snap=captureSnapshot();const r=await native.apply(this,args);attachSnapshot(snap);if(snap?.date)setTimeout(()=>window.GymV163?.renderHistorical?.(snap.date),0);return r};f.__v163=true;f.__native=native;try{eval(`${name}=f`)}catch(_){}window[name]=f;
+  const f=async function(...args){const snap=captureSnapshot();const r=await native.apply(this,args);attachSnapshot(snap);return r};f.__v163=true;f.__native=native;try{eval(`${name}=f`)}catch(_){}window[name]=f;
  }catch(_){}
 }
 
