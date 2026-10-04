@@ -114,7 +114,7 @@ function openManualSave(day){
  q('p',d).textContent=cs()?'Vyber datum, ke kterému se má tento workout uložit.':'Choose the date for this workout.';
  q('label span',d).textContent=cs()?'Datum workoutu':'Workout date';
  q('.v178-manual-confirm',d).textContent=cs()?'Uložit session':'Save session';
- dateInput.value=String(selectedWorkoutDate||today());
+ dateInput.value=today();
  q('.v178-manual-confirm',d).onclick=()=>manualSaveSession(day,dateInput.value||today());
  if(!d.open)d.showModal();
 }
@@ -136,7 +136,9 @@ async function manualSaveSession(day,date){
   });
   if(!real){alert(cs()?'Nejdřív ulož alespoň jeden skutečně odcvičený cvik.':'Save at least one completed exercise first.');return}
   const existing=(state.workouts||[]).find(w=>w&&w.type!=='cardio'&&w.sessionKey===key);
-  if(existing&&!confirm(cs()?'Tato session už je uložená. Přepsat ji novým stavem?':'This session is already saved. Replace it with the current state?'))return;
+  const dateConflict=(state.workouts||[]).find(w=>w&&w.type!=='cardio'&&w.date===date&&w.sessionKey!==key);
+  if(existing&&!confirm(cs()?'Tato session už je uložená. Aktualizovat její záznam aktuálním stavem?':'This session is already saved. Update it with the current state?'))return;
+  if(!existing&&dateConflict&&!confirm(cs()?'Pro toto datum už existuje workout. Uložit ještě jeden workout ke stejnému datu?':'A workout already exists for this date. Save another workout on the same date?'))return;
   removeHistoryForSession(key);
   items.filter(x=>x.done&&!x.skipped).forEach(item=>{
    const rec={date,day,exerciseId:item.exerciseId,mode:item.mode||exerciseObj(item.exerciseId)?.mode||'weight',notes:'',sessionKey:key,programId:programId()};
@@ -162,6 +164,8 @@ async function manualSaveSession(day,date){
  }catch(e){console.warn('[v178 manual save]',e);alert(cs()?'Session se nepodařilo uložit.':'Could not save session.')}
 }
 window.v178OpenManualSave=openManualSave;window.v178ManualSaveSession=manualSaveSession;
+/* The index.html v177 save button duplicates this one; keep the single styled button. */
+window.v177InstallManualSaveButton=()=>{};
 function captureSnapshot(){
  try{
   const w=state?.activeWorkout;if(!w)return null;const day=w.day,date=w.date||state.days?.[day]?.date||workoutDate();
