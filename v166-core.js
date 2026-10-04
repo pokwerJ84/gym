@@ -7,7 +7,7 @@
 (()=>{
 'use strict';
 
-const V={release:'v166'};
+const V={release:'v177'};
 const q=(s,r=document)=>r?.querySelector?.(s)||null;
 const qa=(s,r=document)=>Array.from(r?.querySelectorAll?.(s)||[]);
 const cs=()=>{try{return typeof lang==='function'&&lang()==='cs'}catch(_){return true}};
@@ -187,9 +187,26 @@ function todayRoute(...args){
 function restoreSelectedCompleted(){
   try{
     if(state?.activeWorkout)return;
-    const selected=String(selectedWorkoutDate||localStorage.getItem('gymSelectedWorkoutDate')||todayIso());
-    if(completedWorkout(selected))renderHistorical(selected);
+    const now=todayIso();
+    const selected=String(selectedWorkoutDate||localStorage.getItem('gymSelectedWorkoutDate')||now);
+    /* Never resurrect an old historical day into Today on app start/resume.
+       Historical dates are rendered only after an explicit calendar/history action. */
+    if(selected!==now)return;
+    if(completedWorkout(now))renderHistorical(now);
   }catch(_){}
+}
+function normalizeTodayOnStartup(){
+  try{
+    if(state?.activeWorkout)return false;
+    const now=todayIso();
+    const selected=String(selectedWorkoutDate||localStorage.getItem('gymSelectedWorkoutDate')||'');
+    if(selected===now)return false;
+    clearHistorical();
+    selectedWorkoutDate=now;
+    calendarViewDate=now;
+    localStorage.setItem('gymSelectedWorkoutDate',now);
+    return true;
+  }catch(_){return false}
 }
 
 /* ---------- saved-set delete button ---------- */
@@ -336,8 +353,10 @@ function install(){
   ['renderLive','openHistory','renderDay'].forEach(name=>hookAfter(name,enhanceDeleteButtons));
   enhanceDeleteButtons();
   installRest();
-  [80,350,900].forEach(ms=>setTimeout(restoreSelectedCompleted,ms));
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden){setTimeout(restoreSelectedCompleted,50);updateRestMini()}});
+  const resetToToday=normalizeTodayOnStartup();
+  if(resetToToday)setTimeout(()=>{try{todayRoute()}catch(_){}},40);
+  [120,420].forEach(ms=>setTimeout(restoreSelectedCompleted,ms));
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){setTimeout(()=>{normalizeTodayOnStartup();restoreSelectedCompleted()},50);updateRestMini()}});
 }
 window.GymV153={release:'v166-compat',completedWorkout,recordsFor,renderHistorical,clearHistorical};
 V.completedWorkout=completedWorkout;V.recordsFor=recordsFor;V.renderHistorical=renderHistorical;V.routeDate=routeDate;V.updateRest=updateRestMini;
