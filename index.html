@@ -8367,6 +8367,18 @@ function normalizeProgramJourney(){
 }
 normalizeProgramJourney();
 persistCurrentState();
+function v177SyncProgramJourneyFromHistory(){
+ const pid=state.programJourney?.programId||state.settings?.workoutStyle||"balanced";
+ const rows=(state.workouts||[]).filter(w=>w&&w.type!=="cardio"&&w.programId===pid&&Number.isFinite(Number(w.programSessionIndex)));
+ if(!rows.length)return false;
+ const next=Math.max(...rows.map(w=>Number(w.programSessionIndex)))+1,current=Math.max(0,Number(state.programJourney?.sessionIndex)||0);
+ if(next<=current)return false;
+ state.programJourney.sessionIndex=next;
+ const limit=Number((PROGRAM_META[pid]||{}).sessions)||Infinity;
+ state.programJourney.completedSessions=Math.min(limit,Math.max(Number(state.programJourney.completedSessions)||0,next));
+ return true;
+}
+v177SyncProgramJourneyFromHistory();
 function currentProgramDay(offset=0){return DAYS[(Math.max(0,Number(state.programJourney?.sessionIndex)||0)+offset)%DAYS.length]}
 function currentProgramMeta(){return PROGRAM_META[state.programJourney?.programId]||PROGRAM_META.balanced}
 function currentProgramLabel(){const meta=currentProgramMeta();return meta[`label_${lang()}`]||meta.label_en}
@@ -8426,12 +8438,42 @@ renderDay=function(day){
 }
 const showTodayV122=showToday;
 showToday=function(day,date){
- normalizeProgramJourney();selectedWorkoutDate=today();calendarViewDate=today();const target=state.activeWorkout?.day||currentProgramDay();return showTodayV122(target,today());
+ normalizeProgramJourney();v177SyncProgramJourneyFromHistory();selectedWorkoutDate=today();calendarViewDate=today();
+ const target=state.activeWorkout?.day||currentProgramDay();if(!state.activeWorkout)prepareProgramSession(target);
+ const result=showTodayV122(target,today());requestAnimationFrame(v177InstallManualSaveButton);return result;
 }
-function goToTodayDate(){selectedWorkoutDate=today();calendarViewDate=today();localStorage.setItem("gymSelectedWorkoutDate",today());showToday(currentProgramDay(),today());window.scrollTo({top:0,behavior:"smooth"})}
+function goToTodayDate(){
+ try{window.GymV153?.clearHistorical?.()}catch(_){}
+ normalizeProgramJourney();v177SyncProgramJourneyFromHistory();selectedWorkoutDate=today();calendarViewDate=today();localStorage.setItem("gymSelectedWorkoutDate",today());
+ const target=state.activeWorkout?.day||currentProgramDay();if(!state.activeWorkout)prepareProgramSession(target);
+ showTodayV122(target,today());requestAnimationFrame(v177InstallManualSaveButton);window.scrollTo({top:0,behavior:"smooth"});
+}
 const setWorkoutStyleV122=setWorkoutStyle;
 setWorkoutStyle=function(value){if(PLAN_PRESETS[value])selectGoalProgram(value);else setWorkoutStyleV122(value)};
 
+function v177EnsureManualSaveDialog(){
+ let d=byId("v177ManualSaveDialog");if(d)return d;
+ d=document.createElement("dialog");d.id="v177ManualSaveDialog";
+ d.innerHTML=`<div class="modal v177-manual-save-modal"><button type="button" class="iconbtn close" onclick="v177ManualSaveDialog.close()">✕</button><span class="kicker">${lang()==="cs"?"MANUÁLNÍ ULOŽENÍ":"MANUAL SAVE"}</span><h2>${lang()==="cs"?"Uložit tuto session":"Save this session"}</h2><label>${lang()==="cs"?"Datum":"Date"}<input id="v177ManualSaveDate" type="date"></label><p>${lang()==="cs"?"Uloží se dokončené série a skipped cviky zůstanou v historii.":"Completed sets are saved and skipped exercises stay in history."}</p><button type="button" class="primary" onclick="v177SaveSessionNow()">${lang()==="cs"?"Uložit session":"Save session"}</button></div>`;
+ document.body.appendChild(d);return d;
+}
+function v177OpenManualSave(){const d=v177EnsureManualSaveDialog(),input=byId("v177ManualSaveDate");if(input)input.value=today();d.showModal()}
+async function v177SaveSessionNow(){
+ const iso=byId("v177ManualSaveDate")?.value||today(),day=state.activeWorkout?.day||currentProgramDay();prepareProgramSession(day);
+ const key=state.days?.[day]?.programSessionKey||programSessionKey(),instances=activeInstances(day),snapshot=[];
+ instances.forEach(inst=>{const e=entry(day,inst.instanceId),m=metaFor(day,inst);snapshot.push({instanceId:inst.instanceId,exerciseId:m.id,done:!!e.done,skipped:!!e.skipped});if(e.done&&!e.skipped){const oldDate=state.days[day].date;state.days[day].date=iso;upsertCurrentExerciseHistory(day,inst,m,e);state.days[day].date=oldDate}});
+ let existing=(state.workouts||[]).find(w=>w&&w.type!=="cardio"&&w.date===iso&&w.sessionKey===key);
+ const rec={type:"strength",date:iso,day,minutes:0,note:"",savedAt:Date.now(),sessionKey:key,programId:state.programJourney.programId,programTitle:currentProgramLabel(),programSessionIndex:state.programJourney.sessionIndex,exerciseSnapshot:snapshot};
+ if(existing)Object.assign(existing,rec);else state.workouts.push(rec);
+ state.days[day].completed=true;state.days[day].programSessionKey=key;
+ if(!existing){state.programJourney.sessionIndex=(Number(state.programJourney.sessionIndex)||0)+1;state.programJourney.completedSessions=(Number(state.programJourney.completedSessions)||0)+1}
+ state.activeWorkout=null;saveState();clearTimeout(cloudTimer);if(cloudUser)await saveCloud();byId("v177ManualSaveDialog")?.close();renderHistoryScreen();renderProgress();
+ const next=currentProgramDay();prepareProgramSession(next);showToday(next,today());showToast(lang()==="cs"?"Session uložena ✓":"Session saved ✓");
+}
+function v177InstallManualSaveButton(){
+ const root=byId(state.activeWorkout?.day||currentProgramDay());if(!root)return;const list=root.querySelector(".unified-exercise-list");if(!list||root.querySelector(".v177-manual-save-btn"))return;
+ const b=document.createElement("button");b.type="button";b.className="secondary v177-manual-save-btn";b.textContent=lang()==="cs"?"▣ Uložit session ručně":"▣ Save session manually";b.onclick=v177OpenManualSave;list.appendChild(b);
+}
 function workoutHasRealProgress(day=state.activeWorkout?.day){
  return !!day&&activeInstances(day).some(inst=>{const e=entry(day,inst.instanceId);return !e.skipped&&(e.minutes||(e.sets||[]).some(s=>s?._complete===true))});
 }
