@@ -105,7 +105,7 @@ function hookRender(){
 function manualSaveDialog(){
  let d=q('#v178ManualSaveDialog');if(d)return d;
  d=document.createElement('dialog');d.id='v178ManualSaveDialog';d.className='v178-manual-dialog';
- d.innerHTML='<div class="v178-manual-shell"><button type="button" class="v178-manual-close">×</button><small>SESSION</small><h3></h3><p></p><label><span></span><input type="date" class="v178-manual-date"></label><button type="button" class="primary v178-manual-confirm"></button></div>';
+ d.innerHTML='<div class="v178-manual-shell"><button type="button" class="v178-manual-close">×</button><small>SESSION</small><h3></h3><p></p><label><span></span><input type="date" class="v178-manual-date"></label><p class="v180-save-status" role="status" aria-live="polite"></p><button type="button" class="primary v178-manual-confirm"></button></div>';
  document.body.appendChild(d);q('.v178-manual-close',d).onclick=()=>d.close();d.addEventListener('click',e=>{if(e.target===d)d.close()});return d;
 }
 function openManualSave(day){
@@ -115,6 +115,7 @@ function openManualSave(day){
  q('label span',d).textContent=cs()?'Datum workoutu':'Workout date';
  q('.v178-manual-confirm',d).textContent=cs()?'Uložit session':'Save session';
  dateInput.value=today();
+ q('.v180-save-status',d).textContent='';
  q('.v178-manual-confirm',d).onclick=()=>manualSaveSession(day,dateInput.value||today());
  if(!d.open)d.showModal();
 }
@@ -123,24 +124,31 @@ function removeHistoryForSession(key){
  Object.keys(state.history||{}).forEach(id=>{state.history[id]=(state.history[id]||[]).filter(r=>r?.sessionKey!==key);if(!state.history[id].length)delete state.history[id]});
 }
 async function manualSaveSession(day,date){
+ const dialog=q('#v178ManualSaveDialog'),status=q('.v180-save-status',dialog),button=q('.v178-manual-confirm',dialog);
+ const feedback=message=>{if(status)status.textContent=message;else toast(message)};
+ if(button?.disabled)return;
+ if(button)button.disabled=true;
  try{
-  const d=state.days?.[day];if(!d)return;
-  const instances=activeInstances(day);if(!instances.length)return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){feedback(cs()?'Vyber platné datum.':'Choose a valid date.');return}
+  const d=state.days?.[day];if(!d){feedback(cs()?'Tato session není dostupná. Otevři Today.':'This session is unavailable. Open Today.');return}
+  const instances=activeInstances(day);if(!instances.length){feedback(cs()?'Session nemá žádné cviky.':'This session has no exercises.');return}
   const key=d.programSessionKey||('manual:'+programId()+':'+day+':'+Date.now());
   const items=[];let real=0;
   instances.forEach((inst,index)=>{
    const m=metaFor(day,inst),e=entry(day,inst.instanceId);
    const sets=(e.sets||[]).filter(s=>s?._complete===true).map(s=>{const copy={...s};delete copy._complete;return copy});
-   const done=!!e.done&&!e.skipped&&(sets.length||e.minutes);if(done)real++;
+   const hasProgress=!e.skipped&&(sets.length||e.minutes);if(hasProgress)real++;
+   const done=!!e.done&&!e.skipped&&!!hasProgress;
    items.push({order:index,instanceId:inst.instanceId,exerciseId:m.id,mode:m.mode,skipped:!!e.skipped,done:!!done,sets,minutes:e.minutes||'',speed:e.speed||'',incline:e.incline||'',setsTarget:m.sets||inst.sets||3,range:m.range||inst.range||'',category:m.category||'',guideThumb:m.guideThumb||m.guideImage||''});
   });
-  if(!real){alert(cs()?'Nejdřív ulož alespoň jeden skutečně odcvičený cvik.':'Save at least one completed exercise first.');return}
+  if(!real){feedback(cs()?'Nejdřív dokonči alespoň jednu sérii nebo zadej odcvičené minuty.':'Complete at least one set or enter completed minutes first.');return}
   const existing=(state.workouts||[]).find(w=>w&&w.type!=='cardio'&&w.sessionKey===key);
   const dateConflict=(state.workouts||[]).find(w=>w&&w.type!=='cardio'&&w.date===date&&w.sessionKey!==key);
   if(existing&&!confirm(cs()?'Tato session už je uložená. Aktualizovat její záznam aktuálním stavem?':'This session is already saved. Update it with the current state?'))return;
   if(!existing&&dateConflict&&!confirm(cs()?'Pro toto datum už existuje workout. Uložit ještě jeden workout ke stejnému datu?':'A workout already exists for this date. Save another workout on the same date?'))return;
   removeHistoryForSession(key);
-  items.filter(x=>x.done&&!x.skipped).forEach(item=>{
+  state.history=state.history||{};state.workouts=state.workouts||[];
+  items.filter(x=>!x.skipped&&(x.sets.length||x.minutes)).forEach(item=>{
    const rec={date,day,exerciseId:item.exerciseId,mode:item.mode||exerciseObj(item.exerciseId)?.mode||'weight',notes:'',sessionKey:key,programId:programId()};
    if(rec.mode==='cardio'){rec.minutes=item.minutes||'';rec.speed=item.speed||''}else rec.sets=item.sets.map(s=>({...s}));
    state.history[item.exerciseId]=state.history[item.exerciseId]||[];state.history[item.exerciseId].push(rec);
@@ -154,18 +162,18 @@ async function manualSaveSession(day,date){
    state.programJourney.completedSessions=Math.min(limit,(Number(state.programJourney.completedSessions)||0)+1);
   }
   if(state.activeWorkout?.day===day){state.activeWorkout=null;try{clearInterval(workoutTick);clearInterval(restTick);clearWorkoutReminder();stopPostRestAlarm()}catch(_){}}
-  persist();try{if(typeof saveCloud==='function')await saveCloud()}catch(_){}
+  /* Persist locally and use the standard queued cloud sync. Do not block confirmation on network. */
+  saveState();
   try{q('#v178ManualSaveDialog')?.close()}catch(_){}
   try{renderHistoryScreen();renderProgress()}catch(_){}
   const next=(typeof currentProgramDay==='function'?currentProgramDay():day);
   try{prepareProgramSession(next)}catch(_){}
   try{showToday(next,today())}catch(_){try{renderDay(next)}catch(__){}}
   toast((cs()?'Session uložena k datu ':'Session saved for ')+date+' ✓');
- }catch(e){console.warn('[v178 manual save]',e);alert(cs()?'Session se nepodařilo uložit.':'Could not save session.')}
+ }catch(e){console.warn('[manual save]',e);feedback(cs()?'Session se nepodařilo uložit. Zkus to znovu.':'Could not save session. Try again.')}
+ finally{if(button)button.disabled=false}
 }
 window.v178OpenManualSave=openManualSave;window.v178ManualSaveSession=manualSaveSession;
-/* The index.html v177 save button duplicates this one; keep the single styled button. */
-window.v177InstallManualSaveButton=()=>{};
 function captureSnapshot(){
  try{
   const w=state?.activeWorkout;if(!w)return null;const day=w.day,date=w.date||state.days?.[day]?.date||workoutDate();

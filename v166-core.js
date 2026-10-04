@@ -180,6 +180,7 @@ function routeDate(iso,...args){
 }
 function todayRoute(...args){
   const date=todayIso();
+  recoverStaleCompletedSession();
   clearHistorical();
   try{selectedWorkoutDate=date;calendarViewDate=date;localStorage.setItem('gymSelectedWorkoutDate',date)}catch(_){}
   return typeof nativeToday==='function'?nativeToday.apply(this,args):routeDate(date);
@@ -205,13 +206,18 @@ function normalizeTodayOnStartup(){
 
 function recoverStaleCompletedSession(){
   try{
-    if(state?.activeWorkout)return null;
     const now=todayIso(),days=['monday','wednesday','friday'];
+    const active=state?.activeWorkout;
+    const activeDate=active?.date||state?.days?.[active?.day]?.date;
+    if(active&&(!validIso(activeDate)||activeDate>=now))return null;
+    let recovered=null;
     for(const day of days){
       const d=state?.days?.[day];
-      if(!d||!validIso(d.date)||d.date>=now||!d.programSessionKey)continue;
-      const exists=(state.workouts||[]).some(w=>w&&w.type!=='cardio'&&(w.sessionKey===d.programSessionKey||(w.date===d.date&&w.day===day)));
-      if(exists)continue;
+      const date=active?.day===day?activeDate:d?.date;
+      const key=active?.day===day?(active.sessionKey||d?.programSessionKey):d?.programSessionKey;
+      if(!d||!validIso(date)||date>=now||!key)continue;
+      const existing=(state.workouts||[]).find(w=>w&&w.type!=='cardio'&&(w.sessionKey===key||(w.date===date&&w.day===day)));
+      if(existing&&active?.day!==day)continue;
       let instances=[];
       try{instances=typeof activeInstances==='function'?activeInstances(day):typeof dayInstances==='function'?dayInstances(day):[]}catch(_){}
       if(!instances.length)continue;
@@ -219,8 +225,8 @@ function recoverStaleCompletedSession(){
       for(let i=0;i<instances.length;i++){
         const inst=instances[i];let e,m;
         try{e=entry(day,inst.instanceId);m=metaFor(day,inst)}catch(_){allDone=false;break}
-        if(!e?.done){allDone=false;break}
-        const completeSets=(e.sets||[]).filter(s=>s?._complete===true).map(({_complete,...rest})=>({...rest}));
+        if(!e?.done&&!e?.skipped){allDone=false;break}
+        const completeSets=(e.sets||[]).filter(s=>s&&(s._complete===true||(e.done&&s._complete!==false))).map(({_complete,...rest})=>({...rest}));
         if(!e.skipped&&(completeSets.length||e.minutes))hasReal=true;
         snapshot.push({
           order:i,instanceId:inst.instanceId,exerciseId:m.id,skipped:!!e.skipped,done:!!e.done&&!e.skipped,
@@ -231,13 +237,23 @@ function recoverStaleCompletedSession(){
       if(!allDone||!hasReal)continue;
       const idxRaw=Number(d.programSessionIndex);
       const idx=Number.isFinite(idxRaw)?idxRaw:(()=>{const p=String(d.programSessionKey).split(':');const n=Number(p.at(-1));return Number.isFinite(n)?n:null})();
-      const savedAt=Date.parse(d.date+'T23:00:00')||Date.now();
+      const savedAt=Date.parse(date+'T23:00:00')||Date.now();
       state.workouts=state.workouts||[];
-      state.workouts.push({
-        type:'strength',date:d.date,day,minutes:0,note:'',savedAt,
-        sessionKey:d.programSessionKey,programId:d.programId||state?.programJourney?.programId||state?.settings?.workoutStyle||'balanced',
+      const payload={
+        type:'strength',date,day,minutes:0,note:'',savedAt,
+        sessionKey:key,programId:d.programId||state?.programJourney?.programId||state?.settings?.workoutStyle||'balanced',
         programTitle:'',programSessionIndex:idx,
-        exerciseSnapshot:snapshot,exerciseSnapshotVersion:176,recovered:true
+        exerciseSnapshot:snapshot,exerciseSnapshotVersion:180,recovered:true
+      };
+      if(existing){if(!existing.exerciseSnapshot?.length)existing.exerciseSnapshot=snapshot}
+      else state.workouts.push(payload);
+      state.history=state.history||{};
+      snapshot.filter(x=>x.done&&!x.skipped).forEach(item=>{
+        const rows=state.history[item.exerciseId]=state.history[item.exerciseId]||[];
+        if(rows.some(r=>r.sessionKey===key||(r.date===date&&r.day===day)))return;
+        const rec={date,day,exerciseId:item.exerciseId,sessionKey:key,programId:payload.programId,mode:exerciseObjMode(item.exerciseId),notes:''};
+        if(rec.mode==='cardio'){rec.minutes=item.minutes;rec.speed=item.speed}else rec.sets=item.sets.map(s=>({...s}));
+        rows.push(rec);
       });
       d.completed=true;
       if(Number.isFinite(idx)){
@@ -245,12 +261,14 @@ function recoverStaleCompletedSession(){
         if(current<=idx)state.programJourney.sessionIndex=idx+1;
         state.programJourney.completedSessions=Math.max(Number(state.programJourney.completedSessions)||0,idx+1);
       }
-      try{saveState()}catch(_){try{localStorage.setItem('gym-tracker-pro-state',JSON.stringify(state))}catch(__){}}
-      return {date:d.date,day,index:idx};
+      if(active?.day===day)state.activeWorkout=null;
+      recovered={date,day,index:idx};
     }
+    if(recovered){try{saveState()}catch(_){}return recovered}
   }catch(e){console.warn('[v177 stale workout recovery]',e)}
   return null;
 }
+function exerciseObjMode(id){try{return EX?.[id]?.mode||'weight'}catch(_){return'weight'}}
 
 /* ---------- saved-set delete button ---------- */
 function enhanceDeleteButtons(){

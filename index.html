@@ -8384,9 +8384,10 @@ function currentProgramMeta(){return PROGRAM_META[state.programJourney?.programI
 function currentProgramLabel(){const meta=currentProgramMeta();return meta[`label_${lang()}`]||meta.label_en}
 function programSessionKey(index=state.programJourney?.sessionIndex||0){return `${state.programJourney?.programId||"balanced"}:${state.programJourney?.startedAt||0}:${index}`}
 function prepareProgramSession(day){
+ window.GymV166?.recoverStaleCompletedSession?.();
  if(state.activeWorkout)return;
  const key=programSessionKey(),old=state.days?.[day]||defaultDay(today());
- if(old.programSessionKey===key)return;
+ if(old.programSessionKey===key&&old.date===today()&&!old.completed&&!(state.workouts||[]).some(w=>w.sessionKey===key))return;
  const clean=defaultDay(today());
  clean.weight=old.weight||"";clean.waist=old.waist||"";clean.programSessionKey=key;clean.programId=state.programJourney.programId;clean.programSessionIndex=state.programJourney.sessionIndex;
  state.days[day]=clean;
@@ -8430,7 +8431,7 @@ renderDay=function(day){
  const root=byId(day),summary=root?.querySelector(".v120-workout-summary");if(!summary)return;
  const meta=currentProgramMeta(),total=Number(meta.sessions)||0,done=Math.min(Number(state.programJourney.completedSessions)||0,total||999),percent=total?Math.round(done/total*100):0;
  summary.insertAdjacentHTML("afterbegin",`<div class="v123-program-line"><div><span>${lang()==="cs"?"AKTIVNÍ PROGRAM":"ACTIVE PROGRAM"}</span><strong>${esc(currentProgramLabel())}</strong>${total?`<div class="v123-program-progress"><i style="width:${percent}%"></i></div>`:""}</div><button type="button" onclick="openProgramPicker()">${lang()==="cs"?"Změnit":"Change"}</button></div>`);
- const number=summary.querySelector(".hero-plan-number");if(number)number.textContent=total?`${Math.min(done+1,total)}/${total}`:`${(state.programJourney.sessionIndex%3)+1}/3`;
+ const number=summary.querySelector(".hero-plan-number");if(number)number.textContent=total?`${Math.min(done+1,total)}/${total}`:`${DAYS.indexOf(day)+1}/3`;
  const kicker=summary.querySelector(".hero-kicker");if(kicker)kicker.textContent=lang()==="cs"?"DALŠÍ TRÉNINK V POŘADÍ":"NEXT SESSION IN ORDER";
  const dateButton=summary.querySelector(".hero-date-button");if(dateButton){dateButton.hidden=false;dateButton.className="hero-program-button";dateButton.innerHTML=`▦ ${lang()==="cs"?"Zobrazit sessions":"View sessions"}`;dateButton.onclick=openProgramSessions}
  const hint=root.querySelector(".v120-exercise-heading span");if(hint)hint.textContent=lang()==="cs"?"Klepni pro otevření":"Tap to open";
@@ -8438,42 +8439,21 @@ renderDay=function(day){
 }
 const showTodayV122=showToday;
 showToday=function(day,date){
+ window.GymV166?.recoverStaleCompletedSession?.();
  normalizeProgramJourney();v177SyncProgramJourneyFromHistory();selectedWorkoutDate=today();calendarViewDate=today();
  const target=state.activeWorkout?.day||currentProgramDay();if(!state.activeWorkout)prepareProgramSession(target);
- const result=showTodayV122(target,today());requestAnimationFrame(v177InstallManualSaveButton);return result;
+ return showTodayV122(target,today());
 }
 function goToTodayDate(){
+ window.GymV166?.recoverStaleCompletedSession?.();
  try{window.GymV153?.clearHistorical?.()}catch(_){}
  normalizeProgramJourney();v177SyncProgramJourneyFromHistory();selectedWorkoutDate=today();calendarViewDate=today();localStorage.setItem("gymSelectedWorkoutDate",today());
  const target=state.activeWorkout?.day||currentProgramDay();if(!state.activeWorkout)prepareProgramSession(target);
- showTodayV122(target,today());requestAnimationFrame(v177InstallManualSaveButton);window.scrollTo({top:0,behavior:"smooth"});
+ showTodayV122(target,today());window.scrollTo({top:0,behavior:"smooth"});
 }
 const setWorkoutStyleV122=setWorkoutStyle;
 setWorkoutStyle=function(value){if(PLAN_PRESETS[value])selectGoalProgram(value);else setWorkoutStyleV122(value)};
 
-function v177EnsureManualSaveDialog(){
- let d=byId("v177ManualSaveDialog");if(d)return d;
- d=document.createElement("dialog");d.id="v177ManualSaveDialog";
- d.innerHTML=`<div class="modal v177-manual-save-modal"><button type="button" class="iconbtn close" onclick="v177ManualSaveDialog.close()">✕</button><span class="kicker">${lang()==="cs"?"MANUÁLNÍ ULOŽENÍ":"MANUAL SAVE"}</span><h2>${lang()==="cs"?"Uložit tuto session":"Save this session"}</h2><label>${lang()==="cs"?"Datum":"Date"}<input id="v177ManualSaveDate" type="date"></label><p>${lang()==="cs"?"Uloží se dokončené série a skipped cviky zůstanou v historii.":"Completed sets are saved and skipped exercises stay in history."}</p><button type="button" class="primary" onclick="v177SaveSessionNow()">${lang()==="cs"?"Uložit session":"Save session"}</button></div>`;
- document.body.appendChild(d);return d;
-}
-function v177OpenManualSave(){const d=v177EnsureManualSaveDialog(),input=byId("v177ManualSaveDate");if(input)input.value=today();d.showModal()}
-async function v177SaveSessionNow(){
- const iso=byId("v177ManualSaveDate")?.value||today(),day=state.activeWorkout?.day||currentProgramDay();prepareProgramSession(day);
- const key=state.days?.[day]?.programSessionKey||programSessionKey(),instances=activeInstances(day),snapshot=[];
- instances.forEach(inst=>{const e=entry(day,inst.instanceId),m=metaFor(day,inst);snapshot.push({instanceId:inst.instanceId,exerciseId:m.id,done:!!e.done,skipped:!!e.skipped});if(e.done&&!e.skipped){const oldDate=state.days[day].date;state.days[day].date=iso;upsertCurrentExerciseHistory(day,inst,m,e);state.days[day].date=oldDate}});
- let existing=(state.workouts||[]).find(w=>w&&w.type!=="cardio"&&w.date===iso&&w.sessionKey===key);
- const rec={type:"strength",date:iso,day,minutes:0,note:"",savedAt:Date.now(),sessionKey:key,programId:state.programJourney.programId,programTitle:currentProgramLabel(),programSessionIndex:state.programJourney.sessionIndex,exerciseSnapshot:snapshot};
- if(existing)Object.assign(existing,rec);else state.workouts.push(rec);
- state.days[day].completed=true;state.days[day].programSessionKey=key;
- if(!existing){state.programJourney.sessionIndex=(Number(state.programJourney.sessionIndex)||0)+1;state.programJourney.completedSessions=(Number(state.programJourney.completedSessions)||0)+1}
- state.activeWorkout=null;saveState();clearTimeout(cloudTimer);if(cloudUser)await saveCloud();byId("v177ManualSaveDialog")?.close();renderHistoryScreen();renderProgress();
- const next=currentProgramDay();prepareProgramSession(next);showToday(next,today());showToast(lang()==="cs"?"Session uložena ✓":"Session saved ✓");
-}
-function v177InstallManualSaveButton(){
- const root=byId(state.activeWorkout?.day||currentProgramDay());if(!root)return;const list=root.querySelector(".unified-exercise-list");if(!list||root.querySelector(".v177-manual-save-btn"))return;
- const b=document.createElement("button");b.type="button";b.className="secondary v177-manual-save-btn";b.textContent=lang()==="cs"?"▣ Uložit session ručně":"▣ Save session manually";b.onclick=v177OpenManualSave;list.appendChild(b);
-}
 function workoutHasRealProgress(day=state.activeWorkout?.day){
  return !!day&&activeInstances(day).some(inst=>{const e=entry(day,inst.instanceId);return !e.skipped&&(e.minutes||(e.sets||[]).some(s=>s?._complete===true))});
 }
