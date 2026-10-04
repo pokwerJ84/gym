@@ -180,20 +180,14 @@ function routeDate(iso,...args){
 }
 function todayRoute(...args){
   const date=todayIso();
-  if(!state?.activeWorkout&&completedWorkout(date))return renderHistorical(date);
   clearHistorical();
+  try{selectedWorkoutDate=date;calendarViewDate=date;localStorage.setItem('gymSelectedWorkoutDate',date)}catch(_){}
   return typeof nativeToday==='function'?nativeToday.apply(this,args):routeDate(date);
 }
 function restoreSelectedCompleted(){
-  try{
-    if(state?.activeWorkout)return;
-    const now=todayIso();
-    const selected=String(selectedWorkoutDate||localStorage.getItem('gymSelectedWorkoutDate')||now);
-    /* Never resurrect an old historical day into Today on app start/resume.
-       Historical dates are rendered only after an explicit calendar/history action. */
-    if(selected!==now)return;
-    if(completedWorkout(now))renderHistorical(now);
-  }catch(_){}
+  /* A saved workout must never turn Today into historical mode automatically.
+     Historical rendering is entered only through an explicit calendar date tap. */
+  return false;
 }
 function normalizeTodayOnStartup(){
   try{
@@ -406,7 +400,7 @@ function install(){
   const resetToToday=normalizeTodayOnStartup();
   if(recovered||resetToToday)setTimeout(()=>{try{clearHistorical();todayRoute()}catch(_){}},40);
   [120,420].forEach(ms=>setTimeout(restoreSelectedCompleted,ms));
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden){setTimeout(()=>{normalizeTodayOnStartup();restoreSelectedCompleted()},50);updateRestMini()}});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){setTimeout(()=>{if(normalizeTodayOnStartup())todayRoute();updateRestMini()},50)}});
 }
 window.GymV153={release:'v166-compat',completedWorkout,recordsFor,renderHistorical,clearHistorical};
 V.completedWorkout=completedWorkout;V.recordsFor=recordsFor;V.renderHistorical=renderHistorical;V.routeDate=routeDate;V.updateRest=updateRestMini;V.recoverStaleCompletedSession=recoverStaleCompletedSession;
