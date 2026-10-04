@@ -408,3 +408,11 @@ body.dark .v120-workout-summary .v123-program-line{background:linear-gradient(13
   background:var(--surface);color:var(--text);font-size:16px
 }
 .v178-manual-confirm{width:100%;min-height:50px}
+
+/* v177 manual session save */
+.v177-manual-save-btn{width:100%;min-height:54px;margin:14px 0 6px;border-radius:16px;font-weight:950}
+.v177-manual-save-modal{max-width:430px}
+.v177-manual-save-modal label{display:grid;gap:7px;margin:18px 0 10px;color:var(--muted);font-weight:850}
+.v177-manual-save-modal input{min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--text);font-size:16px}
+.v177-manual-save-modal p{color:var(--muted);font-size:12px;line-height:1.45}
+.v177-manual-save-modal>.primary{width:100%;min-height:50px;margin-top:8px}
