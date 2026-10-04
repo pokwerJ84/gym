@@ -6384,7 +6384,7 @@ function renderDay(day){
  });
 
  html+=`</div>
-     <div class="modern-plan-footer"><button class="secondary full" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button></div>
+     <div class="modern-plan-footer"><button class="secondary full" onclick="openLibrary('${day}','add')">＋ ${t("add")}</button><button type="button" class="secondary full v178-manual-save" onclick="window.v178OpenManualSave('${day}')">${state.lang==='cs'?'💾 Uložit session ručně':'💾 Save session manually'}</button></div>
  </div>
  </section>`;
 
