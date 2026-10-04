@@ -209,6 +209,55 @@ function normalizeTodayOnStartup(){
   }catch(_){return false}
 }
 
+function recoverStaleCompletedSession(){
+  try{
+    if(state?.activeWorkout)return null;
+    const now=todayIso(),days=['monday','wednesday','friday'];
+    for(const day of days){
+      const d=state?.days?.[day];
+      if(!d||!validIso(d.date)||d.date>=now||!d.programSessionKey)continue;
+      const exists=(state.workouts||[]).some(w=>w&&w.type!=='cardio'&&(w.sessionKey===d.programSessionKey||(w.date===d.date&&w.day===day)));
+      if(exists)continue;
+      let instances=[];
+      try{instances=typeof activeInstances==='function'?activeInstances(day):typeof dayInstances==='function'?dayInstances(day):[]}catch(_){}
+      if(!instances.length)continue;
+      const snapshot=[];let allDone=true,hasReal=false;
+      for(let i=0;i<instances.length;i++){
+        const inst=instances[i];let e,m;
+        try{e=entry(day,inst.instanceId);m=metaFor(day,inst)}catch(_){allDone=false;break}
+        if(!e?.done){allDone=false;break}
+        const completeSets=(e.sets||[]).filter(s=>s?._complete===true).map(({_complete,...rest})=>({...rest}));
+        if(!e.skipped&&(completeSets.length||e.minutes))hasReal=true;
+        snapshot.push({
+          order:i,instanceId:inst.instanceId,exerciseId:m.id,skipped:!!e.skipped,done:!!e.done&&!e.skipped,
+          sets:completeSets,minutes:e.minutes||'',speed:e.speed||'',incline:e.incline||'',
+          setsTarget:m.sets||inst.sets||3,range:m.range||inst.range||'',category:m.category||'',guideThumb:m.guideThumb||m.guideImage||''
+        });
+      }
+      if(!allDone||!hasReal)continue;
+      const idxRaw=Number(d.programSessionIndex);
+      const idx=Number.isFinite(idxRaw)?idxRaw:(()=>{const p=String(d.programSessionKey).split(':');const n=Number(p.at(-1));return Number.isFinite(n)?n:null})();
+      const savedAt=Date.parse(d.date+'T23:00:00')||Date.now();
+      state.workouts=state.workouts||[];
+      state.workouts.push({
+        type:'strength',date:d.date,day,minutes:0,note:'',savedAt,
+        sessionKey:d.programSessionKey,programId:d.programId||state?.programJourney?.programId||state?.settings?.workoutStyle||'balanced',
+        programTitle:'',programSessionIndex:idx,
+        exerciseSnapshot:snapshot,exerciseSnapshotVersion:176,recovered:true
+      });
+      d.completed=true;
+      if(Number.isFinite(idx)){
+        const current=Number(state?.programJourney?.sessionIndex)||0;
+        if(current<=idx)state.programJourney.sessionIndex=idx+1;
+        state.programJourney.completedSessions=Math.max(Number(state.programJourney.completedSessions)||0,idx+1);
+      }
+      try{saveState()}catch(_){try{localStorage.setItem('gym-tracker-pro-state',JSON.stringify(state))}catch(__){}}
+      return {date:d.date,day,index:idx};
+    }
+  }catch(e){console.warn('[v177 stale workout recovery]',e)}
+  return null;
+}
+
 /* ---------- saved-set delete button ---------- */
 function enhanceDeleteButtons(){
   qa('.saved-set-row').forEach((row,rowIndex)=>{
@@ -353,13 +402,14 @@ function install(){
   ['renderLive','openHistory','renderDay'].forEach(name=>hookAfter(name,enhanceDeleteButtons));
   enhanceDeleteButtons();
   installRest();
+  const recovered=recoverStaleCompletedSession();
   const resetToToday=normalizeTodayOnStartup();
-  if(resetToToday)setTimeout(()=>{try{todayRoute()}catch(_){}},40);
+  if(recovered||resetToToday)setTimeout(()=>{try{clearHistorical();todayRoute()}catch(_){}},40);
   [120,420].forEach(ms=>setTimeout(restoreSelectedCompleted,ms));
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){setTimeout(()=>{normalizeTodayOnStartup();restoreSelectedCompleted()},50);updateRestMini()}});
 }
 window.GymV153={release:'v166-compat',completedWorkout,recordsFor,renderHistorical,clearHistorical};
-V.completedWorkout=completedWorkout;V.recordsFor=recordsFor;V.renderHistorical=renderHistorical;V.routeDate=routeDate;V.updateRest=updateRestMini;
+V.completedWorkout=completedWorkout;V.recordsFor=recordsFor;V.renderHistorical=renderHistorical;V.routeDate=routeDate;V.updateRest=updateRestMini;V.recoverStaleCompletedSession=recoverStaleCompletedSession;
 V.diagnostics=()=>({release:V.release,active:!!state?.activeWorkout,selected:(()=>{try{return selectedWorkoutDate}catch(_){return''}})(),restPending:pendingRest(),timerLoops:1});
 window.GymV166=V;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
