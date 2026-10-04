@@ -1739,6 +1739,7 @@ body.dark nav{
 }
 .workout-hero::after{
   content:"";
+  pointer-events:none;
   position:absolute;
   width:180px;
   height:180px;
@@ -4773,25 +4774,25 @@ body{
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<link rel="stylesheet" href="./hotfix-v126.css?v=182">
-<link rel="stylesheet" href="./hotfix-v129.css?v=182">
-<link rel="stylesheet" href="./hotfix-v130.css?v=182">
-<link rel="stylesheet" href="./hotfix-v131.css?v=182">
-<link rel="stylesheet" href="./hotfix-v136.css?v=182">
-<link rel="stylesheet" href="./hotfix-v137.css?v=182">
-<link rel="stylesheet" href="./hotfix-v139.css?v=182">
-<link rel="stylesheet" href="./hotfix-v140.css?v=182">
-<link rel="stylesheet" href="./hotfix-v142.css?v=182">
-<link rel="stylesheet" href="./hotfix-v143.css?v=182">
-<link rel="stylesheet" href="./hotfix-v153.css?v=182">
-<link rel="stylesheet" href="./hotfix-v154.css?v=182">
-<link rel="stylesheet" href="./hotfix-v166.css?v=182">
+<link rel="stylesheet" href="./hotfix-v126.css?v=183">
+<link rel="stylesheet" href="./hotfix-v129.css?v=183">
+<link rel="stylesheet" href="./hotfix-v130.css?v=183">
+<link rel="stylesheet" href="./hotfix-v131.css?v=183">
+<link rel="stylesheet" href="./hotfix-v136.css?v=183">
+<link rel="stylesheet" href="./hotfix-v137.css?v=183">
+<link rel="stylesheet" href="./hotfix-v139.css?v=183">
+<link rel="stylesheet" href="./hotfix-v140.css?v=183">
+<link rel="stylesheet" href="./hotfix-v142.css?v=183">
+<link rel="stylesheet" href="./hotfix-v143.css?v=183">
+<link rel="stylesheet" href="./hotfix-v153.css?v=183">
+<link rel="stylesheet" href="./hotfix-v154.css?v=183">
+<link rel="stylesheet" href="./hotfix-v166.css?v=183">
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v182</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v183</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5199,7 +5200,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=182;
+const VERSION=183;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -9017,22 +9018,22 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=182"></script>
-<script src="./v129-detail.js?v=182"></script>
-<script src="./v129-cloud.js?v=182"></script>
-<script src="./v130-core.js?v=182"></script>
-<script src="./v131-core.js?v=182"></script>
-<script src="./v132-core.js?v=182"></script>
-<script src="./v136-core.js?v=182"></script>
-<script src="./v137-core.js?v=182"></script>
-<script src="./v138-core.js?v=182"></script>
-<script src="./v139-core.js?v=182"></script>
-<script src="./v142-core.js?v=182"></script>
-<script src="./v154-core.js?v=182"></script>
-<script src="./v166-core.js?v=182"></script>
-<script src="./v163-core.js?v=182"></script>
-<script src="./v165-core.js?v=182"></script>
-<script src="./v170-progress.js?v=182"></script>
+<script src="./v129-core.js?v=183"></script>
+<script src="./v129-detail.js?v=183"></script>
+<script src="./v129-cloud.js?v=183"></script>
+<script src="./v130-core.js?v=183"></script>
+<script src="./v131-core.js?v=183"></script>
+<script src="./v132-core.js?v=183"></script>
+<script src="./v136-core.js?v=183"></script>
+<script src="./v137-core.js?v=183"></script>
+<script src="./v138-core.js?v=183"></script>
+<script src="./v139-core.js?v=183"></script>
+<script src="./v142-core.js?v=183"></script>
+<script src="./v154-core.js?v=183"></script>
+<script src="./v166-core.js?v=183"></script>
+<script src="./v163-core.js?v=183"></script>
+<script src="./v165-core.js?v=183"></script>
+<script src="./v170-progress.js?v=183"></script>
 <script>init();</script>
 </body>
 </html>
