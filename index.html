@@ -4774,25 +4774,32 @@ body{
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<link rel="stylesheet" href="./hotfix-v126.css?v=183">
-<link rel="stylesheet" href="./hotfix-v129.css?v=183">
-<link rel="stylesheet" href="./hotfix-v130.css?v=183">
-<link rel="stylesheet" href="./hotfix-v131.css?v=183">
-<link rel="stylesheet" href="./hotfix-v136.css?v=183">
-<link rel="stylesheet" href="./hotfix-v137.css?v=183">
-<link rel="stylesheet" href="./hotfix-v139.css?v=183">
-<link rel="stylesheet" href="./hotfix-v140.css?v=183">
-<link rel="stylesheet" href="./hotfix-v142.css?v=183">
-<link rel="stylesheet" href="./hotfix-v143.css?v=183">
-<link rel="stylesheet" href="./hotfix-v153.css?v=183">
-<link rel="stylesheet" href="./hotfix-v154.css?v=183">
-<link rel="stylesheet" href="./hotfix-v166.css?v=183">
+<style>
+/* Saved-set actions: full touch targets without squeezing the performance text. */
+.v123-set-row.complete .v123-set-summary{grid-column:2/-1!important}
+.v184-set-actions{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.v123-set-row.complete .v184-set-actions button{grid-column:auto!important;min-height:44px;padding:8px;border-radius:10px;font-size:12px;font-weight:900}
+.v184-delete-set{border:1px solid rgba(255,110,110,.4);background:rgba(255,110,110,.08);color:#ff9999}
+</style>
+<link rel="stylesheet" href="./hotfix-v126.css?v=184">
+<link rel="stylesheet" href="./hotfix-v129.css?v=184">
+<link rel="stylesheet" href="./hotfix-v130.css?v=184">
+<link rel="stylesheet" href="./hotfix-v131.css?v=184">
+<link rel="stylesheet" href="./hotfix-v136.css?v=184">
+<link rel="stylesheet" href="./hotfix-v137.css?v=184">
+<link rel="stylesheet" href="./hotfix-v139.css?v=184">
+<link rel="stylesheet" href="./hotfix-v140.css?v=184">
+<link rel="stylesheet" href="./hotfix-v142.css?v=184">
+<link rel="stylesheet" href="./hotfix-v143.css?v=184">
+<link rel="stylesheet" href="./hotfix-v153.css?v=184">
+<link rel="stylesheet" href="./hotfix-v154.css?v=184">
+<link rel="stylesheet" href="./hotfix-v166.css?v=184">
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v183</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v184</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5200,7 +5207,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=183;
+const VERSION=184;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -8645,7 +8652,7 @@ function renderLive(){
   rows.push(`<div class="v123-set-row"><span class="v123-set-number">1</span>${compactField(lang()==="cs"?"MIN":"MIN","liveMinutes",e.minutes||"",-1,1)}${m.id==="treadmill"?`<div></div>`:compactField(lang()==="cs"?"RYCHLOST":"SPEED","liveSpeed",e.speed||"",-.5,.5,true)}<button class="v123-set-done" onclick="completeLiveSet('${inst.instanceId}',0)">${lang()==="cs"?"Hotovo":"Done"}</button></div>`);
  }else for(let i=0;i<target;i++){
   const set=e.sets?.[i]||{};
-  if(set._complete===true){rows.push(`<div class="v123-set-row complete"><span class="v123-set-number">✓</span><strong class="v123-set-summary">${esc(savedSetSummary(m,set))}</strong><button class="v123-edit-set" onclick="editSavedSet(${i})">${lang()==="cs"?"Upravit":"Edit"}</button></div>`);continue}
+  if(set._complete===true){rows.push(`<div class="v123-set-row complete"><span class="v123-set-number">✓</span><strong class="v123-set-summary">${esc(savedSetSummary(m,set))}</strong><div class="v184-set-actions"><button type="button" class="v123-edit-set" onclick="editSavedSet(${i})">${lang()==="cs"?"Upravit":"Edit"}</button><button type="button" class="v184-delete-set" onclick="deleteSavedSet(${i})">${lang()==="cs"?"Smazat sérii":"Delete set"}</button></div></div>`);continue}
   if(i!==active){rows.push(`<div class="v123-set-row v123-future"><span class="v123-set-number">${i+1}</span><span class="v123-set-summary">${lang()==="cs"?"Další série":"Next set"}</span><span></span></div>`);continue}
   ensurePrefill(day,inst,m,e,i);const s=e.sets?.[i]||{};let fields="";
   if(m.mode==="weight")fields=compactField("KG","liveKg",s.kg,-step,step,true)+compactField(lang()==="cs"?"OPAK.":"REPS","liveReps",s.reps,-1,1);
@@ -9018,22 +9025,23 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=183"></script>
-<script src="./v129-detail.js?v=183"></script>
-<script src="./v129-cloud.js?v=183"></script>
-<script src="./v130-core.js?v=183"></script>
-<script src="./v131-core.js?v=183"></script>
-<script src="./v132-core.js?v=183"></script>
-<script src="./v136-core.js?v=183"></script>
-<script src="./v137-core.js?v=183"></script>
-<script src="./v138-core.js?v=183"></script>
-<script src="./v139-core.js?v=183"></script>
-<script src="./v142-core.js?v=183"></script>
-<script src="./v154-core.js?v=183"></script>
-<script src="./v166-core.js?v=183"></script>
-<script src="./v163-core.js?v=183"></script>
-<script src="./v165-core.js?v=183"></script>
-<script src="./v170-progress.js?v=183"></script>
+<script src="./v129-core.js?v=184"></script>
+<script src="./v129-detail.js?v=184"></script>
+<script src="./v129-cloud.js?v=184"></script>
+<script src="./v130-core.js?v=184"></script>
+<script src="./v131-core.js?v=184"></script>
+<script src="./v132-core.js?v=184"></script>
+<script src="./v136-core.js?v=184"></script>
+<script src="./v137-core.js?v=184"></script>
+<script src="./v138-core.js?v=184"></script>
+<script src="./v139-core.js?v=184"></script>
+<script src="./v142-core.js?v=184"></script>
+<script src="./v154-core.js?v=184"></script>
+<script src="./v166-core.js?v=184"></script>
+<script src="./v163-core.js?v=184"></script>
+<script src="./v165-core.js?v=184"></script>
+<script src="./v170-progress.js?v=184"></script>
 <script>init();</script>
 </body>
 </html>
+
