@@ -38,6 +38,7 @@ function registerMeta(){
 }
 function sessionsFor(id){return PROGRAMS[id]?.sessions||null}
 function sessionFor(id,index=0){
+ if(id===THREE)return null;
  const list=sessionsFor(id)||(id==='busy_week'?window.GymV165?.busySessions:null);
  if(!list?.length)return null;return list[((Number(index)||0)%list.length+list.length)%list.length];
 }

@@ -52,4 +52,8 @@ c.state.programJourney.programId='busy_week';c.state.programJourney.sessionIndex
 assert.equal(c.GymV190.sessionFor(four,7).titleEn,'Lower Body B');
 assert.equal(c.GymV190.sessionFor('busy_week',7).titleEn,'Pull');
 assert.ok(source.indexOf('GymV190?.registerPresets()')<source.indexOf('BASE_PLANS=PLAN_PRESETS[state.settings.workoutStyle]'));
+vm.runInContext(fs.readFileSync('v138-core.js','utf8'),c);
+assert.equal(c.GymV138.auto({programJourney:{programId:three,sessionIndex:0,startedAt:20},workouts:[{programId:'balanced',day:'wednesday',savedAt:30}]}),'monday');
+assert.equal(c.GymV138.auto({programJourney:{programId:three,sessionIndex:1,startedAt:20},workouts:[{programId:three,day:'wednesday',savedAt:40}]}),'friday');
+assert.equal(c.GymV190.sessionFor(three,0),null);
 console.log('PASS: approved exercise lists and set totals, known exercise IDs, 4-step cycling, fourth-session picker, persistent edits to fourth session, plan isolation, bilingual guides, persisted program registration and Busy Week compatibility.');

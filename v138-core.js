@@ -13,7 +13,7 @@ function importLegacy(){ensureState();try{const old=JSON.parse(localStorage.getI
 function wt(w){const s=Number(w?.savedAt)||0;if(s)return s;const d=Date.parse(`${w?.date||''}T23:59:59`);return Number.isFinite(d)?d:0}
 function completed(source=state){try{return (source?.workouts||[]).filter(w=>w&&w.type!=='cardio'&&valid(w.day)).slice().sort((a,b)=>wt(a)-wt(b))}catch(_){return []}}
 function next(day){const i=DAYS.indexOf(day);return i<0?'monday':DAYS[(i+1)%3]}
-function auto(source=state){const last=completed(source).at(-1);return last?next(last.day):'monday'}
+function auto(source=state){const pid=source?.programJourney?.programId,custom=!!window.GymV190?.sessionsFor(pid),start=Number(source?.programJourney?.startedAt)||0;const rows=completed(source).filter(w=>!custom||(w.programId===pid&&(!start||wt(w)>=start)));const last=rows.at(-1);return last?next(last.day):custom?DAYS[(Number(source?.programJourney?.sessionIndex)||0)%3]:'monday'}
 function overrideFor(date,source=state){ensureState(source);const v=source?.sessionOverrides?.[date];const day=typeof v==='string'?v:v?.day;return valid(day)?day:''}
 function planFor(date,source=state){ensureState(source);const v=source?.calendarSessionPlans?.[date];const day=typeof v==='string'?v:v?.day;return valid(day)?day:''}
 function resolve(date=currentIso(),source=state){const iso=String(date||currentIso());try{const a=source?.activeWorkout,ad=a?.date||source?.days?.[a?.day]?.date||'';if(a&&valid(a.day)&&(!ad||ad===iso))return a.day}catch(_){}const manual=overrideFor(iso,source);if(manual)return manual;if(iso<todayIso()){const done=completed(source).filter(w=>w.date===iso).at(-1);if(done)return done.day;return auto(source)}if(iso>todayIso()){const plan=planFor(iso,source);if(plan)return plan}return auto(source)}
@@ -29,3 +29,4 @@ V.auto=auto;V.resolve=resolve;V.setManual=setManual;V.planFor=planFor;V.override
 function start(){ensureState();importLegacy();installCloudMerge();installPlanBridge();installV137Bridge();installShowToday();syncV137UI();try{saveState(false)}catch(_){}const iso=currentIso(),target=resolve(iso,state);try{if(!state?.activeWorkout&&baseShow)baseShow(target,iso)}catch(_){}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
+
