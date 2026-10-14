@@ -43,8 +43,63 @@ function sessionFor(id,index=0){
  if(!list?.length)return null;return list[((Number(index)||0)%list.length+list.length)%list.length];
 }
 const cs=()=>lang()==='cs';
+const escape=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Descriptions do not alter the session registry or existing program rotation.
+const DESCRIPTIONS={
+ balanced:['Celé tělo ve třech variantách: základní síla, stabilita a kontrola pohybu. Součástí jsou ruce, core i lehké kardio.','Three full-body variations for strength, stability and movement control, including arms, core and light cardio.'],
+ full_body:['Tři různé tréninky celého těla kombinují nohy, tlaky, tahy a core. Vhodné pro pravidelné procvičení hlavních svalových skupin.','Three full-body sessions combine legs, presses, pulls and core for regular training of the main muscle groups.'],
+ hypertrophy:['Trénink pro růst svalů rozdělený na Push (hrudník, ramena, triceps), Pull (záda, biceps) a Legs (nohy).','Muscle-building split: Push trains chest, shoulders and triceps; Pull trains back and biceps; Legs trains the lower body.'],
+ machines:['Tři varianty celého těla na strojích a kladkách. Před každým cvikem nastav sedadlo, opěrky a rozsah pohybu podle sebe.','Three full-body variations using machines and cables. Adjust seats, supports and movement range to fit you before each exercise.'],
+ quick:['Krátké tréninky s menším počtem cviků pro dny, kdy máš málo času. Projdi všechny varianty v pořadí; délka závisí i na pauzách a dostupnosti vybavení.','Shorter sessions with fewer exercises for busy days. Rotate through all sessions; duration also depends on rest and equipment availability.'],
+ sixpack_starter:['Krátký úvod do tréninku břicha a stability středu těla. Důraz je na kontrolovaný pohyb, dýchání a zvládnutí techniky. Samotné cviky nezaručí viditelný six-pack.','A short introduction to abs and core stability, focused on controlled movement, breathing and technique. Exercises alone do not guarantee visible abs.'],
+ sixpack_builder:['Navazující program pro sílu břicha a kontrolu středu těla. Zvyšuj obtížnost postupně a udržuj klidný trup. Viditelnost břicha závisí i na množství tělesného tuku.','A progression for abdominal strength and core control. Increase difficulty gradually while keeping the torso steady. Visible abs also depend on body fat.'],
+ get_ripped:['Kombinuje posilování celého těla, core a kardio. Kondiční část dělej po silové. Program sám nezaručuje úbytek tuku; záleží i na stravě a regeneraci.','Combines full-body lifting, core and cardio. Do conditioning after lifting. Fat loss also depends on nutrition and recovery.'],
+ arms:['Specializace na biceps a triceps doplněná tlaky a tahy. Tento plán neobsahuje trénink nohou; pro celé tělo zvol jiný program nebo přidej samostatný trénink nohou.','Biceps and triceps specialization with presses and pulls. This plan has no leg training; choose another program or add a separate leg session for full-body coverage.'],
+ busy_week:['Pět tréninků v průběžné rotaci: Push, Legs A, Pull, Legs B + Core, Arms + Abs. Počítej přibližně se 40 minutami posilování a 20 minutami pásu.','Five rotating sessions: Push, Legs A, Pull, Legs B + Core, Arms + Abs. Allow about 40 minutes of lifting plus 20 minutes on the treadmill.'],
+ strength_builder:['Silový program s těžšími hlavními cviky a nižšími rozsahy opakování. Důraz je na čistou techniku, delší pauzy a postupné přidávání zátěže.','Strength-focused training with heavier main lifts and lower rep ranges. Prioritize clean technique, longer rests and gradual load increases.']
+};
+function guideProgram(id){
+ if(PROGRAMS[id])return PROGRAMS[id];
+ const p=PLAN_PRESETS[id];if(!p)return null;
+ const list=id==='busy_week'?window.GymV165?.busySessions:null;
+ return {nameCs:PROGRAM_META[id]?.label_cs||p.name_cs,nameEn:PROGRAM_META[id]?.label_en||p.name_en,
+  sessions:list||Object.values(p.plans).map(s=>({titleCs:s.title_cs,titleEn:s.title_en,subCs:s.sub_cs,subEn:s.sub_en,items:s.items}))};
+}
+function sessionOverview(id,p){
+ const edited=window.GymV187?.sessions(id);
+ return (edited||p.sessions.map((s,i)=>({key:String(i),title:cs()?s.titleCs:s.titleEn,items:s.items}))).map(s=>{
+  const items=state.programSessionLayouts?.[id]?.[s.key]||s.items;
+  return '<section style="margin-top:16px"><h3>'+escape(s.title)+'</h3><p style="line-height:1.5">'+items.map(x=>{
+   const exercise=typeof EX!=='undefined'?EX[x.id]:null;
+   return escape(exercise?itemName(exercise):x.id)+' · '+escape(x.sets||exercise?.sets||3)+' × '+escape(x.range||exercise?.range||'');
+  }).join('<br>')+'</p></section>';
+ }).join('');
+}
+function legacyGuide(id,p){
+ const core=id==='sixpack_starter'||id==='sixpack_builder',strength=id==='strength_builder';
+ const limit=PROGRAM_META[id]?.sessions;
+ const sections=cs()?[
+  ['Zaměření',DESCRIPTIONS[id]?.[0]||p.nameCs],
+  ['Pořadí a rozvrh',id==='busy_week'?'Cvič 4–5× týdně podle regenerace. Pokračuj další session v pětikrokovém cyklu i po volném dni; vynechaný den nedoháněj dvěma tréninky. Názvy dnů nejsou pevný kalendář.':'Střídej uvedené sessions v pořadí, například pondělí, středa a pátek. Mezi tréninky nech den volna. '+(limit?'Program má '+limit+' tréninků; při třech týdně trvá '+(limit/3)+' týdnů.':'Rotaci můžeš opakovat podle potřeby.')],
+  ['Zahřátí','Začni 4–5 minutami lehkého pohybu. '+(core?'První cvik nejprve vyzkoušej v lehké variantě.':'Před prvním hlavním cvikem udělej 1–2 lehčí přípravné série; u těžších cviků přidej další postupně.')+' Přípravné série nepočítej jako pracovní.'],
+  ['Jak cvičit',core?'Pohyb veď bez švihu a průběžně dýchej. U výdrží konči, jakmile ztrácíš polohu; u opakování nech přibližně 2 čistá v rezervě.':'Dodržuj série a rozsahy uvedené u cviku. Zvol váhu s přibližně 1–2 čistými opakováními v rezervě, první týden 2–3. Technika má přednost před váhou.'],
+  ['Pauzy',strength?'U těžkých hlavních cviků odpočívej 2–3 minuty, u doplňků 60–90 sekund.':core?'Mezi sériemi odpočívej přibližně 45–90 sekund; déle, pokud se ještě nevrátila kontrola dechu a techniky.':'U hlavních cviků odpočívej 90–120 sekund, u menších 60–90 sekund. Pauzu prodluž, pokud ji potřebuješ pro čisté opakování.'],
+  ['Postupné zlepšování','Když všechny série zvládneš na horní hranici rozsahu se stejnou rezervou a technikou, příště přidej nejmenší krok váhy. U cviku bez zátěže nejprve přidávej opakování nebo čas v předepsaném rozsahu. Výsledky porovnávej v historii.'],
+  ['Regenerace','Bolest svalů druhý den není měřítkem růstu. Pokud únava zhoršuje techniku, uber zátěž nebo zařaď volno. Při ostré bolesti kloubu, krku nebo zad cvik zastav.']
+ ]:[
+  ['Focus',DESCRIPTIONS[id]?.[1]||p.nameEn],
+  ['Order and schedule',id==='busy_week'?'Train 4–5 times weekly as recovery allows. Continue the five-session cycle after rest days; do not make up a missed day with two workouts. Session names are not fixed weekdays.':'Rotate through the sessions in order, for example Monday, Wednesday and Friday, with a rest day between workouts. '+(limit?'The program contains '+limit+' workouts, taking '+(limit/3)+' weeks at three per week.':'Repeat the rotation as needed.')],
+  ['Warm-up','Start with 4–5 minutes of easy movement. '+(core?'Try an easy version of the first exercise.':'Use 1–2 lighter preparation sets before the first main lift; add more gradual steps for heavier lifts.')+' Preparation sets do not count as working sets.'],
+  ['How to train',core?'Move without swinging and breathe throughout. End holds when you lose position; leave about two clean reps in reserve for repetitions.':'Follow the listed sets and rep ranges. Leave about 1–2 clean reps in reserve, or 2–3 in the first week. Prioritize technique over load.'],
+  ['Rest',strength?'Rest 2–3 minutes for heavy main lifts and 60–90 seconds for accessories.':core?'Rest about 45–90 seconds between sets, longer if needed to regain breathing and technique.':'Rest 90–120 seconds for main lifts and 60–90 seconds for smaller exercises. Take longer when needed for clean reps.'],
+  ['Progression','When all sets reach the top of the range with consistent technique and effort, add the smallest load increment next time. For unweighted exercises, first increase reps or time within the prescribed range. Compare your results in History.'],
+  ['Recovery','Next-day soreness is not a measure of growth. Reduce the load or take a rest day when fatigue affects technique. Stop if an exercise causes sharp joint, neck or back pain.']
+ ];
+ return sections.map(([title,body])=>'<section style="margin-top:18px"><h3>'+escape(title)+'</h3><p style="line-height:1.5">'+escape(body)+'</p></section>').join('')+sessionOverview(id,p)+'<p>'+(cs()?'Výdrže jsou v sekundách, kardio v minutách a rozsah / strana platí pro každou stranu. Cviky upravíš přes Zobrazit sessions. Klepnutím na ikonu cviku otevřeš jeho detail.':'Holds use seconds, cardio uses minutes, and / side applies to each side. Edit exercises through View sessions. Tap an exercise icon to open its details.')+'</p>';
+}
 function guideMarkup(id){
- const p=PROGRAMS[id];if(!p)return '';
+ const p=guideProgram(id);if(!p)return '';
+ if(!PROGRAMS[id])return legacyGuide(id,p);
  const en=[
   ['Session order',p.scheduleEn+'. The weekdays are suggestions. Follow the session order even if you train on different days. Leave a rest day between the 3-day sessions; for the 4-day plan, leave about 48 hours between sessions for the same body region.'],
   ['Warm-up','Start with 4–5 minutes of easy movement and 1–2 lighter preparation sets for the first main exercise. Preparation sets do not count as working sets.'],
@@ -63,10 +118,10 @@ function guideMarkup(id){
   ['Přidávání váhy','Jakmile ve všech pracovních sériích dosáhneš horní hranice opakování s dobrou technikou a stejnou rezervou, příště přidej nejmenší dostupný krok váhy. Pokud opakování klesnou pod rozsah, váhu sniž.'],
   ['Pravidelnost','Drž program 6–8 týdnů a porovnávej opakování a váhy v historii. Bolest svalů není měřítkem růstu. Při ostré bolesti kloubu, krku nebo zad cvik zastav.']
  ];
- return '<p>'+ (cs()?p.scheduleCs:p.scheduleEn)+'</p><div class="v190-session-totals">'+p.sessions.map(s=>'<p><strong>'+(cs()?s.titleCs:s.titleEn)+'</strong> · '+s.items.reduce((n,x)=>n+x.sets,0)+' '+(cs()?'pracovních sérií':'working sets')+'</p>').join('')+'</div>'+(cs()?cz:en).map(([title,body])=>'<section style="margin-top:18px"><h3 style="margin:0 0 6px">'+title+'</h3><p style="margin:0;line-height:1.5">'+body+'</p></section>').join('')+'<p style="margin-top:20px">'+(cs()?'U Pallof pressu platí počet opakování pro každou stranu. Cviky můžeš upravovat přes Zobrazit sessions.':'Pallof press reps apply to each side. Edit exercises through View sessions.')+'</p>';
+ return '<p>'+escape(cs()?p.scheduleCs:p.scheduleEn)+'</p><p>'+(cs()?'Program pro růst svalů s rozdělením horního a dolního těla. Tréninky mají přibližně 40 minut; skutečná délka závisí na pauzách a vybavení.':'A muscle-building program split between upper and lower body. Sessions target about 40 minutes; actual duration depends on rest and equipment.')+'</p>'+sessionOverview(id,p)+(cs()?cz:en).map(([title,body])=>'<section style="margin-top:18px"><h3 style="margin:0 0 6px">'+title+'</h3><p style="margin:0;line-height:1.5">'+body+'</p></section>').join('')+'<p style="margin-top:20px">'+(cs()?'Rozsah / strana platí pro každou stranu; výdrže jsou v sekundách a kardio v minutách. Cviky můžeš upravovat přes Zobrazit sessions. Klepnutím na ikonu otevřeš detail cviku.':'Ranges marked / side apply to each side; holds are in seconds and cardio in minutes. Edit exercises through View sessions. Tap an icon to open exercise details.')+'</p>';
 }
 function openGuide(){
- const id=state.programJourney?.programId,p=PROGRAMS[id];if(!p)return;
+ const id=state.programJourney?.programId,p=guideProgram(id);if(!p)return;
  let d=document.getElementById('v190GuideDialog');
  if(!d){d=document.createElement('dialog');d.id='v190GuideDialog';d.innerHTML='<div class="modal"><button type="button" class="iconbtn close">✕</button><h2></h2><div class="v190-guide-body"></div></div>';document.body.appendChild(d);d.querySelector('button').onclick=()=>d.close()}
  d.querySelector('h2').textContent=cs()?p.nameCs:p.nameEn;d.querySelector('.v190-guide-body').innerHTML=guideMarkup(id);if(!d.open)d.showModal();
@@ -74,7 +129,7 @@ function openGuide(){
 function decorateGuide(){
  document.querySelectorAll('.screen .workout-hero').forEach(hero=>{
   let b=hero.querySelector('.v190-guide-button');
-  if(!PROGRAMS[state.programJourney?.programId]){b?.remove();return}
+  if(!guideProgram(state.programJourney?.programId)){b?.remove();return}
   if(!b){b=document.createElement('button');b.type='button';b.className='secondary v190-guide-button';b.style.cssText='margin-top:10px;width:100%';b.onclick=openGuide;hero.appendChild(b)}
   b.textContent=cs()?'ⓘ Jak trénovat tento program':'ⓘ How to train this program';
  });

@@ -33,9 +33,11 @@ function openEditor(){
  document.getElementById('programSessionsSubtitle').textContent=cs()?'Změny se ukládají do tohoto programu a platí i pro další tréninky.':'Changes are saved to this program for future workouts.';
  list.innerHTML=sessions(editingProgram).map(s=>'<section class="v124-session-card"><div class="v124-session-head"><strong>'+safe(s.title)+'</strong></div><div class="v124-session-exercises">'+layout(editingProgram,s.key).map(item=>{
   const x=EX[item.id];
-  return '<div class="v124-session-exercise"><span class="program-picker-icon">🏋️</span><div><strong>'+safe(x?itemName(x):item.id)+'</strong><small>'+safe((item.sets||x?.sets||3)+' × '+(item.range||x?.range||''))+'</small></div><div class="v124-session-tools"><button type="button" data-change="'+safe(item.slotId)+'" data-session="'+safe(s.key)+'">'+(cs()?'Změnit':'Change')+'</button><button type="button" class="remove" data-remove="'+safe(item.slotId)+'" data-session="'+safe(s.key)+'">'+(cs()?'Odebrat':'Remove')+'</button></div></div>';
+  const name=x?itemName(x):item.id;
+  return '<div class="v124-session-exercise"><button type="button" class="program-picker-icon" data-exercise-detail="'+safe(item.id)+'" aria-label="'+safe((cs()?'Zobrazit cvik: ':'View exercise: ')+name)+'" style="padding:0;border:1px solid var(--line);cursor:pointer">'+(x?.guideThumb?'<img src="'+safe(x.guideThumb)+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">':'🏋️')+'</button><div><strong>'+safe(name)+'</strong><small>'+safe((item.sets||x?.sets||3)+' × '+(item.range||x?.range||''))+'</small></div><div class="v124-session-tools"><button type="button" data-change="'+safe(item.slotId)+'" data-session="'+safe(s.key)+'">'+(cs()?'Změnit':'Change')+'</button><button type="button" class="remove" data-remove="'+safe(item.slotId)+'" data-session="'+safe(s.key)+'">'+(cs()?'Odebrat':'Remove')+'</button></div></div>';
  }).join('')+'</div><div class="v124-session-footer"><button type="button" class="add" data-add="'+safe(s.key)+'">＋ '+(cs()?'Přidat cvik':'Add exercise')+'</button></div></section>').join('');
  list.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>choose(b.dataset.add));
+ list.querySelectorAll('[data-exercise-detail]').forEach(b=>b.onclick=()=>openVideo(b.dataset.exerciseDetail));
  list.querySelectorAll('[data-change]').forEach(b=>b.onclick=()=>choose(b.dataset.session,b.dataset.change));
  list.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>remove(editingProgram,b.dataset.session,b.dataset.remove));
  if(!d.open)d.showModal();
