@@ -82,11 +82,16 @@ function deleteSet(index){
  (e.sets||[]).splice(index,1);e.extraTargetSets=Math.max(Number(m.sets)||1,target-1);
  e.done=(e.sets||[]).slice(0,e.extraTargetSets).filter(s=>s?._complete).length>=e.extraTargetSets;
  w.awaitingFinish=false;w.workoutReminderAt=0;
+ stopDeletedSetRest();
  if(typeof clearWorkoutReminder==='function')clearWorkoutReminder();
  try{lastSetUndo=null}catch(_){}
  saveState();if(typeof syncCurrentExerciseHistory==='function')syncCurrentExerciseHistory();
  refreshTodayPreviewStatus(w.day,inst.instanceId);renderLive();
  showToast(cs()?'Série smazána.':'Set deleted.');
+}
+function stopDeletedSetRest(){
+ if(typeof skipRest==='function')skipRest();
+ window.GymV166?.updateRest?.();
 }
 function enhanceSets(){
  const inst=currentLive(),w=state.activeWorkout;if(!inst||!w)return;
@@ -106,17 +111,7 @@ function enhanceSets(){
  });
 }
 function addEditorAction(){
- document.querySelectorAll('.v137-session-control').forEach(box=>{
-  if(q('.v187-edit-program',box))return;
-  const b=document.createElement('button');b.type='button';b.className='v187-edit-program';
-  b.textContent=cs()?'Upravit cviky':'Edit exercises';b.onclick=openEditor;box.appendChild(b);
- });
- const chooser=q('#v137SessionDialog .v137-session-shell');
- if(chooser&&!q('.v187-edit-program',chooser)){
-  const b=document.createElement('button');b.type='button';b.className='secondary full v187-edit-program';b.style.marginTop='12px';
-  b.textContent=cs()?'Upravit cviky programu':'Edit program exercises';
-  b.onclick=()=>{document.getElementById('v137SessionDialog')?.close();openEditor()};chooser.appendChild(b);
- }
+ document.querySelectorAll('.v187-edit-program').forEach(button=>button.remove());
 }
 function install(){
 const nativeOpen=openProgramSessions;
@@ -125,6 +120,16 @@ const nativeAdd=addExercise,nativeReplace=replaceExercise;
 addExercise=function(day,id){return pending?apply(id):nativeAdd.apply(this,arguments)};
 replaceExercise=function(day,slot,id){return pending?apply(id):nativeReplace.apply(this,arguments)};
 window.addExercise=addExercise;window.replaceExercise=replaceExercise;
+const nativeDelete=deleteSavedSet;
+deleteSavedSet=function(index){
+ const inst=currentLive(),w=state.activeWorkout;
+ const e=inst&&w?entry(w.day,inst.instanceId):null;
+ const completed=()=>e?(e.sets||[]).filter(s=>s?._complete).length:0;
+ const before=completed(),result=nativeDelete.apply(this,arguments);
+ /* Cancelling the delete dialog keeps the current rest timer running. */
+ if(completed()<before)stopDeletedSetRest();
+ return result;
+};window.deleteSavedSet=deleteSavedSet;
 const nativeRender=renderLive;
 renderLive=function(){const result=nativeRender.apply(this,arguments);enhanceSets();return result};window.renderLive=renderLive;
 const nativeDay=renderDay;
