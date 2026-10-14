@@ -5,7 +5,9 @@ const cs=()=>lang()==='cs',q=(s,r=document)=>r.querySelector(s);
 const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let pending=null,editingProgram='';
 const pid=()=>v124ProgramId();
+function isCycle(program){return program==='busy_week'||!!window.GymV190?.isFourDay(program)}
 function sessions(program=pid()){
+ if(window.GymV190?.isFourDay(program))return window.GymV190.sessionsFor(program).map((s,i)=>({key:'cycle_'+i,title:cs()?s.titleCs:s.titleEn,items:s.items}));
  if(program==='busy_week')return (window.GymV165?.busySessions||[]).map((s,i)=>({key:'busy_'+i,title:cs()?s.titleCs:s.titleEn,items:s.items}));
  return Object.entries(PLAN_PRESETS[program]?.plans||{}).map(([key,p])=>({key,title:p[cs()?'title_cs':'title_en']||p.title_en||key,items:p.items||[]}));
 }
@@ -14,7 +16,7 @@ function layout(program,key){
  const saved=state.programSessionLayouts[program]||(state.programSessionLayouts[program]={});
  if(!Array.isArray(saved[key])){
   const s=sessions(program).find(x=>x.key===key);
-  saved[key]=(s?.items||[]).map((x,i)=>({...x,slotId:x.slotId||(program==='busy_week'?'slot-'+i+'-'+x.id:x.id)}));
+  saved[key]=(s?.items||[]).map((x,i)=>({...x,slotId:x.slotId||(isCycle(program)?'slot-'+i+'-'+x.id:x.id)}));
  }
  return saved[key];
 }
@@ -64,8 +66,8 @@ function remove(program,key,slot){
 }
 function clearEntry(program,key,slot){
  if(program!==pid())return;
- const id=program==='busy_week'?'busy:'+Number(key.slice(5))+':'+slot:'base:'+key+':'+slot;
- const days=program==='busy_week'?Object.values(state.days||{}):[state.days?.[key]];
+ const id=isCycle(program)?'busy:'+Number(key.split('_')[1])+':'+slot:'base:'+key+':'+slot;
+ const days=isCycle(program)?Object.values(state.days||{}):[state.days?.[key]];
  days.filter(Boolean).forEach(day=>{
   if(day.entries)delete day.entries[id];
   if(day.order)day.order=day.order.filter(x=>x!==id);

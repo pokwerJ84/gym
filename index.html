@@ -4781,25 +4781,26 @@ body{
 .v123-set-row.complete .v184-set-actions button{grid-column:auto!important;min-height:44px;padding:8px;border-radius:10px;font-size:12px;font-weight:900}
 .v184-delete-set{border:1px solid rgba(255,110,110,.4);background:rgba(255,110,110,.08);color:#ff9999}
 </style>
-<link rel="stylesheet" href="./hotfix-v126.css?v=189">
-<link rel="stylesheet" href="./hotfix-v129.css?v=189">
-<link rel="stylesheet" href="./hotfix-v130.css?v=189">
-<link rel="stylesheet" href="./hotfix-v131.css?v=189">
-<link rel="stylesheet" href="./hotfix-v136.css?v=189">
-<link rel="stylesheet" href="./hotfix-v137.css?v=189">
-<link rel="stylesheet" href="./hotfix-v139.css?v=189">
-<link rel="stylesheet" href="./hotfix-v140.css?v=189">
-<link rel="stylesheet" href="./hotfix-v142.css?v=189">
-<link rel="stylesheet" href="./hotfix-v143.css?v=189">
-<link rel="stylesheet" href="./hotfix-v153.css?v=189">
-<link rel="stylesheet" href="./hotfix-v154.css?v=189">
-<link rel="stylesheet" href="./hotfix-v166.css?v=189">
+<link rel="stylesheet" href="./hotfix-v126.css?v=190">
+<link rel="stylesheet" href="./hotfix-v129.css?v=190">
+<link rel="stylesheet" href="./hotfix-v130.css?v=190">
+<link rel="stylesheet" href="./hotfix-v131.css?v=190">
+<link rel="stylesheet" href="./hotfix-v136.css?v=190">
+<link rel="stylesheet" href="./hotfix-v137.css?v=190">
+<link rel="stylesheet" href="./hotfix-v139.css?v=190">
+<link rel="stylesheet" href="./hotfix-v140.css?v=190">
+<link rel="stylesheet" href="./hotfix-v142.css?v=190">
+<link rel="stylesheet" href="./hotfix-v143.css?v=190">
+<link rel="stylesheet" href="./hotfix-v153.css?v=190">
+<link rel="stylesheet" href="./hotfix-v154.css?v=190">
+<link rel="stylesheet" href="./hotfix-v166.css?v=190">
+<script src="./v190-programs.js?v=190"></script>
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v189</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v190</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5202,12 +5203,13 @@ Object.assign(PLAN_PRESETS,{
   friday:{title_cs:"Síla C",title_en:"Strength C",sub_cs:"Kontrolovaný silový trénink",sub_en:"Controlled strength session",items:[{id:"v_squat_machine",sets:4,range:"5–8"},{id:"incline_machine_press",sets:4,range:"6–10"},{id:"chest_supported_row",sets:4,range:"6–10"},{id:"lying_leg_curl",sets:3,range:"8–12"},{id:"back_extension",sets:3,range:"10–12"}]}
  }}
 });
+window.GymV190?.registerPresets();
 let BASE_PLANS=PLAN_PRESETS.balanced.plans;
 const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=189;
+const VERSION=190;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -8389,6 +8391,7 @@ const PROGRAM_META={
  busy_week:{icon:"⏱️",sessions:0,label_cs:"Every Day – Busy Week",label_en:"Every Day – Busy Week",detail_cs:"5-session cyklus · 4–5× týdně · 40 min síla + 20 min pás",detail_en:"5-session cycle · 4–5× weekly · 40 min lifting + 20 min treadmill"},
  strength_builder:{icon:"🏆",sessions:24,label_cs:"Strength Builder – 8 týdnů",label_en:"Strength Builder – 8 Weeks",detail_cs:"24 tréninků · postupný růst síly",detail_en:"24 sessions · progressive strength"}
 };
+window.GymV190?.registerMeta();
 function normalizeProgramJourney(){
  const fallback=PLAN_PRESETS[state.settings?.workoutStyle]?state.settings.workoutStyle:"balanced";
  state.programJourney={programId:fallback,sessionIndex:0,completedSessions:0,startedAt:Date.now(),...(state.programJourney||{})};
@@ -8876,6 +8879,7 @@ function v175WorkoutForDate(iso){
  return (state.workouts||[]).filter(w=>w&&w.date===iso&&w.type!=="cardio").sort((a,b)=>(Number(b.savedAt)||0)-(Number(a.savedAt)||0))[0]||null;
 }
 function v175SessionLabel(workout){
+ const planned=window.GymV190?.sessionFor(workout?.programId,workout?.programSessionIndex);if(planned)return lang()==='cs'?planned.titleCs:planned.titleEn;
  if(!workout)return"";
  if(workout.programId==="busy_week"&&window.GymV165?.busySession){
    const s=window.GymV165.busySession(Number(workout.programSessionIndex)||0);
@@ -9036,23 +9040,23 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=189"></script>
-<script src="./v129-detail.js?v=189"></script>
-<script src="./v129-cloud.js?v=189"></script>
-<script src="./v130-core.js?v=189"></script>
-<script src="./v131-core.js?v=189"></script>
-<script src="./v132-core.js?v=189"></script>
-<script src="./v136-core.js?v=189"></script>
-<script src="./v137-core.js?v=189"></script>
-<script src="./v138-core.js?v=189"></script>
-<script src="./v139-core.js?v=189"></script>
-<script src="./v142-core.js?v=189"></script>
-<script src="./v154-core.js?v=189"></script>
-<script src="./v166-core.js?v=189"></script>
-<script src="./v163-core.js?v=189"></script>
-<script src="./v165-core.js?v=189"></script>
-<script src="./v170-progress.js?v=189"></script>
-<script src="./v187-editor.js?v=189"></script>
+<script src="./v129-core.js?v=190"></script>
+<script src="./v129-detail.js?v=190"></script>
+<script src="./v129-cloud.js?v=190"></script>
+<script src="./v130-core.js?v=190"></script>
+<script src="./v131-core.js?v=190"></script>
+<script src="./v132-core.js?v=190"></script>
+<script src="./v136-core.js?v=190"></script>
+<script src="./v137-core.js?v=190"></script>
+<script src="./v138-core.js?v=190"></script>
+<script src="./v139-core.js?v=190"></script>
+<script src="./v142-core.js?v=190"></script>
+<script src="./v154-core.js?v=190"></script>
+<script src="./v166-core.js?v=190"></script>
+<script src="./v163-core.js?v=190"></script>
+<script src="./v165-core.js?v=190"></script>
+<script src="./v170-progress.js?v=190"></script>
+<script src="./v187-editor.js?v=190"></script>
 <script>init();</script>
 </body>
 </html>

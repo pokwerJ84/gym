@@ -130,6 +130,7 @@ function historyCard(item){
   </details>`;
 }
 function sessionTitle(workout){
+  const planned=window.GymV190?.sessionFor(workout?.programId,workout?.programSessionIndex);if(planned)return cs()?planned.titleCs:planned.titleEn;
   try{
     if(workout?.programId==='busy_week'&&window.GymV165?.busySession){
       const s=window.GymV165.busySession(Number(workout.programSessionIndex)||0);

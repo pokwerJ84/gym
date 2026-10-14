@@ -84,6 +84,7 @@ function inMonth(iso){try{const d=new Date(iso+'T12:00:00'),n=new Date();return 
 function workouts(){return(state?.workouts||[]).filter(w=>w&&w.type!=='cardio'&&w.date).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date)))}
 function snapStats(){let done=0,skipped=0,tracked=0;workouts().forEach(w=>{if(Array.isArray(w.exerciseSnapshot)&&w.exerciseSnapshot.length){tracked++;w.exerciseSnapshot.forEach(x=>{if(x?.skipped)skipped++;else if(x?.done)done++})}});return{done,skipped,tracked,total:done+skipped}}
 function sessionName(w){
+ const planned=window.GymV190?.sessionFor(w.programId,w.programSessionIndex);if(planned)return cs()?planned.titleCs:planned.titleEn;
  if(w.programId==='busy_week'&&window.GymV165?.busySession){const s=window.GymV165.busySession(Number(w.programSessionIndex)||0);if(s)return cs()?s.titleCs:s.titleEn}
  try{const p=PLAN_PRESETS?.[w.programId]?.plans?.[w.day];return p?.[cs()?'title_cs':'title_en']||p?.title_en||w.programTitle||w.day||'Workout'}catch(_){return w.programTitle||w.day||'Workout'}
 }

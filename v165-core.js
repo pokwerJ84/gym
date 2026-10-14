@@ -103,16 +103,17 @@ function ensureAssistedDips(){
  }catch(e){console.warn('[v168 assisted dips]',e)}
 }
 function validateItems(items){return items.filter(x=>exercise(x.id))}
-function busyActive(){try{return state?.programJourney?.programId==='busy_week'}catch(_){return false}}
+function cycleList(pid=state?.programJourney?.programId){return window.GymV190?.isFourDay(pid)?window.GymV190.sessionsFor(pid):BUSY}
+function busyActive(){try{const pid=state?.programJourney?.programId;return pid==='busy_week'||!!window.GymV190?.isFourDay(pid)}catch(_){return false}}
 function busyStep(){
  try{
   const w=state?.activeWorkout;
-  const raw=(w?.programId==='busy_week'&&Number.isFinite(Number(w.programSessionIndex)))?Number(w.programSessionIndex):Number(state?.programJourney?.sessionIndex||0);
-  return ((raw%BUSY.length)+BUSY.length)%BUSY.length;
+  const raw=(w?.programId===state?.programJourney?.programId&&Number.isFinite(Number(w.programSessionIndex)))?Number(w.programSessionIndex):Number(state?.programJourney?.sessionIndex||0);
+  const count=cycleList().length;return ((raw%count)+count)%count;
  }catch(_){return 0}
 }
-function busySession(step=busyStep()){const index=((Number(step)||0)%BUSY.length+BUSY.length)%BUSY.length;return BUSY[index]}
-function layoutKey(){return `busy_${busyStep()}`}
+function busySession(step=busyStep(),pid=state?.programJourney?.programId){const list=cycleList(pid),index=((Number(step)||0)%list.length+list.length)%list.length;return list[index]}
+function layoutKey(){return `${window.GymV190?.isFourDay(state?.programJourney?.programId)?"cycle":"busy"}_${busyStep()}`}
 
 function ensureBusyProgram(){
  try{
@@ -162,12 +163,12 @@ function sessionLayout(){
  if(!busyActive())return null;
  try{
   state.programSessionLayouts=state.programSessionLayouts||{};
-  state.programSessionLayouts.busy_week=state.programSessionLayouts.busy_week||{};
+  const pid=state.programJourney.programId;state.programSessionLayouts[pid]=state.programSessionLayouts[pid]||{};
   const key=layoutKey();
-  if(!Array.isArray(state.programSessionLayouts.busy_week[key])||!state.programSessionLayouts.busy_week[key].length){
-   state.programSessionLayouts.busy_week[key]=busySession().items.map((x,i)=>({slotId:`slot-${i}-${x.id}`,...clone(x)}));
+  if(!Array.isArray(state.programSessionLayouts[pid][key])||!state.programSessionLayouts[pid][key].length){
+   state.programSessionLayouts[pid][key]=busySession().items.map((x,i)=>({slotId:`slot-${i}-${x.id}`,...clone(x)}));
   }
-  return state.programSessionLayouts.busy_week[key];
+  return state.programSessionLayouts[pid][key];
  }catch(_){return null}
 }
 V.sessionLayout=sessionLayout;V.layoutKey=layoutKey;
@@ -209,19 +210,21 @@ function decorateChooser(){
  if(!busyActive())return;
  const step=busyStep();
  if(auto)auto.hidden=true;
- list.innerHTML=BUSY.map((s,index)=>`<button type="button" data-busy-step="${index}" class="${index===step?'selected':''}"><span>⏱️</span><div><strong>${cs()?s.titleCs:s.titleEn}</strong><small>Session ${index+1} / ${BUSY.length}</small></div><b>${index===step?'✓':''}</b></button>`).join('');
+ list.innerHTML=cycleList().map((s,index)=>`<button type="button" data-busy-step="${index}" class="${index===step?'selected':''}"><span>⏱️</span><div><strong>${cs()?s.titleCs:s.titleEn}</strong><small>Session ${index+1} / ${cycleList().length}</small></div><b>${index===step?'✓':''}</b></button>`).join('');
  qa('[data-busy-step]',list).forEach(btn=>btn.addEventListener('click',()=>{
   const index=Number(btn.dataset.busyStep),iso=currentIso();
   clearOptional(iso);
   try{
    /* Release the previous step lock; entered data remains in state.days. */
    state.activeWorkout=null;
-   state.programJourney.sessionIndex=index;
+   const absolute=Number(state.programJourney.sessionIndex)||0,count=cycleList().length;
+   state.programJourney.sessionIndex=absolute+((index-step+count)%count);
    if(typeof clearWorkoutReminder==='function')clearWorkoutReminder();
    q('#liveOverlay')?.classList.remove('show');q('#workoutRunning')?.classList.remove('show');
    if(typeof saveState==='function')saveState();
   }catch(_){}
-  window.GymV137?.setManualSession?.(iso,['monday','wednesday','friday'][index%3]);
+  window.GymV137?.setManualSession?.(iso,['monday','wednesday','friday'][(Number(state.programJourney.sessionIndex)||0)%3]);
+  try{const chosen=busySession(index);showToast((cs()?chosen.titleCs:chosen.titleEn)+' ✓')}catch(_){}
   requestAnimationFrame(decorate);
  }));
 
@@ -241,10 +244,10 @@ function decorate(){
  if(busyActive()){
   const step=busyStep(),s=busySession(step);
   if(title)title.textContent=cs()?s.titleCs:s.titleEn;
-  if(num)num.textContent=`${step+1}/5`;
+  if(num)num.textContent=`${step+1}/${cycleList().length}`;
   if(box){
    const strong=q('strong',box),em=q('em',box);
-   if(strong)strong.innerHTML=`⏱️ ${cs()?s.titleCs:s.titleEn} <span>${step+1}/5</span>`;
+   if(strong)strong.innerHTML=`⏱️ ${cs()?s.titleCs:s.titleEn} <span>${step+1}/${cycleList().length}</span>`;
    if(em)em.textContent=cs()?s.subCs:s.subEn;
   }
   const kicker=q('.hero-kicker',hero);if(kicker)kicker.textContent=cs()?'DALŠÍ KRÁTKÁ SESSION':'NEXT SHORT SESSION';
