@@ -72,7 +72,7 @@ function clearEntry(program,key,slot){
  });
 }
 function deleteSet(index){
- const inst=currentLive(),w=state.activeWorkout;if(!inst||!w)return;
+ const w=state.activeWorkout;if(!w)return;const inst=currentLive();if(!inst)return;
  const e=entry(w.day,inst.instanceId),m=metaFor(w.day,inst),target=targetSetCount(m,e);
  if(!Number.isInteger(index)||index<0||index>=target)return;
  if(e.sets?.[index]?._complete)return deleteSavedSet(index);
@@ -94,7 +94,7 @@ function stopDeletedSetRest(){
  window.GymV166?.updateRest?.();
 }
 function enhanceSets(){
- const inst=currentLive(),w=state.activeWorkout;if(!inst||!w)return;
+ const w=state.activeWorkout;if(!w)return;const inst=currentLive();if(!inst)return;
  const e=entry(w.day,inst.instanceId),m=metaFor(w.day,inst);if(m.mode==='cardio')return;
  document.querySelectorAll('#liveContent .v123-set-row').forEach(row=>{
   const n=parseInt(q('.v123-set-number',row)?.textContent||'',10),index=n-1;
@@ -122,7 +122,7 @@ replaceExercise=function(day,slot,id){return pending?apply(id):nativeReplace.app
 window.addExercise=addExercise;window.replaceExercise=replaceExercise;
 const nativeDelete=deleteSavedSet;
 deleteSavedSet=function(index){
- const inst=currentLive(),w=state.activeWorkout;
+ const w=state.activeWorkout;if(!w)return;const inst=currentLive();
  const e=inst&&w?entry(w.day,inst.instanceId):null;
  const completed=()=>e?(e.sets||[]).filter(s=>s?._complete).length:0;
  const before=completed(),result=nativeDelete.apply(this,arguments);
@@ -145,3 +145,4 @@ requestAnimationFrame(addEditorAction);enhanceSets();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
+

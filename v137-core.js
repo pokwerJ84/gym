@@ -15,6 +15,7 @@ function next(day){const i=DAYS.indexOf(day);return i<0?'monday':DAYS[(i+1)%3]}
 function auto(){const last=completed().at(-1);return last?next(last.day):'monday'}
 function doneOn(iso){return completed().filter(w=>w.date===iso).at(-1)||null}
 function resolve(iso=currentIso()){
+ if(window.GymV138?.resolve)return window.GymV138.resolve(iso,state);
  const date=String(iso||currentIso());
  try{const a=state?.activeWorkout,ad=a?.date||state?.days?.[a?.day]?.date||'';if(a&&DAYS.includes(a.day)&&(!ad||ad===date))return a.day}catch(_){}
  const m=read()[date];if(DAYS.includes(m))return m;
@@ -25,7 +26,7 @@ function resolve(iso=currentIso()){
 V.automaticNextDay=auto;V.resolvedDayForDate=resolve;
 function programId(){try{return typeof v124ProgramId==='function'?v124ProgramId():(state?.programJourney?.programId||state?.settings?.workoutStyle||'balanced')}catch(_){return 'balanced'}}
 function programDays(){try{return DAYS.filter(day=>PLAN_PRESETS?.[programId()]?.plans?.[day])}catch(_){return []}}
-const name=d=>{try{const p=PLAN_PRESETS?.[programId()]?.plans?.[d];return p?.[cs()?'title_cs':'title_en']||p?.title_en||d}catch(_){return d}},icon=d=>({monday:'🏋️',wednesday:'🛡️',friday:'⚡'}[d]||'🏋️'),idx=d=>Math.max(0,DAYS.indexOf(d))+1;
+const name=d=>{try{const p=PLAN_PRESETS?.[programId()]?.plans?.[d];return (p?.[cs()?'title_cs':'title_en']||p?.title_en||d).replace(/^[^\p{L}\p{N}]+/u,'')}catch(_){return d}},icon=d=>({monday:'🏋️',wednesday:'🛡️',friday:'⚡'}[d]||'🏋️'),idx=d=>Math.max(0,DAYS.indexOf(d))+1;
 let nativeShowToday=null;
 function installShow(){try{nativeShowToday=typeof showToday==='function'?showToday:null;if(!nativeShowToday||nativeShowToday.__v137)return;const f=function(day,date,...args){const iso=String(date||currentIso());return nativeShowToday.call(this,resolve(iso),iso,...args)};f.__v137=true;f.__native=nativeShowToday;showToday=f;window.showToday=f}catch(e){console.warn('[v137 showToday]',e)}}
 function installCurrent(){try{const native=typeof currentProgramDay==='function'?currentProgramDay:null;const f=function(){return resolve(currentIso())};f.__v137=true;f.__native=native;currentProgramDay=f;window.currentProgramDay=f}catch(e){console.warn('[v137 currentProgramDay]',e)}}
@@ -69,3 +70,4 @@ V.diagnostics=()=>({release:V.release,date:currentIso(),automaticNext:auto(),res
 function start(){installCurrent();installShow();hooks();const iso=currentIso(),target=resolve(iso);try{if(!state?.activeWorkout&&nativeShowToday)nativeShowToday(target,iso)}catch(_){}requestAnimationFrame(decorate)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
+

@@ -1,0 +1,41 @@
+process.chdir(require('path').join(__dirname,'..'));
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const src=fs.readFileSync('index.html','utf8');
+let checks=0;
+function check(name,fn){fn();checks++;console.log('PASS',name)}
+function fn(name){const start=src.indexOf('function '+name+'(');if(start<0)throw Error(name);const line=src.slice(start,src.indexOf('\n',start));return line.endsWith('}')?line:src.slice(start,src.indexOf('\n}',start)+2)}
+function context(extra={}){const c={console,Date,JSON,Number,String,Array,Object,Set,Map,Promise,structuredClone,clearInterval(){},clearTimeout(){},setTimeout(){},requestAnimationFrame(){},VERSION:188,cloudUser:null,document:{readyState:'loading',querySelector:()=>null,querySelectorAll:()=>[],getElementById:()=>null,addEventListener(){}},...extra};c.window=c;vm.createContext(c);return c}
+const presets=src.slice(src.indexOf('const PLAN_PRESETS='),src.indexOf('let BASE_PLANS='));
+const a=context({state:{programJourney:{programId:'quick'},workouts:[],days:{}},lang:()=> 'en',EX:{},LIBRARY:[],PROGRAM_META:{},localStorage:{getItem:()=>null,setItem(){}},today:()=> '2026-10-14'});
+vm.runInContext(presets+'\nwindow.PLAN_PRESETS=PLAN_PRESETS;',a);
+vm.runInContext(fs.readFileSync('v165-core.js','utf8'),a);
+check('All program presets contain three non-empty sessions',()=>{for(const p of Object.values(a.PLAN_PRESETS))assert.equal(Object.values(p.plans).filter(x=>x.items.length).length,3)});
+check('Busy Week history repeats all five labels',()=>{for(let i=0;i<15;i++)assert.equal(a.GymV165.busySession(i).titleEn,a.GymV165.busySessions[i%5].titleEn)});
+const b=context({GymV129:{},state:{},hasMeaningfulLocalData:()=>false,mergeStates:()=>({})});
+vm.runInContext(fs.readFileSync('v129-cloud.js','utf8'),b);
+check('Cloud merge retains chosen main photo',()=>assert.equal(b.GymV129.mergeMedia({x:{files:[{id:'f'}],coverFileId:'f'}},{x:{}}).x.coverFileId,'f'));
+check('Reset main photo does not reappear from older cloud state',()=>assert.equal(b.GymV129.mergeMedia({x:{files:[{id:'f'}]}},{x:{coverFileId:'f'}}).x.coverFileId,undefined));
+check('Remote main photo retained when remote is preferred',()=>assert.equal(b.GymV129.mergeMedia({x:{}},{x:{coverFileId:'f'}},false).x.coverFileId,'f'));
+check('Deleted media and links stay deleted',()=>{const m=b.GymV129.mergeMedia({x:{deletedFiles:[{id:'f'}],deletedLinks:[{id:'l'}]}},{x:{files:[{id:'f'}],links:[{id:'l'}]}}).x;assert.equal(m.files.length,0);assert.equal(m.links.length,0)});
+const base=()=>({meta:{modifiedAt:0},workouts:[],history:{},progress:[],customExercises:[],days:{},sessionFinalizations:{},activeWorkout:null});
+const m=context({defaultState:base,migrateState:v=>({...base(),...structuredClone(v)}),cloneState:v=>JSON.parse(JSON.stringify(v))});
+vm.runInContext(fn('stateActivityTimestamp')+'\n'+fn('uniqueRecords')+'\n'+fn('mergeStates'),m);
+const rec=(key,reps)=>({sessionKey:key,date:'2026-10-14',day:'monday',mode:'weight',sets:[{kg:20,reps}]});
+check('Editing a session does not create a duplicate workout or set record',()=>{const x=m.mergeStates({...base(),meta:{modifiedAt:20},workouts:[{sessionKey:'s',savedAt:20}],history:{x:[rec('s',8)]}},{...base(),meta:{modifiedAt:10},workouts:[{sessionKey:'s',savedAt:10}],history:{x:[rec('s',10)]}});assert.equal(x.workouts.length,1);assert.equal(x.history.x.length,1);assert.equal(x.history.x[0].sets[0].reps,8)});
+check('Identical results from two distinct sessions stay separate',()=>{const x=m.mergeStates({...base(),history:{x:[rec('a',10)]}},{...base(),history:{x:[rec('b',10)]}});assert.equal(x.history.x.length,2)});
+check('A deleted current-session record is not restored by older cloud data',()=>{const x=m.mergeStates({...base(),meta:{modifiedAt:20},activeWorkout:{sessionKey:'s'}},{...base(),meta:{modifiedAt:10},history:{x:[rec('s',10)]}});assert.equal(x.history.x.length,0)});
+check('Unrelated older workout history is preserved',()=>{const x=m.mergeStates({...base(),meta:{modifiedAt:20},workouts:[{sessionKey:'s'}],history:{x:[rec('s',8)]}},{...base(),meta:{modifiedAt:10},history:{x:[rec('old',10)]}});assert.equal(x.history.x.length,2)});
+check('A finalized session cannot return as an active cloud draft',()=>{const x=m.mergeStates({...base(),activeWorkout:{sessionKey:'s'}},{...base(),workouts:[{sessionKey:'s'}]});assert.equal(x.activeWorkout,null)});
+const h=context({state:{workouts:[{sessionKey:'old',date:'2026-10-14',day:'monday',exerciseSnapshot:[{exerciseId:'old'}]}],days:{}},lang:()=> 'en',localStorage:{getItem:()=>null,setItem(){}}});
+let hs=fs.readFileSync('v163-core.js','utf8').replace('window.GymV163=V;','V.attachSnapshot=attachSnapshot;V.wrapFinish=wrapFinish;window.GymV163=V;');vm.runInContext(hs,h);
+check('Unfinished snapshot cannot overwrite another workout on the same day',()=>{h.GymV163.attachSnapshot({sessionKey:'new',date:'2026-10-14',day:'monday',items:[{exerciseId:'new'}]});assert.equal(h.state.workouts[0].exerciseSnapshot[0].exerciseId,'old')});
+check('Successful snapshot attaches to its own session',()=>{h.state.workouts.push({sessionKey:'new'});h.GymV163.attachSnapshot({sessionKey:'new',items:[{exerciseId:'new'}]});assert.equal(h.state.workouts[1].exerciseSnapshot[0].exerciseId,'new')});
+const store=new Map([['gymV166RestPending','rest'],['gymManualSessionByDateV137',JSON.stringify({'2026-10-14':'wednesday','2026-10-13':'monday'})]]);
+const f=context({state:{activeWorkout:{restEndAt:123},sessionOverrides:{'2026-10-14':{day:'wednesday'},'2026-10-13':{day:'monday'}}},localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)}});
+vm.runInContext(fn('clearFinishedSessionUI'),f);
+check('Completion clears only its own manual session override and rest',()=>{f.clearFinishedSessionUI('2026-10-14');assert.equal(f.state.activeWorkout.restEndAt,0);assert.equal(store.has('gymV166RestPending'),false);assert.equal(f.state.sessionOverrides['2026-10-14'],undefined);assert.ok(f.state.sessionOverrides['2026-10-13']);assert.equal(JSON.parse(store.get('gymManualSessionByDateV137'))['2026-10-14'],undefined)});
+const cold=context({state:{activeWorkout:null},lang:()=> 'en',currentLive:()=>{throw Error('currentLive must not be called without workout')},openProgramSessions(){},addExercise(){},replaceExercise(){},deleteSavedSet(){},renderLive(){},renderDay(){}});
+const coldSource=fs.readFileSync('v187-editor.js','utf8').replace("if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();",'install();');
+check('Cold start without active workout has no exception',()=>vm.runInContext(coldSource,cold));
+check('Delete actions without active workout are harmless',()=>{cold.GymV187.deleteSet(0);cold.deleteSavedSet(0)});
+console.log('Audit regression scenarios passed:',checks);

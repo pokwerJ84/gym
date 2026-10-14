@@ -111,7 +111,7 @@ function busyStep(){
   return ((raw%BUSY.length)+BUSY.length)%BUSY.length;
  }catch(_){return 0}
 }
-function busySession(step=busyStep()){return BUSY[step]||BUSY[0]}
+function busySession(step=busyStep()){const index=((Number(step)||0)%BUSY.length+BUSY.length)%BUSY.length;return BUSY[index]}
 function layoutKey(){return `busy_${busyStep()}`}
 
 function ensureBusyProgram(){

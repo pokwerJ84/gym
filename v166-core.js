@@ -30,7 +30,7 @@ function recordsFor(workout){
     Object.entries(state?.history||{}).forEach(([exerciseId,items])=>{
       (items||[]).forEach(record=>{
         const sameSession=!!(workout.sessionKey&&record.sessionKey&&record.sessionKey===workout.sessionKey);
-        const sameDateDay=record.date===workout.date&&(!workout.day||!record.day||record.day===workout.day);
+        const sameDateDay=!(workout.sessionKey&&record.sessionKey)&&record.date===workout.date&&(!workout.day||!record.day||record.day===workout.day);
         if(sameSession||sameDateDay)out.push({...record,exerciseId:record.exerciseId||exerciseId});
       });
     });
@@ -360,3 +360,4 @@ V.diagnostics=()=>({release:V.release,active:!!state?.activeWorkout,selected:(()
 window.GymV166=V;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
+

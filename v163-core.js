@@ -111,14 +111,14 @@ function captureSnapshot(){
 }
 function attachSnapshot(snap){
  if(!snap)return;try{
-  const candidates=(state.workouts||[]).filter(w=>w&&w.type!=='cardio'&&w.date===snap.date&&(w.day===snap.day||!w.day));
+  const candidates=(state.workouts||[]).filter(w=>w&&w.type!=='cardio'&&(snap.sessionKey?w.sessionKey===snap.sessionKey:(w.date===snap.date&&(w.day===snap.day||!w.day))));
   const workout=candidates.sort((a,b)=>(Number(b.savedAt)||0)-(Number(a.savedAt)||0))[0];if(!workout)return;workout.exerciseSnapshot=snap.items;workout.exerciseSnapshotVersion=163;persist();
  }catch(e){console.warn('[v163 snapshot attach]',e)}
 }
 function wrapFinish(name){
  try{
   const native=window[name]||eval(`typeof ${name}==='function'?${name}:null`);if(typeof native!=='function'||native.__v163)return;
-  const f=async function(...args){const snap=captureSnapshot();const r=await native.apply(this,args);attachSnapshot(snap);return r};f.__v163=true;f.__native=native;try{eval(`${name}=f`)}catch(_){}window[name]=f;
+  const f=async function(...args){const snap=captureSnapshot();const r=await native.apply(this,args);if(r!==false)attachSnapshot(snap);return r};f.__v163=true;f.__native=native;try{eval(`${name}=f`)}catch(_){}window[name]=f;
  }catch(_){}
 }
 
@@ -152,3 +152,4 @@ function install(){
 window.GymV163=V;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
+
