@@ -205,16 +205,26 @@ function decorateChooser(){
  });
  const auto=q('.v137-session-auto',d);
  if(auto&&auto.dataset.v168Clear!=='1'){auto.dataset.v168Clear='1';auto.addEventListener('click',()=>clearOptional(currentIso()),{capture:true})}
- Object.entries(OPTIONAL).forEach(([id,t])=>{
-  let btn=q(`.v168-template-${id}`,list);
-  if(!btn){
-   btn=document.createElement('button');btn.type='button';btn.className=`v168-template-${id}`;
-   btn.addEventListener('click',()=>{if(applyOptional(id,currentIso()))d.close()});list.appendChild(btn);
-  }
-  const selected=templateFor(currentIso())===id;
-  btn.classList.toggle('selected',selected);
-  btn.innerHTML=`<span>${t.icon}</span><div><strong>${t.title}</strong><small>${cs()?t.noteCs:t.noteEn}</small></div><b>${selected?'✓':''}</b>`;
- });
+ /* Change session contains only sessions belonging to the active program. */
+ if(!busyActive())return;
+ const step=busyStep();
+ if(auto)auto.hidden=true;
+ list.innerHTML=BUSY.map((s,index)=>`<button type="button" data-busy-step="${index}" class="${index===step?'selected':''}"><span>⏱️</span><div><strong>${cs()?s.titleCs:s.titleEn}</strong><small>Session ${index+1} / ${BUSY.length}</small></div><b>${index===step?'✓':''}</b></button>`).join('');
+ qa('[data-busy-step]',list).forEach(btn=>btn.addEventListener('click',()=>{
+  const index=Number(btn.dataset.busyStep),iso=currentIso();
+  clearOptional(iso);
+  try{
+   /* Release the previous step lock; entered data remains in state.days. */
+   state.activeWorkout=null;
+   state.programJourney.sessionIndex=index;
+   if(typeof clearWorkoutReminder==='function')clearWorkoutReminder();
+   q('#liveOverlay')?.classList.remove('show');q('#workoutRunning')?.classList.remove('show');
+   if(typeof saveState==='function')saveState();
+  }catch(_){}
+  window.GymV137?.setManualSession?.(iso,['monday','wednesday','friday'][index%3]);
+  requestAnimationFrame(decorate);
+ }));
+
 }
 
 function decorate(){
@@ -256,7 +266,7 @@ function install(){
  requestAnimationFrame(decorate);
 }
 
-V.applyOptional=applyOptional;V.templateFor=templateFor;V.busyStep=busyStep;V.busySession=busySession;V.busySessions=BUSY;
+V.decorateChooser=decorateChooser;V.applyOptional=applyOptional;V.templateFor=templateFor;V.busyStep=busyStep;V.busySession=busySession;V.busySessions=BUSY;
 window.GymV165=V;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
