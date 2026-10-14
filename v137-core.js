@@ -30,7 +30,35 @@ function installCurrent(){try{const native=typeof currentProgramDay==='function'
 function ensureDialog(){let d=q('#v137SessionDialog');if(d)return d;d=document.createElement('dialog');d.id='v137SessionDialog';d.className='v137-session-dialog';d.innerHTML=`<div class="v137-session-shell"><div class="v137-session-head"><div><small>${cs()?'TRÉNINK PRO TENTO DEN':'SESSION FOR THIS DAY'}</small><h3>${cs()?'Vybrat session':'Choose session'}</h3></div><button type="button" data-close>✕</button></div><p class="v137-session-date"></p><div class="v137-session-list"></div><button type="button" class="v137-session-auto secondary full">${cs()?'Použít automatické pořadí':'Use automatic rotation'}</button></div>`;document.body.appendChild(d);q('[data-close]',d)?.addEventListener('click',()=>d.close());q('.v137-session-auto',d)?.addEventListener('click',()=>setManual(currentIso(),''));return d}
 function openChooser(){const iso=currentIso(),d=ensureDialog(),cur=resolve(iso),manual=read()[iso]||'';q('.v137-session-date',d).textContent=iso;q('.v137-session-list',d).innerHTML=DAYS.map(day=>`<button type="button" data-day="${day}" class="${cur===day?'selected':''}"><span>${icon(day)}</span><div><strong>${name(day)}</strong><small>${cs()?`Session ${idx(day)} z 3`:`Session ${idx(day)} of 3`}</small></div><b>${cur===day?'✓':''}</b></button>`).join('');qa('[data-day]',d).forEach(b=>b.addEventListener('click',()=>setManual(iso,b.dataset.day||'')));const a=q('.v137-session-auto',d);if(a)a.hidden=!manual;if(!d.open)d.showModal()}
 window.v137OpenSessionChooser=openChooser;
-function setManual(iso,day){const map=read();if(DAYS.includes(day))map[iso]=day;else delete map[iso];write(map);q('#v137SessionDialog')?.close();const target=resolve(iso);try{selectedWorkoutDate=iso;calendarViewDate=iso;localStorage.setItem('gymSelectedWorkoutDate',iso)}catch(_){};if(nativeShowToday)nativeShowToday(target,iso);setTimeout(decorate,0);try{showToast(DAYS.includes(day)?(cs()?`Session změněna na ${name(day)} ✓`:`Session changed to ${name(day)} ✓`):(cs()?'Automatické pořadí obnoveno ✓':'Automatic rotation restored ✓'))}catch(_){}}
+function setManual(iso,day){
+ const date=String(iso||currentIso()),map=read();
+ if(DAYS.includes(day))map[date]=day;else delete map[date];write(map);
+ try{
+   state.sessionOverrides=state.sessionOverrides||{};
+   if(DAYS.includes(day))state.sessionOverrides[date]={day,updatedAt:Date.now()};else delete state.sessionOverrides[date];
+ }catch(_){}
+ q('#v137SessionDialog')?.close();
+ let target=DAYS.includes(day)?day:resolve(date);
+ try{
+   const active=state?.activeWorkout;
+   const activeDate=active?.date||state?.days?.[active?.day]?.date||'';
+   if(active&&active.day!==target&&(!activeDate||activeDate===date)){
+     /* A manual session change is explicit: release the old live-session lock.
+        Its entered exercise data stays in state.days[oldDay] and is not deleted. */
+     state.activeWorkout=null;
+     try{if(typeof clearWorkoutReminder==='function')clearWorkoutReminder()}catch(_){}
+     try{document.getElementById('liveOverlay')?.classList.remove('show');document.getElementById('workoutRunning')?.classList.remove('show')}catch(_){}
+   }
+   selectedWorkoutDate=date;calendarViewDate=date;selectedTodayDay=target;
+   localStorage.setItem('gymSelectedWorkoutDate',date);localStorage.setItem('gymTodayDay',target);
+   if(typeof saveState==='function')saveState();
+ }catch(_){}
+ /* Re-resolve only after the old active-workout lock has been released. */
+ target=DAYS.includes(day)?day:resolve(date);
+ if(nativeShowToday)nativeShowToday(target,date);else try{showToday(target,date)}catch(_){}
+ requestAnimationFrame(()=>{try{if(typeof renderDay==='function')renderDay(target)}catch(_){}decorate()});
+ try{showToast(DAYS.includes(day)?(cs()?`Session změněna na ${name(day)} ✓`:`Session changed to ${name(day)} ✓`):(cs()?'Automatické pořadí obnoveno ✓':'Automatic rotation restored ✓'))}catch(_){}
+}
 V.setManualSession=setManual;
 function source(iso){if(read()[iso])return cs()?'Ručně vybráno':'Manual';if(planned(iso))return cs()?'Naplánováno v kalendáři':'Planned in calendar';return cs()?'Automaticky podle posledního dokončeného tréninku':'Automatic from last completed workout'}
 function decorate(){const iso=currentIso(),day=resolve(iso),root=document.getElementById(day)||q('.screen.active');if(!root)return;q('.v137-session-control',root)?.remove();const hero=q('.workout-hero,.unified-workout-card',root);if(!hero)return;const anchor=q('.hero-meta',hero)||q('.workout-hero-top',hero);if(!anchor)return;const box=document.createElement('div');box.className='v137-session-control';box.innerHTML=`<div><small>SESSION</small><strong>${icon(day)} ${name(day)} <span>${idx(day)}/3</span></strong><em>${esc2(source(iso))}</em></div><button type="button">${cs()?'Změnit session':'Change session'}</button>`;q('button',box)?.addEventListener('click',openChooser);anchor.insertAdjacentElement('afterend',box);const title=q('.workout-hero-top h2',hero),num=q('.hero-plan-number',hero);if(title)title.textContent=name(day);if(num)num.textContent=`${idx(day)}/3`}
