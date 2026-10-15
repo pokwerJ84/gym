@@ -4781,26 +4781,27 @@ body{
 .v123-set-row.complete .v184-set-actions button{grid-column:auto!important;min-height:44px;padding:8px;border-radius:10px;font-size:12px;font-weight:900}
 .v184-delete-set{border:1px solid rgba(255,110,110,.4);background:rgba(255,110,110,.08);color:#ff9999}
 </style>
-<link rel="stylesheet" href="./hotfix-v126.css?v=194">
-<link rel="stylesheet" href="./hotfix-v129.css?v=194">
-<link rel="stylesheet" href="./hotfix-v130.css?v=194">
-<link rel="stylesheet" href="./hotfix-v131.css?v=194">
-<link rel="stylesheet" href="./hotfix-v136.css?v=194">
-<link rel="stylesheet" href="./hotfix-v137.css?v=194">
-<link rel="stylesheet" href="./hotfix-v139.css?v=194">
-<link rel="stylesheet" href="./hotfix-v140.css?v=194">
-<link rel="stylesheet" href="./hotfix-v142.css?v=194">
-<link rel="stylesheet" href="./hotfix-v143.css?v=194">
-<link rel="stylesheet" href="./hotfix-v153.css?v=194">
-<link rel="stylesheet" href="./hotfix-v154.css?v=194">
-<link rel="stylesheet" href="./hotfix-v166.css?v=194">
-<script src="./v190-programs.js?v=194"></script>
+<link rel="stylesheet" href="./hotfix-v126.css?v=195">
+<link rel="stylesheet" href="./hotfix-v129.css?v=195">
+<link rel="stylesheet" href="./hotfix-v130.css?v=195">
+<link rel="stylesheet" href="./hotfix-v131.css?v=195">
+<link rel="stylesheet" href="./hotfix-v136.css?v=195">
+<link rel="stylesheet" href="./hotfix-v137.css?v=195">
+<link rel="stylesheet" href="./hotfix-v139.css?v=195">
+<link rel="stylesheet" href="./hotfix-v140.css?v=195">
+<link rel="stylesheet" href="./hotfix-v142.css?v=195">
+<link rel="stylesheet" href="./hotfix-v143.css?v=195">
+<link rel="stylesheet" href="./hotfix-v153.css?v=195">
+<link rel="stylesheet" href="./hotfix-v154.css?v=195">
+<link rel="stylesheet" href="./hotfix-v166.css?v=195">
+<script src="./v190-programs.js?v=195"></script>
+<script src="./v195-chinups.js?v=195"></script>
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v194</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v195</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5140,6 +5141,7 @@ LIBRARY.push({
   en:["Leaning back and lifting off the backrest","Shrugging or using momentum","Using too much weight or releasing the handles too quickly"]
  }
 });
+window.GymV195?.registerLibrary(LIBRARY);
 const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
 if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 
@@ -5224,7 +5226,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=194;
+const VERSION=195;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -8695,7 +8697,7 @@ function renderLive(){
  liveContent.innerHTML=`<div class="v123-exercise-page"><div class="v123-exercise-header"><button class="v123-back" onclick="backToExerciseList()">‹</button>${m.guideThumb?`<img src="${m.guideThumb}" alt="">`:`<span class="program-picker-icon">${categoryGlyph(m.category)}</span>`}<div class="v123-exercise-title"><small>${esc(categoryName(m.category).toUpperCase())}</small><strong>${esc(itemName(m))}</strong><span>${targetText(m)} · ${Number(m.rest)||0}s ${lang()==="cs"?"pauza":"rest"}</span></div></div><div class="v123-quick-links"><button onclick="openVideo('${m.id}')">ⓘ ${lang()==="cs"?"Technika a video":"Technique & video"}</button><button onclick="openHistory('${m.id}')">◔ ${lang()==="cs"?"Historie":"History"}</button></div>${last?`<div class="v123-previous"><span>${lang()==="cs"?"Minule":"Previous"}</span><strong>${esc(formatRecord(last))}</strong></div>`:""}${done?`<div class="v123-complete-note"><span class="exercise-complete-mark">✓</span><div><b>${lang()==="cs"?"Cvik je uložený":"Exercise saved"}</b><small>${lang()==="cs"?"Karta na hlavní stránce je zelená.":"The card on Today is green."}</small></div></div>`:""}<div class="v123-set-list">${rows.join("")}</div>${m.mode!=="cardio"?`<button class="secondary full" onclick="addExtraSetCurrent()">＋ ${lang()==="cs"?"Přidat sérii":"Add set"}</button>`:""}<div class="v123-bottom-actions"><button onclick="changeCurrentLiveExercise()">↔ ${lang()==="cs"?"Změnit cvik":"Change exercise"}</button><button class="skip" onclick="skipCurrentExercise()">⊘ ${lang()==="cs"?"Přeskočit":"Skip"}</button></div></div>`;
 }
 function upsertCurrentExerciseHistory(day,inst,m,e){
- const key=state.activeWorkout?.sessionKey||programSessionKey(),date=state.activeWorkout?.date||today();let rec={date,day,exerciseId:m.id,mode:m.mode,notes:e.notes||"",sessionKey:key,programId:state.activeWorkout?.programId||state.programJourney.programId};
+ const key=state.activeWorkout?.sessionKey||programSessionKey(),date=state.activeWorkout?.date||today();let rec={date,day,exerciseId:m.id,mode:m.mode,notes:e.notes||"",...(e.practice?{practice:structuredClone(e.practice)}:{}),sessionKey:key,programId:state.activeWorkout?.programId||state.programJourney.programId};
  if(m.mode==="cardio"){rec.minutes=e.minutes||"";rec.speed=e.speed||""}else rec.sets=(e.sets||[]).filter(s=>s?._complete===true).map(({_complete,...set})=>set);
  state.history[m.id]=state.history[m.id]||[];const index=state.history[m.id].findIndex(x=>x.sessionKey===key);if(index>=0)state.history[m.id][index]=rec;else state.history[m.id].push(rec);
 }
@@ -9055,26 +9057,27 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=194"></script>
-<script src="./v129-detail.js?v=194"></script>
-<script src="./v129-cloud.js?v=194"></script>
-<script src="./v130-core.js?v=194"></script>
-<script src="./v131-core.js?v=194"></script>
-<script src="./v132-core.js?v=194"></script>
-<script src="./v136-core.js?v=194"></script>
-<script src="./v137-core.js?v=194"></script>
-<script src="./v138-core.js?v=194"></script>
-<script src="./v139-core.js?v=194"></script>
-<script src="./v142-core.js?v=194"></script>
-<script src="./v154-core.js?v=194"></script>
-<script src="./v166-core.js?v=194"></script>
-<script src="./v163-core.js?v=194"></script>
-<script src="./v165-core.js?v=194"></script>
-<script src="./v170-progress.js?v=194"></script>
-<script src="./v187-editor.js?v=194"></script>
+<script src="./v129-core.js?v=195"></script>
+<script src="./v129-detail.js?v=195"></script>
+<script src="./v129-cloud.js?v=195"></script>
+<script src="./v130-core.js?v=195"></script>
+<script src="./v131-core.js?v=195"></script>
+<script src="./v132-core.js?v=195"></script>
+<script src="./v136-core.js?v=195"></script>
+<script src="./v137-core.js?v=195"></script>
+<script src="./v138-core.js?v=195"></script>
+<script src="./v139-core.js?v=195"></script>
+<script src="./v142-core.js?v=195"></script>
+<script src="./v154-core.js?v=195"></script>
+<script src="./v166-core.js?v=195"></script>
+<script src="./v163-core.js?v=195"></script>
+<script src="./v165-core.js?v=195"></script>
+<script src="./v170-progress.js?v=195"></script>
+<script src="./v187-editor.js?v=195"></script>
 <script>init();</script>
 </body>
 </html>
+
 
 
 
