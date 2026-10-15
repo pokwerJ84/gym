@@ -4,9 +4,9 @@ Approved by Jarda on 15 October 2026 for future Gym Tracker exercise images.
 
 ## Canonical reference
 
-![Approved exercise-image style](../exercise-guides/v194/technogym-vertical-traction.webp)
+![Approved exercise-image style](../source/exercise-image-reference.webp)
 
-Reference asset: `exercise-guides/v194/technogym-vertical-traction.webp`.
+Reference asset: `source/exercise-image-reference.webp`.
 This is the approved v194 muscle-highlighted image, NOT the earlier v193 image without muscle highlights. Preserve this reference when adding newer artwork.
 
 ## Match these characteristics
