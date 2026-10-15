@@ -1,0 +1,97 @@
+/* Exercise database: explicit action row prevents an implicit third column. */
+.visual-results-group .modern-database-item,
+.visual-results-group .modern-database-item.has-actions{
+  display:grid!important;
+  grid-template-columns:80px minmax(0,1fr)!important;
+  grid-template-rows:auto auto!important;
+  grid-template-areas:"thumb copy" "actions actions"!important;
+  align-items:start!important;
+  gap:10px 12px!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:12px!important;
+}
+.visual-results-group .modern-database-item .database-guide-thumb,
+.visual-results-group .modern-database-item .database-glyph{
+  grid-area:thumb!important;
+  width:80px!important;
+  height:80px!important;
+  max-width:100%!important;
+  border-radius:12px!important;
+  object-fit:contain!important;
+  align-self:start!important;
+}
+.visual-results-group .modern-database-item .database-copy{
+  grid-area:copy!important;
+  width:auto!important;
+  min-width:0!important;
+  display:grid!important;
+  gap:8px!important;
+}
+.visual-results-group .modern-database-item .database-title-row{
+  display:block!important;
+  min-width:0!important;
+}
+.visual-results-group .modern-database-item .database-title-row h4{
+  margin:0!important;
+  font-size:16px!important;
+  font-weight:750!important;
+  line-height:1.35!important;
+  letter-spacing:normal!important;
+  text-transform:none!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+  -webkit-hyphens:none!important;
+  white-space:normal!important;
+}
+.visual-results-group .modern-database-item .database-title-badges{
+  margin:7px 0 0!important;
+  gap:5px!important;
+}
+.visual-results-group .modern-database-item .database-title-badges:empty{display:none!important}
+.visual-results-group .modern-database-item .database-detail-row{
+  margin:0!important;
+  gap:4px 8px!important;
+  line-height:1.35!important;
+}
+.visual-results-group .modern-database-item .database-detail-row strong{font-size:13px!important}
+.visual-results-group .modern-database-item .database-detail-row span{font-size:12px!important}
+.visual-results-group .modern-database-item .database-actions{
+  grid-area:actions!important;
+  display:flex!important;
+  width:100%!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:8px!important;
+  margin:0!important;
+}
+.visual-results-group .modern-database-item .database-actions button{
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 44px!important;
+  width:44px!important;
+  min-width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  border:1px solid var(--line)!important;
+  border-radius:12px!important;
+  background:var(--surface2)!important;
+  color:var(--text)!important;
+  font-size:18px!important;
+}
+.visual-results-group .modern-database-item .database-actions .database-media-button{color:var(--primary)!important}
+.visual-results-group .modern-database-item .database-actions .danger{color:var(--danger)!important}
+@media(max-width:360px){
+  .visual-results-group .modern-database-item,
+  .visual-results-group .modern-database-item.has-actions{
+    grid-template-columns:64px minmax(0,1fr)!important;
+    gap:9px 10px!important;
+    padding:10px!important;
+  }
+  .visual-results-group .modern-database-item .database-guide-thumb,
+  .visual-results-group .modern-database-item .database-glyph{width:64px!important;height:64px!important}
+  .visual-results-group .modern-database-item .database-title-row h4{font-size:15px!important}
+}
