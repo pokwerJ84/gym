@@ -4781,26 +4781,26 @@ body{
 .v123-set-row.complete .v184-set-actions button{grid-column:auto!important;min-height:44px;padding:8px;border-radius:10px;font-size:12px;font-weight:900}
 .v184-delete-set{border:1px solid rgba(255,110,110,.4);background:rgba(255,110,110,.08);color:#ff9999}
 </style>
-<link rel="stylesheet" href="./hotfix-v126.css?v=192">
-<link rel="stylesheet" href="./hotfix-v129.css?v=192">
-<link rel="stylesheet" href="./hotfix-v130.css?v=192">
-<link rel="stylesheet" href="./hotfix-v131.css?v=192">
-<link rel="stylesheet" href="./hotfix-v136.css?v=192">
-<link rel="stylesheet" href="./hotfix-v137.css?v=192">
-<link rel="stylesheet" href="./hotfix-v139.css?v=192">
-<link rel="stylesheet" href="./hotfix-v140.css?v=192">
-<link rel="stylesheet" href="./hotfix-v142.css?v=192">
-<link rel="stylesheet" href="./hotfix-v143.css?v=192">
-<link rel="stylesheet" href="./hotfix-v153.css?v=192">
-<link rel="stylesheet" href="./hotfix-v154.css?v=192">
-<link rel="stylesheet" href="./hotfix-v166.css?v=192">
-<script src="./v190-programs.js?v=192"></script>
+<link rel="stylesheet" href="./hotfix-v126.css?v=193">
+<link rel="stylesheet" href="./hotfix-v129.css?v=193">
+<link rel="stylesheet" href="./hotfix-v130.css?v=193">
+<link rel="stylesheet" href="./hotfix-v131.css?v=193">
+<link rel="stylesheet" href="./hotfix-v136.css?v=193">
+<link rel="stylesheet" href="./hotfix-v137.css?v=193">
+<link rel="stylesheet" href="./hotfix-v139.css?v=193">
+<link rel="stylesheet" href="./hotfix-v140.css?v=193">
+<link rel="stylesheet" href="./hotfix-v142.css?v=193">
+<link rel="stylesheet" href="./hotfix-v143.css?v=193">
+<link rel="stylesheet" href="./hotfix-v153.css?v=193">
+<link rel="stylesheet" href="./hotfix-v154.css?v=193">
+<link rel="stylesheet" href="./hotfix-v166.css?v=193">
+<script src="./v190-programs.js?v=193"></script>
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v192</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v193</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5125,6 +5125,21 @@ LIBRARY.push({
   en:["Shrugging or lifting the back from the pad","Loading different plates on the left and right sides","Slamming the machine arms or locking the elbows"]
  }
 });
+LIBRARY.push({
+ id:"technogym_vertical_traction",cs:"Technogym Vertical Traction – stahování na záda",en:"Technogym Vertical Traction",category:"back",mode:"weight",sets:3,range:"8–12",rest:90,topPick:true,
+ guideImage:"./exercise-guides/v193/technogym-vertical-traction.webp",guideThumb:"./exercise-guides/v193/technogym-vertical-traction.webp",guideExact:true,
+ primaryMuscles:{cs:["Široký sval zádový"],en:["Latissimus dorsi"]},
+ secondaryMuscles:{cs:["Biceps","Svaly kolem lopatek"],en:["Biceps","Upper-back muscles"]},
+ focus:{cs:"Táhni lokty dolů k bokům, trup nech opřený.",en:"Drive your elbows down toward your sides, keeping your back supported."},
+ tips:{
+  cs:["Páčkou A pod sedákem nastav výšku tak, abys vsedě nedosáhl na horní madla – podle štítku stroje.","Postav se, pevně uchop obě madla a potom si sedni; záda opři a chodidla nech pevně na zemi.","Pokrčením loktů stáhni obě madla současně dolů k ramenům, bez záklonu a švihu.","Vracej madla pomalu nahoru a nepovoluj úplně napětí; závaží nepouštěj nárazem."],
+  en:["Use lever A under the seat to set the height so the overhead handles are out of reach while seated, as shown on the machine label.","Stand up, grip both handles firmly, then sit down with your back supported and feet planted.","Bend your elbows and pull both handles down toward shoulder level together without leaning back or swinging.","Return the handles upward slowly, keeping tension rather than completely relaxing or dropping the weight stack."]
+ },
+ mistakes:{
+  cs:["Záklon a odlepování zad od opěrky","Krčení ramen a tahání švihem","Příliš těžká váha nebo rychlé pouštění madel"],
+  en:["Leaning back and lifting off the backrest","Shrugging or using momentum","Using too much weight or releasing the handles too quickly"]
+ }
+});
 const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
 if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 
@@ -5209,7 +5224,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=192;
+const VERSION=193;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -6779,7 +6794,7 @@ const REPLACEMENT_GROUPS=[
  ["machine_chest_press","converging_chest_press","bench_press","decline_chest_press_machine","push_up"],
  ["incline_machine_press","hammer_strength_iso_lateral_incline_press","smith_incline_press","incline_dumbbell_press","converging_chest_press"],
  ["pec_deck","cable_fly"],
- ["neutral_grip_lat_pulldown","lat_pulldown","assisted_pull_up","machine_high_row"],
+ ["neutral_grip_lat_pulldown","lat_pulldown","technogym_vertical_traction","assisted_pull_up","machine_high_row"],
  ["chest_supported_row","plate_loaded_row","seated_row","low_row_machine","one_arm_cable_row","machine_high_row"],
  ["machine_pullover","straight_arm_pulldown","neutral_grip_lat_pulldown"],
  ["machine_shoulder_press","plate_loaded_shoulder_press","dumbbell_shoulder_press"],
@@ -9040,25 +9055,26 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=192"></script>
-<script src="./v129-detail.js?v=192"></script>
-<script src="./v129-cloud.js?v=192"></script>
-<script src="./v130-core.js?v=192"></script>
-<script src="./v131-core.js?v=192"></script>
-<script src="./v132-core.js?v=192"></script>
-<script src="./v136-core.js?v=192"></script>
-<script src="./v137-core.js?v=192"></script>
-<script src="./v138-core.js?v=192"></script>
-<script src="./v139-core.js?v=192"></script>
-<script src="./v142-core.js?v=192"></script>
-<script src="./v154-core.js?v=192"></script>
-<script src="./v166-core.js?v=192"></script>
-<script src="./v163-core.js?v=192"></script>
-<script src="./v165-core.js?v=192"></script>
-<script src="./v170-progress.js?v=192"></script>
-<script src="./v187-editor.js?v=192"></script>
+<script src="./v129-core.js?v=193"></script>
+<script src="./v129-detail.js?v=193"></script>
+<script src="./v129-cloud.js?v=193"></script>
+<script src="./v130-core.js?v=193"></script>
+<script src="./v131-core.js?v=193"></script>
+<script src="./v132-core.js?v=193"></script>
+<script src="./v136-core.js?v=193"></script>
+<script src="./v137-core.js?v=193"></script>
+<script src="./v138-core.js?v=193"></script>
+<script src="./v139-core.js?v=193"></script>
+<script src="./v142-core.js?v=193"></script>
+<script src="./v154-core.js?v=193"></script>
+<script src="./v166-core.js?v=193"></script>
+<script src="./v163-core.js?v=193"></script>
+<script src="./v165-core.js?v=193"></script>
+<script src="./v170-progress.js?v=193"></script>
+<script src="./v187-editor.js?v=193"></script>
 <script>init();</script>
 </body>
 </html>
+
 
 
