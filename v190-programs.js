@@ -36,7 +36,7 @@ function registerMeta(){
   PROGRAM_META[id]={icon:id===THREE?'③':'④',sessions:0,label_cs:p.nameCs,label_en:p.nameEn,detail_cs:p.sessions.length+' sessions v pořadí · cca 40 min · návod k tréninku',detail_en:p.sessions.length+' sessions in rotation · about 40 min · training guide'};
  });
 }
-function sessionsFor(id){return PROGRAMS[id]?.sessions||null}
+function sessionsFor(id){return PROGRAMS[id]?.sessions||window.GymV198?.sessionsFor(id)||null}
 function sessionFor(id,index=0){
  if(id===THREE)return null;
  const list=sessionsFor(id)||(id==='busy_week'?window.GymV165?.busySessions:null);
@@ -61,7 +61,7 @@ const DESCRIPTIONS={
 function guideProgram(id){
  if(PROGRAMS[id])return PROGRAMS[id];
  const p=PLAN_PRESETS[id];if(!p)return null;
- const list=id==='busy_week'?window.GymV165?.busySessions:null;
+ const list=id==='busy_week'?window.GymV165?.busySessions:window.GymV198?.sessionsFor(id);
  return {nameCs:PROGRAM_META[id]?.label_cs||p.name_cs,nameEn:PROGRAM_META[id]?.label_en||p.name_en,
   sessions:list||Object.values(p.plans).map(s=>({titleCs:s.title_cs,titleEn:s.title_en,subCs:s.sub_cs,subEn:s.sub_en,items:s.items}))};
 }
@@ -99,6 +99,7 @@ function legacyGuide(id,p){
 }
 function guideMarkup(id){
  const p=guideProgram(id);if(!p)return '';
+ if(window.GymV198?.isCustom(id))return '<p>'+escape(state.customPrograms[id]?.description||'')+'</p><p>'+(cs()?'Pokračuj tréninky v uvedeném pořadí. Rozvrh a dny volna si zvol podle svého programu a regenerace. Před cvičením se zahřej; dodržuj kontrolovanou techniku. Cviky, jejich pořadí a předpis upravíš přes Změnit program → Upravit.':'Follow the sessions in the listed order. Choose training and rest days to suit your program and recovery. Warm up and use controlled technique. Edit exercises, their order and prescriptions through Change program → Edit.')+'</p>'+sessionOverview(id,p);
  if(!PROGRAMS[id])return legacyGuide(id,p);
  const en=[
   ['Session order',p.scheduleEn+'. The weekdays are suggestions. Follow the session order even if you train on different days. Leave a rest day between the 3-day sessions; for the 4-day plan, leave about 48 hours between sessions for the same body region.'],
@@ -138,6 +139,6 @@ function installGuide(){
  const native=renderDay;renderDay=function(...args){const r=native.apply(this,args);requestAnimationFrame(decorateGuide);return r};window.renderDay=renderDay;
  requestAnimationFrame(decorateGuide);
 }
-window.GymV190={THREE,FOUR,programs:PROGRAMS,registerPresets,registerMeta,sessionsFor,sessionFor,isFourDay:id=>id===FOUR,guideMarkup,openGuide};
+window.GymV190={THREE,FOUR,programs:PROGRAMS,registerPresets,registerMeta,sessionsFor,sessionFor,isFourDay:id=>id===FOUR||!!window.GymV198?.sessionsFor(id),guideMarkup,openGuide};
 document.addEventListener('DOMContentLoaded',installGuide,{once:true});
 })();
