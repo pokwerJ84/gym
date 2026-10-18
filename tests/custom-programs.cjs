@@ -31,3 +31,11 @@ const reloaded=JSON.parse(JSON.stringify(merged));c.state=reloaded;g.registerCur
 assert.ok(source.indexOf('GymV198?.registerPresets(raw?.customPrograms)')>source.indexOf('function migrateState(raw)'));
 const sw=fs.readFileSync('sw.js','utf8');assert.ok(sw.includes('v198-custom-programs.js')&&sw.includes('hotfix-v198.css'));
 console.log('PASS: custom 1–7 session rotations, exact chooser labels, preset reload, validation, built-in preservation, custom-program merge and account isolation.');
+// Exercise the actual render binding: a markup variable must not shadow the save handler.
+const saves=[{},{}],inputs={};
+const body={innerHTML:'',querySelector:s=>inputs[s]||(inputs[s]={}),querySelectorAll:s=>s==='[data-save]'?saves:[]};
+const modal={querySelector:s=>s==='.v198-builder-body'?body:{}};
+vm.runInContext(fs.readFileSync('v198-custom-programs.js','utf8').replace('window.GymV198={','window.GymV198={renderForTest:(value,node)=>{draft=value;dialog=node;render()},'),c);
+c.GymV198.renderForTest({id:'',...a.customPrograms.custom_program_a},modal);
+assert.equal(typeof saves[0].onclick,'function');assert.equal(typeof saves[1].onclick,'function');
+console.log('PASS: both rendered Save program buttons have executable click handlers.');
