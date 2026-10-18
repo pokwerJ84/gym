@@ -80,11 +80,10 @@ function deleteSet(index){
  const e=entry(w.day,inst.instanceId),m=metaFor(w.day,inst),target=targetSetCount(m,e);
  if(!Number.isInteger(index)||index<0||index>=target)return;
  if(e.sets?.[index]?._complete)return deleteSavedSet(index);
- /* Only added, unfinished sets reduce the target. Default sets are retained. */
- if(index<(Number(m.sets)||1))return;
- if(!confirm(cs()?'Smazat tuto přidanou sérii?':'Delete this added set?'))return;
- (e.sets||[]).splice(index,1);e.extraTargetSets=Math.max(Number(m.sets)||1,target-1);
- e.done=(e.sets||[]).slice(0,e.extraTargetSets).filter(s=>s?._complete).length>=e.extraTargetSets;
+ if(!confirm(cs()?'Smazat tuto sérii?':'Delete this set?'))return;
+ (e.sets||[]).splice(index,1);e.targetSetsOverride=Math.max(0,target-1);e.extraTargetSets=e.targetSetsOverride;
+ e.done=e.targetSetsOverride>0&&(e.sets||[]).slice(0,e.targetSetsOverride).filter(s=>s?._complete===true).length>=e.targetSetsOverride;
+ recordSetEdit(w.day,inst,m,e);
  w.awaitingFinish=false;w.workoutReminderAt=0;
  stopDeletedSetRest();
  if(typeof clearWorkoutReminder==='function')clearWorkoutReminder();
@@ -100,10 +99,7 @@ function stopDeletedSetRest(){
 function enhanceSets(){
  const w=state.activeWorkout;if(!w)return;const inst=currentLive();if(!inst)return;
  const e=entry(w.day,inst.instanceId),m=metaFor(w.day,inst);if(m.mode==='cardio')return;
- document.querySelectorAll('#liveContent .v123-set-row').forEach(row=>{
-  const n=parseInt(q('.v123-set-number',row)?.textContent||'',10),index=n-1;
-  if(!Number.isFinite(index)||index<0)return;
-  if(!e.sets?.[index]?._complete&&index<(Number(m.sets)||1))return;
+ document.querySelectorAll('#liveContent .v123-set-row').forEach((row,index)=>{
   /* Replace older terse delete controls with one explicit action per row. */
   row.querySelectorAll('.v123-set-actions button,.v184-delete-set,.v187-delete-set').forEach(b=>{
    if(/deleteSavedSet|delete.?set/i.test(b.getAttribute('onclick')||'')||b.classList.contains('v187-delete-set'))b.remove();

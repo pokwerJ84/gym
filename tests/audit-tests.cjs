@@ -19,7 +19,7 @@ check('Remote main photo retained when remote is preferred',()=>assert.equal(b.G
 check('Deleted media and links stay deleted',()=>{const m=b.GymV129.mergeMedia({x:{deletedFiles:[{id:'f'}],deletedLinks:[{id:'l'}]}},{x:{files:[{id:'f'}],links:[{id:'l'}]}}).x;assert.equal(m.files.length,0);assert.equal(m.links.length,0)});
 const base=()=>({meta:{modifiedAt:0},workouts:[],history:{},progress:[],customExercises:[],days:{},sessionFinalizations:{},activeWorkout:null});
 const m=context({defaultState:base,migrateState:v=>({...base(),...structuredClone(v)}),cloneState:v=>JSON.parse(JSON.stringify(v))});
-vm.runInContext(fn('stateActivityTimestamp')+'\n'+fn('uniqueRecords')+'\n'+fn('mergeStates'),m);
+vm.runInContext(fn('stateActivityTimestamp')+'\n'+fn('uniqueRecords')+'\n'+fn('applySetEdits')+'\n'+fn('mergeStates'),m);
 const rec=(key,reps)=>({sessionKey:key,date:'2026-10-14',day:'monday',mode:'weight',sets:[{kg:20,reps}]});
 check('Editing a session does not create a duplicate workout or set record',()=>{const x=m.mergeStates({...base(),meta:{modifiedAt:20},workouts:[{sessionKey:'s',savedAt:20}],history:{x:[rec('s',8)]}},{...base(),meta:{modifiedAt:10},workouts:[{sessionKey:'s',savedAt:10}],history:{x:[rec('s',10)]}});assert.equal(x.workouts.length,1);assert.equal(x.history.x.length,1);assert.equal(x.history.x[0].sets[0].reps,8)});
 check('Identical results from two distinct sessions stay separate',()=>{const x=m.mergeStates({...base(),history:{x:[rec('a',10)]}},{...base(),history:{x:[rec('b',10)]}});assert.equal(x.history.x.length,2)});
