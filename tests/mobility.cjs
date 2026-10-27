@@ -15,7 +15,7 @@ c.window=c;vm.createContext(c);
 for(const f of ['v200-mobility.js','v190-programs.js','v165-core.js'])vm.runInContext(fs.readFileSync(f,'utf8'),c);
 const m=c.GymV200,before=c.LIBRARY.length;m.registerLibrary(c.LIBRARY);m.registerLibrary(c.LIBRARY);assert.equal(c.LIBRARY.length,before+4);
 const source=fs.readFileSync('index.html','utf8');const known=new Set([...source.matchAll(/id["']?\s*:\s*["']([^"']+)["']/g)].map(x=>x[1]));
-for(const x of m.definitions){known.add(x.id);assert.ok(x.tips.cs.length>=4&&x.tips.en.length>=4);assert.ok(x.primaryMuscles.cs.length);assert.ok(x.guideExact);assert.equal(x.sets,1);assert.ok(x.mode==='reps'||x.mode==='sidetime');assert.ok(fs.existsSync(x.guideImage))}
+for(const x of m.definitions){known.add(x.id);assert.ok(x.tips.cs.length>=4&&x.tips.en.length>=4);assert.ok(x.primaryMuscles.cs.length);assert.ok(x.guideExact);assert.equal(x.sets,1);assert.ok(['hamstrings','quads'].includes(x.category),'Use existing category IDs');assert.ok(x.mode==='reps'||x.mode==='sidetime');assert.ok(fs.existsSync(x.guideImage))}
 c.GymV190.registerPresets();c.GymV190.registerMeta();
 for(const id of [m.LONG,m.DAILY]){
  const n=m.programs[id].sessions.length;
