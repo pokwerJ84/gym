@@ -4781,32 +4781,32 @@ body{
 .v123-set-row.complete .v184-set-actions button{grid-column:auto!important;min-height:44px;padding:8px;border-radius:10px;font-size:12px;font-weight:900}
 .v184-delete-set{border:1px solid rgba(255,110,110,.4);background:rgba(255,110,110,.08);color:#ff9999}
 </style>
-<link rel="stylesheet" href="./hotfix-v126.css?v=203">
-<link rel="stylesheet" href="./hotfix-v129.css?v=203">
-<link rel="stylesheet" href="./hotfix-v130.css?v=203">
-<link rel="stylesheet" href="./hotfix-v131.css?v=203">
-<link rel="stylesheet" href="./hotfix-v136.css?v=203">
-<link rel="stylesheet" href="./hotfix-v137.css?v=203">
-<link rel="stylesheet" href="./hotfix-v139.css?v=203">
-<link rel="stylesheet" href="./hotfix-v140.css?v=203">
-<link rel="stylesheet" href="./hotfix-v142.css?v=203">
-<link rel="stylesheet" href="./hotfix-v143.css?v=203">
-<link rel="stylesheet" href="./hotfix-v153.css?v=203">
-<link rel="stylesheet" href="./hotfix-v154.css?v=203">
-<link rel="stylesheet" href="./hotfix-v166.css?v=203">
-<link rel="stylesheet" href="./hotfix-v196.css?v=203">
-<link rel="stylesheet" href="./hotfix-v198.css?v=203">
-<link rel="stylesheet" href="./hotfix-v200.css?v=203">
-<script src="./v200-mobility.js?v=203"></script>
-<script src="./v190-programs.js?v=203"></script>
-<script src="./v195-chinups.js?v=203"></script>
-<script src="./v198-custom-programs.js?v=203"></script>
+<link rel="stylesheet" href="./hotfix-v126.css?v=204">
+<link rel="stylesheet" href="./hotfix-v129.css?v=204">
+<link rel="stylesheet" href="./hotfix-v130.css?v=204">
+<link rel="stylesheet" href="./hotfix-v131.css?v=204">
+<link rel="stylesheet" href="./hotfix-v136.css?v=204">
+<link rel="stylesheet" href="./hotfix-v137.css?v=204">
+<link rel="stylesheet" href="./hotfix-v139.css?v=204">
+<link rel="stylesheet" href="./hotfix-v140.css?v=204">
+<link rel="stylesheet" href="./hotfix-v142.css?v=204">
+<link rel="stylesheet" href="./hotfix-v143.css?v=204">
+<link rel="stylesheet" href="./hotfix-v153.css?v=204">
+<link rel="stylesheet" href="./hotfix-v154.css?v=204">
+<link rel="stylesheet" href="./hotfix-v166.css?v=204">
+<link rel="stylesheet" href="./hotfix-v196.css?v=204">
+<link rel="stylesheet" href="./hotfix-v198.css?v=204">
+<link rel="stylesheet" href="./hotfix-v200.css?v=204">
+<script src="./v200-mobility.js?v=204"></script>
+<script src="./v190-programs.js?v=204"></script>
+<script src="./v195-chinups.js?v=204"></script>
+<script src="./v198-custom-programs.js?v=204"></script>
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v203</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v204</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5232,7 +5232,7 @@ const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","e
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=203;
+const VERSION=204;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -5583,6 +5583,9 @@ const activeAlarmOscillators=new Set();
 
 
 function allLibrary(){return [...LIBRARY,...(state.customExercises||[])]}
+function isMobilityExercise(item){return !!(item.mobility||item.dailyRoutine||item.category==='mobility')}
+function databaseCategories(){return ['mobility',...Object.keys(CATEGORIES)]}
+function matchesDatabaseCategory(item,category){return category==='all'||(category==='mobility'?isMobilityExercise(item):item.category===category)}
 function refreshExerciseIndex(){EX=Object.fromEntries(allLibrary().map(x=>[x.id,x]))}
 function genericTips(){
  return {
@@ -5654,9 +5657,11 @@ function categoryVisualItem(category){
  return preferred||allLibrary().find(x=>x.category===category&&x.guideImage)||allLibrary().find(x=>x.category===category)||null;
 }
 function categoryVisualImage(category){
+ if(category==='mobility')return './exercise-guides/v200/hip_flexor_stretch.webp';
  return CATEGORY_VISUAL_IMAGES[category]||"";
 }
 function categorySubtitle(category,count){
+ if(category==='mobility')return `${lang()==='cs'?'Záda, kyčle a celé tělo':'Back, hips and full body'} · ${count} ${lang()==='cs'?'cviků':'exercises'}`;
  const cs={
    chest:"Tlaky a rozpažky",
    back:"Přítahy a stahování",
@@ -5698,12 +5703,13 @@ function renderDatabase(){
  let list=allLibrary();
 
  if(q)list=list.filter(x=>(x.cs+" "+x.en).toLowerCase().includes(q));
- if(cat!=="all")list=list.filter(x=>x.category===cat);
+ if(cat!=="all")list=list.filter(x=>matchesDatabaseCategory(x,cat));
 
  list.sort((a,b)=>(Number(b.topPick===true)-Number(a.topPick===true))||itemName(a).localeCompare(itemName(b),lang()));
 
  const counts={};
  allLibrary().forEach(x=>counts[x.category]=(counts[x.category]||0)+1);
+ counts.mobility=allLibrary().filter(isMobilityExercise).length;
 
  const groups={};
  list.forEach(x=>(groups[x.category]=groups[x.category]||[]).push(x));
@@ -5725,7 +5731,7 @@ function renderDatabase(){
        <button class="show-all-exercises-btn" onclick="databaseCategoryFilter='all';databaseQuery='*';renderDatabase()">${lang()==="cs"?"Všechny cviky":"All exercises"}</button>
      </div>
      <div class="visual-category-list">
-       ${Object.keys(CATEGORIES).map(c=>{
+       ${databaseCategories().map(c=>{
          const image=categoryVisualImage(c);
          const count=counts[c]||0;
          return `<button class="visual-category-card visual-category-${c}" onclick="setDatabaseCategoryFilter('${c}')">
@@ -5752,7 +5758,7 @@ function renderDatabase(){
 
    <div class="library-filter-row visual-filter-row">
      <button class="${cat==="all"?"active":""}" onclick="setDatabaseCategoryFilter('all')">${t("all")}</button>
-     ${Object.keys(CATEGORIES).map(c=>`<button class="${cat===c?"active":""}" onclick="setDatabaseCategoryFilter('${c}')">${categoryName(c)}</button>`).join("")}
+     ${databaseCategories().map(c=>`<button class="${cat===c?"active":""}" onclick="setDatabaseCategoryFilter('${c}')">${categoryName(c)}</button>`).join("")}
    </div>
 
    <section class="library-results visual-library-results">
@@ -5831,7 +5837,7 @@ function metaFor(day,inst){
  return {...item,sets:e.replacementId?item.sets:(inst.sets||item.sets),range:e.replacementId?item.range:(inst.range||item.range),originalId:inst.recommendedId||inst.exerciseId,replacementId:e.replacementId||"",permanentReplacementId:inst.permanentReplacementId||""};
 }
 function itemName(item){return item[lang()]||item.en||item.cs}
-function categoryName(cat){return CATEGORIES[cat]?.[lang()]||CATEGORIES[cat]?.en||cat}
+function categoryName(cat){if(cat==='mobility')return lang()==='cs'?'Mobilita a protažení':'Mobility & Stretching';return CATEGORIES[cat]?.[lang()]||CATEGORIES[cat]?.en||cat}
 function targetText(m){
  const range=String(m.range||'').replace(/\s*\/\s*(?:strana|side)\s*$/i,'');
  if(m.mode==="cardio")return m.range;
@@ -5996,6 +6002,7 @@ function trainingDayForIso(iso){
  return "";
 }
 function categoryGlyph(category){
+ if(category==='mobility')return '↔';
  const map={
   chest:"◒",back:"⌁",shoulders:"◇",biceps:"⌇",triceps:"⌁",
   quads:"◩",hamstrings:"◫",calves:"△",core:"◎",cardio:"♥"
@@ -9109,23 +9116,23 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=203"></script>
-<script src="./v129-detail.js?v=203"></script>
-<script src="./v129-cloud.js?v=203"></script>
-<script src="./v130-core.js?v=203"></script>
-<script src="./v131-core.js?v=203"></script>
-<script src="./v132-core.js?v=203"></script>
-<script src="./v136-core.js?v=203"></script>
-<script src="./v137-core.js?v=203"></script>
-<script src="./v138-core.js?v=203"></script>
-<script src="./v139-core.js?v=203"></script>
-<script src="./v142-core.js?v=203"></script>
-<script src="./v154-core.js?v=203"></script>
-<script src="./v166-core.js?v=203"></script>
-<script src="./v163-core.js?v=203"></script>
-<script src="./v165-core.js?v=203"></script>
-<script src="./v170-progress.js?v=203"></script>
-<script src="./v187-editor.js?v=203"></script>
+<script src="./v129-core.js?v=204"></script>
+<script src="./v129-detail.js?v=204"></script>
+<script src="./v129-cloud.js?v=204"></script>
+<script src="./v130-core.js?v=204"></script>
+<script src="./v131-core.js?v=204"></script>
+<script src="./v132-core.js?v=204"></script>
+<script src="./v136-core.js?v=204"></script>
+<script src="./v137-core.js?v=204"></script>
+<script src="./v138-core.js?v=204"></script>
+<script src="./v139-core.js?v=204"></script>
+<script src="./v142-core.js?v=204"></script>
+<script src="./v154-core.js?v=204"></script>
+<script src="./v166-core.js?v=204"></script>
+<script src="./v163-core.js?v=204"></script>
+<script src="./v165-core.js?v=204"></script>
+<script src="./v170-progress.js?v=204"></script>
+<script src="./v187-editor.js?v=204"></script>
 <script>init();</script>
 </body>
 </html>
