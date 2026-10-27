@@ -4781,32 +4781,34 @@ body{
 .v123-set-row.complete .v184-set-actions button{grid-column:auto!important;min-height:44px;padding:8px;border-radius:10px;font-size:12px;font-weight:900}
 .v184-delete-set{border:1px solid rgba(255,110,110,.4);background:rgba(255,110,110,.08);color:#ff9999}
 </style>
-<link rel="stylesheet" href="./hotfix-v126.css?v=204">
-<link rel="stylesheet" href="./hotfix-v129.css?v=204">
-<link rel="stylesheet" href="./hotfix-v130.css?v=204">
-<link rel="stylesheet" href="./hotfix-v131.css?v=204">
-<link rel="stylesheet" href="./hotfix-v136.css?v=204">
-<link rel="stylesheet" href="./hotfix-v137.css?v=204">
-<link rel="stylesheet" href="./hotfix-v139.css?v=204">
-<link rel="stylesheet" href="./hotfix-v140.css?v=204">
-<link rel="stylesheet" href="./hotfix-v142.css?v=204">
-<link rel="stylesheet" href="./hotfix-v143.css?v=204">
-<link rel="stylesheet" href="./hotfix-v153.css?v=204">
-<link rel="stylesheet" href="./hotfix-v154.css?v=204">
-<link rel="stylesheet" href="./hotfix-v166.css?v=204">
-<link rel="stylesheet" href="./hotfix-v196.css?v=204">
-<link rel="stylesheet" href="./hotfix-v198.css?v=204">
-<link rel="stylesheet" href="./hotfix-v200.css?v=204">
-<script src="./v200-mobility.js?v=204"></script>
-<script src="./v190-programs.js?v=204"></script>
-<script src="./v195-chinups.js?v=204"></script>
-<script src="./v198-custom-programs.js?v=204"></script>
+<link rel="stylesheet" href="./hotfix-v126.css?v=205">
+<link rel="stylesheet" href="./hotfix-v129.css?v=205">
+<link rel="stylesheet" href="./hotfix-v130.css?v=205">
+<link rel="stylesheet" href="./hotfix-v131.css?v=205">
+<link rel="stylesheet" href="./hotfix-v136.css?v=205">
+<link rel="stylesheet" href="./hotfix-v137.css?v=205">
+<link rel="stylesheet" href="./hotfix-v139.css?v=205">
+<link rel="stylesheet" href="./hotfix-v140.css?v=205">
+<link rel="stylesheet" href="./hotfix-v142.css?v=205">
+<link rel="stylesheet" href="./hotfix-v143.css?v=205">
+<link rel="stylesheet" href="./hotfix-v153.css?v=205">
+<link rel="stylesheet" href="./hotfix-v154.css?v=205">
+<link rel="stylesheet" href="./hotfix-v166.css?v=205">
+<link rel="stylesheet" href="./hotfix-v196.css?v=205">
+<link rel="stylesheet" href="./hotfix-v198.css?v=205">
+<link rel="stylesheet" href="./hotfix-v200.css?v=205">
+<script src="./v200-mobility.js?v=205"></script>
+<script src="./v205-stretches.js?v=205"></script>
+<link rel="stylesheet" href="./hotfix-v205.css?v=205">
+<script src="./v190-programs.js?v=205"></script>
+<script src="./v195-chinups.js?v=205"></script>
+<script src="./v198-custom-programs.js?v=205"></script>
 </head>
 <body>
 <div class="app">
 <header>
   <div class="toprow">
-<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v204</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
+<div class="brand"><img src="icon-192.png" alt="Pokorný Gym Tracker"><div><div class="brand-title-row"><h1>Gym Tracker</h1><span class="app-version">v205</span></div><p class="subtitle" id="appSubtitle"></p></div></div>
     </div>
   <div id="cloudStatus"></div>
 </header>
@@ -5148,6 +5150,7 @@ LIBRARY.push({
 });
 window.GymV195?.registerLibrary(LIBRARY);
 window.GymV200?.registerLibrary(LIBRARY);
+window.GymV205?.registerLibrary(LIBRARY);
 const cableLateralRaise=LIBRARY.find(item=>item.id==="cable_lateral_raise");
 if(cableLateralRaise)cableLateralRaise.mode="sideweight";
 
@@ -5228,11 +5231,11 @@ Object.assign(PLAN_PRESETS,{
 });
 window.GymV190?.registerPresets();
 let BASE_PLANS=PLAN_PRESETS.balanced.plans;
-const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"}};
+const CATEGORIES={"chest":{"cs":"Hrudník","en":"Chest"},"back":{"cs":"Záda","en":"Back"},"shoulders":{"cs":"Ramena","en":"Shoulders"},"biceps":{"cs":"Biceps","en":"Biceps"},"triceps":{"cs":"Triceps","en":"Triceps"},"quads":{"cs":"Přední stehna","en":"Quads"},"hamstrings":{"cs":"Zadní stehna a hýždě","en":"Hamstrings & glutes"},"calves":{"cs":"Lýtka","en":"Calves"},"core":{"cs":"Břicho a core","en":"Abs & core"},"cardio":{"cs":"Kardio","en":"Cardio"},"forearms":{"cs":"Předloktí a zápěstí","en":"Forearms & Wrists"}};
 let EX=Object.fromEntries(LIBRARY.map(x=>[x.id,x]));
 const DAYS=["monday","wednesday","friday"];
 const KEY="gymTrackerProV2";
-const VERSION=204;
+const VERSION=205;
 const SUPABASE_URL="https://wknfwqjuatnozjksqutf.supabase.co";
 const EXERCISE_IMAGE_BUCKET="exercise-guides";
 const EXERCISE_IMAGE_VERSION="v112";
@@ -5586,6 +5589,8 @@ function allLibrary(){return [...LIBRARY,...(state.customExercises||[])]}
 function isMobilityExercise(item){return !!(item.mobility||item.dailyRoutine||item.category==='mobility')}
 function databaseCategories(){return ['mobility',...Object.keys(CATEGORIES)]}
 function matchesDatabaseCategory(item,category){return category==='all'||(category==='mobility'?isMobilityExercise(item):item.category===category)}
+let mobilityRegionFilter='all';
+function setMobilityRegionFilter(value){mobilityRegionFilter=value==='all'||Object.hasOwn(window.GymV205?.regions||{},value)?value:'all';renderDatabase()}
 function refreshExerciseIndex(){EX=Object.fromEntries(allLibrary().map(x=>[x.id,x]))}
 function genericTips(){
  return {
@@ -5658,10 +5663,12 @@ function categoryVisualItem(category){
 }
 function categoryVisualImage(category){
  if(category==='mobility')return './exercise-guides/v200/hip_flexor_stretch.webp';
+ if(category==='forearms')return './exercise-guides/v205/wrist_flexor_stretch.webp';
  return CATEGORY_VISUAL_IMAGES[category]||"";
 }
 function categorySubtitle(category,count){
  if(category==='mobility')return `${lang()==='cs'?'Záda, kyčle a celé tělo':'Back, hips and full body'} · ${count} ${lang()==='cs'?'cviků':'exercises'}`;
+ if(category==='forearms')return `${lang()==='cs'?'Předloktí a pohyblivost zápěstí':'Forearms and wrist mobility'} · ${count} ${lang()==='cs'?'cviků':'exercises'}`;
  const cs={
    chest:"Tlaky a rozpažky",
    back:"Přítahy a stahování",
@@ -5702,8 +5709,9 @@ function renderDatabase(){
  const cat=databaseCategoryFilter||"all";
  let list=allLibrary();
 
- if(q)list=list.filter(x=>(x.cs+" "+x.en).toLowerCase().includes(q));
+ if(q)list=list.filter(x=>cat==='mobility'&&window.GymV205?window.GymV205.matchesQuery(x,q):(x.cs+" "+x.en).toLowerCase().includes(q));
  if(cat!=="all")list=list.filter(x=>matchesDatabaseCategory(x,cat));
+ if(cat==='mobility'&&window.GymV205)list=list.filter(x=>window.GymV205.matchesRegion(x,mobilityRegionFilter));
 
  list.sort((a,b)=>(Number(b.topPick===true)-Number(a.topPick===true))||itemName(a).localeCompare(itemName(b),lang()));
 
@@ -5762,6 +5770,7 @@ function renderDatabase(){
    </div>
 
    <section class="library-results visual-library-results">
+     ${cat==='mobility'&&window.GymV205?`<div class="v205-region-filter"><label for="mobilityRegionSelect">${lang()==='cs'?'Oblast těla':'Body area'}</label><select id="mobilityRegionSelect" onchange="setMobilityRegionFilter(this.value)"><option value="all">${lang()==='cs'?'Celé tělo – všechny oblasti':'Full body – all areas'}</option>${Object.entries(window.GymV205.regions).map(([key,labels])=>`<option value="${key}" ${mobilityRegionFilter===key?'selected':''}>${esc(labels[lang()==='cs'?0:1])}</option>`).join('')}</select><p>${lang()==='cs'?'Vyber si vhodné cviky podle oblasti. Celou databázi necvič v jednom tréninku.':'Choose suitable exercises by body area. This library is not a single workout.'}</p></div>`:''}
      ${Object.keys(groups).length?Object.entries(groups).map(([category,items])=>`<div class="library-group modern-library-group visual-results-group">
        ${cat==="all"||q?`<h4>${categoryName(category)} <span>${items.length}</span></h4>`:""}
        <div class="modern-exercise-list">${items.map(x=>`<article class="database-item modern-database-item clickable-exercise-card ${x.topPick?"top-pick-item":""} ${x.custom?"has-actions":""}" role="button" tabindex="0" onclick="openVideo('${x.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('${x.id}')}">
@@ -6186,6 +6195,7 @@ function setDatabaseQuery(value){
 }
 function setDatabaseCategoryFilter(value){
  databaseCategoryFilter=value||"all";
+ if(databaseCategoryFilter!=='mobility')mobilityRegionFilter='all';
  renderDatabase();
 }
 
@@ -9116,23 +9126,23 @@ function init(){
  document.addEventListener("visibilitychange",()=>{if(!document.hidden){updateWorkoutTimes();if(state.activeWorkout?.restEndAt)updateRest();if(state.activeWorkout?.awaitingFinish){updateRunningWorkoutBanner();scheduleWorkoutReminder();showToast(lang()==="cs"?"Dnešní workout stále běží – nezapomeň ho ukončit.":"Today's workout is still running – remember to finish it.")}checkForAppUpdate(false);scheduleMeasurementReminder();sendMeasurementReminderIfDue()}});
 }
 </script>
-<script src="./v129-core.js?v=204"></script>
-<script src="./v129-detail.js?v=204"></script>
-<script src="./v129-cloud.js?v=204"></script>
-<script src="./v130-core.js?v=204"></script>
-<script src="./v131-core.js?v=204"></script>
-<script src="./v132-core.js?v=204"></script>
-<script src="./v136-core.js?v=204"></script>
-<script src="./v137-core.js?v=204"></script>
-<script src="./v138-core.js?v=204"></script>
-<script src="./v139-core.js?v=204"></script>
-<script src="./v142-core.js?v=204"></script>
-<script src="./v154-core.js?v=204"></script>
-<script src="./v166-core.js?v=204"></script>
-<script src="./v163-core.js?v=204"></script>
-<script src="./v165-core.js?v=204"></script>
-<script src="./v170-progress.js?v=204"></script>
-<script src="./v187-editor.js?v=204"></script>
+<script src="./v129-core.js?v=205"></script>
+<script src="./v129-detail.js?v=205"></script>
+<script src="./v129-cloud.js?v=205"></script>
+<script src="./v130-core.js?v=205"></script>
+<script src="./v131-core.js?v=205"></script>
+<script src="./v132-core.js?v=205"></script>
+<script src="./v136-core.js?v=205"></script>
+<script src="./v137-core.js?v=205"></script>
+<script src="./v138-core.js?v=205"></script>
+<script src="./v139-core.js?v=205"></script>
+<script src="./v142-core.js?v=205"></script>
+<script src="./v154-core.js?v=205"></script>
+<script src="./v166-core.js?v=205"></script>
+<script src="./v163-core.js?v=205"></script>
+<script src="./v165-core.js?v=205"></script>
+<script src="./v170-progress.js?v=205"></script>
+<script src="./v187-editor.js?v=205"></script>
 <script>init();</script>
 </body>
 </html>
