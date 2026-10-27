@@ -19,6 +19,7 @@ for(const x of g.definitions){
  for(const code of ['cs','en']){assert.ok(x[code]);assert.ok(x.tips[code].length>=5);assert.ok(x.mistakes[code].length>=2);assert.ok(x.primaryMuscles[code].length)}
  for(const r of x.mobilityRegions){assert.ok(g.regions[r]);covered.add(r)}
  assert.equal(x.guideImage,x.guideThumb);assert.ok(fs.existsSync(x.guideImage),x.id+' missing image');
+ const imageBytes=fs.readFileSync(x.guideImage);assert.ok(imageBytes.length>10000,x.id+' empty/truncated image');assert.equal(imageBytes.toString('ascii',0,4),'RIFF');assert.equal(imageBytes.toString('ascii',8,12),'WEBP');
 }
 assert.equal(covered.size,9);assert.ok(g.matchesQuery(g.definitions.find(x=>x.id==='wrist_flexor_stretch'),'zapesti'));
 assert.ok(g.matchesQuery({id:'supine_figure_four'},'kycle'),'Existing hip exercises searchable without diacritics');
