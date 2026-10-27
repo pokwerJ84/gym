@@ -128,7 +128,7 @@ function openGuide(){
  const id=state.programJourney?.programId,p=guideProgram(id);if(!p)return;
  let d=document.getElementById('v190GuideDialog');
  if(!d){d=document.createElement('dialog');d.id='v190GuideDialog';d.innerHTML='<div class="modal"><button type="button" class="iconbtn close">✕</button><h2></h2><div class="v190-guide-body"></div></div>';document.body.appendChild(d);d.querySelector('button').onclick=()=>d.close()}
- d.querySelector('h2').textContent=cs()?p.nameCs:p.nameEn;d.querySelector('.v190-guide-body').innerHTML=guideMarkup(id);if(!d.open)d.showModal();
+ d.querySelector('h2').textContent=cs()?p.nameCs:p.nameEn;d.querySelector('.v190-guide-body').innerHTML=guideMarkup(id);window.GymV200?.bindGuide(d,id);if(!d.open)d.showModal();
 }
 function decorateGuide(){
  document.querySelectorAll('.screen .workout-hero').forEach(hero=>{

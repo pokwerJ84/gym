@@ -30,6 +30,19 @@ for(const id of [m.LONG,m.DAILY]){
  for(const code of ['cs','en']){language=code;const html=c.GymV190.guideMarkup(id);assert.ok(html.includes(code==='cs'?'Zahřátí':'Warm-up'));assert.ok(!html.includes('1–2 clean reps'));assert.ok(html.includes(code==='cs'?'Časovač':'Timer'))}
 }
 assert.equal(c.PLAN_PRESETS.balanced.name_cs,'Original');assert.equal(c.PROGRAM_META.balanced.label_cs,'Original');
+const active=c.state.activeWorkout;
+assert.equal(m.applyDose(m.LONG,2),false,'Do not rewrite prescriptions during a session');
+c.state.activeWorkout=null;
+c.state.programSessionLayouts[m.LONG]={cycle_0:[{id:'custom',sets:5,range:'8',slotId:'custom-slot'},{id:'hip_flexor_stretch',sets:1,range:'20',slotId:'hold-slot'}]};
+const old=c.state.programSessionLayouts[m.LONG].cycle_0;
+assert.ok(m.applyDose(m.LONG,2));
+const updated=c.state.programSessionLayouts[m.LONG].cycle_0;
+assert.equal(updated[0].id,'custom');assert.equal(updated[0].sets,5);assert.equal(updated[1].slotId,'hold-slot');assert.equal(updated[1].sets,2);assert.equal(updated[1].range,'30');assert.equal(old[1].sets,1);
+assert.ok(m.applyDose(m.LONG,1));assert.equal(c.state.programSessionLayouts[m.LONG].cycle_0[1].sets,1);
+assert.equal(m.applyDose(m.LONG,3),false);assert.equal(m.applyDose('balanced',2),false);
+for(const s of m.programs[m.LONG].sessions)for(const id of ['hip_flexor_stretch','supine_hamstring_stretch','supine_figure_four'])assert.ok(s.items.some(x=>x.id===id),'Priority hold missing from session');
+assert.ok(m.applyDose(m.DAILY,2));assert.equal(c.state.programSessionLayouts[m.DAILY].cycle_0.find(x=>x.id==='supine_hamstring_stretch').sets,2);
+c.state.activeWorkout=active;saved=0;
 assert.equal(m.startClock('left',0),false);assert.equal(m.startClock('left',2.5),false);assert.equal(m.startClock('left',181),false);
 assert.ok(m.startClock('left',20));assert.equal(m.remaining(),20);assert.equal(m.fillTime(),false);assert.equal(saved,0);
 now+=20000;intervalCallback();assert.equal(m.remaining(),0);assert.equal(fill.hidden,false);assert.equal(input.value,'');assert.equal(saved,0);
@@ -40,3 +53,4 @@ const sw=fs.readFileSync('sw.js','utf8');assert.ok(sw.includes('v200-mobility.js
 for(const x of m.definitions)assert.ok(sw.includes(x.guideImage));
 assert.ok(source.indexOf('v200-mobility.js')<source.indexOf('v190-programs.js'));assert.ok(source.includes('GymV200?.registerLibrary(LIBRARY)'));
 console.log('PASS: mobility 3/1-session cycles, bilingual instructions, preserved built-ins, known exercise IDs, beginner doses, images/cache, explicit timer fill, no automatic saving, stale timer cancellation.');
+console.log('PASS: explicit 1×20 / 2×30 prescriptions, active-session guard, priority holds in every gym template, preserved custom exercise choice/order/slots and immutable previous layouts.');
