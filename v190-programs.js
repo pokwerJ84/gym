@@ -134,11 +134,13 @@ function decorateGuide(){
  document.querySelectorAll('.screen .workout-hero').forEach(hero=>{
   let b=hero.querySelector('.v190-guide-button');
   if(!guideProgram(state.programJourney?.programId)){b?.remove();return}
-  if(!b){b=document.createElement('button');b.type='button';b.className='secondary v190-guide-button';b.style.cssText='margin-top:10px;width:100%';b.onclick=openGuide;hero.appendChild(b)}
+  if(!b){b=document.createElement('button');b.type='button';b.className='secondary v190-guide-button';b.style.cssText='margin-top:10px;width:100%';hero.appendChild(b)}
   b.textContent=cs()?'ⓘ Jak trénovat tento program':'ⓘ How to train this program';
  });
 }
 function installGuide(){
+ // Session rendering can clone hero markup, so use delegation rather than a lost onclick property.
+ document.addEventListener('click',event=>{if(event.target?.closest?.('.v190-guide-button')){event.preventDefault();openGuide()}});
  const native=renderDay;renderDay=function(...args){const r=native.apply(this,args);requestAnimationFrame(decorateGuide);return r};window.renderDay=renderDay;
  requestAnimationFrame(decorateGuide);
 }

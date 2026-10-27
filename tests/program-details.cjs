@@ -1,11 +1,11 @@
 process.chdir(require('path').join(__dirname,'..'));
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-let language='en',opened='';const callbacks=[];
+let language='en',opened='';const callbacks=[],clickHandlers=[];
 const buttons=[];
 const list={set innerHTML(html){this.html=html;buttons.length=0;for(const m of html.matchAll(/data-exercise-detail="([^"]+)"/g))buttons.push({dataset:{exerciseDetail:m[1]}})},get innerHTML(){return this.html},querySelectorAll:s=>s==='[data-exercise-detail]'?buttons:[]};
 const dialog={open:false,showModal(){this.open=true}};
 const nodes={programSessionsDialog:dialog,programSessionsList:list,programSessionsTitle:{},programSessionsSubtitle:{}};
-const c={console,lang:()=>language,window:null,document:{readyState:'loading',addEventListener:(event,f)=>{if(event==='DOMContentLoaded')callbacks.push(f)},getElementById:id=>nodes[id]},
+const c={console,lang:()=>language,window:null,document:{readyState:'loading',addEventListener:(event,f)=>{if(event==='DOMContentLoaded')callbacks.push(f);if(event==='click')clickHandlers.push(f)},getElementById:id=>nodes[id]},
  state:{programJourney:{programId:'strength_builder'},programSessionLayouts:{}},EX:{},
  openProgramSessions(){},addExercise(){},replaceExercise(){},deleteSavedSet(){},renderLive(){},renderDay(){},requestAnimationFrame(){},currentLive:()=>null,
  itemName:x=>x.name||x.id,v124ProgramId:()=>c.state.programJourney.programId,openVideo:id=>opened=id};
@@ -39,4 +39,11 @@ c.state.programSessionLayouts.strength_builder.monday[0]={id:'custom',sets:2,ran
 c.GymV187.openEditor();buttons[0].onclick();assert.equal(opened,'custom');
 assert.ok(c.GymV190.guideMarkup('strength_builder').includes('Custom &lt;press&gt;'));
 assert.ok(!c.GymV190.guideMarkup('strength_builder').includes('Custom <press>'));
+// Heroes can be cloned by session renderers: a new button without onclick still opens the guide.
+const guideTitle={},guideBody={};
+nodes.v190GuideDialog={open:false,querySelector:s=>s==='h2'?guideTitle:guideBody,showModal(){this.open=true}};
+let prevented=false;
+clickHandlers.forEach(f=>f({target:{closest:s=>s==='.v190-guide-button'?{}:null},preventDefault(){prevented=true}}));
+assert.ok(prevented&&nodes.v190GuideDialog.open);assert.ok(guideBody.innerHTML.includes('Warm-up'));
 console.log('PASS: all 13 bilingual program guides, real Busy Week rotation, strength/core instructions, preserved legacy behavior, clickable exercise details and edited exercise descriptions.');
+
