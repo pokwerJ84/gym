@@ -16,7 +16,8 @@ assert.equal(new Set(c.LIBRARY.map(x=>x.id)).size,43);
 const sw=fs.readFileSync('sw.js','utf8');
 for(const x of g.definitions){
  assert.ok(c.CATEGORIES[x.category]);assert.ok(['reps','time','sidetime'].includes(x.mode));assert.equal(x.sets,1);assert.ok(x.mobility);
- for(const code of ['cs','en']){assert.ok(x.tips[code].length>=7);assert.ok(x.mistakes[code].length>=2);assert.ok(x.primaryMuscles[code].length);assert.ok(x[code]);}
+ for(const code of ['cs','en']){assert.ok(x.tips[code].length===6);assert.ok(x.mistakes[code].length>=2);assert.ok(x.primaryMuscles[code].length);assert.ok(x[code]);}
+ assert.ok(x.tips.cs.slice(0,6).join(' ').includes('Ostrá bolest'));assert.ok(x.tips.en.slice(0,6).join(' ').includes('Warm up'));
  assert.ok(x.flexibilityGoals.length);assert.ok(x.mobilityRegions.every(r=>c.GymV205.regions[r]));assert.ok(x.guideExact);assert.equal(x.guideImage,x.guideThumb);
  const bytes=fs.readFileSync(x.guideImage);assert.ok(bytes.length>10000,x.id+' missing or empty image');assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.ok(sw.includes(x.guideImage));
 }
