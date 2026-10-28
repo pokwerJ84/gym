@@ -6,6 +6,7 @@ const session=(titleCs,titleEn,subCs,subEn,items)=>({titleCs,titleEn,subCs,subEn
 const THREE='upper_lower_full_40',FOUR='upper_lower_4_40';
 const PROGRAMS={
  ...(window.GymV200?.programs||{}),
+ ...(window.GymV207?.programs||{}),
  [THREE]:{nameCs:'3 dny – Horní / Nohy / Kombinovaný · 40 min',nameEn:'3 Days – Upper / Lower / Combined · 40 min',scheduleCs:'Pondělí: horní tělo · středa: nohy a břicho · pátek: kombinovaný',scheduleEn:'Monday: upper body · Wednesday: legs and core · Friday: combined',sessions:[
   session('Horní tělo','Upper Body','Hrudník, záda, ramena a ruce','Chest, back, shoulders and arms',[
    item('machine_chest_press',3,'8–12'),item('lat_pulldown',3,'8–12'),item('seated_row',2,'8–12'),item('lateral_raise',2,'12–20'),item('dumbbell_curl',2,'10–15'),item('triceps_pushdown',2,'10–15')]),
@@ -35,6 +36,7 @@ function registerPresets(){
 function registerMeta(){
  Object.entries(PROGRAMS).forEach(([id,p])=>{
   PROGRAM_META[id]={icon:id===THREE?'③':'④',sessions:0,label_cs:p.nameCs,label_en:p.nameEn,detail_cs:p.sessions.length+' sessions v pořadí · cca 40 min · návod k tréninku',detail_en:p.sessions.length+' sessions in rotation · about 40 min · training guide'};
+  if(window.GymV207?.programs[id])Object.assign(PROGRAM_META[id],{icon:'↔',detail_cs:'3 sestavy · provaz, rozštěp a příprava mostu · 25–40 min',detail_en:'3 sessions · front splits, middle splits & bridge preparation · 25–40 min'});
   if(window.GymV200?.programs[id])Object.assign(PROGRAM_META[id],{icon:'↔',detail_cs:id===window.GymV200.DAILY?'Lehce doma · 10–15 min · záda a kyčle':'3 sestavy · pozvolný začátek · plán na 6 týdnů',detail_en:id===window.GymV200.DAILY?'Easy daily · 10–15 min · back and hips':'3 sessions · gradual start · six-week plan'});
  });
 }
@@ -101,6 +103,7 @@ function legacyGuide(id,p){
 }
 function guideMarkup(id){
  const p=guideProgram(id);if(!p)return '';
+ if(window.GymV207?.programs[id])return window.GymV207.guideMarkup(id)+sessionOverview(id,p);
  if(window.GymV200?.programs[id])return window.GymV200.guideMarkup(id)+sessionOverview(id,p);
  if(window.GymV198?.isCustom(id))return '<p>'+escape(state.customPrograms[id]?.description||'')+'</p><p>'+(cs()?'Pokračuj tréninky v uvedeném pořadí. Rozvrh a dny volna si zvol podle svého programu a regenerace. Před cvičením se zahřej; dodržuj kontrolovanou techniku. Cviky, jejich pořadí a předpis upravíš přes Změnit program → Upravit.':'Follow the sessions in the listed order. Choose training and rest days to suit your program and recovery. Warm up and use controlled technique. Edit exercises, their order and prescriptions through Change program → Edit.')+'</p>'+sessionOverview(id,p);
  if(!PROGRAMS[id])return legacyGuide(id,p);
@@ -144,7 +147,7 @@ function installGuide(){
  const native=renderDay;renderDay=function(...args){const r=native.apply(this,args);requestAnimationFrame(decorateGuide);return r};window.renderDay=renderDay;
  requestAnimationFrame(decorateGuide);
 }
-window.GymV190={THREE,FOUR,programs:PROGRAMS,registerPresets,registerMeta,sessionsFor,sessionFor,isFourDay:id=>id===FOUR||!!window.GymV200?.programs[id]||!!window.GymV198?.sessionsFor(id),guideMarkup,openGuide};
+window.GymV190={THREE,FOUR,programs:PROGRAMS,registerPresets,registerMeta,sessionsFor,sessionFor,isFourDay:id=>id===FOUR||!!window.GymV207?.programs[id]||!!window.GymV200?.programs[id]||!!window.GymV198?.sessionsFor(id),guideMarkup,openGuide};
 document.addEventListener('DOMContentLoaded',installGuide,{once:true});
 })();
 
