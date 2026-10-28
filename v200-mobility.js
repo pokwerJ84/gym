@@ -114,7 +114,7 @@ function decorateLive(){
  const box=document.createElement('section');box.className='v200-mobility-note';
  box.innerHTML='<strong>'+(cs()?'Mobilita · jemně a bez bolesti':'Mobility · gentle and pain-free')+'</strong><p>'+(cs()?'První týden jedna série. Rozsah zvětšuj postupně; nepřidávej váhu. U cviků / strana dokonči obě strany.':'One set in week one. Increase range gradually; do not add weight. Complete both sides for exercises marked / side.')+'</p>';
  if(['time','sidetime'].includes(m.mode)){
-  const side=m.mode==='sidetime',seconds=side?(Number(String(m.range).match(/\d+/)?.[0])||20):m.id==='cat_cow'?45:20;
+  const side=m.mode==='sidetime',seconds=m.id==='cat_cow'?45:Math.min(180,Math.max(5,Number(String(m.range).match(/\d+/)?.[0])||20));
   box.innerHTML+='<div id="v200HoldTimer"><label>'+(cs()?'Délka časovače (sekundy)':'Timer length (seconds)')+'<input data-duration type="number" min="5" max="180" step="1" value="'+seconds+'" inputmode="numeric"></label><output data-clock aria-live="off">'+(cs()?'Připraveno':'Ready')+'</output><div class="v200-timer-actions">'+(side?'<button type="button" data-start="left">'+(cs()?'▶ Levá':'▶ Left')+'</button><button type="button" data-start="right">'+(cs()?'▶ Pravá':'▶ Right')+'</button>':'<button type="button" data-start="both">'+(cs()?'▶ Spustit':'▶ Start')+'</button>')+'<button type="button" data-stop>'+(cs()?'Zastavit':'Stop')+'</button><button type="button" data-fill hidden>'+(cs()?'Zapsat čas do pole':'Fill time field')+'</button></div><small>'+(cs()?'Dokončení série potvrď tlačítkem Hotovo. Časovač nic neukládá automaticky.':'Confirm the set with Done. The timer never saves automatically.')+'</small></div>';
  }
  const before=root.querySelector('.v123-set-list');root.insertBefore(box,before);

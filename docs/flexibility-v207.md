@@ -95,3 +95,5 @@ Seated straight-leg lift for active flexibility: man seated tall on firm low cus
 
 
 Final front-split image refinement (built-in Imagegen, original style reference): two stacked side views; top half split with rear knee padded under hip and front knee almost straight, heel grounded and toes up, both palms on tall blocks; bottom controlled partial front split with front leg still nearly straight, rear knee padded, square pelvis above floor, both hands controlling depth on blocks. No lunge with bent front knee, no full split or oversplit. Same navy/blue realistic style, no text. Selected generated source: `generated_images/exec-12164106-b073-47e1-a78b-39448887585e.png`; final app file unchanged.
+
+Release v208 also makes the existing live hold timer derive its starting duration from the exercise prescription (bridge 5 s, partial front split 15 s), with the existing 5–180 s limits and Cat–Cow movement interval preserved. Regression covered in flexibility-goals.cjs.

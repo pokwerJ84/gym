@@ -40,3 +40,9 @@ for(const code of ['cs','en']){language=code;const html=c.GymV190.guideMarkup(g.
 assert.equal(JSON.stringify(state),before,'Library, filters and preset registration must not mutate saved data or active session');
 assert.ok(sw.includes('v207-flexibility.js'));assert.ok(source.indexOf('GymV207?.registerLibrary(LIBRARY)')<source.indexOf('let EX='));
 console.log('PASS: 12 illustrated additions, 43 mobility entries, 6 Advanced/6 Expert, combined goal/level/area/search filters, bilingual prerequisites, foundation A/B/C rotation, preserved existing presets/history/active session, no default Expert exercise, offline assets.');
+
+// The live hold timer must honor short exercise prescriptions, including bridges.
+const mobilitySource=fs.readFileSync('v200-mobility.js','utf8');
+const timerLine=mobilitySource.match(/const side=m\.mode==='sidetime',seconds=[^;]+;/)[0];
+for(const [id,mode,range,want] of [['bridge_elevated','time','5–10',5],['puppy_supported','time','20–30',20],['front_split_blocks','sidetime','15–20',15],['cat_cow','time','60 s',45]]){assert.equal(vm.runInNewContext(timerLine+'seconds',{m:{id,mode,range}}),want,id+' timer dose');}
+console.log('PASS: live timer defaults to prescribed short bridge and unilateral hold doses.');
